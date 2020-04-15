@@ -6,8 +6,7 @@ exports.run = async (aruna, message) => {
   try {
     console.log("(ARUNA) => Bot online!");
     const DBL = require("dblapi.js");
-    const dbl = new DBL(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5MzMwMzU3NDcyNTc4NzY1NyIsImJvdCI6dHJ1ZSwiaWF0IjoxNTcyMjg2NTU2fQ.2huk2ComF9kUagmxwqHxIpg_Nab_MykDFRB81r7KFvs",
+    const dbl = new DBL(process.env.TOKEN_DBL,
       aruna
     );
 
