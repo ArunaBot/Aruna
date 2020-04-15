@@ -1,7 +1,5 @@
-node_modules/
-package-lock.json
-commands/deactivable.*.js
 .env
-config.json
-watch.json
-json.sqlite
+configs/
+node_modules/
+_index.js
+package-lock.json
