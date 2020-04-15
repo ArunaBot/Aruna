@@ -1,8 +1,7 @@
-/*exports.run = async aruna => {
-  if (process.env.OFFICIAL_MODE !== "true") return;
+exports.run = async aruna => {
 
   const DBL = require("dblapi.js");
-  const dbl = new DBL(process.env.TOKEN_DBL, aruna);
+  const dbl = new DBL(`${process.env.TOKEN_DBL}`, aruna);
 
   dbl.on("posted", () => {
     console.log("(DBL) => Server count posted!");
@@ -16,4 +15,3 @@
     dbl.postStats(aruna.guilds.size);
   }, 900000);
 };
-*/

@@ -6,8 +6,6 @@ exports.run = async (aruna, message, args) => {
   var validOptions = ["rank", "ticket", "autorole"];
 
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
-  
-  const user = await database.Users.findOne({ _id: message.author.id });
 
   const commandOff = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
@@ -71,7 +69,7 @@ exports.run = async (aruna, message, args) => {
 
   const dbcommand = await database.Commands.findOne({ name: `${command}` });
 
-  if (!dbcommand || dbcommand.public !== true && user.SUPER !== true)
+  if (!dbcommand || dbcommand.public !== true)
     return message.channel.send(error2);
   
   
@@ -105,8 +103,6 @@ exports.run = async (aruna, message, args) => {
       guild.rankEnable = true;
       guild.save();
     } else if (command === "ticket") {
-      let enableTicket = require('../utils/activeTicket.js')
-      enableTicket.run(aruna, message)
       guild.ticketEnable = true;
       guild.save();
     } else if (command === "autoRole" || command === "autorole") {

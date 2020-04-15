@@ -26,14 +26,14 @@ exports.run = async (aruna, message, args) => {
         var saveG = await new database.Guilds({
           _id: message.guild.id
         });
-        await saveG.save();
+        saveG.save();
         servidor = await database.Guilds.findOne({ _id: message.guild.id });
       }
 
       if (!usuario) {
         console.log("No User!");
         var saveU = await new database.Users({ _id: message.author.id });
-        await saveU.save();
+        saveU.save();
         usuario = await database.Users.findOne({ _id: message.author.id });
       }
 

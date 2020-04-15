@@ -64,7 +64,162 @@ exports.run = async (aruna, message, args) => {
       "Criando Ticket. Por favor, aguarde um momento..."
     );
 
-    
+    if (guild.ticketSupportID == null) {
+      try {
+        var supportRole = await message.guild
+          .createRole({
+            name: "Suporte",
+            permissions: []
+          })
+          .then(roleId => {
+            supportRole = roleId.id;
+            guild.ticketSupportID = roleId.id;
+          });
+      } catch (e) {
+        return console.log(e.stack);
+      }
+      message.channel.send(
+        "Foi criado o cargo <@&" +
+          supportRole +
+          "> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente."
+      );
+    } else {
+      var supportRole = guild.ticketSupportID;
+      if (!message.guild.roles.get(supportRole)) {
+        try {
+          var supportRole = await message.guild
+            .createRole({
+              name: "Suporte",
+              permissions: []
+            })
+            .then(roleId => {
+              supportRole = roleId.id;
+              guild.ticketSupportID = roleId.id;
+            });
+        } catch (e) {
+          return console.log(e.stack);
+        }
+        message.channel.send(
+          "Foi criado o cargo <@&" +
+            supportRole +
+            "> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente."
+        );
+      }
+    }
+
+    if (guild.ticketCategoryID == null) {
+      try {
+        var ticketCategory = await message.guild
+          .createChannel(`Tickets`, "category", [
+            {
+              id: message.guild.defaultRole.id,
+              deny: ["VIEW_CHANNEL"]
+            }
+          ])
+          .then(catId => {
+            console.log(catId);
+            console.log("--------");
+            console.log(ticketCategory);
+            ticketCategory = catId;
+            guild.ticketCategoryID = catId.id;
+          });
+      } catch (e) {
+        console.log(e.stack);
+      }
+      console.log(ticketCategory);
+      message.channel.send(
+        "Foi criado a categoria " +
+          ticketCategory.name +
+          " como categoria que conterá os tickets. Seu nome pode ser alterado livremente."
+      );
+    } else {
+      var ticketCategory = guild.ticketCategoryID;
+      if (!aruna.channels.get(ticketCategory)) {
+        try {
+          var ticketCategory = await message.guild
+            .createChannel(`Tickets`, "category", [
+              {
+                id: message.guild.defaultRole.id,
+                deny: ["VIEW_CHANNEL"]
+              }
+            ])
+            .then(catId => {
+              console.log(catId);
+              console.log("--------");
+              console.log(ticketCategory);
+              ticketCategory = catId;
+              guild.ticketCategoryID = catId.id;
+            });
+        } catch (e) {
+          console.log(e.stack);
+        }
+        console.log(ticketCategory);
+        message.channel.send(
+          "Foi criado a categoria " +
+            ticketCategory.name +
+            " como categoria que conterá os tickets. Seu nome pode ser alterado livremente."
+        );
+      }
+    }
+    if (guild.ticketLogID == null) {
+      try {
+        var ticketLog = await message.guild
+          .createChannel(`ticket-log`, "text", [
+            {
+              id: message.guild.defaultRole.id,
+              deny: ["VIEW_CHANNEL"]
+            },
+            {
+              id: message.guild.roles.get(supportRole),
+              allow: ["VIEW_CHANNEL"],
+              deny: ["SEND_MESSAGES"]
+            }
+          ])
+          .then(ticketId => {
+            ticketLog = ticketId.id;
+            guild.ticketLogID = ticketId.id;
+            ticketId.setParent(ticketCategory);
+          });
+        message.channel.send(
+          "Foi criado o canal " +
+            ticketLog +
+            " como canal de log dos tickets. Seu nome pode ser alterado livremente."
+        );
+      } catch (e) {
+        console.log(e.stack);
+      }
+    } else {
+      var ticketLog = guild.ticketLogID;
+      if (!aruna.channels.get(ticketLog)) {
+        try {
+          var ticketLog = await message.guild
+            .createChannel(`ticket-log`, "text", [
+              {
+                id: message.guild.defaultRole.id,
+                deny: ["VIEW_CHANNEL"]
+              },
+              {
+                id: message.guild.roles.get(supportRole),
+                allow: ["VIEW_CHANNEL"],
+                deny: ["SEND_MESSAGES"]
+              }
+            ])
+            .then(ticketId => {
+              ticketLog = ticketId.id;
+              guild.ticketLogID = ticketId.id;
+              ticketId.setParent(ticketCategory);
+            });
+          message.channel.send(
+            "Foi criado o canal " +
+              ticketLog +
+              " como canal de log dos tickets. Seu nome pode ser alterado livremente."
+          );
+        } catch (e) {
+          console.log(e.stack);
+        }
+      }
+    }
+    guild.save();
   } else if (mode == "fechar" || mode == "close") {
     if (!ticket) return message.channel.send(error4);
   } else return message.channel.send(error);

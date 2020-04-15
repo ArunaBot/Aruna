@@ -8,16 +8,24 @@ function format(seconds) {
   var seconds = Math.floor(seconds % 60);
   var days = Math.floor(hours / 24);
 
-  return (
-    pad(days) +
-    "d " +
-    pad(hours) +
-    "h " +
-    pad(minutes) +
-    "m " +
-    pad(seconds) +
-    "s"
-  );
+  if (pad(days) >= "1") {
+    return (
+      pad(days) +
+      "d " +
+      pad(hours) +
+      "h " +
+      pad(minutes) +
+      "m " +
+      pad(seconds) +
+      "s"
+    );
+  } else if (pad(hours) >= "1") {
+    return pad(hours) + "h " + pad(minutes) + "m " + pad(seconds) + "s";
+  } else if (pad(minutes) >= "1") {
+    return pad(minutes) + "m " + pad(seconds) + "s";
+  } else {
+    return pad(seconds) + "s";
+  }
 }
 
 const config = require("../configs/cf.js");
@@ -31,7 +39,7 @@ exports.run = (aruna, message, args, prefix) => {
 
   let name = user.nickname !== null ? user.nickname : aruna.user.username;
 
-  let embed = new Discord.RichEmbed()
+  /*let embed = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
     .addField(`(${emoji.robot}) Nome na Guild`, `**${name}**`, true)
     .addField(`(📡) Versão`, `**${pak.version}**`, true)
@@ -39,16 +47,44 @@ exports.run = (aruna, message, args, prefix) => {
     .addField(`(📃) Canais`, `**${aruna.channels.size}**`, true)
     .addField(`(🖥️) Servidores`, `**${aruna.guilds.size}**`, true)
     .addField(`(🕹️) Usuários`, `**${aruna.users.size}**`, true)
-  .addField(`Convite`, `**[Link](https://discordapp.com/api/oauth2/authorize?client_id=593303574725787657&permissions=37604422&scope=bot)**`, true)
-  .addField(`Meu Site`, `**Em Breve™️**`, true)
-  .addField(`Servidor de Suporte`, `**[Link](https://discordapp.com/api/oauth2/authorize?client_id=593303574725787657&permissions=37604422&scope=bot)**`, true)
+    .addField(
+      `Convite`,
+      `**[Link](https://discordapp.com/api/oauth2/authorize?client_id=593303574725787657&permissions=37604422&scope=bot)**`,
+      true
+    )
+    .addField(`Meu Site`, `**Em Breve™️**`, true)
+    .addField(
+      `Servidor de Suporte`,
+      `**[Link](https://discord.gg/NqbBgEf)**`,
+      true
+    )
+    .setThumbnail(`${aruna.user.displayAvatarURL}`);*/
+  let embed = new Discord.RichEmbed()
+    .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
+    .addField(`(${emoji.robot}) Nome na Guild`, `**${name}**`, true)
+    .addField(`(📡) Versão`, `**${pak.version}**`, true)
+    .addField(`(🕰️) Uptime`, `**${format(process.uptime())}**`, true)
+    .addField(`(📃) Canais`, `**${aruna.channels.size}**`, true)
+    .addField(`(🖥️) Servidores`, `**${aruna.guilds.size}**`, true)
+    .addField(`(🕹️) Usuários`, `**${aruna.users.size}**`, true)
+    .addField(
+      `Convite`,
+      `**[Link](https://discordapp.com/api/oauth2/authorize?client_id=593303574725787657&permissions=37604422&scope=bot)**`,
+      true
+    )
+    .addField(`Meu Site`, `**Em Breve™️**`, true)
+    .addField(
+      `Servidor de Suporte`,
+      `**[Link](https://discord.gg/NqbBgEf)**`,
+      true
+    )
     .setThumbnail(`${aruna.user.displayAvatarURL}`);
   message.channel.send(embed);
 };
 
 exports.config = {
   name: "bot",
-  aliases: ["botinfo"],
+  aliases: ["botinfo", "info"],
   description: "Lista as Principais informações do bot",
   category: `${emoji.robot} Utilidades`
 };
