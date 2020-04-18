@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -17,8 +17,7 @@
 */
 
 const Discord = require("discord.js");
-const db = require("../configs/mongoose.js");
-const config = require("../configs/cf.js");
+const { database } = require("../configs/");
 const emoji = require("../utils/emojis.js");
 
 exports.run = async (aruna, message) => {
@@ -41,7 +40,7 @@ exports.run = async (aruna, message) => {
     )
     .setTimestamp();
 
-  let guildDB = await db.Guilds.findOne({ _id: message.guild.id });
+  let guildDB = await database.Guilds.findOne({ _id: message.guild.id });
 
   const categories = aruna.commands
     .map(c => c.config.category)

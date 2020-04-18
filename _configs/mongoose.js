@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -17,10 +17,10 @@
 */
 
 var mongoose = require("mongoose");
-const config = require('./cf.js')
+const config = require('./general.js')
 
 var Schema = mongoose.Schema;
-let url = process.env.MONGOOSE;
+let url = config.mongoose;
 mongoose.connect(
   url,
   { useNewUrlParser: true, useUnifiedTopology: true },

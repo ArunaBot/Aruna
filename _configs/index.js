@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -16,25 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
-
-exports.run = (aruna, message, args, prefix) => {
-  const user1 = message.guild.member(
-    message.mentions.users.first() || aruna.users.get(args[0]) || message.author
-  );
-
-  const user = user1.user;
-
-  let embed = new Discord.RichEmbed()
-    .setAuthor(`Avatar de ${user.username}`)
-    .setDescription(`**Clique [aqui](${user.avatarURL}) para baixar a foto.**`)
-    .setImage(user.avatarURL)
-    .setTimestamp();
-  message.channel.send(embed);
-};
-exports.config = {
-  name: "avatar",
-  aliases: [""],
-  description: "Mostra o avatar próprio ou de um usuário",
-  category: `🎉 Entretenimento`
+module.exports = {
+  configs: require("./general.js"),
+  config: require("./general.js"),
+  links: require("./links"),
+  database: require("./mongoose.js"),
+  db: require("./mongoose.js")
 };

@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -20,20 +20,20 @@ const Discord = require("discord.js");
 
 exports.run = async (aruna, message, args) => {
   
-  let buser = message.guild.member(
+  let kuser = message.guild.member(
     message.mentions.users.first() || message.guild.members.get(args[0])
   );
   
   const error1 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você não possui a permissão de \`Banir Membros\`!`)
+    .setDescription(`Você não possui a permissão de \`Kickar Membros\`!`)
     .setTimestamp();
   
   const error2 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Eu não possuo a permissão de \`Banir Membros\`!`)
+    .setDescription(`Eu não possuo a permissão de \`Kickar Membros\`!`)
     .setTimestamp();
   
   const error3 = new Discord.RichEmbed()
@@ -44,56 +44,62 @@ exports.run = async (aruna, message, args) => {
   const error4 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você não pode banir ${buser.user.username} pois este é o(a) dono(a) do servidor!`)
+    .setDescription(`Você não pode kickar ${kuser.user.username} pois este é o(a) dono(a) do servidor!`)
     .setTimestamp();
   const error5 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você não pode banir este usuário pois seu cargo é igual ou inferior ao de ${buser.user.username}.`)
+    .setDescription(`Você não pode kickar este usuário pois seu cargo é igual ou inferior ao de ${kuser.user.username}.`)
     .setTimestamp();
   const error6 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Eu não posso banir este usuário pois meu cargo é igual ou inferior ao de ${buser.user.username}`)
+    .setDescription(`Eu não posso kickar este usuário pois meu cargo é igual ou inferior ao de ${kuser.user.username}`)
     .setTimestamp();
   
-  if (!message.member.hasPermission("BAN_MEMBERS"))
+  if (!message.member.hasPermission("KICK_MEMBERS"))
     return message.channel.send(error1)
-  if (!message.guild.members.get(aruna.user.id).hasPermission("BAN_MEMBERS"))
+  if (!message.guild.members.get(aruna.user.id).hasPermission("KICK_MEMBERS"))
     return message.channel.send(error2)
   
-  if (!buser) return message.channel.send(error3);
+  if (!kuser) return message.channel.send(error3);
   
-  if(message.guild.owner.id == buser.user.id)
+  if(message.guild.owner.id == kuser.user.id)
     return message.channel.send(error4)
-  if(buser.highestRole.position >= message.guild.members.get(message.author.id).highestRole.position && message.guild.owner.id !== message.author.id)
-    return message.channel.send(error5);
-  if(buser.highestRole.position >= message.guild.members.get(aruna.user.id).highestRole.position)
+  if (kuser.highestRole.position >= message.guild.members.get(message.author.id).highestRole.position && message.guild.owner.id !== message.author.id)
     return message.channel.send(error6);
-  
-  if (args.join(" ").slice(22)) {
-    var breason = `Punido por: ${message.author.username}`;
+  if (kuser.highestRole.position >= message.guild.members.get(aruna.user.id).highestRole.position)
+    return message.channel.send(error5);
+
+  if (args.join(" ").slice(22) == undefined) {
+    var kreason = `Punido por: ${message.author.username}`;
+  } else if (args.join(" ").slice(22) == false) {
+    var kreason = `Punido por: ${message.author.username}`;
+  } else if (args.join(" ").slice(22) == null) {
+    var kreason = `Punido por: ${message.author.username}`;
+  } else if (args.join(" ").slice(22) == "") {
+    var kreason = `Punido por: ${message.author.username}`;
   } else {
-    var breason =
+    var kreason =
       `Punido por: ${message.author.username} Com o Motivo: ` +
       args.join(" ").slice(22);
   }
 
   let embed = new Discord.RichEmbed()
-    .setAuthor("Banimento Efetuado!")
+    .setAuthor("Kick Efetuado!")
     .setDescription(`Kick efetuado por ${message.author.username}`)
-    .addField("Usuário Banido: ", `${buser} id ${buser.id}`, false)
-    .addField("Banido por: ", `<@${message.author.id}>`, false)
-    .addField("Data do Banimento: ", message.createdAt, false)
-    .addField("Motivo: ", `${breason}`, false)
+    .addField("Usuário kickado: ", `${kuser} id ${kuser.id}`, false)
+    .addField("Kickado por: ", `<@${message.author.id}>`, false)
+    .addField("Data do kick: ", message.createdAt, false)
+    .addField("Motivo: ", `${kreason}`, false)
     .setTimestamp();
 
   message.channel.send(embed);
-  message.guild.member(buser).ban(breason);
+  message.guild.member(kuser).kick(kreason);
 };
 
 exports.config = {
-  name: "ban",
-  aliases: ["banir"],
+  name: "kick",
+  aliases: ["kickar"],
   category: `👮‍♂️ Moderação`
 };

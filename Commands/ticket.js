@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const database = require("../configs/mongoose.js");
+const { database } = require("../configs");
 const emoji = require("../utils/emojis.js");
 const Discord = require("discord.js");
 

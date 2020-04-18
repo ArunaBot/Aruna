@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -20,25 +20,27 @@ const Discord = require("discord.js");
 const pkg = require("../package.json");
 const version = pkg.version;
 
+const chalk = require("chalk");
+
 exports.run = async (aruna, message) => {
   try {
-    console.log("(ARUNA) => Bot online!");
-    const DBL = require("dblapi.js");
-    const dbl = new DBL(process.env.TOKEN_DBL,
-      aruna
-    );
+    log("Conectado!")
+    if(process.env.DBL == true){
+      const DBL = require("dblapi.js");
+      const dbl = new DBL(process.env.TOKEN_DBL, aruna);
 
-    dbl.on("posted", () => {
-      console.log("(DBL) => Server count posted!");
-    });
+      dbl.on("posted", () => {
+        log("[DBL] => Server count posted!");
+      });
 
-    dbl.on("error", e => {
-      console.log(`(DBL) => Oops! ${e}`);
-    });
+      dbl.on("error", e => {
+        error(`[DBL] => Oops! ${e}`);
+      });
 
-    setInterval(() => {
-      dbl.postStats(aruna.guilds.size);
-    }, 900000);
+      setInterval(() => {
+        dbl.postStats(aruna.guilds.size);
+      }, 900000);
+    }
 
     function format(seconds) {
       function pad(s) {
@@ -90,7 +92,7 @@ exports.run = async (aruna, message) => {
       var servers = aruna.guilds.size;
       setStatus();
 
-      aruna.channels.get(`688180527491973220`).setName(`👥Usuários: ${users}`);
+     aruna.channels.get(`688180527491973220`).setName(`👥Usuários: ${users}`);
       aruna.channels
         .get(`688180491995578397`)
         .setName(`💻Servidores: ${servers}`);
@@ -102,3 +104,26 @@ exports.run = async (aruna, message) => {
     }, 15000);
   } catch (error) {}
 };
+function logPrefix() {
+  return `${chalk.gray("[")}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : "ARUNA"}${chalk.gray("]")}`;
+}
+
+function log(...a) {
+  return console.log(logPrefix(), ...a);
+}
+
+function warn(...a) {
+  return console.warn(logPrefix(), chalk.yellow(...a));
+}
+
+function error(...a) {
+  return console.error(logPrefix(), chalk.red(...a));
+}
+
+function debug(...a) {
+  return console.debug(logPrefix(), chalk.magenta(...a));
+}
+
+function isSharded() {
+  return !!aruna.shard;
+}

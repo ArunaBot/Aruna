@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var database = require("../configs/mongoose.js");
+var { database } = require("../configs");
 
 exports.run = async (aruna, guild) => {
   var saveG = await database.Guilds.findOneAndDelete({ _id: guild.id });

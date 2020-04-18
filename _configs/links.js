@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -16,19 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-exports.run = async (aruna, message, args) => {
-    var add = Math.round(Math.random());
-    if(add == 0){
-        message.channel.send('Cara!')
-    } else if (add == 1){
-        message.channel.send('Coroa!')
-    } else {
-        message.reply('Erro!')
-    }
-}
-
-exports.config = {
-  name: "flip",
-  aliases: ["moeda", "girar"],
-  category: `🎉 Entretenimento`
-};
+module.exports = {
+    supportServers: ["https://discord.gg/NqbBgEf"],
+    invites: ["https://discordapp.com/oauth2/authorize?client_id=593303574725787657&scope=bot&permissions=2146954751"],
+    donate: ["https://patreon.com/LoboMetalurgico"],
+    website: "",
+    trelloBoard: ""
+  };

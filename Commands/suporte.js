@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -16,8 +16,21 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+const emoji = require("../utils/emojis.js");
+const Discord = require("discord.js");
+
+exports.run = async (aruna, message) => {
+  const embed = new Discord.RichEmbed().setAuthor(
+    `Olá, ${message.author.username}`
+  )
+    .setDescription(`Encontrou algum erro esquisito, tem alguma reclamação ou sugestões para mim?
+\nPara isso, basta clicar [aqui](
+https://discord.gg/NqbBgEf) e venha conversar com meus desenvolvedores!`);
+  message.channel.send(embed);
+};
+
 exports.config = {
-  name: "calculator",
-  aliases: ["calc", "calcular", "calculadora"],
-  category: `🎉 Entretenimento`
+  name: "suporte",
+  aliases: ["support"],
+  category: `${emoji.robot} Utilidades`
 };

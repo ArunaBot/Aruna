@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -16,15 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-exports.run = async (aruna, message, prefix, comando) => {
-  var content = message.content.slice(comando.length).trim();
-  var content = content.slice(4).trim();
-  await message.delete();
-  await message.channel.send(content);
-};
 
-exports.config = {
-  name: "say",
-  aliases: [],
-  category: `🎉 Entretenimento`
+module.exports = {
+  prefix: "-",
+  token: "",
+  mongoose: "",
+  commands: "./Commands",
+  sharding: {
+    totalShards: "auto",
+    delay: 7500
+  }
 };

@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 */
 
 const Discord = require("discord.js");
+
 function format(seconds) {
   function pad(s) {
     return (s < 10 ? "0" : "") + s;
@@ -46,7 +47,7 @@ function format(seconds) {
   }
 }
 
-const config = require("../configs/cf.js");
+const { config } = require("../configs");
 
 const pak = require("../package.json");
 

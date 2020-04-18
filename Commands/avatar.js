@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -16,22 +16,25 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const emoji = require("../utils/emojis.js");
 const Discord = require("discord.js");
 
-exports.run = async (aruna, message) => {
-  const embed = new Discord.RichEmbed().setAuthor(
-    `Olá, ${message.author.username}`
-  )
-    .setDescription(`Fico feliz que tenha gostado de mim e queira me adicionar :) 
-\nPara isso, basta clicar [aqui](
-https://discordapp.com/oauth2/authorize?client_id=593303574725787657&scope=bot&permissions=2146954751), selecionar o servidor na lista, confirmar o reCaptcha e pronto, eu estarei em seu servidor! 
-\nNovamente, obrigado pelo interesse e nos vemos em seu servidor!`);
+exports.run = (aruna, message, args, prefix) => {
+  const user1 = message.guild.member(
+    message.mentions.users.first() || aruna.users.get(args[0]) || message.author
+  );
+
+  const user = user1.user;
+
+  let embed = new Discord.RichEmbed()
+    .setAuthor(`Avatar de ${user.username}`)
+    .setDescription(`**Clique [aqui](${user.avatarURL}) para baixar a foto.**`)
+    .setImage(user.avatarURL)
+    .setTimestamp();
   message.channel.send(embed);
 };
-
 exports.config = {
-  name: "invite",
-  aliases: ["convidar", "convite"],
-  category: `${emoji.robot} Utilidades`
+  name: "avatar",
+  aliases: [""],
+  description: "Mostra o avatar próprio ou de um usuário",
+  category: `🎉 Entretenimento`
 };
