@@ -17,12 +17,10 @@
 */
 
 const Discord = require("discord.js");
-const db = require("../configs/mongoose.js");
-const config = require("../configs/cf.js");
-const emoji = require("../utils/emojis.js");
+const { database, config } = require("../configs");
 
 exports.run = async (aruna, message, args) => {
-  const server = await db.Guilds.findOne({ _id: message.guild.id });
+  const server = await database.Guilds.findOne({ _id: message.guild.id });
 
   const nopermission = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)

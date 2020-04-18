@@ -17,8 +17,7 @@
 */
 
 const Discord = require("discord.js");
-const db = require("../configs/mongoose.js");
-const config = require("../configs/cf.js");
+const { database } = require("../configs/");
 const emoji = require("../utils/emojis.js");
 
 exports.run = async (aruna, message) => {
@@ -41,7 +40,7 @@ exports.run = async (aruna, message) => {
     )
     .setTimestamp();
 
-  let guildDB = await db.Guilds.findOne({ _id: message.guild.id });
+  let guildDB = await database.Guilds.findOne({ _id: message.guild.id });
 
   const categories = aruna.commands
     .map(c => c.config.category)

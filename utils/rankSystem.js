@@ -16,10 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-exports.run = async (aruna, message, db, cooldown, utils, Discord) => {
+exports.run = async (aruna, message, database, cooldown, utils, Discord) => {
   let user = message.author;
 
-  const rank = await db.Rank.findOne({
+  const rank = await database.Rank.findOne({
     user: user.id,
     guild: message.guild.id
   });
@@ -41,7 +41,7 @@ exports.run = async (aruna, message, db, cooldown, utils, Discord) => {
     }, 60 * 1000);
   }
 
-  const rank2 = await db.Rank.findOne({
+  const rank2 = await database.Rank.findOne({
     user: user.id,
     guild: message.guild.id
   });

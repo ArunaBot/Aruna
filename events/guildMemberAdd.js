@@ -17,7 +17,7 @@
 */
 
 const Discord = require("discord.js");
-var database = require("../configs/mongoose.js");
+var { database } = require("../configs");
 
 const serverStatsPrincipal = {
   guildID: "660610178009530380",

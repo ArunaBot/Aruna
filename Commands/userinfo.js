@@ -17,8 +17,6 @@
 */
 
 const Discord = require("discord.js");
-const config = require("../configs/cf.js");
-const database = require("../configs/mongoose.js");
 const emoji = require("../utils/emojis.js");
 
 exports.run = (aruna, message, args) => {

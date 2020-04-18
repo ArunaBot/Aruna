@@ -17,8 +17,7 @@
 */
 
 const Discord = require("discord.js");
-var database = require("../configs/mongoose.js");
-const cf = require("../configs/cf.js");
+var { database, config } = require("../configs");
 const cooldown = require("../utils/cooldown.js");
 const utils = require("../utils/utils.js");
 
@@ -83,7 +82,7 @@ exports.run = async (aruna, message, args) => {
         }
       });
 
-      var prefix = servidor.prefix;
+      var prefix = servidor.prefix || config.prefix;
 
       if (servidor.rankEnable === true) {
         const rank = await database.Rank.findOne({

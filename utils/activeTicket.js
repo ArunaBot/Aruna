@@ -16,10 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const db = require("../configs/mongoose.js");
+const { database } = require("../configs");
 
 exports.run = async (aruna, message, args) => {
-  const guild = await db.Guilds.findsOne({ _id: message.guild.id });
+  const guild = await database.Guilds.findsOne({ _id: message.guild.id });
 
   if (guild.ticketSupportID == null) {
     try {
@@ -136,7 +136,7 @@ exports.run = async (aruna, message, args) => {
   }
   await guild.save();
   
-  const guild2 = await db.Guilds.findsOne({ _id: message.guild.id });
+  const guild2 = await database.Guilds.findsOne({ _id: message.guild.id });
 
   if (guild.ticketSupportID == null) {
     try {

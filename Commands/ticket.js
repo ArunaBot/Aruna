@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const database = require("../configs/mongoose.js");
+const { database } = require("../configs");
 const emoji = require("../utils/emojis.js");
 const Discord = require("discord.js");
 

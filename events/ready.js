@@ -16,7 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
 function format(seconds) {
   function pad(s) {
     return (s < 10 ? "0" : "") + s;
@@ -38,9 +37,28 @@ function format(seconds) {
   );
 }
 
+const chalk = require("chalk");
+
 exports.run = async (aruna, message) => {
   try {
-    console.log("(ARUNA) => Bot online!");
+    log("Conectado!")
+    if(process.env.DBL == true){
+      const DBL = require("dblapi.js");
+      const dbl = new DBL(process.env.TOKEN_DBL, aruna);
+
+      dbl.on("posted", () => {
+        log("[DBL] => Server count posted!");
+      });
+
+      dbl.on("error", e => {
+        error(`[DBL] => Oops! ${e}`);
+      });
+
+      setInterval(() => {
+        dbl.postStats(aruna.guilds.size);
+      }, 900000);
+    }
+    
     let status = [
 
       { name: `Muppet Show`, type: `watching` },
@@ -68,7 +86,7 @@ exports.run = async (aruna, message) => {
       var servers = aruna.guilds.size;
       setStatus();
 
-     /* aruna.channels.get(`688180527491973220`).setName(`👥Usuários: ${users}`);
+     aruna.channels.get(`688180527491973220`).setName(`👥Usuários: ${users}`);
       aruna.channels
         .get(`688180491995578397`)
         .setName(`💻Servidores: ${servers}`);
@@ -76,7 +94,30 @@ exports.run = async (aruna, message) => {
       aruna.channels.get(`647590390404349952`).setName(`👥Usuários: ${users}`);
       aruna.channels
         .get(`647590426378895393`)
-        .setName(`💻Servidores: ${servers}`);*/
+        .setName(`💻Servidores: ${servers}`);
     }, 15000);
   } catch (error) {}
 };
+function logPrefix() {
+  return `${chalk.gray("[")}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : "ARUNA"}${chalk.gray("]")}`;
+}
+
+function log(...a) {
+  return console.log(logPrefix(), ...a);
+}
+
+function warn(...a) {
+  return console.warn(logPrefix(), chalk.yellow(...a));
+}
+
+function error(...a) {
+  return console.error(logPrefix(), chalk.red(...a));
+}
+
+function debug(...a) {
+  return console.debug(logPrefix(), chalk.magenta(...a));
+}
+
+function isSharded() {
+  return !!aruna.shard;
+}

@@ -2,10 +2,10 @@
   "name": "arunabot",
   "version": "4.1.0",
   "description": "A nova e melhorada aruna!",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "node sharding.js",
-    "start-nonsharded": "node index.js"
+    "start-nonsharded": "node main.js"
   },
   "dependencies": {
     "express": "^4.17.1",

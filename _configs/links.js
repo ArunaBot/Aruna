@@ -17,9 +17,9 @@
 */
 
 module.exports = {
-  prefix: "-",
-  sharding: {
-    totalShards: "auto",
-    delay: 7500
-  }
-};
+    supportServers: ["https://discord.gg/NqbBgEf"],
+    invites: ["https://discordapp.com/oauth2/authorize?client_id=593303574725787657&scope=bot&permissions=2146954751"],
+    donate: ["https://patreon.com/LoboMetalurgico"],
+    website: "",
+    trelloBoard: ""
+  };

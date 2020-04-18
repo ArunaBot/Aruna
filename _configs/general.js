@@ -16,4 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-require("events").EventEmitter.defaultMaxListeners = 999;
+
+module.exports = {
+  prefix: "-",
+  token: "",
+  mongoose: "",
+  commands: "./Commands",
+  sharding: {
+    totalShards: "auto",
+    delay: 7500
+  }
+};

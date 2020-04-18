@@ -17,10 +17,10 @@
 */
 
 var mongoose = require("mongoose");
-const config = require('./cf.js')
+const config = require('./general.js')
 
 var Schema = mongoose.Schema;
-let url = process.env.MONGOOSE;
+let url = config.mongoose;
 mongoose.connect(
   url,
   { useNewUrlParser: true, useUnifiedTopology: true },
