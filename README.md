@@ -18,6 +18,7 @@
 <p align="center">
 Unstable              |
               Stable
+<br>
 <a href="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Unstable"><img src="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Unstable"></a>
 <a href="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Stable"><img src="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Stable"></a>
 </p>
