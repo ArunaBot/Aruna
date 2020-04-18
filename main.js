@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+require("events").EventEmitter.defaultMaxListeners = 999;
+
 var oficialMode = 0;
 
 if (process.env.OFICIAL_MODE === true) oficialMode = "";
