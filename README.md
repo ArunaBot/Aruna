@@ -1,8 +1,8 @@
 
 <p align="center">
-<a href="https://discord.gg/NqbBgEf"><img src="https://discordapp.com/api/guilds/660610178009530380/widget.json"></a>
+<a href="https://discord.gg/NqbBgEf"><img src="https://discordapp.com/api/guilds/660610178009530380/widget.png"></a>
 </p>
-<h1 align="center">💁 Aruna 💁</h1>
+<h1 align="center">Aruna</h1>
 <p align="center">
 <a href="https://top.gg/bot/593303574725787657" >
   <img src="https://top.gg/api/widget/593303574725787657.svg" alt="Aruna" />
@@ -14,6 +14,10 @@
 <p align="center">
 <a href="README_EN.md"><img src="https://img.shields.io/badge/🌐_Readme_📖-Read_In_English-03ebfc.svg"></a>
 <a href="README.md"><img src="https://img.shields.io/badge/🌐_Readme_📖-Leia_em_Português-03fc41.svg"></a>
+</p>
+<p align="center">
+<a href="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Unstable"><img src="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Unstable"></a>
+<a href="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Stable"><img src="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Stable"></a>
 </p>
 <p align="center">
 <a href="https://github.com/ArunaBot/Aruna/stargazers"><img src="https://img.shields.io/github/stars/ArunaBot/Aruna.svg?style=social&label=Stars"></a>
