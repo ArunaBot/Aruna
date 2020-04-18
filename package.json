@@ -5,8 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "node sharding.js",
-    "start-nonsharded": "node main.js",
-    "test": "node main.js"
+    "start-nonsharded": "node main.js"
   },
   "dependencies": {
     "express": "^4.17.1",
