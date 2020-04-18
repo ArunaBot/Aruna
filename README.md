@@ -1,6 +1,6 @@
 
 <p align="center">
-<a href="https://discord.gg/NqbBgEf"><img src="https://discordapp.com/api/guilds/660610178009530380/widget.json"></a>
+<a href="https://discord.gg/NqbBgEf"><img src="https://discordapp.com/api/guilds/660610178009530380/widget.png"></a>
 </p>
 <h1 align="center">Aruna</h1>
 <p align="center">
@@ -16,8 +16,6 @@
 <a href="README.md"><img src="https://img.shields.io/badge/🌐_Readme_📖-Leia_em_Português-03fc41.svg"></a>
 </p>
 <p align="center">
-Unstable              |              Stable
-<br>
 <a href="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Unstable"><img src="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Unstable"></a>
 <a href="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Stable"><img src="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Stable"></a>
 </p>
