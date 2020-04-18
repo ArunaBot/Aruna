@@ -16,26 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-function format(seconds) {
-  function pad(s) {
-    return (s < 10 ? "0" : "") + s;
-  }
-  var hours = Math.floor(seconds / (60 * 60));
-  var minutes = Math.floor((seconds % (60 * 60)) / 60);
-  var seconds = Math.floor(seconds % 60);
-  var days = Math.floor(hours / 24);
-
-  return (
-    pad(days) +
-    "d " +
-    pad(hours) +
-    "h " +
-    pad(minutes) +
-    "m " +
-    pad(seconds) +
-    "s"
-  );
-}
+const Discord = require("discord.js");
+const pkg = require("../package.json");
+const version = pkg.version;
 
 const chalk = require("chalk");
 
@@ -58,12 +41,35 @@ exports.run = async (aruna, message) => {
         dbl.postStats(aruna.guilds.size);
       }, 900000);
     }
-    
-    let status = [
 
+    function format(seconds) {
+      function pad(s) {
+        return (s < 10 ? "0" : "") + s;
+      }
+      var hours = Math.floor(seconds / (60 * 60));
+      var minutes = Math.floor((seconds % (60 * 60)) / 60);
+      var seconds = Math.floor(seconds % 60);
+      var days = Math.floor(hours / 24);
+
+      return (
+        pad(days) +
+        "d " +
+        pad(hours) +
+        "h " +
+        pad(minutes) +
+        "m " +
+        pad(seconds) +
+        "s"
+      );
+    }
+
+    aruna.channels.get(`660612307394756627`).setName(`📡Versão: ${version}`);
+    aruna.channels.get(`647590857813393428`).setName(`📡Versão: ${version}`);
+
+    let status = [
       { name: `Muppet Show`, type: `watching` },
 
-      // { name: `Faz ${format(process.uptime())}`, type: `playing` },
+      { name: `Faz ${format(process.uptime())}`, type: `playing` },
 
       {
         name: `Netflix`,
@@ -71,7 +77,7 @@ exports.run = async (aruna, message) => {
       },
 
       {
-        name: `Versão 4.0 (Testing Version)`,
+        name: `Versão 4.1`,
         type: `streaming`,
         url: `https://www.twitch.tv/lobometalurgico`
       }
@@ -90,14 +96,14 @@ exports.run = async (aruna, message) => {
       aruna.channels
         .get(`688180491995578397`)
         .setName(`💻Servidores: ${servers}`);
-      
+
       aruna.channels.get(`647590390404349952`).setName(`👥Usuários: ${users}`);
       aruna.channels
         .get(`647590426378895393`)
         .setName(`💻Servidores: ${servers}`);
     }, 15000);
   } catch (error) {}
-};
+
 function logPrefix() {
   return `${chalk.gray("[")}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : "ARUNA"}${chalk.gray("]")}`;
 }
@@ -121,3 +127,4 @@ function debug(...a) {
 function isSharded() {
   return !!aruna.shard;
 }
+};
