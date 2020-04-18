@@ -77,7 +77,7 @@ exports.run = async (aruna, message) => {
       },
 
       {
-        name: `Versão 4.0`,
+        name: `Versão 4.1`,
         type: `streaming`,
         url: `https://www.twitch.tv/lobometalurgico`
       }
@@ -103,7 +103,7 @@ exports.run = async (aruna, message) => {
         .setName(`💻Servidores: ${servers}`);
     }, 15000);
   } catch (error) {}
-};
+
 function logPrefix() {
   return `${chalk.gray("[")}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : "ARUNA"}${chalk.gray("]")}`;
 }
@@ -127,3 +127,4 @@ function debug(...a) {
 function isSharded() {
   return !!aruna.shard;
 }
+};
