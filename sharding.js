@@ -22,7 +22,7 @@ const config = require("./configs/cf.js");
 const pkg = require("./package.json");
 
 const manager = new Discord.ShardingManager(`./${pkg.main}`, {
-  token: process.env.TOKEN_ARUNA_CANARY,
+  token: process.env.TOKEN_ARUNA,
   totalShards: config.sharding.totalShards
 });
 
