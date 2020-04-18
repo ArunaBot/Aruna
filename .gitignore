@@ -1,6 +1,4 @@
 .env
 configs/
 node_modules/
-_index.js
-package-lock.json
 _main.js
