@@ -2,3 +2,4 @@
 configs/
 node_modules/
 _main.js
+package-lock.json

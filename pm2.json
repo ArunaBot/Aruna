@@ -1,0 +1,9 @@
+{
+	"apps": [
+		{
+			"name": "ArunaBot",
+			"script": "pnpm",
+			"args": "start"
+		}
+	]
+}
