@@ -17,7 +17,7 @@
 */
 
 const Discord = require("discord.js");
-const { database, config } = require("../configs");
+const { database, config } = require(`../../Configs`);
 
 exports.run = async (aruna, message, args) => {
   const server = await database.Guilds.findOne({ _id: message.guild.id });

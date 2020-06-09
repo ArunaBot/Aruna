@@ -15,11 +15,10 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-
 const Discord = require("discord.js");
 const chalk = require("chalk");
-const { config } = require("./configs");
-const pkg = require("./package.json");
+const { config } = require(`../Configs`);
+const pkg = require(`../package.json`);
 
 const manager = new Discord.ShardingManager(`./${pkg.main}`, {
   token: config.token, 

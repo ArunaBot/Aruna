@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const emoji = require("../utils/emojis.js");
+const { emojis } = require("../Utils");
 const Discord = require("discord.js");
 const math = require("mathjs");
 
@@ -61,5 +61,5 @@ exports.run = (aruna, message, args) => {
 exports.config = {
   name: "calc",
   aliases: ["calculadora", "math", "matematica", "calcular", "calculator"],
-  category: `${emoji.robot} Utilidades`
+  category: `${emojis.robot} Utilidades`
 };

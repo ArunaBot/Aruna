@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { database } = require("../configs");
+const { database } = require(`../../Configs`);
 
 exports.run = async (aruna, message, args) => {
   const guild = await database.Guilds.findsOne({ _id: message.guild.id });

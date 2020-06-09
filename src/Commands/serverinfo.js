@@ -17,7 +17,7 @@
 */
 
 const Discord = require("discord.js");
-const emoji = require("../utils/emojis.js");
+const { emoji } = require("../Utils");
 
 const status = {
   online: `${emoji.online} Online`,

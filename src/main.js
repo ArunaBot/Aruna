@@ -18,32 +18,38 @@
 
 require("events").EventEmitter.defaultMaxListeners = 999;
 
-var oficialMode = 0;
-
-if (process.env.OFICIAL_MODE === true) oficialMode = "";
-else oficialMode = "(BETA)";
+const express = require("express");
+const http = require("http");
+const app = express();
+app.get("/", (request, response) => {
+  console.log(Date.now() + " Ping Received");
+  response.sendStatus(200);
+});
+app.listen(process.env.PORT);
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
 
 const Discord = require("discord.js");
 const fs = require("fs");
-const { config } = require("./configs")
-const pkg = require("./package.json");
+const { config } = require(`../Configs`);
 const chalk = require("chalk");
 
 const aruna = new Discord.Client();
 aruna.commands = new Discord.Collection();
 aruna.aliases = new Discord.Collection();
 
-fs.readdir("./events/", (erro, files) => {
+fs.readdir("./src/Events/", (erro, files) => {
   if (erro) return error(`[ERROR] => ${erro}`);
   files.forEach(file => {
-    let eventFunction = require(`./events/${file}`);
-    log(`[COMMAND] => ${file}`);
+    let eventFunction = require(`./Events/${file}`);
+    log(`[EVENT] => ${file}`);
     let eventName = file.split(".")[0];
     aruna.on(eventName, (...args) => eventFunction.run(aruna, ...args));
   });
 });
 
-fs.readdir("./Commands/", (err, files) => {
+fs.readdir("./src/Commands/", (err, files) => {
   if (err) return error(`[ERROR] => ${err}`);
   let jsfile = files.filter(f => f.split(".").pop() === "js");
   if (jsfile.length <= 0) {
@@ -55,11 +61,6 @@ fs.readdir("./Commands/", (err, files) => {
     log(`[COMMAND] => ${f}`);
     pull.config.aliases.forEach(alias => {
       aruna.aliases.set(alias, pull.config.name);
-    });
-    aruna.on("ready", () => {
-      aruna.channels
-        .get(`660612304282583043`)
-        .setName(`🧩Comandos: ${jsfile.length}`);
     });
   });
 });

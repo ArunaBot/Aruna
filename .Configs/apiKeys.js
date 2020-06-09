@@ -16,10 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var { database } = require("../configs");
 
-exports.run = async (aruna, guild) => {
-  var saveG = await new database.Guilds({ _id: guild.id });
-  await saveG.save();
-  console.log('New Server Entry! :)')
-};
+//Dbots API Keys
+module.exports = {
+}

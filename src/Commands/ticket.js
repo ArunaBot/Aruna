@@ -16,9 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { database } = require("../configs");
-const emoji = require("../utils/emojis.js");
 const Discord = require("discord.js");
+const { database } = require(`../../Configs`);
+const { emoji } = require("../Utils");
 
 exports.run = async (aruna, message, args) => {
   const user = await database.Users.findOne({ _id: message.author.id });

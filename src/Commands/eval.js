@@ -17,8 +17,7 @@
 */
 
 const Discord = require("discord.js");
-const { database, config } = require("../configs");
-const emoji = require("../utils/emojis.js");
+const { database, config } = require(`../../Configs`);
 
 exports.run = (aruna, message, args) => {
   database.Users.findOne({ _id: message.author.id }, function(erro, user) {

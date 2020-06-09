@@ -17,9 +17,10 @@
 */
 
 module.exports = {
-  configs: require("./general.js"),
-  config: require("./general.js"),
-  links: require("./links"),
-  database: require("./mongoose.js"),
-  db: require("./mongoose.js")
-};
+    utils: require("./utils.js"),
+    ranksystem: require("./rankSystem.js"),
+    emojis: require("./emojis.js"),
+    emoji: require("./emojis.js"),
+    activeticket: require("./activeTicket.js"),
+    cooldown: require("./cooldown.js")
+  };

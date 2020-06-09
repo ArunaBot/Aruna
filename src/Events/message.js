@@ -17,9 +17,8 @@
 */
 
 const Discord = require("discord.js");
-var { database, config } = require("../configs");
-const cooldown = require("../utils/cooldown.js");
-const utils = require("../utils/utils.js");
+var { database, config } = require(`../../Configs`);
+const { utils, cooldown } = require("../Utils");
 
 exports.run = async (aruna, message, args) => {
   if (message.author.bot) return;

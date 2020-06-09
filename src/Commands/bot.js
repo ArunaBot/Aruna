@@ -39,11 +39,9 @@ function format(seconds) {
   );
 }
 
-const { config } = require("../configs");
+const pak = require("../../package.json");
 
-const pak = require("../package.json");
-
-const emoji = require("../utils/emojis.js");
+const { emojis } = require("../Utils");
 
 exports.run = (aruna, message, args, prefix) => {
   let user = message.guild.member(aruna.user);
@@ -69,5 +67,5 @@ exports.config = {
   name: "bot",
   aliases: ["botinfo"],
   description: "Lista as Principais informações do bot",
-  category: `${emoji.robot} Utilidades`
+  category: `${emojis.robot} Utilidades`
 };

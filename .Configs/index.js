@@ -17,9 +17,9 @@
 */
 
 module.exports = {
-    supportServers: ["https://discord.gg/NqbBgEf"],
-    invites: ["https://discordapp.com/oauth2/authorize?client_id=593303574725787657&scope=bot&permissions=2146954751"],
-    donate: ["https://patreon.com/LoboMetalurgico"],
-    website: "",
-    trelloBoard: ""
-  };
+  configs: require("./general.js"),
+  config: require("./general.js"),
+  links: require("./links.js"),
+  database: require("./mongoose.js"),
+  db: require("./mongoose.js")
+};

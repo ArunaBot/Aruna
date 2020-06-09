@@ -16,8 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { database } = require("../configs");
-const emoji = require("../utils/emojis.js");
+const { database } = require(`../../Configs`);
 const Discord = require("discord.js");
 
 exports.run = async (aruna, message, args) => {
@@ -87,7 +86,7 @@ exports.run = async (aruna, message, args) => {
     )
     .setTimestamp();
 
-  const dbcommand = await database.Commands.findOne({ name: `${command}` });
+  const dbcommand = await database.Comandos.findOne({ name: `${command}` });
 
   if (!dbcommand || dbcommand.public !== true && user.SUPER !== true)
     return message.channel.send(error2);
@@ -123,8 +122,8 @@ exports.run = async (aruna, message, args) => {
       guild.rankEnable = true;
       guild.save();
     } else if (command === "ticket") {
-      let enableTicket = require('../utils/activeTicket.js')
-      enableTicket.run(aruna, message)
+      let { activeticket } = require('../Utils')
+      activeticket.run(aruna, message)
       guild.ticketEnable = true;
       guild.save();
     } else if (command === "autoRole" || command === "autorole") {

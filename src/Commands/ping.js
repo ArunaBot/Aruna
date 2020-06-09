@@ -16,22 +16,27 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const emoji = require("../utils/emojis.js");
 const Discord = require("discord.js");
+const { emoji } = require("../Utils");
 
 exports.run = async (aruna, message) => {
-  const embed = new Discord.RichEmbed().setAuthor(
-    `Olá, ${message.author.username}`
-  )
-    .setDescription(`Fico feliz que tenha gostado de mim e queira me adicionar :) 
-\nPara isso, basta clicar [aqui](
-https://discordapp.com/oauth2/authorize?client_id=593303574725787657&scope=bot&permissions=2146954751), selecionar o servidor na lista, confirmar o reCaptcha e pronto, eu estarei em seu servidor! 
-\nNovamente, obrigado pelo interesse e nos vemos em seu servidor!`);
-  message.channel.send(embed);
-};
+  let embed = new Discord.RichEmbed()
+    .setAuthor(`${aruna.user.username}`, `${aruna.user.displayAvatarURL}`)
+    .setColor("#f5ebeb")
+    .setDescription(`Calculando...`);
 
+  message.channel.send(embed).then(async msg => {
+    let latencia = Math.round(message.createdTimestamp);
+    let api = Math.round(aruna.ping);
+    //let heartbeat = Date.now() - message.createdTimestamp;
+    let embed2 = new Discord.RichEmbed().setColor("#33def5")
+      .setDescription(`:hourglass: | Tempo de resposta: **${msg.createdTimestamp - message.createdTimestamp}** ms
+      :satellite: | Api: **${api}** ms`);
+    msg.edit(embed2);
+  });
+};
 exports.config = {
-  name: "invite",
-  aliases: ["convidar", "convite"],
+  name: "ping",
+  aliases: ["pong"],
   category: `${emoji.robot} Utilidades`
 };

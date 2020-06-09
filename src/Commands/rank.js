@@ -17,8 +17,8 @@
 */
 
 const Discord = require("discord.js");
-const { database } = require("../configs");
-const utils = require("../utils/utils.js");
+const { database } = require(`../../Configs`);
+const { emoji } = require("../Utils");
 
 exports.run = async (aruna, message, args) => {
   const guild = await database.Guilds.findOne({ _id: message.guild.id });

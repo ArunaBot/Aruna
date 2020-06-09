@@ -17,8 +17,8 @@
 */
 
 const Discord = require("discord.js");
-const { database } = require("../configs/");
-const emoji = require("../utils/emojis.js");
+const { database } = require(`../../Configs`);
+const { emoji } = require("../Utils");
 
 exports.run = async (aruna, message) => {
   const embed = new Discord.RichEmbed(message.author);
