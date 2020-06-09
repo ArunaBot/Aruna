@@ -1,5 +1,3 @@
 .env
 Configs/
 node_modules/
-_main.js
-package-lock.json

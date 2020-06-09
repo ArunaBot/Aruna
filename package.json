@@ -27,6 +27,6 @@
     "moment-duration-format": "^2.3.2",
     "mongoose": "^5.9.18",
     "superagent": "^5.2.2",
-    "ytdl-core": "^3.1.1"
+    "ytdl-core": "^2.1.7"
   }
 }
