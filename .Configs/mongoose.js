@@ -32,14 +32,12 @@ mongoose.connect(
 
 var User = new Schema({
   _id: { type: String },
-  cmdCooldown: { type: String, default: "0" },
   SUPER: { type: Boolean, default: false }
 });
 
 var Guild = new Schema({
   _id: { type: String },
   prefix: { type: String, default: config.prefix },
-  ticketCategoryID: { type: String, default: null },
   ticketLogID: { type: String, default: null },
   ticketSupportID: { type: String, default: null },
   rankEnable: { type: Boolean, default: false },
@@ -54,10 +52,6 @@ var Rank = new Schema({
   xp: { type: String },
   level: { type: String },
   guild: { type: String }
-});
-
-var Comando = new Schema({
-  _id: { type: String }
 });
 
 var Ticket = new Schema({
@@ -78,18 +72,27 @@ var Command = new Schema({
   _id: { type: String },
   name: { type: String },
   public: { type: Boolean, default: false }
-})
+});
+
+var System = new Schema({
+  _id: { type: Number },
+  maintenance: { type: Boolean, default: false},
+  date: { type: String, default: null },
+  time: { type: String, default: null }
+});
 
 var Commands = mongoose.model("Commands", Command);
-var Support = mongoose.model("Suport", Support);
+var Supports = mongoose.model("Suport", Support);
 var Tickets = mongoose.model("Tickets", Ticket);
+var Systems = mongoose.model("System", System);
 var Guilds = mongoose.model("Guilds", Guild);
 var Users = mongoose.model("Users", User);
-var Rank = mongoose.model("Rank", Rank);
+var Ranks = mongoose.model("Rank", Rank);
 
 exports.Commands = Commands;
-exports.Suport = Support;
+exports.Suport = Supports;
 exports.Tickets = Tickets;
+exports.System = Systems;
 exports.Guilds = Guilds;
 exports.Users = Users;
-exports.Rank = Rank;
+exports.Rank = Ranks;
