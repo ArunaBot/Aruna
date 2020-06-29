@@ -17,7 +17,6 @@
 */
 
 const pkg = require("../../package.json");
-const version = pkg.version;
 const chalk = require("chalk");
 const { apiKeys, database } = require(`../../Configs`);
 
@@ -46,15 +45,22 @@ exports.run = async (aruna, message) => {
     }
 
     let status = [
-      { name: `Muppet Show`, type: `watching` },
-
-      { name: `Faz ${format(process.uptime())}`, type: `playing` },
-
+      { 
+        name: `Muppet Show`, 
+        type: `watching` 
+      },
+      { 
+        name: `M83 - Midnight City`, 
+        type: `listening`
+      },
+      { 
+        name: `Faz ${format(process.uptime())}`, 
+        type: `playing` 
+      },
       {
         name: `Netflix`,
         type: `watching`
       },
-
       {
         name: `Versão ${pkg.version}`,
         type: `streaming`,
@@ -99,13 +105,16 @@ exports.run = async (aruna, message) => {
     function isSharded() {
       return !!aruna.shard;
     }
-    const client = aruna;
-    const dbots = require("dbots");
-    const poster = new dbots.Poster({
-      client,
-      apiKeys,
-      clientLibrary: "discord.js"
-    });
 
-    poster.startInterval();
+    if(apiKeys) {
+      const client = aruna;
+      const dbots = require("dbots");
+      const poster = new dbots.Poster({
+        client,
+        apiKeys,
+        clientLibrary: "discord.js"
+      });
+
+      poster.startInterval();
+    }
 };
