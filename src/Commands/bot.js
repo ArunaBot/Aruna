@@ -25,23 +25,31 @@ function format(seconds) {
   var hours = Math.floor(seconds / (60 * 60));
   var minutes = Math.floor((seconds % (60 * 60)) / 60);
   var seconds = Math.floor(seconds % 60);
-  var days = Math.floor(hours / 24);
+  var days = Math.floor(seconds % (3600 * 24));
 
-  return (
-    pad(days) +
-    "d " +
-    pad(hours) +
-    "h " +
-    pad(minutes) +
-    "m " +
-    pad(seconds) +
-    "s"
-  );
+  if (pad(days) >= "01") {
+    return (
+      pad(days) +
+      "d " +
+      pad(hours - 24) +
+      "h " +
+      pad(minutes) +
+      "m"
+    );
+  } else if (pad(hours) >= "1") {
+    return pad(hours) + "h " + pad(minutes) + "m " + pad(seconds) + "s";
+  } else if (pad(minutes) >= "1") {
+    return pad(minutes) + "m " + pad(seconds) + "s";
+  } else {
+    return pad(seconds) + "s";
+  }
 }
 
 const pak = require("../../package.json");
 
 const { emojis } = require("../Utils");
+
+const { links } = require("../../Configs")
 
 exports.run = (aruna, message, args, prefix) => {
   let user = message.guild.member(aruna.user);
@@ -50,15 +58,23 @@ exports.run = (aruna, message, args, prefix) => {
 
   let embed = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
-    .addField(`(${emoji.robot}) Nome na Guild`, `**${name}**`, true)
-    .addField(`(📡) Versão`, `**${pak.version}**`, true)
-    .addField(`(🏓) Ping`, `**${Math.round(aruna.ping)}** ms`, true)
-    .addField(`(📃) Canais`, `**${aruna.channels.size}**`, true)
-    .addField(`(🖥️) Servidores`, `**${aruna.guilds.size}**`, true)
-    .addField(`(🕹️) Usuários`, `**${aruna.users.size}**`, true)
-  .addField(`Convite`, `**[Link](https://discordapp.com/api/oauth2/authorize?client_id=593303574725787657&permissions=37604422&scope=bot)**`, true)
-  .addField(`Meu Site`, `**Em Breve™️**`, true)
-  .addField(`Servidor de Suporte`, `**[Link](https://discordapp.com/api/oauth2/authorize?client_id=593303574725787657&permissions=37604422&scope=bot)**`, true)
+    .addField(`(${emojis.robot}) Nome na Guild`, `${name}`, true)
+    .addField(`(📡) Versão`, `${pak.version}`, true)
+    .addField(`(🕰️) Uptime`, `${format(process.uptime())}`, true)
+    .addField(`(📃) Canais`, `${aruna.channels.size}`, true)
+    .addField(`(🖥️) Servidores`, `${aruna.guilds.size}`, true)
+    .addField(`(🕹️) Usuários`, `${aruna.users.size}`, true)
+    .addField(
+      `Convite`,
+      `${links.invites[0] ? `[Link](${links.invites[0]})` : "INDISPONÍVEL"}`,
+      true
+    )
+    .addField(`Meu Site`, `${links.website ? `[Link](${links.website})` : "Em Breve™️"}`, true)
+    .addField(
+      `Servidor de Suporte`,
+      `${links.supportServers[0] ? `[Link](${links.supportServers[0]})` : "INDISPONÍVEL"}`,
+      true
+    )
     .setThumbnail(`${aruna.user.displayAvatarURL}`);
   message.channel.send(embed);
 };

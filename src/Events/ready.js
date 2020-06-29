@@ -30,18 +30,24 @@ exports.run = async (aruna, message) => {
       var hours = Math.floor(seconds / (60 * 60));
       var minutes = Math.floor((seconds % (60 * 60)) / 60);
       var seconds = Math.floor(seconds % 60);
-      var days = Math.floor(hours / 24);
-
-      return (
-        pad(days) +
-        "d " +
-        pad(hours) +
-        "h " +
-        pad(minutes) +
-        "m " +
-        pad(seconds) +
-        "s"
-      );
+      var days = Math.floor(seconds % (3600 * 24));
+    
+      if (pad(days) >= "01") {
+        return (
+          pad(days) +
+          "d " +
+          pad(hours - 24) +
+          "h " +
+          pad(minutes) +
+          "m"
+        );
+      } else if (pad(hours) >= "1") {
+        return pad(hours) + "h " + pad(minutes) + "m " + pad(seconds) + "s";
+      } else if (pad(minutes) >= "1") {
+        return pad(minutes) + "m " + pad(seconds) + "s";
+      } else {
+        return pad(seconds) + "s";
+      }
     }
 
     let status = [
