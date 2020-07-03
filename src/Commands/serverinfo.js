@@ -66,20 +66,16 @@ exports.run = (aruna, message, args) => {
       false
     )
     .addField(
-      `:busts_in_silhouette: Membros (${message.guild.members.size})`,
+      `:busts_in_silhouette: Membros (${message.guild.members.size} = ${message.guild.members.filter(m => m.user.bot).size} Bots e ${message.guild.members.filter(m => !m.user.bot).size} Humanos)`,
       `${status["online"]}: ${
         message.guild.members.filter(m => m.presence.status === "online").size
-      }|${status["idle"]}: ${
+      }\n${status["idle"]}: ${
         message.guild.members.filter(m => m.presence.status === "away").size
-      }|${status["dnd"]}: ${
+      }\n${status["dnd"]}: ${
         message.guild.members.filter(m => m.presence.status === "dnd").size
-      }|${status["offline"]}: ${
+      }\n${status["offline"]}: ${
         message.guild.members.filter(m => m.presence.status === "offline").size
-      }\n 
-    :raising_hand: Pessoas: ${
-      message.guild.members.filter(m => !m.user.bot).size
-    }\n 
-    :robot: Bots: ${message.guild.members.filter(m => m.user.bot).size}`,
+      }`,
       false
     )
     .setFooter("Bot Criado pelo Lobo Metalúrgico", aruna.user.avatarURL)
