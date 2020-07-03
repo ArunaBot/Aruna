@@ -80,16 +80,16 @@ exports.run = async (aruna, message, args) => {
   }
 
   let embed = new Discord.RichEmbed()
-    .setAuthor("Banimento Efetuado!")
-    .setDescription(`Kick efetuado por ${message.author.username}`)
+    .setAuthor("Banimento Efetuado com Sucesso!")
+    .setDescription(`Banimento efetuado por ${message.author.username}`)
     .addField("Usuário Banido: ", `${buser} id ${buser.id}`, false)
     .addField("Banido por: ", `<@${message.author.id}>`, false)
     .addField("Data do Banimento: ", message.createdAt, false)
     .addField("Motivo: ", `${breason}`, false)
     .setTimestamp();
 
-  message.channel.send(embed);
   message.guild.member(buser).ban(breason);
+  message.channel.send(embed);
 };
 
 exports.config = {
