@@ -16,28 +16,28 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 exports.run = async (aruna, message, args) => {
   
-  let kuser = await aruna.fetchUser(message.mentions.users.first() || args[0]);
+  const kuser = await aruna.fetchUser(message.mentions.users.first() || args[0]);
   
   const error1 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você não possui a permissão de \`Expulsar Membros\`!`)
+    .setDescription('Você não possui a permissão de `Expulsar Membros`!')
     .setTimestamp();
   
   const error2 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Eu não possuo a permissão de \`Expulsar Membros\`!`)
+    .setDescription('Eu não possuo a permissão de `Expulsar Membros`!')
     .setTimestamp();
   
   const error3 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você deve inserir um usuário para ser punido!`)
+    .setDescription('Você deve inserir um usuário para ser punido!')
     .setTimestamp();
   const error4 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
@@ -60,10 +60,10 @@ exports.run = async (aruna, message, args) => {
     .setDescription(`Infelizmente não sei informar qual o erro. Sinto muito ${message.author.username} :(`)
     .setTimestamp();
   
-  if (!message.member.hasPermission("KICK_MEMBERS"))
-    return message.channel.send(error1)
-  if (!message.guild.members.get(aruna.user.id).hasPermission("KICK_MEMBERS"))
-    return message.channel.send(error2)
+  if (!message.member.hasPermission('KICK_MEMBERS'))
+    return message.channel.send(error1);
+  if (!message.guild.members.get(aruna.user.id).hasPermission('KICK_MEMBERS'))
+    return message.channel.send(error2);
   
   if (!kuser) return message.channel.send(error3);
   
@@ -71,42 +71,42 @@ exports.run = async (aruna, message, args) => {
     message.mentions.users.first() || message.guild.members.get(args[0])
   );
 
-  if(guildBuser) {
-    if(message.guild.owner.id == kuser.id)
-      return message.channel.send(error4)
-    if(guildBuser.highestRole.position >= message.guild.members.get(message.author.id).highestRole.position && message.guild.owner.id !== message.author.id)
+  if (guildBuser) {
+    if (message.guild.owner.id == kuser.id)
+      return message.channel.send(error4);
+    if (guildBuser.highestRole.position >= message.guild.members.get(message.author.id).highestRole.position && message.guild.owner.id !== message.author.id)
       return message.channel.send(error5);
-    if(guildBuser.highestRole.position >= message.guild.members.get(aruna.user.id).highestRole.position)
+    if (guildBuser.highestRole.position >= message.guild.members.get(aruna.user.id).highestRole.position)
       return message.channel.send(error6);
   }
   
-  if (!args.join(" ").slice(19)) {
+  if (!args.join(' ').slice(19)) {
     var reason = `Punido por: ${message.author.username}`;
   } else {
     var reason =
       `Punido por: ${message.author.username} com o Motivo: ` +
-      args.join(" ").slice(19);
+      args.join(' ').slice(19);
   }
 
-  let embed = new Discord.RichEmbed()
-    .setAuthor("Expulsão Efetuada com Sucesso!")
+  const embed = new Discord.RichEmbed()
+    .setAuthor('Expulsão Efetuada com Sucesso!')
     .setDescription(`Expulsão efetuada por ${message.author.username}`)
-    .addField("Usuário Expulso: ", `${kuser} id ${kuser.id}`, false)
-    .addField("Expulso por: ", `<@${message.author.id}>`, false)
-    .addField("Data de Expulsão: ", message.createdAt, false)
-    .addField("Motivo: ", `${reason}`, false)
+    .addField('Usuário Expulso: ', `${kuser} id ${kuser.id}`, false)
+    .addField('Expulso por: ', `<@${message.author.id}>`, false)
+    .addField('Data de Expulsão: ', message.createdAt, false)
+    .addField('Motivo: ', `${reason}`, false)
     .setTimestamp();
 
-    message.channel.send(embed).then(async msg => {
-      await message.guild.ban(kuser, reason).catch(err => {
-          console.log(err)
-          msg.edit(error7);
-      })
-  })
+  message.channel.send(embed).then(async msg => {
+    await message.guild.ban(kuser, reason).catch(err => {
+      console.log(err);
+      msg.edit(error7);
+    });
+  });
 };
 
 exports.config = {
-  name: "kickar",
-  aliases: ["kick", "expulsar"],
-  category: `👮‍♂️ Moderação`
+  name: 'kickar',
+  aliases: ['kick', 'expulsar'],
+  category: '👮‍♂️ Moderação'
 };

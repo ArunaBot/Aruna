@@ -16,8 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { emoji } = require("../Utils");
-const Discord = require("discord.js");
+const { emoji } = require('../Utils');
+const Discord = require('discord.js');
 
 exports.run = async (aruna, message) => {
   const embed = new Discord.RichEmbed().setAuthor(
@@ -31,7 +31,7 @@ https://discordapp.com/oauth2/authorize?client_id=593303574725787657&scope=bot&p
 };
 
 exports.config = {
-  name: "invite",
-  aliases: ["convidar", "convite"],
+  name: 'invite',
+  aliases: ['convidar', 'convite'],
   category: `${emoji.robot} Utilidades`
 };

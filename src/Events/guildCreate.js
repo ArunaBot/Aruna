@@ -16,10 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var { database } = require(`../../Configs`);
+var { database } = require('../../Configs');
 
 exports.run = async (aruna, guild) => {
   var saveG = await new database.Guilds({ _id: guild.id });
   await saveG.save();
-  console.log('New Server Entry! :)')
+  console.log('New Server Entry! :)');
 };

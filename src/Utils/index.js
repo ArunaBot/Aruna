@@ -17,10 +17,10 @@
 */
 
 module.exports = {
-    utils: require("./utils.js"),
-    ranksystem: require("./rankSystem.js"),
-    emojis: require("./emojis.js"),
-    emoji: require("./emojis.js"),
-    activeticket: require("./activeTicket.js"),
-    cooldown: require("./cooldown.js")
-  };
+  utils: require('./utils.js'),
+  ranksystem: require('./rankSystem.js'),
+  emojis: require('./emojis.js'),
+  emoji: require('./emojis.js'),
+  activeticket: require('./activeTicket.js'),
+  cooldown: require('./cooldown.js')
+};

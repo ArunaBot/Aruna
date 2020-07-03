@@ -16,9 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
-const { database } = require(`../../Configs`);
-const { emoji } = require("../Utils");
+const Discord = require('discord.js');
+const { database } = require('../../Configs');
+const { emoji } = require('../Utils');
 
 exports.run = async (aruna, message, args) => {
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
@@ -51,25 +51,25 @@ exports.run = async (aruna, message, args) => {
 
   const embed2 = new Discord.RichEmbed()
     .setColor([54, 57, 63])
-    .setAuthor("RANK: " + userid.user.username, userid.user.avatarURL)
-    .addField("Nível", level, true)
-    .addField("Xp Atual", xp, true)
+    .setAuthor('RANK: ' + userid.user.username, userid.user.avatarURL)
+    .addField('Nível', level, true)
+    .addField('Xp Atual', xp, true)
     .setTimestamp();
 
-  let need = utils.need(level);
+  const need = utils.need(level);
 
   const embed = new Discord.RichEmbed()
     .setColor([54, 57, 63])
-    .setAuthor("RANK: " + userid.user.username, userid.user.avatarURL)
-    .addField("Nível", level, true)
-    .addField("Xp Atual", xp, true)
-    .addField("XP Necessário", need, true)
+    .setAuthor('RANK: ' + userid.user.username, userid.user.avatarURL)
+    .addField('Nível', level, true)
+    .addField('Xp Atual', xp, true)
+    .addField('XP Necessário', need, true)
     .setTimestamp();
   message.channel.send(embed);
 };
 
 exports.config = {
-  name: "rank",
-  aliases: ["perfil"],
-  category: `🎉 Entretenimento`
+  name: 'rank',
+  aliases: ['perfil'],
+  category: '🎉 Entretenimento'
 };

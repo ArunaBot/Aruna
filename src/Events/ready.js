@@ -16,111 +16,111 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const pkg = require("../../package.json");
-const chalk = require("chalk");
-const { apiKeys, database } = require(`../../Configs`);
+const pkg = require('../../package.json');
+const chalk = require('chalk');
+const { apiKeys, database } = require('../../Configs');
 
 exports.run = async (aruna, message) => {
-    log("Conectado!")
+  log('Conectado!');
 
-    function format(seconds) {
-      function pad(s) {
-        return (s < 10 ? "0" : "") + s;
-      }
-      var hours = Math.floor(seconds / (60 * 60));
-      var minutes = Math.floor((seconds % (60 * 60)) / 60);
-      var seconds = Math.floor(seconds % 60);
-      var days = Math.floor(seconds % (3600 * 24));
+  function format(seconds) {
+    function pad(s) {
+      return (s < 10 ? '0' : '') + s;
+    }
+    var hours = Math.floor(seconds / (60 * 60));
+    var minutes = Math.floor((seconds % (60 * 60)) / 60);
+    var seconds = Math.floor(seconds % 60);
+    var days = Math.floor(seconds % (3600 * 24));
     
-      if (pad(days) >= "1") {
-        return (
-          pad(days) +
-          "d " +
+    if (pad(days) >= '1') {
+      return (
+        pad(days) +
+          'd ' +
           pad(hours - 24) +
-          "h " +
+          'h ' +
           pad(minutes) +
-          "m"
-        );
-      } else if (pad(hours) >= "1") {
-        return pad(hours) + "h " + pad(minutes) + "m " + pad(seconds) + "s";
-      } else if (pad(minutes) >= "1") {
-        return pad(minutes) + "m " + pad(seconds) + "s";
-      } else {
-        return pad(seconds) + "s";
-      }
+          'm'
+      );
+    } else if (pad(hours) >= '1') {
+      return pad(hours) + 'h ' + pad(minutes) + 'm ' + pad(seconds) + 's';
+    } else if (pad(minutes) >= '1') {
+      return pad(minutes) + 'm ' + pad(seconds) + 's';
+    } else {
+      return pad(seconds) + 's';
     }
+  }
 
-    let status = [
-      { 
-        name: `Muppet Show`, 
-        type: `watching` 
-      },
-      { 
-        name: `M83 - Midnight City`, 
-        type: `listening`
-      },
-      { 
-        name: `Faz ${format(process.uptime())}`, 
-        type: `playing` 
-      },
-      {
-        name: `Netflix`,
-        type: `watching`
-      },
-      {
-        name: `Versão ${pkg.version}`,
-        type: `streaming`,
-        url: `https://www.twitch.tv/lobometalurgico`
-      }
-    ];
-    async function setStatus() {
-      var maintenance = await database.System.findOne({ _id: 1 });
-      var inMaintenance = maintenance.maintenance;
-      if(inMaintenance === true){
-        aruna.user.setPresence({ game: { name: `🚫AVISO: MANUTENÇÃO PROGRAMADA PARA ${maintenance.date}! MEU SISTEMA FICARÁ INDISPONÍVEL POR ${maintenance.time} APROXIMADAMENTE!🚫`}})
-      } else {
-        let randomStatus = status[Math.floor(Math.random() * status.length)];
-        aruna.user.setPresence({ game: randomStatus });
-      }
+  const status = [
+    { 
+      name: 'Muppet Show', 
+      type: 'watching' 
+    },
+    { 
+      name: 'M83 - Midnight City', 
+      type: 'listening'
+    },
+    { 
+      name: `Faz ${format(process.uptime())}`, 
+      type: 'playing' 
+    },
+    {
+      name: 'Netflix',
+      type: 'watching'
+    },
+    {
+      name: `Versão ${pkg.version}`,
+      type: 'streaming',
+      url: 'https://www.twitch.tv/lobometalurgico'
     }
+  ];
+  async function setStatus() {
+    var maintenance = await database.System.findOne({ _id: 1 });
+    var inMaintenance = maintenance.maintenance;
+    if (inMaintenance === true){
+      aruna.user.setPresence({ game: { name: `🚫AVISO: MANUTENÇÃO PROGRAMADA PARA ${maintenance.date}! MEU SISTEMA FICARÁ INDISPONÍVEL POR ${maintenance.time} APROXIMADAMENTE!🚫`}});
+    } else {
+      const randomStatus = status[Math.floor(Math.random() * status.length)];
+      aruna.user.setPresence({ game: randomStatus });
+    }
+  }
+  setStatus();
+  setInterval(() => {
     setStatus();
-    setInterval(() => {
-      setStatus();
-    }, 15000);
+  }, 15000);
 
-    function logPrefix() {
-      return `${chalk.gray("[")}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : "ARUNA"}${chalk.gray("]")}`;
-    }
+  function logPrefix() {
+    return `${chalk.gray('[')}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : 'ARUNA'}${chalk.gray(']')}`;
+  }
 
-    function log(...a) {
-      return console.log(logPrefix(), ...a);
-    }
+  function log(...a) {
+    return console.log(logPrefix(), ...a);
+  }
 
-    function warn(...a) {
-      return console.warn(logPrefix(), chalk.yellow(...a));
-    }
+  function warn(...a) {
+    return console.warn(logPrefix(), chalk.yellow(...a));
+  }
 
-    function error(...a) {
-      return console.error(logPrefix(), chalk.red(...a));
-    }
+  function error(...a) {
+    return console.error(logPrefix(), chalk.red(...a));
+  }
 
-    function debug(...a) {
-      return console.debug(logPrefix(), chalk.magenta(...a));
-    }
+  function debug(...a) {
+    return console.debug(logPrefix(), chalk.magenta(...a));
+  }
 
-    function isSharded() {
-      return !!aruna.shard;
-    }
+  function isSharded() {
+    return !!aruna.shard;
+  }
 
-    if(apiKeys) {
-      const client = aruna;
-      const dbots = require("dbots");
-      const poster = new dbots.Poster({
-        client,
-        apiKeys,
-        clientLibrary: "discord.js"
-      });
+  if (apiKeys) {
+    const client = aruna;
+    const dbots = require('dbots');
+    const poster = new dbots.Poster({
+      client,
+      apiKeys,
+      clientLibrary: 'discord.js'
+    });
 
-      poster.startInterval();
-    }
+    poster.startInterval();
+  }
 };

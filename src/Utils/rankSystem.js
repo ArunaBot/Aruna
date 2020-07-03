@@ -17,7 +17,7 @@
 */
 
 exports.run = async (aruna, message, database, cooldown, utils, Discord) => {
-  let user = message.author;
+  const user = message.author;
 
   const rank = await database.Rank.findOne({
     user: user.id,
@@ -58,19 +58,19 @@ exports.run = async (aruna, message, database, cooldown, utils, Discord) => {
 
       level = rank2.level;
       
-      let embed = new Discord.RichEmbed()
-        .setAuthor("Novo Nível!")
+      const embed = new Discord.RichEmbed()
+        .setAuthor('Novo Nível!')
         .setDescription(
           `Parabéns <@${message.author.id}>` +
-            ", agora você está no **Nível " +
+            ', agora você está no **Nível ' +
             rank2.level +
-            "**!"
+            '**!'
         )
         .setColor([15, 15, 250])
         .setTimestamp();
       message.channel.send(embed);
-      const args = "";
-      let exiberank = require(`../cmds/rank.js`);
+      const args = '';
+      const exiberank = require('../cmds/rank.js');
       exiberank.run(aruna, message, args);
     }
   }

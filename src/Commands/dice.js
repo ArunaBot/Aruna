@@ -16,49 +16,49 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 exports.run = async (aruna, message, args) => {
   const error1 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você deve inserir o tipo do dado que devo girar!`)
+    .setDescription('Você deve inserir o tipo do dado que devo girar!')
     .setTimestamp();
 
   const error2 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Só aceito até d100.`)
+    .setDescription('Só aceito até d100.')
     .setTimestamp();
 
   const error3 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Essa quantidade de dados é absurda!`)
+    .setDescription('Essa quantidade de dados é absurda!')
     .setTimestamp();
 
   const error4 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Acho que esse número nem existe!`)
+    .setDescription('Acho que esse número nem existe!')
     .setTimestamp();
 
   const error5 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Insira algo como 1d6 por favor`)
+    .setDescription('Insira algo como 1d6 por favor')
     .setTimestamp();
   
   const error6 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Todos sabemos que o resultado do d0 é 0!`)
+    .setDescription('Todos sabemos que o resultado do d0 é 0!')
     .setTimestamp();
   
   const error7 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`0 não é uma quantidade de dados que se possa girar!`)
+    .setDescription('0 não é uma quantidade de dados que se possa girar!')
     .setTimestamp();
 
   if (!args[0]) return message.channel.send(error5);
@@ -66,7 +66,7 @@ exports.run = async (aruna, message, args) => {
   const split = message.content
     .slice(5)
     .trim()
-    .split("d" || "D");
+    .split('d' || 'D');
 
   if (!split) return message.channel.send(error5);
 
@@ -82,14 +82,14 @@ exports.run = async (aruna, message, args) => {
 
   if (number > 50) return message.channel.send(error3);
   
-  if(dice == 0) return message.channel.send(error6)
+  if (dice == 0) return message.channel.send(error6);
   
-  if(number == 0) return message.channel.send(error7)
+  if (number == 0) return message.channel.send(error7);
   
-  var diceStr = ""
+  var diceStr = '';
   
-  if(number == 1) diceStr = "dado"
-  else diceStr = "dados"
+  if (number == 1) diceStr = 'dado';
+  else diceStr = 'dados';
   
   const error8 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
@@ -97,7 +97,7 @@ exports.run = async (aruna, message, args) => {
     .setDescription(`Todos sabemos que o resultado de ${number} ${diceStr} de 1 lado é ${number}!`)
     .setTimestamp();
   
-  if(dice == 1) return message.channel.send(error8)
+  if (dice == 1) return message.channel.send(error8);
 
   var result = [];
 
@@ -143,7 +143,7 @@ exports.run = async (aruna, message, args) => {
   }, 0,1);
 };
 exports.config = {
-  name: "dice",
-  aliases: ["dado"],
-  category: `🎉 Entretenimento`
+  name: 'dice',
+  aliases: ['dado'],
+  category: '🎉 Entretenimento'
 };

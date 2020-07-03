@@ -28,5 +28,8 @@
     "mongoose": "^5.9.18",
     "superagent": "^5.2.2",
     "ytdl-core": "^2.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.1"
   }
 }

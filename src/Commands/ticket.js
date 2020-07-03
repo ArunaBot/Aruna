@@ -16,9 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
-const { database } = require(`../../Configs`);
-const { emoji } = require("../Utils");
+const Discord = require('discord.js');
+const { database } = require('../../Configs');
+const { emoji } = require('../Utils');
 
 exports.run = async (aruna, message, args) => {
   const user = await database.Users.findOne({ _id: message.author.id });
@@ -32,14 +32,14 @@ exports.run = async (aruna, message, args) => {
   const noperm = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Este comando não está disponível no momento!`)
+    .setDescription('Este comando não está disponível no momento!')
     .setTimestamp();
 
   const error = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription(
-      `Insira \`criar\` para criar um ticket ou \`fechar\` para fechar o ticket.`
+      'Insira `criar` para criar um ticket ou `fechar` para fechar o ticket.'
     )
     .setTimestamp();
 
@@ -66,7 +66,7 @@ exports.run = async (aruna, message, args) => {
 
   const mode = args[0].toLowerCase();
 
-  if (mode == "criar" || mode == "create" || mode == "new") {
+  if (mode == 'criar' || mode == 'create' || mode == 'new') {
     if (ticket) {
       const error3 = new Discord.RichEmbed()
         .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
@@ -79,17 +79,17 @@ exports.run = async (aruna, message, args) => {
     }
 
     const m = await message.channel.send(
-      "Criando Ticket. Por favor, aguarde um momento..."
+      'Criando Ticket. Por favor, aguarde um momento...'
     );
 
     
-  } else if (mode == "fechar" || mode == "close") {
+  } else if (mode == 'fechar' || mode == 'close') {
     if (!ticket) return message.channel.send(error4);
   } else return message.channel.send(error);
 };
 
 exports.config = {
-  name: "ticket",
+  name: 'ticket',
   aliases: [],
   category: `${emoji.robot} Utilidades`
 };

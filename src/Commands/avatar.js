@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 exports.run = (aruna, message, args, prefix) => {
   const user1 = message.guild.member(
@@ -25,7 +25,7 @@ exports.run = (aruna, message, args, prefix) => {
 
   const user = user1.user;
 
-  let embed = new Discord.RichEmbed()
+  const embed = new Discord.RichEmbed()
     .setAuthor(`Avatar de ${user.username}`)
     .setDescription(`**Clique [aqui](${user.avatarURL}) para baixar a foto.**`)
     .setImage(user.avatarURL)
@@ -33,8 +33,8 @@ exports.run = (aruna, message, args, prefix) => {
   message.channel.send(embed);
 };
 exports.config = {
-  name: "avatar",
-  aliases: [""],
-  description: "Mostra o avatar próprio ou de um usuário",
-  category: `🎉 Entretenimento`
+  name: 'avatar',
+  aliases: [''],
+  description: 'Mostra o avatar próprio ou de um usuário',
+  category: '🎉 Entretenimento'
 };

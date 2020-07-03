@@ -16,28 +16,28 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 exports.run = async (aruna, message, args) => {
   
-  let unbuser = await aruna.fetchUser(args[0]);
+  const unbuser = await aruna.fetchUser(args[0]);
   
   const error1 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você não possui a permissão de \`Banir Membros\`!`)
+    .setDescription('Você não possui a permissão de `Banir Membros`!')
     .setTimestamp();
   
   const error2 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Eu não possuo a permissão de \`Banir Membros\`!`)
+    .setDescription('Eu não possuo a permissão de `Banir Membros`!')
     .setTimestamp();
   
   const error3 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você deve inserir o id do usuário que será desbanido!`)
+    .setDescription('Você deve inserir o id do usuário que será desbanido!')
     .setTimestamp();
   const error4 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
@@ -45,39 +45,39 @@ exports.run = async (aruna, message, args) => {
     .setDescription(`Infelizmente não sei informar qual o erro. Sinto muito ${message.author.username} :(`)
     .setTimestamp();
   
-  if (!message.member.hasPermission("BAN_MEMBERS"))
-    return message.channel.send(error1)
-  if (!message.guild.members.get(aruna.user.id).hasPermission("BAN_MEMBERS"))
-    return message.channel.send(error2)
+  if (!message.member.hasPermission('BAN_MEMBERS'))
+    return message.channel.send(error1);
+  if (!message.guild.members.get(aruna.user.id).hasPermission('BAN_MEMBERS'))
+    return message.channel.send(error2);
   
   if (!unbuser) return message.channel.send(error3);
   
-  if (!args.join(" ").slice(19)) {
+  if (!args.join(' ').slice(19)) {
     var reason = `Desbanido por: ${message.author.username}`;
   } else {
     var reason =
       `Desbanido por: ${message.author.username} com o Motivo: ` +
-      args.join(" ").slice(19);
+      args.join(' ').slice(19);
   }
 
-  let embed = new Discord.RichEmbed()
-    .setAuthor("Desbanimento Efetuado!")
+  const embed = new Discord.RichEmbed()
+    .setAuthor('Desbanimento Efetuado!')
     .setDescription(`Desbanimento efetuado por ${message.author.username}`)
-    .addField("Usuário Desbanido: ", `${unbuser.id}`, false)
-    .addField("Desbanido por: ", `<@${message.author.id}>`, false)
-    .addField("Motivo: ", `${reason}`, false)
+    .addField('Usuário Desbanido: ', `${unbuser.id}`, false)
+    .addField('Desbanido por: ', `<@${message.author.id}>`, false)
+    .addField('Motivo: ', `${reason}`, false)
     .setTimestamp();
 
-    message.channel.send(embed).then(async msg => {
-        await message.guild.unban(unbuser, reason).catch(err => {
-            console.log(err)
-            msg.edit(error4);
-        })
-    })
+  message.channel.send(embed).then(async msg => {
+    await message.guild.unban(unbuser, reason).catch(err => {
+      console.log(err);
+      msg.edit(error4);
+    });
+  });
 };
 
 exports.config = {
-  name: "desbanir",
-  aliases: ["unban"],
-  category: `👮‍♂️ Moderação`
+  name: 'desbanir',
+  aliases: ['unban'],
+  category: '👮‍♂️ Moderação'
 };

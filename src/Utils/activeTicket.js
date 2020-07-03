@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { database } = require(`../../Configs`);
+const { database } = require('../../Configs');
 
 exports.run = async (aruna, message, args) => {
   const guild = await database.Guilds.findsOne({ _id: message.guild.id });
@@ -25,14 +25,14 @@ exports.run = async (aruna, message, args) => {
     try {
       var supportRole = await message.guild
         .createRole({
-          name: "Suporte",
-          permissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "CONNECT", "SPEAK"]
+          name: 'Suporte',
+          permissions: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'CONNECT', 'SPEAK']
         })
         .then(async roleId => {
           await message.channel.send(
-            "Foi criado o cargo <@&" +
+            'Foi criado o cargo <@&' +
               roleId.id +
-              "> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente."
+              '> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente.'
           );
           guild.ticketSupportID = roleId.id;
         });
@@ -45,14 +45,14 @@ exports.run = async (aruna, message, args) => {
       try {
         var supportRole = await message.guild
           .createRole({
-            name: "Suporte",
-            permissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "CONNECT", "SPEAK"]
+            name: 'Suporte',
+            permissions: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'CONNECT', 'SPEAK']
           })
           .then(async roleId => {
             await message.channel.send(
-              "Foi criado o cargo <@&" +
+              'Foi criado o cargo <@&' +
                 roleId.id +
-                "> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente."
+                '> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente.'
             );
             guild.ticketSupportID = roleId.id;
           });
@@ -61,15 +61,15 @@ exports.run = async (aruna, message, args) => {
       }
     }
   }
-  let ticketCategory = message.guild.channels.find(`name`, "Tickets");
+  let ticketCategory = message.guild.channels.find('name', 'Tickets');
 
   if (!ticketCategory) {
     try {
-      ticketCategory = await message.guild.createChannel(`Tickets`, "category");
+      ticketCategory = await message.guild.createChannel('Tickets', 'category');
       message.channel.send(
-        "Foi criado a categoria " +
+        'Foi criado a categoria ' +
           ticketCategory.name +
-          " como categoria que conterá os tickets. Seu nome não pode ser alterado."
+          ' como categoria que conterá os tickets. Seu nome não pode ser alterado.'
       );
     } catch (e) {
       console.log(e.stack);
@@ -79,15 +79,15 @@ exports.run = async (aruna, message, args) => {
   if (guild.ticketLogID == null) {
     try {
       var ticketLog = await message.guild
-        .createChannel(`ticket-log`, "text", [
+        .createChannel('ticket-log', 'text', [
           {
             id: message.guild.defaultRole.id,
-            deny: ["VIEW_CHANNEL"]
+            deny: ['VIEW_CHANNEL']
           },
           {
             id: message.guild.roles.get(supportRole),
-            allow: ["VIEW_CHANNEL"],
-            deny: ["SEND_MESSAGES"]
+            allow: ['VIEW_CHANNEL'],
+            deny: ['SEND_MESSAGES']
           }
         ])
         .then(async ticketId => {
@@ -96,9 +96,9 @@ exports.run = async (aruna, message, args) => {
           await ticketId.setParent(ticketCategory);
         });
       message.channel.send(
-        "Foi criado o canal " +
+        'Foi criado o canal ' +
           ticketLog +
-          " como canal de log dos tickets. Seu nome pode ser alterado livremente."
+          ' como canal de log dos tickets. Seu nome pode ser alterado livremente.'
       );
     } catch (e) {
       console.log(e.stack);
@@ -108,15 +108,15 @@ exports.run = async (aruna, message, args) => {
     if (!aruna.channels.get(ticketLog)) {
       try {
         var ticketLog = await message.guild
-          .createChannel(`ticket-log`, "text", [
+          .createChannel('ticket-log', 'text', [
             {
               id: message.guild.defaultRole.id,
-              deny: ["VIEW_CHANNEL"]
+              deny: ['VIEW_CHANNEL']
             },
             {
               id: message.guild.roles.get(supportRole),
-              allow: ["VIEW_CHANNEL"],
-              deny: ["SEND_MESSAGES"]
+              allow: ['VIEW_CHANNEL'],
+              deny: ['SEND_MESSAGES']
             }
           ])
           .then(ticketId => {
@@ -125,9 +125,9 @@ exports.run = async (aruna, message, args) => {
             ticketId.setParent(ticketCategory);
           });
         message.channel.send(
-          "Foi criado o canal " +
+          'Foi criado o canal ' +
             ticketLog +
-            " como canal de log dos tickets. Seu nome pode ser alterado livremente."
+            ' como canal de log dos tickets. Seu nome pode ser alterado livremente.'
         );
       } catch (e) {
         console.log(e.stack);
@@ -142,14 +142,14 @@ exports.run = async (aruna, message, args) => {
     try {
       var supportRole = await message.guild
         .createRole({
-          name: "Suporte",
-          permissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "CONNECT", "SPEAK"]
+          name: 'Suporte',
+          permissions: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'CONNECT', 'SPEAK']
         })
         .then(async roleId => {
           await message.channel.send(
-            "Foi criado o cargo <@&" +
+            'Foi criado o cargo <@&' +
               roleId.id +
-              "> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente."
+              '> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente.'
           );
           guild2.ticketSupportID = roleId.id;
         });
@@ -162,14 +162,14 @@ exports.run = async (aruna, message, args) => {
       try {
         var supportRole = await message.guild
           .createRole({
-            name: "Suporte",
-            permissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "CONNECT", "SPEAK"]
+            name: 'Suporte',
+            permissions: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'CONNECT', 'SPEAK']
           })
           .then(async roleId => {
             await message.channel.send(
-              "Foi criado o cargo <@&" +
+              'Foi criado o cargo <@&' +
                 roleId.id +
-                "> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente."
+                '> como cargo de suporte. Seu nome, cor e permissão podem ser alterados livremente.'
             );
             guild2.ticketSupportID = roleId.id;
           });
@@ -182,15 +182,15 @@ exports.run = async (aruna, message, args) => {
   if (guild.ticketLogID == null) {
     try {
       var ticketLog = await message.guild
-        .createChannel(`ticket-log`, "text", [
+        .createChannel('ticket-log', 'text', [
           {
             id: message.guild.defaultRole.id,
-            deny: ["VIEW_CHANNEL"]
+            deny: ['VIEW_CHANNEL']
           },
           {
             id: message.guild.roles.get(supportRole),
-            allow: ["VIEW_CHANNEL"],
-            deny: ["SEND_MESSAGES"]
+            allow: ['VIEW_CHANNEL'],
+            deny: ['SEND_MESSAGES']
           }
         ])
         .then(async ticketId => {
@@ -199,9 +199,9 @@ exports.run = async (aruna, message, args) => {
           await ticketId.setParent(ticketCategory);
         });
       message.channel.send(
-        "Foi criado o canal " +
+        'Foi criado o canal ' +
           ticketLog +
-          " como canal de log dos tickets. Seu nome pode ser alterado livremente."
+          ' como canal de log dos tickets. Seu nome pode ser alterado livremente.'
       );
     } catch (e) {
       console.log(e.stack);
@@ -211,15 +211,15 @@ exports.run = async (aruna, message, args) => {
     if (!aruna.channels.get(ticketLog)) {
       try {
         var ticketLog = await message.guild
-          .createChannel(`ticket-log`, "text", [
+          .createChannel('ticket-log', 'text', [
             {
               id: message.guild.defaultRole.id,
-              deny: ["VIEW_CHANNEL"]
+              deny: ['VIEW_CHANNEL']
             },
             {
               id: message.guild.roles.get(supportRole),
-              allow: ["VIEW_CHANNEL"],
-              deny: ["SEND_MESSAGES"]
+              allow: ['VIEW_CHANNEL'],
+              deny: ['SEND_MESSAGES']
             }
           ])
           .then(ticketId => {
@@ -228,9 +228,9 @@ exports.run = async (aruna, message, args) => {
             ticketId.setParent(ticketCategory);
           });
         message.channel.send(
-          "Foi criado o canal " +
+          'Foi criado o canal ' +
             ticketLog +
-            " como canal de log dos tickets. Seu nome pode ser alterado livremente."
+            ' como canal de log dos tickets. Seu nome pode ser alterado livremente.'
         );
       } catch (e) {
         console.log(e.stack);

@@ -16,63 +16,63 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 function format(seconds) {
   function pad(s) {
-    return (s < 10 ? "0" : "") + s;
+    return (s < 10 ? '0' : '') + s;
   }
   var hours = Math.floor(seconds / (60 * 60));
   var minutes = Math.floor((seconds % (60 * 60)) / 60);
   var seconds = Math.floor(seconds % 60);
   var days = Math.floor(seconds % (3600 * 24));
 
-  if (pad(days) >= "1") {
+  if (pad(days) >= '1') {
     return (
       pad(days) +
-      "d " +
+      'd ' +
       pad(hours - 24) +
-      "h " +
+      'h ' +
       pad(minutes) +
-      "m"
+      'm'
     );
-  } else if (pad(hours) >= "1") {
-    return pad(hours) + "h " + pad(minutes) + "m " + pad(seconds) + "s";
-  } else if (pad(minutes) >= "1") {
-    return pad(minutes) + "m " + pad(seconds) + "s";
+  } else if (pad(hours) >= '1') {
+    return pad(hours) + 'h ' + pad(minutes) + 'm ' + pad(seconds) + 's';
+  } else if (pad(minutes) >= '1') {
+    return pad(minutes) + 'm ' + pad(seconds) + 's';
   } else {
-    return pad(seconds) + "s";
+    return pad(seconds) + 's';
   }
 }
 
-const pak = require("../../package.json");
+const pak = require('../../package.json');
 
-const { emojis } = require("../Utils");
+const { emojis } = require('../Utils');
 
-const { links } = require("../../Configs")
+const { links } = require('../../Configs');
 
 exports.run = (aruna, message, args, prefix) => {
-  let user = message.guild.member(aruna.user);
+  const user = message.guild.member(aruna.user);
 
-  let name = user.nickname !== null ? user.nickname : aruna.user.username;
+  const name = user.nickname !== null ? user.nickname : aruna.user.username;
 
-  let embed = new Discord.RichEmbed()
+  const embed = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
     .addField(`(${emojis.robot}) Nome na Guild`, `${name}`, true)
-    .addField(`(📡) Versão`, `${pak.version}`, true)
-    .addField(`(🕰️) Uptime`, `${format(process.uptime())}`, true)
-    .addField(`(📃) Canais`, `${aruna.channels.size}`, true)
-    .addField(`(🖥️) Servidores`, `${aruna.guilds.size}`, true)
-    .addField(`(🕹️) Usuários`, `${aruna.users.size}`, true)
+    .addField('(📡) Versão', `${pak.version}`, true)
+    .addField('(🕰️) Uptime', `${format(process.uptime())}`, true)
+    .addField('(📃) Canais', `${aruna.channels.size}`, true)
+    .addField('(🖥️) Servidores', `${aruna.guilds.size}`, true)
+    .addField('(🕹️) Usuários', `${aruna.users.size}`, true)
     .addField(
-      `Convite`,
-      `${links.invites[0] ? `[Link](${links.invites[0]})` : "INDISPONÍVEL"}`,
+      'Convite',
+      `${links.invites[0] ? `[Link](${links.invites[0]})` : 'INDISPONÍVEL'}`,
       true
     )
-    .addField(`Meu Site`, `${links.website ? `[Link](${links.website})` : "Em Breve™️"}`, true)
+    .addField('Meu Site', `${links.website ? `[Link](${links.website})` : 'Em Breve™️'}`, true)
     .addField(
-      `Servidor de Suporte`,
-      `${links.supportServers[0] ? `[Link](${links.supportServers[0]})` : "INDISPONÍVEL"}`,
+      'Servidor de Suporte',
+      `${links.supportServers[0] ? `[Link](${links.supportServers[0]})` : 'INDISPONÍVEL'}`,
       true
     )
     .setThumbnail(`${aruna.user.displayAvatarURL}`);
@@ -80,8 +80,8 @@ exports.run = (aruna, message, args, prefix) => {
 };
 
 exports.config = {
-  name: "bot",
-  aliases: ["botinfo"],
-  description: "Lista as Principais informações do bot",
+  name: 'bot',
+  aliases: ['botinfo'],
+  description: 'Lista as Principais informações do bot',
   category: `${emojis.robot} Utilidades`
 };

@@ -15,22 +15,22 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-const Discord = require("discord.js");
-const chalk = require("chalk");
-const { config } = require(`../Configs`);
-const pkg = require(`../package.json`);
+const Discord = require('discord.js');
+const chalk = require('chalk');
+const { config } = require('../Configs');
+const pkg = require('../package.json');
 
 const manager = new Discord.ShardingManager(`./${pkg.main}`, {
   token: config.token, 
   totalShards: config.sharding.totalShards
 });
 
-const logPrefix = `${chalk.gray("[")}${chalk.yellow("SHARD MASTER")}${chalk.gray("]")}`;
+const logPrefix = `${chalk.gray('[')}${chalk.yellow('SHARD MASTER')}${chalk.gray(']')}`;
 
-manager.on("launch", shard => console.log(`${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) iniciado(s)`));
-process.on("exit", code => console.log(`${logPrefix} ${chalk.red("Foi forçado o encerramento de um processo.")} Código de Saída:`, code));
+manager.on('launch', shard => console.log(`${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) iniciado(s)`));
+process.on('exit', code => console.log(`${logPrefix} ${chalk.red('Foi forçado o encerramento de um processo.')} Código de Saída:`, code));
 
 console.log(`${logPrefix} Começando a gerar shards...`);
 manager.spawn(config.sharding.totalShards, config.sharding.delay).then(() => {
-  console.log(`${logPrefix} ${chalk.green("Finalizando a geração dos Shards!")}`);
+  console.log(`${logPrefix} ${chalk.green('Finalizando a geração dos Shards!')}`);
 });

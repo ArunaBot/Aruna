@@ -16,13 +16,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-require("events").EventEmitter.defaultMaxListeners = 999;
+require('events').EventEmitter.defaultMaxListeners = 999;
 
-const express = require("express");
-const http = require("http");
+const express = require('express');
+const http = require('http');
 const app = express();
-app.get("/", (request, response) => {
-  console.log(Date.now() + " Ping Received");
+app.get('/', (request, response) => {
+  console.log(Date.now() + ' Ping Received');
   response.sendStatus(200);
 });
 app.listen(process.env.PORT);
@@ -30,33 +30,33 @@ setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
 
-const Discord = require("discord.js");
-const fs = require("fs");
-const { config } = require(`../Configs`);
-const chalk = require("chalk");
+const Discord = require('discord.js');
+const fs = require('fs');
+const { config } = require('../Configs');
+const chalk = require('chalk');
 
 const aruna = new Discord.Client();
 aruna.commands = new Discord.Collection();
 aruna.aliases = new Discord.Collection();
 
-fs.readdir("./src/Events/", (erro, files) => {
+fs.readdir('./src/Events/', (erro, files) => {
   if (erro) return error(`[ERROR] => ${erro}`);
   files.forEach(file => {
-    let eventFunction = require(`./Events/${file}`);
+    const eventFunction = require(`./Events/${file}`);
     log(`[EVENT] => ${file}`);
-    let eventName = file.split(".")[0];
+    const eventName = file.split('.')[0];
     aruna.on(eventName, (...args) => eventFunction.run(aruna, ...args));
   });
 });
 
-fs.readdir("./src/Commands/", (err, files) => {
+fs.readdir('./src/Commands/', (err, files) => {
   if (err) return error(`[ERROR] => ${err}`);
-  let jsfile = files.filter(f => f.split(".").pop() === "js");
+  const jsfile = files.filter(f => f.split('.').pop() === 'js');
   if (jsfile.length <= 0) {
-    return warn("[COMMANDS] Not Found!");
+    return warn('[COMMANDS] Not Found!');
   }
   jsfile.forEach((f, i) => {
-    let pull = require(`./Commands/${f}`);
+    const pull = require(`./Commands/${f}`);
     aruna.commands.set(pull.config.name, pull);
     log(`[COMMAND] => ${f}`);
     pull.config.aliases.forEach(alias => {
@@ -67,7 +67,7 @@ fs.readdir("./src/Commands/", (err, files) => {
 
 
 function logPrefix() {
-  return `${chalk.gray("[")}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : "ARUNA"}${chalk.gray("]")}`;
+  return `${chalk.gray('[')}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : 'ARUNA'}${chalk.gray(']')}`;
 }
 
 function log(...a) {

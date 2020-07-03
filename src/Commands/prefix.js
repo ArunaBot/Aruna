@@ -16,8 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
-const { database, config } = require(`../../Configs`);
+const Discord = require('discord.js');
+const { database, config } = require('../../Configs');
 
 exports.run = async (aruna, message, args) => {
   const server = await database.Guilds.findOne({ _id: message.guild.id });
@@ -25,28 +25,28 @@ exports.run = async (aruna, message, args) => {
   const nopermission = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você não possui a permissão de \`Gerenciar Servidor\``)
+    .setDescription('Você não possui a permissão de `Gerenciar Servidor`')
     .setTimestamp();
   const error = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setDescription(
-      `Insira se você deseja definir um prefixo (set) ou se deseja voltar ao padrão (remove).`
+      'Insira se você deseja definir um prefixo (set) ou se deseja voltar ao padrão (remove).'
     )
     .setTimestamp();
   const error2 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você deve inserir o prefixo desejado!`)
+    .setDescription('Você deve inserir o prefixo desejado!')
     .setTimestamp();
   const error3 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`O prefixo atual já é o prefixo padrão!`)
+    .setDescription('O prefixo atual já é o prefixo padrão!')
     .setTimestamp();
   const remove = new Discord.RichEmbed()
     .setColor([0, 255, 0])
     .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Sucesso!`)
+    .setFooter('Sucesso!')
     .setDescription(
       `Prefixo redefinido para \`${config.prefix}\` com sucesso!`
     )
@@ -54,19 +54,19 @@ exports.run = async (aruna, message, args) => {
   const definido = new Discord.RichEmbed()
     .setColor([0, 255, 0])
     .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Sucesso!`)
+    .setFooter('Sucesso!')
     .setDescription(`Prefixo definido para \`${args[1]}\` com sucesso!`)
     .setTimestamp();
 
-  if (!message.member.hasPermission("MANAGE_GUILD"))
+  if (!message.member.hasPermission('MANAGE_GUILD'))
     return message.channel.send(nopermission);
 
   if (!args[0]) return message.channel.send(error);
 
-  if (args[0] !== "set" && args[0] !== "remove")
+  if (args[0] !== 'set' && args[0] !== 'remove')
     return message.channel.send(error);
 
-  if (args[0] === "remove") {
+  if (args[0] === 'remove') {
     if (server.prefix === config.prefix)
       return message.channel.send(error3);
 
@@ -75,7 +75,7 @@ exports.run = async (aruna, message, args) => {
     message.channel.send(remove);
   }
 
-  if (args[0] === "set") {
+  if (args[0] === 'set') {
     if (!args[1]) return message.channel.send(error2);
 
     server.prefix = args[1];
@@ -85,7 +85,7 @@ exports.run = async (aruna, message, args) => {
 };
 
 exports.config = {
-  name: "prefix",
-  aliases: ["prefixo", "pref"],
-  category: `⚙️ Configurações`
+  name: 'prefix',
+  aliases: ['prefixo', 'pref'],
+  category: '⚙️ Configurações'
 };

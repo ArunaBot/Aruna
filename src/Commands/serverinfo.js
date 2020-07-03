@@ -16,8 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
-const { emoji } = require("../Utils");
+const Discord = require('discord.js');
+const { emoji } = require('../Utils');
 
 const status = {
   online: `${emoji.online} Online`,
@@ -29,63 +29,63 @@ const status = {
 exports.run = (aruna, message, args) => {
   var region = message.guild.region;
 
-  if (region === "brazil") region = `:flag_br: Brasil`;
-  if (region === "europe") region = ` :flag_eu: Europa`;
-  if (region === "hongkong") region = `:flag_hk: Hong Kong`;
-  if (region === "india") region = `:flag_in: India`;
-  if (region === "japan") region = `:flag_jp: Japão`;
-  if (region === "russia") region = `:flag_ru: Rússia`;
-  if (region === "singapore") region = `:flag_br: Singapura`;
+  if (region === 'brazil') region = ':flag_br: Brasil';
+  if (region === 'europe') region = ' :flag_eu: Europa';
+  if (region === 'hongkong') region = ':flag_hk: Hong Kong';
+  if (region === 'india') region = ':flag_in: India';
+  if (region === 'japan') region = ':flag_jp: Japão';
+  if (region === 'russia') region = ':flag_ru: Rússia';
+  if (region === 'singapore') region = ':flag_br: Singapura';
   if (
-    region === "us-central" ||
-    region === "us-east" ||
-    region === "us-south" ||
-    region === "us-west"
+    region === 'us-central' ||
+    region === 'us-east' ||
+    region === 'us-south' ||
+    region === 'us-west'
   )
-    region = `:flag_us: Estados Unidos`;
+    region = ':flag_us: Estados Unidos';
 
-  let embed = new Discord.RichEmbed()
+  const embed = new Discord.RichEmbed()
     .setColor([0, 23, 132])
     .setAuthor(`${message.guild.name}`)
     .setThumbnail(
       `https://cdn.discordapp.com/icons/${message.guild.id}/${message.guild.icon}.png`
     )
-    .addField(":computer: ID da Guild", message.guild.id, true)
-    .addField(":crown: Dono", `${message.guild.owner}`, true)
-    .addField(":earth_americas: Região", `${region}`, true)
+    .addField(':computer: ID da Guild', message.guild.id, true)
+    .addField(':crown: Dono', `${message.guild.owner}`, true)
+    .addField(':earth_americas: Região', `${region}`, true)
     .addField(
       `:speech_balloon: Canais (${message.guild.channels.filter(
-        chn => chn.type === "text"
+        chn => chn.type === 'text'
       ).size +
-        message.guild.channels.filter(chn => chn.type === "voice").size})`,
+        message.guild.channels.filter(chn => chn.type === 'voice').size})`,
       `:pencil: **Texto: ${
-        message.guild.channels.filter(chn => chn.type === "text").size
+        message.guild.channels.filter(chn => chn.type === 'text').size
       }** \n :speaking_head: **Voz: ${
-        message.guild.channels.filter(chn => chn.type === "voice").size
+        message.guild.channels.filter(chn => chn.type === 'voice').size
       }**`,
       false
     )
     .addField(
       `:busts_in_silhouette: Membros (${message.guild.members.size} = ${message.guild.members.filter(m => m.user.bot).size} Bots e ${message.guild.members.filter(m => !m.user.bot).size} Humanos)`,
-      `${status["online"]}: ${
-        message.guild.members.filter(m => m.presence.status === "online").size
-      }\n${status["idle"]}: ${
-        message.guild.members.filter(m => m.presence.status === "away").size
-      }\n${status["dnd"]}: ${
-        message.guild.members.filter(m => m.presence.status === "dnd").size
-      }\n${status["offline"]}: ${
-        message.guild.members.filter(m => m.presence.status === "offline").size
+      `${status['online']}: ${
+        message.guild.members.filter(m => m.presence.status === 'online').size
+      }\n${status['idle']}: ${
+        message.guild.members.filter(m => m.presence.status === 'away').size
+      }\n${status['dnd']}: ${
+        message.guild.members.filter(m => m.presence.status === 'dnd').size
+      }\n${status['offline']}: ${
+        message.guild.members.filter(m => m.presence.status === 'offline').size
       }`,
       false
     )
-    .setFooter("Bot Criado pelo Lobo Metalúrgico", aruna.user.avatarURL)
+    .setFooter('Bot Criado pelo Lobo Metalúrgico', aruna.user.avatarURL)
     .setTimestamp();
 
   message.reply(embed);
 };
 
 exports.config = {
-  name: "serverinfo",
-  aliases: ["si"],
+  name: 'serverinfo',
+  aliases: ['si'],
   category: `${emoji.robot} Utilidades`
 };

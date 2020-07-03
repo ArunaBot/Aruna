@@ -16,59 +16,59 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
-const { database, config } = require(`../../Configs`);
+const Discord = require('discord.js');
+const { database, config } = require('../../Configs');
 
 exports.run = (aruna, message, args) => {
   database.Users.findOne({ _id: message.author.id }, function(erro, user) {
     
-  const errored = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setDescription(`Você não tem permissão para executar esse comando!`)
-    .setFooter(`Algo deu errado, ${message.author.username}`);
+    const errored = new Discord.RichEmbed()
+      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+      .setDescription('Você não tem permissão para executar esse comando!')
+      .setFooter(`Algo deu errado, ${message.author.username}`);
     
-  if(user.SUPER !== true) return message.channel.send(errored)
-  const util = require("util");
-  let code = args.join(" ");
-  let embed = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setDescription(`Você precisa digitar um código!`)
-    .setFooter(`Algo deu errado, ${message.author.username}`);
-  if (!code) return message.channel.send(embed);
+    if (user.SUPER !== true) return message.channel.send(errored);
+    const util = require('util');
+    const code = args.join(' ');
+    const embed = new Discord.RichEmbed()
+      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+      .setDescription('Você precisa digitar um código!')
+      .setFooter(`Algo deu errado, ${message.author.username}`);
+    if (!code) return message.channel.send(embed);
   
-  try {
-    let ev = eval(code);
-    let str = util.inspect(ev, { depth: 1 });
+    try {
+      const ev = eval(code);
+      let str = util.inspect(ev, { depth: 1 });
 
-    str = `${str.replace(
-      new RegExp(`${aruna.token}|${process.env.TOKEN}|${config.token}`, "g"),
-      "Erro! Você não pode exibir esta informação!"
-    )}`;
+      str = `${str.replace(
+        new RegExp(`${aruna.token}|${process.env.TOKEN}|${config.token}`, 'g'),
+        'Erro! Você não pode exibir esta informação!'
+      )}`;
 
-    if (str.length > 1800) {
-      str = str.substr(0, 1800);
-      str = str + "...";
+      if (str.length > 1800) {
+        str = str.substr(0, 1800);
+        str = str + '...';
+      }
+      const embed = new Discord.RichEmbed()
+        .setAuthor('Console')
+        .addField(
+          '(<:uploaduisvgrepocom:637027335173832727>) Entrada',
+          `\`\`\`js\n${code}\`\`\``
+        )
+        .addField(
+          '(<:developmentsvgrepocom:637027334553337896>) Saida',
+          `\`\`\`js\n${str}\`\`\``
+        )
+        .setColor([54, 57, 63]);
+      message.channel.send(embed);
+    } catch (err) {
+      message.channel.send(err.stack, { code: 'js' });
     }
-    let embed = new Discord.RichEmbed()
-      .setAuthor("Console")
-      .addField(
-        `(<:uploaduisvgrepocom:637027335173832727>) Entrada`,
-        `\`\`\`js\n${code}\`\`\``
-      )
-      .addField(
-        `(<:developmentsvgrepocom:637027334553337896>) Saida`,
-        `\`\`\`js\n${str}\`\`\``
-      )
-      .setColor([54, 57, 63]);
-    message.channel.send(embed);
-  } catch (err) {
-    message.channel.send(err.stack, { code: "js" });
-  }
-}).catch(e => {})
+  }).catch(e => {});
 };
 
 exports.config = {
-  name: "eval",
+  name: 'eval',
   aliases: [],
-  category: `🧰 Administração`
+  category: '🧰 Administração'
 };

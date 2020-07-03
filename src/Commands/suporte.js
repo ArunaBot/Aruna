@@ -16,8 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
-const { emoji } = require("../Utils");
+const Discord = require('discord.js');
+const { emoji } = require('../Utils');
 
 exports.run = async (aruna, message) => {
   const embed = new Discord.RichEmbed().setAuthor(
@@ -30,7 +30,7 @@ https://discord.gg/NqbBgEf) e venha conversar com meus desenvolvedores!`);
 };
 
 exports.config = {
-  name: "suporte",
-  aliases: ["support"],
+  name: 'suporte',
+  aliases: ['support'],
   category: `${emoji.robot} Utilidades`
 };

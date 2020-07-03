@@ -16,9 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
-const { database } = require(`../../Configs`);
-const { emoji } = require("../Utils");
+const Discord = require('discord.js');
+const { database } = require('../../Configs');
+const { emoji } = require('../Utils');
 
 exports.run = async (aruna, message) => {
   const embed = new Discord.RichEmbed(message.author);
@@ -28,19 +28,19 @@ exports.run = async (aruna, message) => {
     .setColor([255, 0, 0])
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription(
-      `Verifique se tenho permissão para lhe enviar mensagens no privado pois, é por lá que envio os comandos.`
+      'Verifique se tenho permissão para lhe enviar mensagens no privado pois, é por lá que envio os comandos.'
     )
     .setTimestamp();
   const sucesso = new Discord.RichEmbed()
     .setColor([0, 255, 0])
     .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Comandos Enviados`)
+    .setFooter('Comandos Enviados')
     .setDescription(
-      `Os comandos foram enviados em seu privado com sucesso!`
+      'Os comandos foram enviados em seu privado com sucesso!'
     )
     .setTimestamp();
 
-  let guildDB = await database.Guilds.findOne({ _id: message.guild.id });
+  const guildDB = await database.Guilds.findOne({ _id: message.guild.id });
 
   const categories = aruna.commands
     .map(c => c.config.category)
@@ -52,14 +52,14 @@ exports.run = async (aruna, message) => {
         .filter(c => c.config.category === category)
         .sort((a, b) => a.config.name.localeCompare(b.config.name))
         .map(c => guildDB.prefix + c.config.name)
-        .join(", ");
-      embed.addField(`${category}`, "```" + commands + "```", false);
-      embed.setColor("#004080");
+        .join(', ');
+      embed.addField(`${category}`, '```' + commands + '```', false);
+      embed.setColor('#004080');
       embed.setAuthor(
         `${aruna.user.username}`,
         `${aruna.user.displayAvatarURL}`
       );
-      embed.setFooter("Desenvolvida por Lobo Metalurgico#7237");
+      embed.setFooter('Desenvolvida por Lobo Metalurgico#7237');
       embed.setTimestamp();
     });
 
@@ -71,7 +71,7 @@ exports.run = async (aruna, message) => {
 };
 
 exports.config = {
-  name: "help",
-  aliases: ["ajuda", "comandos", "commands"],
+  name: 'help',
+  aliases: ['ajuda', 'comandos', 'commands'],
   category: `${emoji.robot} Utilidades`
 };

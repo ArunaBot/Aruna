@@ -16,27 +16,27 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Discord = require("discord.js");
-const { emoji } = require("../Utils");
+const Discord = require('discord.js');
+const { emoji } = require('../Utils');
 
 exports.run = async (aruna, message) => {
-  let embed = new Discord.RichEmbed()
+  const embed = new Discord.RichEmbed()
     .setAuthor(`${aruna.user.username}`, `${aruna.user.displayAvatarURL}`)
-    .setColor("#f5ebeb")
-    .setDescription(`Calculando...`);
+    .setColor('#f5ebeb')
+    .setDescription('Calculando...');
 
   message.channel.send(embed).then(async msg => {
-    let latencia = Math.round(message.createdTimestamp);
-    let api = Math.round(aruna.ping);
-    //let heartbeat = Date.now() - message.createdTimestamp;
-    let embed2 = new Discord.RichEmbed().setColor("#33def5")
+    const latencia = Math.round(message.createdTimestamp);
+    const api = Math.round(aruna.ping);
+    // let heartbeat = Date.now() - message.createdTimestamp;
+    const embed2 = new Discord.RichEmbed().setColor('#33def5')
       .setDescription(`:hourglass: | Tempo de resposta: **${msg.createdTimestamp - message.createdTimestamp}** ms
       :satellite: | Api: **${api}** ms`);
     msg.edit(embed2);
   });
 };
 exports.config = {
-  name: "ping",
-  aliases: ["pong"],
+  name: 'ping',
+  aliases: ['pong'],
   category: `${emoji.robot} Utilidades`
 };

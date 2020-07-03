@@ -16,22 +16,22 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-let array = [];
+const array = [];
 
 function add(id) {
-    array.push(id);
+  array.push(id);
 }
 
 function remove(id) {
-    array.splice(array.indexOf(id), 1)
+  array.splice(array.indexOf(id), 1);
 }
 
 function is(id) {
-    return array.includes(id);
+  return array.includes(id);
 }
 
 module.exports = {
-    add: add,
-    remove: remove,
-    is: is
-}
+  add: add,
+  remove: remove,
+  is: is
+};

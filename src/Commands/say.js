@@ -24,7 +24,7 @@ exports.run = async (aruna, message, prefix, comando) => {
 };
 
 exports.config = {
-  name: "say",
+  name: 'say',
   aliases: [],
-  category: `🎉 Entretenimento`
+  category: '🎉 Entretenimento'
 };
