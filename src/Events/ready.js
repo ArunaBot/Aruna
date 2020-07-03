@@ -32,7 +32,7 @@ exports.run = async (aruna, message) => {
       var seconds = Math.floor(seconds % 60);
       var days = Math.floor(seconds % (3600 * 24));
     
-      if (pad(days) >= "01") {
+      if (pad(days) >= "1") {
         return (
           pad(days) +
           "d " +
