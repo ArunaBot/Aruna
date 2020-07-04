@@ -44,7 +44,7 @@ var Guild = new Schema({
   ticketEnable: { type: Boolean, default: false },
   autoRole: { type: Boolean, default: false },
   autoRoleRole: { type: String, default: null },
-  isPremiun: { type: Boolean, default: false },
+  isPremium: { type: Boolean, default: false },
   isPartner: { type: Boolean, default: false }
 });
 
