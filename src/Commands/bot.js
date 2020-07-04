@@ -22,9 +22,9 @@ function format(seconds) {
   function pad(s) {
     return (s < 10 ? '0' : '') + s;
   }
+  seconds = Math.floor(seconds % 60);
   var hours = Math.floor(seconds / (60 * 60));
   var minutes = Math.floor((seconds % (60 * 60)) / 60);
-  var seconds = Math.floor(seconds % 60);
   var days = Math.floor(seconds % (3600 * 24));
 
   if (pad(days) >= '1') {
@@ -51,7 +51,7 @@ const { emojis } = require('../Utils');
 
 const { links } = require('../../Configs');
 
-exports.run = (aruna, message, args, prefix) => {
+exports.run = (aruna, message) => {
   const user = message.guild.member(aruna.user);
 
   const name = user.nickname !== null ? user.nickname : aruna.user.username;

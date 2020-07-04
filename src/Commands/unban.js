@@ -52,10 +52,11 @@ exports.run = async (aruna, message, args) => {
   
   if (!unbuser) return message.channel.send(error3);
   
+  var reason = '';
   if (!args.join(' ').slice(19)) {
-    var reason = `Desbanido por: ${message.author.username}`;
+    reason = `Desbanido por: ${message.author.username}`;
   } else {
-    var reason =
+    reason =
       `Desbanido por: ${message.author.username} com o Motivo: ` +
       args.join(' ').slice(19);
   }

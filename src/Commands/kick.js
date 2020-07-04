@@ -80,10 +80,11 @@ exports.run = async (aruna, message, args) => {
       return message.channel.send(error6);
   }
   
+  var reason = '';
   if (!args.join(' ').slice(19)) {
-    var reason = `Punido por: ${message.author.username}`;
+    reason = `Punido por: ${message.author.username}`;
   } else {
-    var reason =
+    reason =
       `Punido por: ${message.author.username} com o Motivo: ` +
       args.join(' ').slice(19);
   }

@@ -20,16 +20,16 @@ const pkg = require('../../package.json');
 const chalk = require('chalk');
 const { apiKeys, database } = require('../../Configs');
 
-exports.run = async (aruna, message) => {
+exports.run = async (aruna) => {
   log('Conectado!');
 
   function format(seconds) {
     function pad(s) {
       return (s < 10 ? '0' : '') + s;
     }
+    seconds = Math.floor(seconds % 60);
     var hours = Math.floor(seconds / (60 * 60));
     var minutes = Math.floor((seconds % (60 * 60)) / 60);
-    var seconds = Math.floor(seconds % 60);
     var days = Math.floor(seconds % (3600 * 24));
     
     if (pad(days) >= '1') {
@@ -77,7 +77,7 @@ exports.run = async (aruna, message) => {
     var maintenance = await database.System.findOne({ _id: 1 });
     var inMaintenance = maintenance.maintenance;
     if (inMaintenance === true){
-      aruna.user.setPresence({ game: { name: `🚫AVISO: MANUTENÇÃO PROGRAMADA PARA ${maintenance.date}! MEU SISTEMA FICARÁ INDISPONÍVEL POR ${maintenance.time} APROXIMADAMENTE!🚫`}});
+      aruna.user.setPresence({ game: { name: `🚫AVISO: MANUTENÇÃO PROGRAMADA PARA ${maintenance.date}! FICAREI INDISPONÍVEL POR ${maintenance.time}!🚫`}});
     } else {
       const randomStatus = status[Math.floor(Math.random() * status.length)];
       aruna.user.setPresence({ game: randomStatus });
