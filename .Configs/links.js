@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -17,9 +18,9 @@
 */
 
 module.exports = {
-    supportServers: [""],
-    invites: [""],
-    donate: [""],
-    website: "",
-    trelloBoard: ""
+    supportServers: [''],
+    invites: [''],
+    donate: [''],
+    website: '',
+    trelloBoard: ''
   };

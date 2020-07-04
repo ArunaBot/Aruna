@@ -16,17 +16,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var mongoose = require("mongoose");
-const config = require('./general.js')
+var mongoose = require('mongoose');
+const config = require('./general.js');
 
 var Schema = mongoose.Schema;
-let url = config.mongoose;
+const url = config.mongoose;
 mongoose.connect(
   url,
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
-    if (err) return console.log("(CLUSTER) => Erro\n", err);
-    console.log("(CLUSTER) => Conectado!");
+    if (err) return console.log('(CLUSTER) => Erro\n', err);
+    console.log('(CLUSTER) => Conectado!');
   }
 );
 
@@ -81,13 +81,13 @@ var System = new Schema({
   time: { type: String, default: null }
 });
 
-var Commands = mongoose.model("Commands", Command);
-var Supports = mongoose.model("Suport", Support);
-var Tickets = mongoose.model("Tickets", Ticket);
-var Systems = mongoose.model("System", System);
-var Guilds = mongoose.model("Guilds", Guild);
-var Users = mongoose.model("Users", User);
-var Ranks = mongoose.model("Rank", Rank);
+var Commands = mongoose.model('Commands', Command);
+var Supports = mongoose.model('Suport', Support);
+var Tickets = mongoose.model('Tickets', Ticket);
+var Systems = mongoose.model('System', System);
+var Guilds = mongoose.model('Guilds', Guild);
+var Users = mongoose.model('Users', User);
+var Ranks = mongoose.model('Rank', Rank);
 
 exports.Commands = Commands;
 exports.Suport = Supports;

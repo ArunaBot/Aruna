@@ -17,11 +17,11 @@
 */
 
 module.exports = {
-  prefix: "-",
-  token: "",
-  mongoose: "",
+  prefix: '-',
+  token: '',
+  mongoose: '',
   sharding: {
-    totalShards: "auto",
+    totalShards: 'auto',
     delay: 7500
   }
 };

@@ -17,9 +17,9 @@
 */
 
 module.exports = {
-  configs: require("./general.js"),
-  config: require("./general.js"),
-  links: require("./links.js"),
-  database: require("./mongoose.js"),
-  db: require("./mongoose.js")
+  configs: require('./general.js'),
+  config: require('./general.js'),
+  links: require('./links.js'),
+  database: require('./mongoose.js'),
+  db: require('./mongoose.js')
 };
