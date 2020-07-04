@@ -102,13 +102,14 @@ exports.run = async (aruna, message, args) => {
   var result = [];
 
   var loop = number;
+  var embed = '';
 
   var idVar = setInterval(() => {
     if (loop <= 0) {
       
       if (number > 1) {
 
-        var embed = new Discord.RichEmbed()
+        embed = new Discord.RichEmbed()
           .setAuthor(
             `Resultado dos ${number} dados de ${dice} lados girados por ${message.author.username}`,
             message.author.avatarURL
@@ -117,7 +118,7 @@ exports.run = async (aruna, message, args) => {
           .setFooter(`Dados de ${message.author.username}`)
           .setTimestamp();
       } else {
-        var embed = new Discord.RichEmbed()
+        embed = new Discord.RichEmbed()
           .setAuthor(
             `Resultado do dado de ${dice} lados girado por ${message.author.username}`,
             message.author.avatarURL
