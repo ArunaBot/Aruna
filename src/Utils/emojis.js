@@ -36,7 +36,7 @@ module.exports = {
   upload: '<:uploaduisvgrepocom:637027335173832727>',
   dev: '<:developmentsvgrepocom:637027334553337896>',
   nitro: '<:nitro:728819044211359746>',
-  partner: '<:partner:728817797970264081>',
-  partnerPlus: '<:partnerPlus:728816348892889118>',
-  premiun: '<:vip:637724538553237553>'
+  partner: '<:partner:728849144734810163>',
+  partnerPlus: '<:partnerPlus:728845414274564146>',
+  premium: '<:vip:728816348892889118>'
 };

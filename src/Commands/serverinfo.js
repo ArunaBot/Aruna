@@ -30,16 +30,18 @@ const status = {
   offline: `${emoji.offline} Offline`
 };
 
-exports.run = (aruna, message) => {
-  const guildDB = database.Guilds.findOne({ _id: message.guild.id });
+exports.run = async (aruna, message) => {
+  const guildDB = await database.Guilds.findOne({ _id: message.guild.id });
   var pType = '';
 
-  if (guildDB.isPartner == true && guildDB.isPremiun == true){
+  if (guildDB.isPartner == true && guildDB.isPremium == true){
     pType = emoji.partnerPlus;
   } else if (guildDB.isPartner == true) {
     pType = emoji.partner;
-  } else if (guildDB.isPremiun == true){
-    pType = emoji.premiun;
+  } else if (guildDB.isPremium == true){
+    pType = emoji.premium;
+  } else {
+    pType = emoji.discord;
   }
 
   var region = message.guild.region;
@@ -61,7 +63,7 @@ exports.run = (aruna, message) => {
 
   const embed = new Discord.RichEmbed()
     .setColor([0, 23, 132])
-    .setAuthor(`${message.guild.name} ${pType}`, 'https://cdn.discordapp.com/emojis/314003252830011395.png')
+    .setTitle(`${pType} ${message.guild.name}`)
     .setThumbnail(
       `https://cdn.discordapp.com/icons/${message.guild.id}/${message.guild.icon}.png`
     )
