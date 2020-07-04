@@ -18,21 +18,21 @@
 */
 
 const { emoji } = require('../Utils');
-const { links } = require('../../Configs');
+const pkg = require('../../package.json');
 const Discord = require('discord.js');
 
 exports.run = async (aruna, message) => {
   const embed = new Discord.RichEmbed().setAuthor(
     `Olá, ${message.author.username}`
   )
-    .setDescription(`Fico feliz que tenha gostado de mim e queira me adicionar :) 
-\nPara isso, basta clicar [aqui](${links.invites[0]}), selecionar o servidor na lista, confirmar o reCaptcha e pronto! Eu estarei em seu servidor! 
-\nNovamente, obrigado pelo interesse e nos vemos em seu servidor!`);
+    .setDescription(`Fico feliz que tenha gostado de mim e que queira contribuir com meu desenvolvimento :) 
+\nPara ver meu repositório e poder ajudar, basta clicar [aqui](${pkg.repository.url}), dar "fork" no repositório, editar minha branch "Unstable" e fazer um pull request no meu repositório principal e pronto! Você já terá contriubuído comigo :)
+\nNovamente, obrigado pelo interesse e nos vemos no nosso git!`);
   message.channel.send(embed);
 };
 
 exports.config = {
-  name: 'invite',
-  aliases: ['convidar', 'convite'],
+  name: 'github',
+  aliases: ['git', 'repo', 'repositório', 'repositorio'],
   category: `${emoji.robot} Utilidades`
 };
