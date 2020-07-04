@@ -42,8 +42,11 @@ exports.run = async (aruna, message) => {
     .setTimestamp();
 
   const guildDB = await database.Guilds.findOne({ _id: message.guild.id });
+  const userDB = await database.Users.findOne({ _id: message.author.id });
 
-  const categories = aruna.commands
+  var categories = '';
+
+  categories = aruna.commands
     .map(c => c.config.category)
     .filter((v, i, a) => a.indexOf(v) === i);
   categories
@@ -54,13 +57,17 @@ exports.run = async (aruna, message) => {
         .sort((a, b) => a.config.name.localeCompare(b.config.name))
         .map(c => guildDB.prefix + c.config.name)
         .join(', ');
-      embed.addField(`${category}`, '```' + commands + '```', false);
+      if (category == '🧰 Administração' && userDB.SUPER == false) {
+        null;
+      } else {
+        embed.addField(`${category}`, '```' + commands + '```', false);
+      }
       embed.setColor('#004080');
       embed.setAuthor(
         `${aruna.user.username}`,
         `${aruna.user.displayAvatarURL}`
       );
-      embed.setFooter('Desenvolvida por Lobo Metalurgico#7237');
+      embed.setFooter(`Comando Solicitado por ${message.author.username}#${message.author.discriminator}`, message.author.avatarURL);
       embed.setTimestamp();
     });
 
