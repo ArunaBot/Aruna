@@ -18,6 +18,10 @@
 */
 
 const Discord = require('discord.js');
+// eslint-disable-next-line no-unused-vars
+const { date } = require('../Utils');
+const dateFormat = require('dateformat');
+const now = new Date();
 
 exports.run = async (aruna, message, args) => {
   
@@ -95,7 +99,7 @@ exports.run = async (aruna, message, args) => {
     .setDescription(`Expulsão efetuada por ${message.author.username}`)
     .addField('Usuário Expulso: ', `${kuser} id ${kuser.id}`, false)
     .addField('Expulso por: ', `<@${message.author.id}>`, false)
-    .addField('Data de Expulsão: ', message.createdAt, false)
+    .addField('Data de Expulsão: ', dateFormat(now, 'dd/mm/yyyy "às" HH:MM:ss'), false)
     .addField('Motivo: ', `${reason}`, false)
     .setTimestamp();
 

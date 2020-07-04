@@ -17,6 +17,7 @@
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
     "chalk": "^4.1.0",
+    "dateformat": "^3.0.3",
     "dbots": "^4.0.0",
     "discord.js": "^11.6.4",
     "express": "^4.17.1",

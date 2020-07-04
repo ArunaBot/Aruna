@@ -22,5 +22,6 @@ module.exports = {
   emojis: require('./emojis.js'),
   emoji: require('./emojis.js'),
   activeticket: require('./activeTicket.js'),
-  cooldown: require('./cooldown.js')
+  cooldown: require('./cooldown.js'),
+  date: require('./date.js')
 };
