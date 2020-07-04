@@ -1,3 +1,4 @@
+/* eslint-disable no-redeclare */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -18,7 +19,7 @@
 
 const { database } = require('../../Configs');
 
-exports.run = async (aruna, message, args) => {
+exports.run = async (aruna, message) => {
   const guild = await database.Guilds.findsOne({ _id: message.guild.id });
 
   if (guild.ticketSupportID == null) {

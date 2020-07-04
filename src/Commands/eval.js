@@ -64,7 +64,9 @@ exports.run = (aruna, message, args) => {
     } catch (err) {
       message.channel.send(err.stack, { code: 'js' });
     }
-  }).catch(e => {});
+  }).catch(e => {
+    console.log(e);
+  });
 };
 
 exports.config = {

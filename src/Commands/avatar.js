@@ -18,7 +18,7 @@
 
 const Discord = require('discord.js');
 
-exports.run = (aruna, message, args, prefix) => {
+exports.run = (aruna, message, args) => {
   const user1 = message.guild.member(
     message.mentions.users.first() || aruna.users.get(args[0]) || message.author
   );

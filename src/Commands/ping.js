@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -26,7 +27,7 @@ exports.run = async (aruna, message) => {
     .setDescription('Calculando...');
 
   message.channel.send(embed).then(async msg => {
-    const latencia = Math.round(message.createdTimestamp);
+    // const latencia = Math.round(message.createdTimestamp);
     const api = Math.round(aruna.ping);
     // let heartbeat = Date.now() - message.createdTimestamp;
     const embed2 = new Discord.RichEmbed().setColor('#33def5')

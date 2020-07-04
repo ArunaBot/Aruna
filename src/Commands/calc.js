@@ -47,11 +47,11 @@ exports.run = (aruna, message, args) => {
   const embed = new Discord.RichEmbed()
     .setAuthor('Calculadora V2')
     .addField(
-      `(${emoji.upload}) Entrada`,
+      `(${emojis.upload}) Entrada`,
       `\`\`\`js\n${args.join(' ')}\`\`\``
     )
     .addField(
-      `(${emoji.dev}) Saida`,
+      `(${emojis.dev}) Saida`,
       `\`\`\`js\n${response}\`\`\``
     )
     .setColor([54, 57, 63]);

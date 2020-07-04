@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-exports.run = async (aruna, message, args) => {
+exports.run = async (aruna, message) => {
   var add = Math.round(Math.random());
   if (add == 0){
     message.channel.send('Cara!');

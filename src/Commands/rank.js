@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -18,7 +19,7 @@
 
 const Discord = require('discord.js');
 const { database } = require('../../Configs');
-const { emoji } = require('../Utils');
+const { utils } = require('../Utils');
 
 exports.run = async (aruna, message, args) => {
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
@@ -49,12 +50,14 @@ exports.run = async (aruna, message, args) => {
   let level = rank.level;
   if (level === null) level = 0;
 
-  const embed2 = new Discord.RichEmbed()
+  /* 
+    const embed2 = new Discord.RichEmbed()
     .setColor([54, 57, 63])
     .setAuthor('RANK: ' + userid.user.username, userid.user.avatarURL)
     .addField('Nível', level, true)
     .addField('Xp Atual', xp, true)
     .setTimestamp();
+  */
 
   const need = utils.need(level);
 
