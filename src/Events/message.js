@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -20,7 +21,7 @@ const Discord = require('discord.js');
 var { database, config, links } = require('../../Configs');
 const { utils, cooldown } = require('../Utils');
 
-exports.run = async (aruna, message, args) => {
+exports.run = async (aruna, message) => {
   if (message.author.bot) return;
 
   const emojiError = 'Para meu funcionamento, preciso da permissão de `Usar Emojis Externos`. Por favor, solicite para algum administrador que ative isso para que eu possa funcionar :)';
@@ -146,6 +147,10 @@ exports.run = async (aruna, message, args) => {
           }
         }
       }
-    }).catch(e => {});
-  }).catch(e => {});
+    }).catch(e => {
+      console.log(e);
+    });
+  }).catch(e => {
+    console.log(e);
+  });
 };

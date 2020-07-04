@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -65,6 +66,7 @@ exports.run = async (aruna, message) => {
 
   message.channel.send(sucesso).then(msg => {
     message.author.send(embed).catch(err => {
+      console.log(err);
       msg.edit(error1);
     });
   });

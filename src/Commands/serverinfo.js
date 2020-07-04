@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -26,7 +27,7 @@ const status = {
   offline: `${emoji.offline} Offline`
 };
 
-exports.run = (aruna, message, args) => {
+exports.run = (aruna, message) => {
   var region = message.guild.region;
 
   if (region === 'brazil') region = ':flag_br: Brasil';
