@@ -73,6 +73,10 @@ exports.run = async (aruna) => {
       name: `Versão ${pkg.version}`,
       type: 'streaming',
       url: 'https://www.twitch.tv/lobometalurgico'
+    },
+    {
+      name: `Seu Shard é o ${aruna.shard.id}!`,
+      type: 'watching'
     }
   ];
   async function setStatus() {
