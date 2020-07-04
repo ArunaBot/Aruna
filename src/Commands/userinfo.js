@@ -16,8 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// eslint-disable-next-line no-unused-vars
+const { emoji, date } = require('../Utils');
 const Discord = require('discord.js');
-const { emoji } = require('../Utils');
+const dateFormat = require('dateformat');
 
 exports.run = (aruna, message, args) => {
   
@@ -37,8 +39,14 @@ exports.run = (aruna, message, args) => {
         (24 * 60 * 60 * 1000)
     )
   );
+  const userDaysGuild = Math.round(
+    Math.abs(
+      (mentionedUser.joinedAt.getTime() - new Date().getTime()) /
+        (24 * 60 * 60 * 1000)
+    )
+  );
   let userStatus;
-  if (mentionedUser.presence.status === 'dnd') userStatus = 'Não pertubar';
+  if (mentionedUser.presence.status === 'dnd') userStatus = 'Não Pertube';
   if (mentionedUser.presence.status === 'idle') userStatus = 'Ausente';
   if (mentionedUser.presence.status === 'stream') userStatus = 'Transmitindo';
   if (mentionedUser.presence.status === 'offline') userStatus = 'Offline';
@@ -64,78 +72,43 @@ exports.run = (aruna, message, args) => {
   if (userAvatar.endsWith('.gif')) {
     userAvatar = `${mentionedUser.user.displayAvatarURL}?size=2048`;
   }
-  const userRoles = `${mentionedUser.roles.map(roles => roles).join(' | ') ||
-    `${emoji.error} Sem Cargo`}`;
-  /* let trad = {
-    CREATE_INSTANT_INVITE: "`Criar convite instantâneo`",
-    KICK_MEMBERS: "`Expulsar usuários`",
-    BAN_MEMBERS: "`Banir usuários`",
-    ADMINISTRATOR: "`Administrador`",
-    MANAGE_CHANNELS: "`Gerenciar canais`",
-    MANAGE_GUILD: "`Gerenciar servidor`",
-    ADD_REACTIONS: "`Adicionar reação`",
-    VIEW_AUDIT_LOG: "`Ver registro de auditoria`",
-    VIEW_CHANNEL: "`Ver canais`",
-    READ_MESSAGES: "`Ver mensagens`",
-    SEND_MESSAGES: "`Enviar mensagens`",
-    SEND_TTS_MESSAGES: "`Enviar mensagens com aúdio`",
-    MANAGE_MESSAGES: "`Gerenciar mensagens`",
-    EMBED_LINKS: "`Links em embed`",
-    ATTACH_FILES: "`Arquivos arquivados`",
-    READ_MESSAGE_HISTORY: "`Ver histórico de mensagens`",
-    MENTION_EVERYONE: "`Mencionar todos`",
-    EXTERNAL_EMOJIS: "`Emojis externos`",
-    USE_EXTERNAL_EMOJIS: "`Usar emojis externos`",
-    CONNECT: "`Conectar`",
-    SPEAK: "`Falar`",
-    MUTE_MEMBERS: "`Silenciar usuários`",
-    DEAFEN_MEMBERS: "`Perdoar usuários`",
-    MOVE_MEMBERS: "`Mover usuários`",
-    USE_VAD: "`Usar detecção de voz`",
-    PRIORITY_SPEAKER: "`Prioridade para falar`",
-    CHANGE_NICKNAME: "`Trocar apelido`",
-    MANAGE_NICKNAMES: "`Gerenciar apelidos`",
-    MANAGE_ROLES: "`Gerenciar cargos`",
-    MANAGE_ROLES_OR_PERMISSIONS: "`Gerenciar cargos e permissões`",
-    MANAGE_WEBHOOKS: "`Gerenciar webhooks`",
-    MANAGE_EMOJIS: "`Gerenciar emojis`"
-  };
-  let userPerms = mentionedUser.permissions
-    .toArray()
-    .map(perms => `${trad[perms]}`)
-    .join(", ");
-*/
-  var stringtime = '';
+
+  var stringtime1 = '';
+  if (userDaysDiscord == 1) stringtime1 = 'dia';
+  else stringtime1 = 'dias';
+
+  var stringtime2 = '';
+  if (userDaysGuild == 1) stringtime2 = 'dia';
+  else stringtime2 = 'dias';
+
+  const premium = message.guild.member(message.author).premiumSinceTimestamp;
+  var userBoost = '';
+  if (premium !== null) {
+    userBoost = `${emoji.nitro} Impulsionando Desde: ${dateFormat(message.guild.member(message.author).premiumSinceTimestamp, 'dd/mm/yyyy "às" HH:MM:ss')}\n`;
+  }
+  const accountCreated = dateFormat(mentionedUser.user.createdTimestamp, 'dd/mm/yyyy "às" HH:MM:ss');
+  const joinedIn = dateFormat(mentionedUser.joinedTimestamp, 'dd/mm/yyyy "às" HH:MM:ss');
   
-  if (userDaysDiscord == 1) stringtime = 'dia';
-  else stringtime = 'dias';
-    
   const embed = new Discord.RichEmbed()
     .setAuthor(`${mentionedUser.user.username}`, `${userAvatar}`)
-    .addField(
-      `(${emoji.boss}) Nome`,
-      `${mentionedUser.user.username}`,
-      true
-    )
-    .addField(`(${userStatusEmoji}) Status`, `${userStatus}`, true)
-    .addField(
-      `(${emoji.customer}) Administrador`,
-      `${userAdminServer}`,
-      true
-    )
-    .addField(
-      `(${emoji.menu}) Discord Tag`,
-      `${mentionedUser.user.tag}`,
-      true
-    )
-    .addField(`(${emoji.discord}) Apelido`, `${userNickName}`, true)
-    .addField(
-      `(${emoji.pass}) Dias no discord`,
-      `${userDaysDiscord} ${stringtime}`,
-      true
-    )
-    .addField(`(${emoji.picture}) Cargos`, `${userRoles}`, true)
-    .setFooter('Criada pelo Lobo Metalurgico')
+    .addField('Informações do Usuário', `
+    🙋 **Nome:** \`${mentionedUser.user.username}\`
+
+    ${emoji.menu} **Tag Completa:** \`${mentionedUser.user.tag}\`
+
+    **Id:** \`${mentionedUser.user.id}\`
+
+    ${userStatusEmoji} **Status:** \`${userStatus}\`
+
+    ${emoji.pass} **Criou a Conta Em:** \`${accountCreated}\` (${userDaysDiscord} ${stringtime1} atrás)`, false)
+
+    .addField('Informações do Membro', `
+    (${emoji.discord}) **Apelido:** \`${userNickName}\`
+
+    (👮) **É Administrador:** \`${userAdminServer}\`
+    ${userBoost}
+    (:date:) **Entrou Em:** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} atrás)`, false)
+    .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
     .setThumbnail(userAvatar)
     .setColor('#56eaf5')
     .setTimestamp();
