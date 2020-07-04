@@ -18,7 +18,10 @@
 */
 
 const Discord = require('discord.js');
-const { emoji } = require('../Utils');
+// eslint-disable-next-line no-unused-vars
+const { emoji, date } = require('../Utils');
+const { database } = require('../../Configs');
+const dateFormat = require('dateformat');
 
 const status = {
   online: `${emoji.online} Online`,
@@ -28,6 +31,17 @@ const status = {
 };
 
 exports.run = (aruna, message) => {
+  const guildDB = database.Guilds.findOne({ _id: message.guild.id });
+  var pType = '';
+
+  if (guildDB.isPartner == true && guildDB.isPremiun == true){
+    pType = emoji.partnerPlus;
+  } else if (guildDB.isPartner == true) {
+    pType = emoji.partner;
+  } else if (guildDB.isPremiun == true){
+    pType = emoji.premiun;
+  }
+
   var region = message.guild.region;
 
   if (region === 'brazil') region = ':flag_br: Brasil';
@@ -47,27 +61,30 @@ exports.run = (aruna, message) => {
 
   const embed = new Discord.RichEmbed()
     .setColor([0, 23, 132])
-    .setAuthor(`${message.guild.name}`)
+    .setAuthor(`${message.guild.name} ${pType}`, 'https://cdn.discordapp.com/emojis/314003252830011395.png')
     .setThumbnail(
       `https://cdn.discordapp.com/icons/${message.guild.id}/${message.guild.icon}.png`
     )
     .addField(':computer: ID da Guild', message.guild.id, true)
     .addField(':crown: Dono', `${message.guild.owner}`, true)
     .addField(':earth_americas: Região', `${region}`, true)
+    .addField(':date: Data de Criação', `${dateFormat(message.guild.createdTimestamp, 'dd/mm/yyyy "às" HH:MM:ss')}`, true)
+    .addField(':desktop: Shard ID', aruna.shard.id, true)
+    .addField(':dizzy: Entrei Em', dateFormat(message.guild.member(aruna.user).joinedTimestamp, 'dd/mm/yyyy "às" HH:MM:ss'), true)
     .addField(
       `:speech_balloon: Canais (${message.guild.channels.filter(
         chn => chn.type === 'text'
       ).size +
         message.guild.channels.filter(chn => chn.type === 'voice').size})`,
-      `:pencil: **Texto: ${
+      `:pencil: Texto: ${
         message.guild.channels.filter(chn => chn.type === 'text').size
-      }** \n :speaking_head: **Voz: ${
+      } \n :speaking_head: Voz: ${
         message.guild.channels.filter(chn => chn.type === 'voice').size
-      }**`,
+      }`,
       false
     )
     .addField(
-      `:busts_in_silhouette: Membros (${message.guild.members.size} = ${message.guild.members.filter(m => m.user.bot).size} Bots e ${message.guild.members.filter(m => !m.user.bot).size} Humanos)`,
+      `:busts_in_silhouette: ${message.guild.members.size} Membros (Sendo ${message.guild.members.filter(m => m.user.bot).size} Bots e ${message.guild.members.filter(m => !m.user.bot).size} Humanos)`,
       `${status['online']}: ${
         message.guild.members.filter(m => m.presence.status === 'online').size
       }\n${status['idle']}: ${
@@ -79,7 +96,12 @@ exports.run = (aruna, message) => {
       }`,
       false
     )
-    .setFooter('Bot Criado pelo Lobo Metalúrgico', aruna.user.avatarURL)
+    .addField(`${emoji.nitro} Informações sobre Impulsos`, 
+      `${emoji.nitro} » Nível do Impulso: ${message.guild.premiumTier}
+      ${emoji.nitro} » Quantidade de Impulsos: ${message.guild.premiumSubscriptionCount}`,
+      false
+    )
+    .setFooter(`Comando Solicitado por ${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
     .setTimestamp();
 
   message.reply(embed);

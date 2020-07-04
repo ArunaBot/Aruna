@@ -25,7 +25,7 @@ module.exports = {
   dnd: '<:dnd:637026749401530369>',
   idle: '<:idle:637026749540204586>',
   streamming: '<:stream:637026750538317873>',
-  discord: '<:discordpngrepocom:637027162892926986>',
+  discord: '<:discord:728820560317906964>',
   menu: '<:menu:638183751368704030>',
   pass: '<:pass:638073603644063774>',
   boss: '<:bosspngrepocom:637026749225631746>',
@@ -34,5 +34,9 @@ module.exports = {
   passport: '<:passport:638067652337729597>',
   error: '<:errorsvgrepocom:637027333986975770>',
   upload: '<:uploaduisvgrepocom:637027335173832727>',
-  dev: '<:developmentsvgrepocom:637027334553337896>'
+  dev: '<:developmentsvgrepocom:637027334553337896>',
+  nitro: '<:nitro:728819044211359746>',
+  partner: '<:partner:728817797970264081>',
+  partnerPlus: '<:partnerPlus:728816348892889118>',
+  premiun: '<:vip:637724538553237553>'
 };
