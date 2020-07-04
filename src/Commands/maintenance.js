@@ -14,7 +14,7 @@ exports.run = (aruna, message, args) => {
 };
 
 exports.config = {
-  name: 'Manutenção',
+  name: 'manutenção',
   aliases: [],
   category: '🧰 Administração'
 };

@@ -115,8 +115,8 @@ exports.run = async (aruna, message) => {
         const ma = message.content.split(' ');
         const cmd = ma[0];
         const commandFile =
-          aruna.commands.get(cmd.slice(prefix.length)) ||
-          aruna.commands.get(aruna.aliases.get(cmd.slice(prefix.length)));
+          aruna.commands.get(cmd.slice(prefix.length).toLowerCase()) ||
+          aruna.commands.get(aruna.aliases.get(cmd.slice(prefix.length).toLowerCase()));
 
         if (commandFile) {
           if (!message.guild.members.get(aruna.user.id).hasPermission('USE_EXTERNAL_EMOJIS')) {
