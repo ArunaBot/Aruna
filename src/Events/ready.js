@@ -25,31 +25,23 @@ const { apiKeys, database } = require('../../Configs');
 exports.run = async (aruna) => {
   log('Conectado!');
 
-  function format(seconds) {
-    function pad(s) {
-      return (s < 10 ? '0' : '') + s;
-    }
-    seconds = Math.floor(seconds % 60);
-    var hours = Math.floor(seconds / (60 * 60));
-    var minutes = Math.floor((seconds % (60 * 60)) / 60);
-    var days = Math.floor(seconds % (3600 * 24));
-    
-    if (pad(days) >= '1') {
-      return (
-        pad(days) +
-          'd ' +
-          pad(hours - 24) +
-          'h ' +
-          pad(minutes) +
-          'm'
-      );
-    } else if (pad(hours) >= '1') {
-      return pad(hours) + 'h ' + pad(minutes) + 'm ' + pad(seconds) + 's';
-    } else if (pad(minutes) >= '1') {
-      return pad(minutes) + 'm ' + pad(seconds) + 's';
-    } else {
-      return pad(seconds) + 's';
-    }
+  let totalSeconds = (aruna.uptime / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor(totalSeconds / 3600);
+  totalSeconds %= 3600;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  var uptime = '';
+
+  if (days >= 1) {
+    uptime = `${days}d, ${hours}h, ${minutes}m`;
+  } else if (hours >= 1) {
+    uptime = `${hours}h, ${minutes}m, ${seconds}s`;
+  } else if (minutes >= 1) {
+    uptime = `${minutes}m, ${seconds}s`;
+  } else {
+    uptime = `${seconds}s`;
   }
 
   const status = [
@@ -62,7 +54,7 @@ exports.run = async (aruna) => {
       type: 'listening'
     },
     { 
-      name: `Faz ${format(process.uptime())}`, 
+      name: `Faz ${uptime}`, 
       type: 'playing' 
     },
     {
