@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -55,7 +56,7 @@ fs.readdir('./src/Commands/', (err, files) => {
   if (jsfile.length <= 0) {
     return warn('[COMMANDS] Not Found!');
   }
-  jsfile.forEach((f, i) => {
+  jsfile.forEach(f => {
     const pull = require(`./Commands/${f}`);
     aruna.commands.set(pull.config.name, pull);
     log(`[COMMAND] => ${f}`);
@@ -82,6 +83,7 @@ function error(...a) {
   return console.error(logPrefix(), chalk.red(...a));
 }
 
+// eslint-disable-next-line no-unused-vars
 function debug(...a) {
   return console.debug(logPrefix(), chalk.magenta(...a));
 }

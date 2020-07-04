@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -78,6 +79,7 @@ exports.run = async (aruna, message, args) => {
       return message.channel.send(error3);
     }
 
+    // eslint-disable-next-line no-unused-vars
     const m = await message.channel.send(
       'Criando Ticket. Por favor, aguarde um momento...'
     );

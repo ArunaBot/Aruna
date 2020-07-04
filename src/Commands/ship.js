@@ -19,7 +19,7 @@
 const Discord = require('discord.js');
 const Jimp = require('jimp');
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
   const error1 = new Discord.RichEmbed()
     .setAuthor('Oops!', message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
@@ -54,8 +54,6 @@ exports.run = async (client, message, args) => {
   const aido = new Array();
   aido[1] = 'Msg 1';
   aido[2] = 'Msg 2';
-
-  var i = Math.floor(2 * Math.random());
 
   var mensagem =
     porcentagem <= 10
@@ -97,8 +95,6 @@ exports.run = async (client, message, args) => {
       }
     ]
   });
-
-  // message.channel.send(embed);
 };
 
 exports.config = {
