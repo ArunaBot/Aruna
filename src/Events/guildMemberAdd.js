@@ -30,6 +30,7 @@ exports.run = async (aruna, member) => {
   if (!user) {
     var saveU = await new database.Users({ _id: member.user.id });
     await saveU.save();
+    console.log("New Member on database :)")
   }
   
   if (member.guild.id == serverStatsPrincipal.guildID) {
