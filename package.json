@@ -1,27 +1,36 @@
 {
   "name": "arunabot",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "A nova e melhorada aruna!",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "node sharding.js",
-    "start-nonsharded": "node main.js"
+    "start": "node src/sharding.js",
+    "eslint": "eslint ./src",
+    "eslint:fix": "eslint ./src --fix"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ArunaBot/Aruna.git"
+  },
+  "author": "Lobo Metalurgico",
+  "license": "AGPL-3.0",
   "dependencies": {
-    "express": "^4.17.1",
+    "@discordjs/opus": "^0.3.2",
+    "chalk": "^4.1.0",
+    "dateformat": "^3.0.3",
+    "dbots": "^4.0.0",
     "discord.js": "^11.6.4",
-    "fs": "^0.0.2",
-    "mongoose": "^5.9.7",
-    "moment": "^2.24.0",
-    "moment-duration-format": "^2.2.2",
+    "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "dotenv": "^8.2.0",
-    "ytdl-core": "^2.0.1",
-    "node-opus": "^0.3.2",
-    "jimp": "^0.10.1",
+    "jimp": "^0.13.0",
+    "mathjs": "^7.0.1",
+    "moment": "^2.26.0",
+    "moment-duration-format": "^2.3.2",
+    "mongoose": "^5.9.18",
     "superagent": "^5.2.2",
-    "mathjs": "^6.6.3",
-    "chalk": "^4.0.0",
-    "dblapi.js": "^2.4.0"
+    "ytdl-core": "^2.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.1"
   }
 }

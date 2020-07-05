@@ -1,4 +1,4 @@
 .env
-configs/
+Configs/
 node_modules/
-_main.js
+.vscode/
