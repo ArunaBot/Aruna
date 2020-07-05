@@ -44,6 +44,8 @@ exports.run = async (aruna, message) => {
   const guildDB = await database.Guilds.findOne({ _id: message.guild.id });
   const userDB = await database.Users.findOne({ _id: message.author.id });
 
+  var prefix = guildDB.prefix;
+
   var categories = '';
 
   categories = aruna.commands
@@ -55,7 +57,7 @@ exports.run = async (aruna, message) => {
       const commands = aruna.commands
         .filter(c => c.config.category === category)
         .sort((a, b) => a.config.name.localeCompare(b.config.name))
-        .map(c => guildDB.prefix + c.config.name)
+        .map(c => prefix + c.config.name)
         .join(', ');
       if (category == '🧰 Administração' && userDB.SUPER == false) {
         null;

@@ -92,8 +92,8 @@ var Users = mongoose.model('Users', User);
 var Ranks = mongoose.model('Rank', Rank);
 
 exports.Commands = Commands;
-exports.Suport = Supports;
 exports.Tickets = Tickets;
+exports.Suport = Supports;
 exports.System = Systems;
 exports.Guilds = Guilds;
 exports.Users = Users;
