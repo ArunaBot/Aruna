@@ -41,9 +41,16 @@ exports.run = async (aruna, message) => {
       usuario
     ) {
       if (!servidor) {
+        var language = '';
+        if(message.guild.region == 'brazil') {
+          language = 'PT-BR';
+        } else {
+          language = 'EN_US';
+        }
         console.log('No Server!');
         var saveG = await new database.Guilds({
-          _id: message.guild.id
+          _id: message.guild.id,
+          language: language
         });
         await saveG.save();
         servidor = await database.Guilds.findOne({ _id: message.guild.id });

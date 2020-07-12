@@ -19,7 +19,13 @@
 var { database } = require('../../Configs');
 
 exports.run = async (aruna, guild) => {
-  var saveG = await new database.Guilds({ _id: guild.id });
+  var language = '';
+  if(guild.region == 'brazil') {
+    language = 'PT-BR';
+  } else {
+    language = 'EN_US';
+  }
+  var saveG = await new database.Guilds({ _id: guild.id, language: language });
   await saveG.save();
   console.log('New Server Entry! :)');
 };
