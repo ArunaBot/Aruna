@@ -54,6 +54,9 @@ exports.run = (aruna, message) => {
     .addField('(📃) Canais', `${aruna.channels.size}`, true)
     .addField('(🖥️) Servidores', `${aruna.guilds.size}`, true)
     .addField('(🕹️) Usuários', `${aruna.users.size}`, true)
+    .addField('(💻) Seu Shard', `${aruna.shard.id}`, true)
+    .addField('(💠) Status do Shard', 'ONLINE', true) /** @todo status verdadeiro e-e */
+    .addField('(🏓) Ping do Shard', `${aruna.ping}ms`, true) /** @todo ping do shard, não do bot */
     .addField(
       'Convite',
       `${links.invites[0] ? `[Link](${links.invites[0]})` : 'INDISPONÍVEL'}`,
@@ -65,13 +68,15 @@ exports.run = (aruna, message) => {
       `${links.supportServers[0] ? `[Link](${links.supportServers[0]})` : 'INDISPONÍVEL'}`,
       true
     )
-    .setThumbnail(`${aruna.user.displayAvatarURL}`);
+    .setThumbnail(`${aruna.user.displayAvatarURL}`)
+    .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
+    .setTimestamp();
   message.channel.send(embed);
 };
 
 exports.config = {
-  name: 'bot',
-  aliases: ['botinfo'],
+  name: 'botinfo',
+  aliases: ['bot', 'uptime'],
   description: 'Lista as Principais informações do bot',
   category: `${emojis.robot} Utilidades`
 };
