@@ -18,9 +18,9 @@
 */
 
 module.exports = {
-    supportServers: [''],
-    invites: [''],
-    donate: [''],
-    website: '',
-    trelloBoard: ''
-  };
+  supportServers: [''],
+  invites: [''],
+  donate: [''],
+  website: '',
+  trelloBoard: ''
+};
