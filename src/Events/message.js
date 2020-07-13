@@ -42,7 +42,7 @@ exports.run = async (aruna, message) => {
     ) {
       if (!servidor) {
         var language = '';
-        if(message.guild.region == 'brazil') {
+        if (message.guild.region == 'brazil') {
           language = 'PT-BR';
         } else {
           language = 'EN_US';
@@ -58,7 +58,11 @@ exports.run = async (aruna, message) => {
 
       if (!usuario) {
         console.log('No User!');
-        var saveU = await new database.Users({ _id: message.author.id });
+        var isSuper = false;
+        if (config.superUsersId.includes(message.author.id)) {
+          isSuper = true;
+        }
+        var saveU = await new database.Users({ _id: message.author.id, SUPER: isSuper });
         await saveU.save();
         usuario = await database.Users.findOne({ _id: message.author.id });
       }

@@ -20,6 +20,7 @@ module.exports = {
   prefix: '-',
   token: '',
   mongoose: '',
+  superUsersId: ['281515925960654848'], // Your User ID Comes Here!
   sharding: {
     totalShards: 'auto',
     delay: 7500
