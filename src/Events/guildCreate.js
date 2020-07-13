@@ -20,7 +20,7 @@ var { database } = require('../../Configs');
 
 exports.run = async (aruna, guild) => {
   var language = '';
-  if(guild.region == 'brazil') {
+  if (guild.region == 'brazil') {
     language = 'PT-BR';
   } else {
     language = 'EN_US';
