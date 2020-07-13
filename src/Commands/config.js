@@ -28,7 +28,7 @@ exports.run = async (aruna, message, args) => {
   
   const user = await database.Users.findOne({ _id: message.author.id });
 
-  const nopermission = new Discord.RichEmbed()
+  const noPermission = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Você não possui a permissão de `Gerenciar Servidor`')
@@ -78,11 +78,11 @@ exports.run = async (aruna, message, args) => {
     .setColor([0, 255, 0])
     .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
     .setFooter('Sucesso!')
-    .setDescription(`Prefixo definido para \`${args[1]}\` com sucesso!`)
+    .setDescription(`Prefixo definido para \`${args[2]}\` com sucesso!`)
     .setTimestamp();
 
   if (!message.member.hasPermission('MANAGE_GUILD'))
-    return message.channel.send(nopermission);
+    return message.channel.send(noPermission);
 
   if (!args || !args[0]) return message.channel.send(error1);
 
@@ -155,7 +155,7 @@ exports.run = async (aruna, message, args) => {
       activeticket.run(aruna, message);
       guild.ticketEnable = true;
       guild.save();
-    } else if (command === 'autoRole' || command === 'autorole') {
+    } else if (command === 'autocargo' || command === 'autorole') {
       guild.autoRole = true;
       guild.save();
     }
@@ -169,7 +169,7 @@ exports.run = async (aruna, message, args) => {
     } else if (command === 'ticket') {
       guild.ticketEnable = false;
       guild.save();
-    } else if (command === 'autoRole' || command === 'autorole') {
+    } else if (command === 'autocargo' || command === 'autorole') {
       guild.autoRole = false;
       guild.save();
     }
