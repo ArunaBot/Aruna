@@ -25,13 +25,17 @@ const serverStatsPrincipal = {
 };
 
 exports.run = async (aruna, member) => {
-  const user = database.Users.findOne(member.user.id);
+  const user = database.Users.findOne({ _id: member.user.id });
+  // eslint-disable-next-line no-unused-vars
+  const guild = database.Guilds.findOne({ _id: member.guild.id });
   
   if (!user) {
     var saveU = await new database.Users({ _id: member.user.id });
     await saveU.save();
-    console.log("New Member on database :)")
+    console.log('New Member on database :)');
   }
+
+  /* AUTOROLE MAIN GUILD*/
   
   if (member.guild.id == serverStatsPrincipal.guildID) {
     member.addRole('660612149009448988', 'AutoRole');
@@ -51,4 +55,8 @@ exports.run = async (aruna, member) => {
       .setTimestamp();
     member.send(changingMessage);
   }
+
+  /* AUTOROLE FOR USERS */
+
+
 };
