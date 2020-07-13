@@ -1,6 +1,6 @@
 {
   "name": "arunabot",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "A nova e melhorada aruna!",
   "main": "src/main.js",
   "scripts": {
