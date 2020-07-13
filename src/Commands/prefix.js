@@ -19,31 +19,32 @@
 const Discord = require('discord.js');
 const { database, config } = require('../../Configs');
 
+/** @deprecated This Will Be Removed In A future Version */
 exports.run = async (aruna, message, args) => {
-  const server = await database.Guilds.findOne({ _id: message.guild.id });
+  const guild = await database.Guilds.findOne({ _id: message.guild.id });
 
   const nopermission = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Você não possui a permissão de `Gerenciar Servidor`')
     .setTimestamp();
-  const error = new Discord.RichEmbed()
+  const prefixError = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setDescription(
       'Insira se você deseja definir um prefixo (set) ou se deseja voltar ao padrão (remove).'
     )
     .setTimestamp();
-  const error2 = new Discord.RichEmbed()
+  const prefixError2 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Você deve inserir o prefixo desejado!')
     .setTimestamp();
-  const error3 = new Discord.RichEmbed()
+  const prefixError3 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('O prefixo atual já é o prefixo padrão!')
     .setTimestamp();
-  const remove = new Discord.RichEmbed()
+  const prefixRemove = new Discord.RichEmbed()
     .setColor([0, 255, 0])
     .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
     .setFooter('Sucesso!')
@@ -51,36 +52,44 @@ exports.run = async (aruna, message, args) => {
       `Prefixo redefinido para \`${config.prefix}\` com sucesso!`
     )
     .setTimestamp();
-  const definido = new Discord.RichEmbed()
+  const prefixDefinido = new Discord.RichEmbed()
     .setColor([0, 255, 0])
     .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
     .setFooter('Sucesso!')
     .setDescription(`Prefixo definido para \`${args[1]}\` com sucesso!`)
     .setTimestamp();
+  const deprecatedWarn = new Discord.RichEmbed()
+    .setTitle('🚫FUNÇÃO OBSOLETA🚫')
+    .setDescription(`**AVISO: ESSA É UMA FUNÇÃO ANTIGA E SERÁ REMOVIDA EM BREVE.**\n
+    Para evitar transtornos, é recomendado usar \`${guild.prefix}config prefix <set/remove> <prefixoDesejado>\`.`)
+    .setColor('#fcec03')
+    .setFooter('Deprecated Command Warn')
+    .setTimestamp();
 
+  message.channel.send(deprecatedWarn).then(msg => msg.delete(60000));
   if (!message.member.hasPermission('MANAGE_GUILD'))
     return message.channel.send(nopermission);
 
-  if (!args[0]) return message.channel.send(error);
+  if (!args[0]) return message.channel.send(prefixError);
 
   if (args[0] !== 'set' && args[0] !== 'remove')
-    return message.channel.send(error);
+    return message.channel.send(prefixError);
 
   if (args[0] === 'remove') {
-    if (server.prefix === config.prefix)
-      return message.channel.send(error3);
+    if (guild.prefix === config.prefix)
+      return message.channel.send(prefixError3);
 
-    server.prefix = config.prefix;
-    server.save();
-    message.channel.send(remove);
+    guild.prefix = config.prefix;
+    guild.save();
+    message.channel.send(prefixRemove);
   }
 
   if (args[0] === 'set') {
-    if (!args[1]) return message.channel.send(error2);
+    if (!args[1]) return message.channel.send(prefixError2);
 
-    server.prefix = args[1];
-    server.save();
-    message.channel.send(definido);
+    guild.prefix = args[1];
+    guild.save();
+    message.channel.send(prefixDefinido);
   }
 };
 

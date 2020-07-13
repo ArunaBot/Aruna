@@ -22,7 +22,7 @@ const { database } = require('../../Configs');
 const Discord = require('discord.js');
 
 exports.run = async (aruna, message, args) => {
-  var validOptions = ['rank', 'ticket', 'autorole'];
+  var validOptions = ['rank', 'ticket', 'autorole', 'prefix', 'prefixo'];
 
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
   
@@ -88,9 +88,9 @@ exports.run = async (aruna, message, args) => {
     )
     .setTimestamp();
 
-  const dbcommand = await database.Comandos.findOne({ name: `${command}` });
+  const dbCommand = await database.Comandos.findOne({ name: `${command}` });
 
-  if (!dbcommand || dbcommand.public !== true && user.SUPER !== true)
+  if (!dbCommand || dbCommand.public !== true && user.SUPER !== true)
     return message.channel.send(error2);
   
   
@@ -103,7 +103,7 @@ exports.run = async (aruna, message, args) => {
     }
   }
   
-  const todo = args[1].toLowerCase();
+  const toDo = args[1].toLowerCase();
 
   const ativo = new Discord.RichEmbed()
     .setColor([0, 255, 0])
@@ -119,7 +119,7 @@ exports.run = async (aruna, message, args) => {
     .setDescription(`O comando \`${command}\` foi desativado com sucesso!`)
     .setTimestamp();
 
-  if (todo == 'ativar' && guild.verify === false || todo == 'enable' && guild.verify === true) {
+  if (toDo == 'ativar' && guild.verify === false || toDo == 'enable' && guild.verify === true) {
     if (command === 'rank') {
       guild.rankEnable = true;
       guild.save();
@@ -135,7 +135,7 @@ exports.run = async (aruna, message, args) => {
     return message.channel.send(ativo);
   } else if (guild.verify === false) return message.channel.send(yes);
 
-  if (todo == 'desativar' && guild.verify === true || todo == 'disable' && guild.verify === true) {
+  if (toDo == 'desativar' && guild.verify === true || toDo == 'disable' && guild.verify === true) {
     if (command === 'rank') {
       guild.rankEnable = false;
       guild.save();
