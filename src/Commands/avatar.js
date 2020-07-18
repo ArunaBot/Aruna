@@ -17,6 +17,7 @@
 */
 
 const Discord = require('discord.js');
+const { emoji } = require('../Utils');
 
 exports.run = (aruna, message, args) => {
   const user1 = message.guild.member(
@@ -26,7 +27,7 @@ exports.run = (aruna, message, args) => {
   const user = user1.user;
 
   const embed = new Discord.RichEmbed()
-    .setAuthor(`Avatar de ${user.username}`)
+    .setTitle(`${emoji.picture}Avatar de ${user.username}`)
     .setDescription(`**Clique [aqui](${user.avatarURL}) para baixar a foto.**`)
     .setImage(user.avatarURL)
     .setTimestamp();
