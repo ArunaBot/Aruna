@@ -76,7 +76,7 @@ exports.run = async (aruna, message) => {
       }
 
       
-      const lang = require(`../../language/${language}/events.json`);
+      const lang = require(`../../languages/bot/${language}/events.json`);
 
       const mention = [`<@${aruna.user.id}>`, `<@!${aruna.user.id}>`];
 
