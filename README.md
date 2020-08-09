@@ -63,8 +63,8 @@ Nós [recomendamos utilizar a versão pública da Aruna](https://discordapp.com/
 6. Agora, usando o processador de comandos do seu sistema operacional (CMD, POWERSHELL, Terminal, etc), entre na pasta criada e utilize `npm install`.
 8. Ao terminar de fazer o download de tudo, verifique se foi criado a pasta `node modules`.
 9. Caso essa pasta exista e tenha sido criado o arquivo `package-lock.json` significa que tudo deu certo!
-10. Agora, retire o `_` da pasta `_configs` e do aquivo `_.env`.
-11. Depois, abra o arquivo .env e preencha o `TOKEN_ARUNA` com o token do seu bot, e o `MONGOOSE` com seu diretório do moongose criado no mongodb.com. (Caso tenha hospedado o mongo em sua máquina, altere o arquivo presente na configs/mongoose.js com as configurações adequadas no campo de url e login (verifique a documentação do mongoose para isso)).
+10. Agora, retire o `.` da pasta `.Configs`.
+11. Depois, abra o arquivo `general` e preencha o campo `token` com o token do seu bot, o campo `mongoose` com o link de acesso ao mongoose e por fim, altere o campo `superUsersId` para o id do seu usuário.
 11. Com tudo pronto, podemos iniciá-la abrindo um terminal e digitando `npm start`.
 12. Caso tenha dado tudo certo, a sua versão selfhosted irá iniciar e você poderá utilizar os comandos dela! 🎉
 
@@ -93,7 +93,6 @@ A Aruna utiliza várias [dependências no código-fonte dela](https://github.com
 | [Mongoose](http://mongoosejs.com/) |  vkarpov15, aheckmann, rauchg, etc  |
 | [Moment](http://momentjs.com) |  ichernev, timrwood, icambron, etc  |
 | [Moment Duration Format](https://github.com/jsmreese/moment-duration-format) |  jsmreese  |
-| [Dotenv](https://github.com/motdotla/dotenv) |  motdotla, maxbeatty, etc  |
 | [Ytdl Core](https://github.com/fent/node-ytdl-core) |  fent, #3TimeForANinja, etc  |
 | [Node Opus](github.com/Rantanen/node-opus) |  Rantanen, thijstriemstra, nfriedly, etc  |
 | [Jimp](github.com/oliver-moran/jimp) |  hipstersmoothie, oliver-moran, strandedcity, etc  |
