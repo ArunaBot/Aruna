@@ -43,9 +43,9 @@ exports.run = async (aruna, message) => {
       if (!servidor) {
         var language = '';
         if (message.guild.region == 'brazil') {
-          language = 'PT-BR';
+          language = 'BR';
         } else {
-          language = 'EN_US';
+          language = 'EN';
         }
         console.log('No Server!');
         var saveG = await new database.Guilds({
@@ -68,6 +68,15 @@ exports.run = async (aruna, message) => {
       }
 
       var prefix = servidor.prefix || config.prefix;
+
+      if (usuario.language !== servidor.language && usuario.language !== null) {
+        language = usuario.language;
+      } else {
+        language = language || servidor.language;
+      }
+
+      
+      const lang = require(`../../language/${language}/events.json`);
 
       const mention = [`<@${aruna.user.id}>`, `<@!${aruna.user.id}>`];
 
@@ -122,7 +131,7 @@ exports.run = async (aruna, message) => {
           .slice(prefix.length)
           .trim()
           .split(/ +/g);
-        const comando = args.shift().toLowerCase();
+        const command = args.shift().toLowerCase();
         const ma = message.content.split(' ');
         const cmd = ma[0];
         const commandFile =
@@ -135,7 +144,7 @@ exports.run = async (aruna, message) => {
           } else if (!message.guild.members.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
             return message.reply(linkError);
           }
-          commandFile.run(aruna, message, args, prefix, comando);
+          commandFile.run(aruna, message, args, prefix, command, language);
         } else if (!commandFile) {
           const alts =
             aruna.commands
@@ -146,15 +155,7 @@ exports.run = async (aruna, message) => {
               .join(', ') || undefined;
 
           if (alts !== undefined) {
-            message.reply(
-              'Oops, não encontrei o comando ' +
-                '`' +
-                comando +
-                '`' +
-                '. Você quis dizer algo como ' +
-                alts +
-                '?'
-            );
+            message.reply(lang.message.commandNotFound.replace('[command]' | '[alt]', command | alts));
           }
         }
       }

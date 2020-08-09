@@ -1,0 +1,3 @@
+[submodule "locale"]
+	path = language
+	url = https://github.com/ArunaBot/ArunaLanguages

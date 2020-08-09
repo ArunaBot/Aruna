@@ -32,6 +32,7 @@ mongoose.connect(
 
 var User = new Schema({
   _id: { type: String },
+  language: { type: String, default: null },
   SUPER: { type: Boolean, default: false }
 });
 
@@ -44,7 +45,7 @@ var Guild = new Schema({
   ticketEnable: { type: Boolean, default: false },
   autoRole: { type: Boolean, default: false },
   autoRoleRole: { type: String, default: null },
-  language: { type: String, default: 'PT-BR' },
+  language: { type: String, default: 'BR' },
   isPremium: { type: Boolean, default: false },
   isPartner: { type: Boolean, default: false }
 });
