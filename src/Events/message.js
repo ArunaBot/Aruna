@@ -24,12 +24,20 @@ const { utils, cooldown } = require('../Utils');
 exports.run = async (aruna, message) => {
   if (message.author.bot) return;
 
-  const emojiError = 'Para meu funcionamento, preciso da permissão de `Usar Emojis Externos`. Por favor, solicite para algum administrador que ative isso para que eu possa funcionar :)';
-  const linkError = 'Para meu funcionamento, preciso da permissão de `Enviar Links`. Por favor, solicite para algum administrador que ative isso para que eu possa funcionar :)';
-  const dmError = 'Desculpe, mas ainda não funciono em mensagens diretas :(';
-
   if (message.channel.type == 'dm') {
-    return message.reply(dmError);
+    const dmUser = await database.Users.findOne({ _id: message.author.id });
+    const defaultDmIntL = require('../../languages/bot/br/internal.json');
+    if (!dmUser) {
+      return message.reply(defaultDmIntL.dmError);
+    } else {
+      var dmIntL = '';
+      if (dmUser.language == null) {
+        dmIntL = defaultDmIntL;
+      } else {
+        dmIntL = require(`../../languages/bot/${dmUser.language}/internal.json`);
+      }
+      return message.reply(dmIntL.dmError);
+    }
   }
 
   database.Guilds.findOne({ _id: message.guild.id }, function(
@@ -43,9 +51,9 @@ exports.run = async (aruna, message) => {
       if (!servidor) {
         var language = '';
         if (message.guild.region == 'brazil') {
-          language = 'BR';
+          language = 'br';
         } else {
-          language = 'EN';
+          language = 'en';
         }
         console.log('No Server!');
         var saveG = await new database.Guilds({
@@ -77,6 +85,11 @@ exports.run = async (aruna, message) => {
 
       
       const lang = require(`../../languages/bot/${language}/events.json`);
+      const langc = require(`../../languages/bot/${language}/commands.json`);
+      const intL = require(`../../languages/bot/${language}/internal.json`);
+
+      const emojiError = intL.emojiError;
+      const linkError = intL.linkError;
 
       const mention = [`<@${aruna.user.id}>`, `<@!${aruna.user.id}>`];
 
@@ -144,7 +157,7 @@ exports.run = async (aruna, message) => {
           } else if (!message.guild.members.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
             return message.reply(linkError);
           }
-          commandFile.run(aruna, message, args, prefix, command, language);
+          commandFile.run(aruna, message, args, prefix, command, langc);
         } else if (!commandFile) {
           const alts =
             aruna.commands
