@@ -23,31 +23,32 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const { config } = require('../Configs');
 const chalk = require('chalk');
+const language = require(`../languages/bot/${config.language}/internal.json`);
 
 const aruna = new Discord.Client();
 aruna.commands = new Discord.Collection();
 aruna.aliases = new Discord.Collection();
 
 fs.readdir('./src/Events/', (erro, files) => {
-  if (erro) return error(`[ERROR] => ${erro}`);
+  if (erro) return error(`[${language.main.error}] => ${erro}`);
   files.forEach(file => {
     const eventFunction = require(`./Events/${file}`);
-    log(`[EVENT] => ${file}`);
+    log(`[${language.main.event}] => ${file}`);
     const eventName = file.split('.')[0];
     aruna.on(eventName, (...args) => eventFunction.run(aruna, ...args));
   });
 });
 
 fs.readdir('./src/Commands/', (err, files) => {
-  if (err) return error(`[ERROR] => ${err}`);
+  if (err) return error(`[${language.main.error}] => ${err}`);
   const jsfile = files.filter(f => f.split('.').pop() === 'js');
   if (jsfile.length <= 0) {
-    return warn('[COMMANDS] Not Found!');
+    return warn(`[${language.main.commands}] Not Found!`);
   }
   jsfile.forEach(f => {
     const pull = require(`./Commands/${f}`);
     aruna.commands.set(pull.config.name, pull);
-    log(`[COMMAND] => ${f}`);
+    log(`[${language.main.command}] => ${f}`);
     pull.config.aliases.forEach(alias => {
       aruna.aliases.set(alias, pull.config.name);
     });
