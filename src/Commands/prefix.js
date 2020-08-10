@@ -18,9 +18,13 @@
 
 const Discord = require('discord.js');
 const { database, config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.language}/commands.json`);
 
 /** @deprecated This Will Be Removed In A future Version */
-exports.run = async (aruna, message, args) => {
+exports.run = async (aruna, message, args, langc) => {
+  if (langc) {
+    language = langc;
+  }
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
 
   const nopermission = new Discord.RichEmbed()
@@ -59,11 +63,11 @@ exports.run = async (aruna, message, args) => {
     .setDescription(`Prefixo definido para \`${args[1]}\` com sucesso!`)
     .setTimestamp();
   const deprecatedWarn = new Discord.RichEmbed()
-    .setTitle('🚫FUNÇÃO OBSOLETA🚫')
-    .setDescription(`**AVISO: ESSA É UMA FUNÇÃO ANTIGA E SERÁ REMOVIDA EM BREVE.**\n
-    Para evitar transtornos, é recomendado usar \`${guild.prefix}config prefix <set/remove> <prefixoDesejado>\`.`)
+    .setTitle(language.generic.embed.deprecated.title)
+    .setDescription(`${language.generic.embed.deprecated.description1}\n
+    ${language.generic.embed.deprecated.description2.replace('[alternative]', language.prefix.deprecatedAlternative.replace('[prefix]', guild.prefix))}`)
     .setColor('#fcec03')
-    .setFooter('Deprecated Command Warn')
+    .setFooter(language.generic.embed.deprecated.footer)
     .setTimestamp();
 
   message.channel.send(deprecatedWarn).then(msg => msg.delete(60000));
