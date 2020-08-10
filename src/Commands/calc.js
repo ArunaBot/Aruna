@@ -19,8 +19,8 @@
 const { emojis } = require('../Utils');
 const Discord = require('discord.js');
 const math = require('mathjs');
-
-var language = require('../../languages/bot/br/commands.json');
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.language}/commands.json`);
 
 exports.run = (aruna, message, args, langc) => {
 
