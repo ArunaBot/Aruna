@@ -81,8 +81,8 @@ exports.run = async (aruna, message) => {
   const lang = require(`../../languages/bot/${language}/events.json`);
   const langc = require(`../../languages/bot/${language}/commands.json`);
 
-  const emojiError = lang.message.errors.emojiError;
-  const linkError = lang.message.errors.linkError;
+  const emojiError = lang.message.errors.emojiError.replace('[externalEmojis]', langc.generic.permissions.useExternalEmojis);
+  const linkError = lang.message.errors.linkError.replace('[sendLinks]', langc.generic.permissions.embedLinks);
 
   const mention = [`<@${aruna.user.id}>`, `<@!${aruna.user.id}>`];
 
