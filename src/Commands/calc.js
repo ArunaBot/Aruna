@@ -44,14 +44,14 @@ exports.run = (aruna, message, args, langc) => {
   var response;
 
   try {
-    response = math.eval(args.join(' '));
+    response = math.evaluate(args.join(' '));
   } catch (e) {
     console.error(e);
     return message.channel.send(error2);
   }
   
   const embed = new Discord.RichEmbed()
-    .setTitle(language.generic.embed.sucess.title)
+    .setTitle(language.calculator.embed.sucess.title)
     .addField(
       `(${emojis.upload}) Entrada`,
       `\`\`\`js\n${args.join(' ')}\`\`\``
