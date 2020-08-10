@@ -157,7 +157,7 @@ exports.run = async (aruna, message) => {
           } else if (!message.guild.members.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
             return message.reply(linkError);
           }
-          commandFile.run(aruna, message, args, prefix, command, langc);
+          commandFile.run(aruna, message, args, langc, prefix, command);
         } else if (!commandFile) {
           const alts =
             aruna.commands

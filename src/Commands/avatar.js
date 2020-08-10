@@ -18,17 +18,22 @@
 
 const Discord = require('discord.js');
 const { emoji } = require('../Utils');
+var language = require('../../languages/bot/br/commands.json');
 
-exports.run = (aruna, message, args) => {
+exports.run = (aruna, message, args, langc) => {
   const user1 = message.guild.member(
     message.mentions.users.first() || aruna.users.get(args[0]) || message.author
   );
 
+  if (langc) {
+    language = langc;
+  }
+
   const user = user1.user;
 
   const embed = new Discord.RichEmbed()
-    .setTitle(`${emoji.picture}Avatar de ${user.username}`)
-    .setDescription(`**Clique [aqui](${user.avatarURL}) para baixar a foto.**`)
+    .setTitle(language.avatar.embed.title.replace('[emoji]', emoji.picture).replace('[user]', user1.displayName))
+    .setDescription(language.avatar.embed.description.replace('[url]', user.avatarURL))
     .setImage(user.avatarURL)
     .setTimestamp();
   message.channel.send(embed);
@@ -36,6 +41,6 @@ exports.run = (aruna, message, args) => {
 exports.config = {
   name: 'avatar',
   aliases: [''],
-  description: 'Mostra o avatar próprio ou de um usuário',
+  description: language.avatar.config.description,
   category: '🎉 Entretenimento'
 };
