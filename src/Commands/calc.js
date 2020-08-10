@@ -52,12 +52,10 @@ exports.run = (aruna, message, args, langc) => {
   
   const embed = new Discord.RichEmbed()
     .setTitle(language.calculator.embed.sucess.title)
-    .addField(
-      `(${emojis.upload}) Entrada`,
+    .addField(language.calculator.embed.sucess.field1.replace('[emoji]', emojis.upload),
       `\`\`\`js\n${args.join(' ')}\`\`\``
     )
-    .addField(
-      `(${emojis.dev}) Saida`,
+    .addField(language.calculator.embed.sucess.field2.replace('[emoji]', emojis.dev),
       `\`\`\`js\n${response}\`\`\``
     )
     .setColor([54, 57, 63]);
