@@ -57,7 +57,7 @@ fs.readdir('./src/Commands/', (err, files) => {
 
 
 function logPrefix() {
-  return `${chalk.gray('[')}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : 'ARUNA'}${chalk.gray(']')}`;
+  return `${chalk.gray('[')}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
 }
 
 function log(...a) {

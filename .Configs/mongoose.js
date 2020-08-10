@@ -18,6 +18,8 @@
 
 var mongoose = require('mongoose');
 const config = require('./general.js');
+const chalk = require('chalk');
+const language = require(`../languages/bot/${config.language}/internal.json`);
 
 var Schema = mongoose.Schema;
 const url = config.mongoose;
@@ -25,8 +27,8 @@ mongoose.connect(
   url,
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
-    if (err) return console.log('(CLUSTER) => Erro\n', err);
-    console.log('(CLUSTER) => Conectado!');
+    if (err) return error(`[${language.main.error}] => ${err}`);
+    log('=> Conectado!');
   }
 );
 
@@ -100,3 +102,25 @@ exports.System = Systems;
 exports.Guilds = Guilds;
 exports.Users = Users;
 exports.Rank = Ranks;
+
+function logPrefix() {
+  return `${chalk.gray('[')}${chalk.blue(language.main.cluster)}${chalk.gray(']')}`;
+}
+
+function log(...a) {
+  return console.log(logPrefix(), ...a);
+}
+
+// eslint-disable-next-line no-unused-vars
+function warn(...a) {
+  return console.warn(logPrefix(), chalk.yellow(...a));
+}
+
+function error(...a) {
+  return console.error(logPrefix(), chalk.red(...a));
+}
+
+// eslint-disable-next-line no-unused-vars
+function debug(...a) {
+  return console.debug(logPrefix(), chalk.magenta(...a));
+}

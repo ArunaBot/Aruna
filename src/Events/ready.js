@@ -87,7 +87,7 @@ exports.run = async (aruna) => {
   }, 15000);
 
   function logPrefix() {
-    return `${chalk.gray('[')}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : 'ARUNA'}${chalk.gray(']')}`;
+    return `${chalk.gray('[')}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
   }
 
   function log(...a) {
