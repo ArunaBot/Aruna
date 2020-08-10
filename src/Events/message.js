@@ -93,14 +93,14 @@ exports.run = async (aruna, message) => {
       return message.reply(linkError);
     } else if (message.content === mention) {
       const embed = new Discord.RichEmbed()
-        .setTitle(language.message.mention.title)
+        .setTitle(lang.message.mention.title)
         .setDescription(
-          `${language.message.mention.line1.replace('[username]', message.author.username).replace('[me]', aruna.user.username)}\n
-              ${language.message.mention.line2}\n
-              ${language.message.mention.line3.replace('[prefix]', prefix)}\n\n
-              ${language.message.mention.line4.replace('[url]', links.supportServers[0])}\n\n
-              ${language.message.mention.line5.replace('[url]', links.invites[0])}\n\n
-              ${language.message.mention.line6}`
+          `${lang.message.mention.line1.replace('[username]', message.author.username).replace('[me]', aruna.user.username)}\n
+              ${lang.message.mention.line2}\n
+              ${lang.message.mention.line3.replace('[prefix]', prefix)}\n\n
+              ${lang.message.mention.line4.replace('[url]', links.supportServers[0])}\n\n
+              ${lang.message.mention.line5.replace('[url]', links.invites[0])}\n\n
+              ${lang.message.mention.line6}`
         )
         .setColor('#8400ff')
         .setTimestamp();
