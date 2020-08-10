@@ -18,19 +18,19 @@
     "@discordjs/opus": "^0.3.2",
     "chalk": "^4.1.0",
     "dateformat": "^3.0.3",
-    "dbots": "^4.0.0",
+    "dbots": "^5.0.4",
     "discord.js": "^11.6.4",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "jimp": "^0.13.0",
+    "jimp": "^0.16.0",
     "mathjs": "^7.1.0",
-    "moment": "^2.26.0",
+    "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
-    "mongoose": "^5.9.25",
-    "superagent": "^5.2.2",
-    "ytdl-core": "^2.1.7"
+    "mongoose": "^5.9.28",
+    "superagent": "^6.0.0",
+    "ytdl-core": "^3.2.1"
   },
   "devDependencies": {
-    "eslint": "^7.5.0"
+    "eslint": "^7.6.0"
   }
 }
