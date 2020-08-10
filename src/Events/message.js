@@ -168,7 +168,7 @@ exports.run = async (aruna, message) => {
               .join(', ') || undefined;
 
           if (alts !== undefined) {
-            message.reply(lang.message.commandNotFound.replace('[command]' | '[alt]', command | alts));
+            message.reply(lang.message.commandNotFound.replace('[command]', command).replace('[alt]', alts));
           }
         }
       }
