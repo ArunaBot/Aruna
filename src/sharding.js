@@ -21,6 +21,8 @@ const chalk = require('chalk');
 const { config } = require('../Configs');
 const pkg = require('../package.json');
 
+const language = require(`../languages/bot/${config.language}/internal.json`);
+
 const manager = new Discord.ShardingManager(`./${pkg.main}`, {
   token: config.token, 
   totalShards: config.sharding.totalShards
@@ -28,10 +30,10 @@ const manager = new Discord.ShardingManager(`./${pkg.main}`, {
 
 const logPrefix = `${chalk.gray('[')}${chalk.yellow('SHARD MASTER')}${chalk.gray(']')}`;
 
-manager.on('launch', shard => console.log(`${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) iniciado(s)`));
-process.on('exit', code => console.log(`${logPrefix} ${chalk.red('Foi forçado o encerramento de um processo.')} Código de Saída:`, code));
+manager.on('launch', shard => console.log(`${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) ${language.shard.launch.replace('[shard] ', '')}`));
+process.on('exit', code => console.log(`${logPrefix} ${chalk.red(language.shard.exit)} ${language.shard.exitCode}`, code));
 
-console.log(`${logPrefix} Começando a gerar shards...`);
+console.log(language.shard.startGeneration.replace('[logPrefix]', logPrefix));
 manager.spawn(config.sharding.totalShards, config.sharding.delay).then(() => {
-  console.log(`${logPrefix} ${chalk.green('Finalizando a geração dos Shards!')}`);
+  console.log(`${logPrefix} ${chalk.green(language.shard.finishGeneration)}`);
 });

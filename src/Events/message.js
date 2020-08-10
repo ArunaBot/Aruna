@@ -53,7 +53,7 @@ exports.run = async (aruna, message) => {
         if (message.guild.region == 'brazil') {
           language = 'br';
         } else {
-          language = 'en';
+          language = config.language;
         }
         console.log('No Server!');
         var saveG = await new database.Guilds({
@@ -88,8 +88,8 @@ exports.run = async (aruna, message) => {
       const langc = require(`../../languages/bot/${language}/commands.json`);
       const intL = require(`../../languages/bot/${language}/internal.json`);
 
-      const emojiError = intL.emojiError;
-      const linkError = intL.linkError;
+      const emojiError = intL.errors.emojiError;
+      const linkError = intL.errors.linkError;
 
       const mention = [`<@${aruna.user.id}>`, `<@!${aruna.user.id}>`];
 
