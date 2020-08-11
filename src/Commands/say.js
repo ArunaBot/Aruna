@@ -16,15 +16,51 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-exports.run = async (aruna, message, prefix, comando) => {
-  var content = message.content.slice(comando.length).trim();
-  content = content.slice(4).trim();
+const Discord = require('discord.js');
+const { config } = require('../../Configs');
+
+var language = require(`../../languages/bot/${config.language}/commands.json`);
+
+exports.run = async (aruna, message, args, langc, prefix, comando) => {
+  if (langc) {
+    language = langc;
+  }
+
+  const error1 = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
+    .setDescription(language.say.embed.error.description1.replace('[manageMessages]', language.generic.permissions.manageMessages))
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
+    .setTimestamp();
+  const error2 = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
+    .setDescription(language.say.embed.error.description2.replace('[manageMessages]', language.generic.permissions.manageMessages))
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
+    .setTimestamp();
+  const error3 = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
+    .setDescription(language.say.embed.error.description3)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
+    .setTimestamp();
+
+  if (!message.member.hasPermission('MANAGE_MESSAGES'))
+    return message.channel.send(error1);
+
+  if (!message.guild.members.get(aruna.user.id).hasPermission('MANAGE_MESSAGES'))
+    return message.channel.send(error2);
+
+  var content = message.content.slice(comando.length + prefix.length).trim();
+
+  if (!content) {
+    return message.channel.send(error3);
+  }
+
   await message.delete();
   await message.channel.send(content);
 };
 
 exports.config = {
   name: 'say',
-  aliases: [],
+  description: language.say.config.description,
+  aliases: ['falar'],
   category: '🎉 Entretenimento'
 };

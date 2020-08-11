@@ -34,6 +34,7 @@ exports.run = async (aruna, message, args, langc) => {
     .setTimestamp();
   const error1 = new Discord.RichEmbed()
     .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
     .setDescription(language.prefix.embed.error.description1)
     .setTimestamp();
   const error2 = new Discord.RichEmbed()
