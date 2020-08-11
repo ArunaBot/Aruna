@@ -19,7 +19,7 @@
 
 const Discord = require('discord.js');
 var { database, config, links } = require('../../Configs');
-const { utils, cooldown } = require('../Utils');
+const { cooldown, utils } = require('../Utils');
 
 exports.run = async (aruna, message) => {
   if (message.author.bot) return;
@@ -87,11 +87,12 @@ exports.run = async (aruna, message) => {
   const mention = [`<@${aruna.user.id}>`, `<@!${aruna.user.id}>`];
 
   mention.find(mention => {
-    if (!message.guild.members.get(aruna.user.id).hasPermission('USE_EXTERNAL_EMOJIS')) {
-      return message.reply(emojiError);
-    } else if (!message.guild.members.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
-      return message.reply(linkError);
-    } else if (message.content === mention) {
+    if (message.content === mention) {
+      if (!message.guild.members.get(aruna.user.id).hasPermission('USE_EXTERNAL_EMOJIS')) {
+        return message.reply(emojiError);
+      } else if (!message.guild.members.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
+        return message.reply(linkError);
+      }
       const embed = new Discord.RichEmbed()
         .setTitle(lang.message.mention.title)
         .setDescription(
