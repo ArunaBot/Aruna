@@ -90,7 +90,7 @@ exports.run = async (aruna, message) => {
       `${status['online']}: ${
         message.guild.members.filter(m => m.presence.status === 'online').size
       }\n${status['idle']}: ${
-        message.guild.members.filter(m => m.presence.status === 'away').size
+        message.guild.members.filter(m => m.presence.status === 'idle').size
       }\n${status['dnd']}: ${
         message.guild.members.filter(m => m.presence.status === 'dnd').size
       }\n${status['offline']}: ${
