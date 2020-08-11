@@ -29,7 +29,7 @@ const Discord = require('discord.js');
 const { config } = require('../../Configs');
 var language = require(`../../languages/bot/${config.language}/commands.json`);
 
-exports.run = async (client, message, args, langc) => {
+exports.run = async (aruna, message, args, langc) => {
 
   if (langc) {
     language = langc;
@@ -59,12 +59,11 @@ exports.run = async (client, message, args, langc) => {
     .setDescription(language.clear.embed.error.description4)
     .setTimestamp();
   
-  if (
-    !message.guild.members.get(client.user.id).hasPermission('MANAGE_MESSAGES')
-  )
-    return message.channel.send(error2);
   if (!message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send(error1);
+  if (!message.guild.members.get(aruna.user.id).hasPermission('MANAGE_MESSAGES'))
+    return message.channel.send(error2);
+    
   if (!args[0])
     return message.channel.send(error3);
   if (args[0] > 100 || args[0] <= 1)
