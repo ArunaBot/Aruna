@@ -22,7 +22,7 @@ const pkg = require('../../package.json');
 const chalk = require('chalk');
 const { apiKeys, config, database } = require('../../Configs');
 
-const language = require(`../languages/bot/${config.language}/internal.json`);
+const language = require(`../../languages/bot/${config.language}/internal.json`);
 
 exports.run = async (aruna) => {
   log('Conectado!');
