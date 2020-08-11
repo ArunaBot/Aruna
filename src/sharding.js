@@ -28,7 +28,7 @@ const manager = new Discord.ShardingManager(`./${pkg.main}`, {
   totalShards: config.sharding.totalShards
 });
 
-const logPrefix = `${chalk.gray('[')}${chalk.yellow('SHARD MASTER')}${chalk.gray(']')}`;
+const logPrefix = `${chalk.gray('[')}${chalk.yellow(language.shard.master)}${chalk.gray(']')}`;
 
 manager.on('launch', shard => console.log(`${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) ${language.shard.launch.replace('[shard] ', '')}`));
 process.on('exit', code => console.log(`${logPrefix} ${chalk.red(language.shard.exit)} ${language.shard.exitCode}`, code));
