@@ -23,6 +23,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const { config } = require('../Configs');
 const chalk = require('chalk');
+
 const language = require(`../languages/bot/${config.language}/internal.json`);
 
 const aruna = new Discord.Client();
@@ -43,7 +44,7 @@ fs.readdir('./src/Commands/', (err, files) => {
   if (err) return error(`[${language.main.error}] => ${err}`);
   const jsfile = files.filter(f => f.split('.').pop() === 'js');
   if (jsfile.length <= 0) {
-    return warn(`[${language.main.commands}] Not Found!`);
+    return warn(`[${language.main.commands}] ${language.generic.notFound}`);
   }
   jsfile.forEach(f => {
     const pull = require(`./Commands/${f}`);
@@ -57,7 +58,7 @@ fs.readdir('./src/Commands/', (err, files) => {
 
 
 function logPrefix() {
-  return `${chalk.gray('[')}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
+  return `${chalk.gray('[')}${isSharded() ? `${language.generic.shard} ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
 }
 
 function log(...a) {

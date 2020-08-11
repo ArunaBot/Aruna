@@ -47,7 +47,7 @@ exports.run = async (aruna, message) => {
     if (message.guild.region == 'brazil') {
       language = 'br';
     } else {
-      language = config.language;
+      language = config.defaultLanguage;
     }
     console.log('No Server!');
     var saveG = await new database.Guilds({

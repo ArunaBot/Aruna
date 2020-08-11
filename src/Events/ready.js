@@ -20,7 +20,9 @@
 
 const pkg = require('../../package.json');
 const chalk = require('chalk');
-const { apiKeys, database } = require('../../Configs');
+const { apiKeys, config, database } = require('../../Configs');
+
+const language = require(`../languages/bot/${config.language}/internal.json`);
 
 exports.run = async (aruna) => {
   log('Conectado!');
@@ -87,7 +89,7 @@ exports.run = async (aruna) => {
   }, 15000);
 
   function logPrefix() {
-    return `${chalk.gray('[')}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
+    return `${chalk.gray('[')}${isSharded() ? `${language.generic.shard} ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
   }
 
   function log(...a) {

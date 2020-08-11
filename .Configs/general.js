@@ -22,6 +22,7 @@ module.exports = {
   mongoose: '',
   superUsersId: ['281515925960654848'], // Your User ID Comes Here!
   language: 'br',
+  defaultLanguage: 'us',
   sharding: {
     totalShards: 'auto',
     delay: 7500
