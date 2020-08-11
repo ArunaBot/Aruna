@@ -141,6 +141,7 @@ exports.run = async (aruna, message) => {
     const command = args.shift().toLowerCase();
     const ma = message.content.split(' ');
     const cmd = ma[0];
+    if (cmd == prefix) return;
     const commandFile =
           aruna.commands.get(cmd.slice(prefix.length).toLowerCase()) ||
           aruna.commands.get(aruna.aliases.get(cmd.slice(prefix.length).toLowerCase()));
