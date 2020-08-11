@@ -63,9 +63,10 @@ exports.run = async (aruna, message, args, langc) => {
     return message.channel.send(error1);
   if (!message.guild.members.get(aruna.user.id).hasPermission('MANAGE_MESSAGES'))
     return message.channel.send(error2);
-    
+
   if (!args[0])
     return message.channel.send(error3);
+    
   if (args[0] > 100 || args[0] <= 1)
     return message.channel.send(error4);
   
