@@ -57,7 +57,7 @@ Você também pode hospedar a Aruna você mesmo (afinal, é por isso que se cham
 
 Nós [recomendamos utilizar a versão pública da Aruna](https://discordapp.com/oauth2/authorize?client_id=593303574725787657&scope=bot&permissions=2146954751), mas se você *realmente* quiser hospedar ou ajudar a desenvolver a Aruna, siga os seguintes passos:
 
-1. Tenha o [NODE 12.16.2 (ou superior)](https://nodejs.org/en/) instalado na sua máquina e certifique-se que o node e o npm (incluso no nodejs) est~so acessíveis pelo terminal. (Tente executar `node -v` e `npm -v` no terminal, caso não funcionem, procure reinstalar o nodejs ou reiniciar a máquina).
+1. Tenha o [NODE 12.16.2 (ou superior)](https://nodejs.org/en/) instalado na sua máquina e certifique-se que o node e o npm (incluso no nodejs) estão acessíveis pelo terminal. (Tente executar `node -v` e `npm -v` no terminal, caso não funcionem, procure reinstalar o nodejs ou reiniciar a máquina).
 2. Tenha o MongoDB instalado na sua máquina. (Ou se prefereir, pode usar o [MongoDB Online](https://mongodb.com/)).
 3. Tenha o `git-shell` ou o `git-cli` instalados. No Windows você pode utilizar o `Git Bash`.
 4. Caso você precise ou fazer modificações no código-fonte, é recomendado utilizar o [Visual Studio Code](https://code.visualstudio.com/).
