@@ -23,8 +23,16 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const { config } = require('../Configs');
 const chalk = require('chalk');
+const pkg = require('../package.json');
 
 const language = require(`../languages/bot/${config.language}/internal.json`);
+
+const infoPrefix = `${chalk.gray('[')}${chalk.green(language.generic.base.toUpperCase())}${chalk.gray(']')}`;
+const errorPrefix = `${chalk.gray('[')}${chalk.red(language.generic.base.toUpperCase())}${chalk.gray(']')}`;
+
+console.log(language.initialization.initializing.replace('[prefix]', infoPrefix));
+console.log(`${infoPrefix} ${language.initialization.language.replace('[language]', chalk.yellow(config.language)).replace('[default]', chalk.yellow(config.defaultLanguage))}`);
+console.log(`${infoPrefix} ${language.initialization.version.replace('[version]', pkg.version)}`);
 
 const aruna = new Discord.Client();
 aruna.commands = new Discord.Collection();
@@ -62,7 +70,7 @@ function logPrefix() {
 }
 
 function log(...a) {
-  return console.log(logPrefix(), ...a);
+  return console.log(infoPrefix, logPrefix(), ...a);
 }
 
 function warn(...a) {
@@ -70,7 +78,7 @@ function warn(...a) {
 }
 
 function error(...a) {
-  return console.error(logPrefix(), chalk.red(...a));
+  return console.error(errorPrefix, logPrefix(), chalk.red(...a));
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -82,4 +90,8 @@ function isSharded() {
   return !!aruna.shard;
 }
 
-aruna.login(config.token);
+aruna.login(config.token).then(() => {
+  console.log(`${infoPrefix} ${language.initialization.complete}`)
+}).catch(e => {
+  console.exception(`${errorPrefix} ${language.initialization.fail} ${e}`)
+});

@@ -28,12 +28,20 @@ const manager = new Discord.ShardingManager(`./${pkg.main}`, {
   totalShards: config.sharding.totalShards
 });
 
+const infoPrefix = `${chalk.gray('[')}${chalk.green(language.generic.core.toUpperCase())}${chalk.gray(']')}`;
+const errorPrefix = `${chalk.gray('[')}${chalk.red(language.generic.core.toUpperCase())}${chalk.gray(']')}`;
 const logPrefix = `${chalk.gray('[')}${chalk.yellow(language.shard.master)}${chalk.gray(']')}`;
 
-manager.on('launch', shard => console.log(`${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) ${language.shard.launch.replace('[shard] ', '')}`));
-process.on('exit', code => console.log(`${logPrefix} ${chalk.red(language.shard.exit)} ${language.shard.exitCode}`, code));
+console.log(language.initialization.initializing.replace('[prefix]', infoPrefix));
 
-console.log(language.shard.startGeneration.replace('[logPrefix]', logPrefix));
+manager.on('launch', shard => console.log(`${infoPrefix} ${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) ${language.shard.launch.replace('[shard] ', '')}`));
+process.on('exit', code => {
+  console.error(`${errorPrefix} ${language.initialization.fail}`)
+  console.exception(`${errorPrefix} ${logPrefix} ${chalk.red(language.shard.exit)} ${language.shard.exitCode}`, code)
+});
+
+console.log(language.shard.startGeneration.replace('[logPrefix]', `${infoPrefix} ${logPrefix}`));
 manager.spawn(config.sharding.totalShards, config.sharding.delay).then(() => {
-  console.log(`${logPrefix} ${chalk.green(language.shard.finishGeneration)}`);
+  console.log(`${infoPrefix} ${logPrefix} ${chalk.green(language.shard.finishGeneration)}`);
+  console.log(`${infoPrefix} ${language.initialization.complete}`)
 });
