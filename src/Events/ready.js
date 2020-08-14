@@ -120,12 +120,14 @@ exports.run = async (aruna) => {
   if (apiKeys.topgg) {
     const DBL = require('dblapi.js');
 
-    const dbl = new DBL(apiKeys.topgg, aruna);
+    const client = aruna;
 
-    dbl.postStats(aruna.guilds.size);
+    const dbl = new DBL(apiKeys.topgg, client);
+
+    dbl.postStats(client.guilds.size, client.shard.id, 1); /** @todo total shard fix */
 
     setInterval(() => {
-      dbl.postStats(aruna.guilds.size);
+      dbl.postStats(client.guilds.size, client.shard.id, 1); /** @todo total shard fix */
     }, 900000);
 
     // Optional events
