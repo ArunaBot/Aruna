@@ -20,8 +20,6 @@ const Discord = require('discord.js');
 
 exports.run = async (aruna, message, args) => {
   
-  const unbuser = await aruna.fetchUser(args[0]);
-  
   const error1 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
@@ -39,6 +37,7 @@ exports.run = async (aruna, message, args) => {
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Você deve inserir o id do usuário que será desbanido!')
     .setTimestamp();
+    
   const error4 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
@@ -50,7 +49,11 @@ exports.run = async (aruna, message, args) => {
   if (!message.guild.members.get(aruna.user.id).hasPermission('BAN_MEMBERS'))
     return message.channel.send(error2);
   
-  if (!unbuser) return message.channel.send(error3);
+  if (!args[0] || isNaN(args[0])) return message.channel.send(error3);
+
+  const unBuser = await aruna.fetchUser(args[0]);
+
+  if (!unBuser) return message.channel.send(error3);
   
   var reason = '';
   if (!args.join(' ').slice(19)) {
@@ -64,13 +67,13 @@ exports.run = async (aruna, message, args) => {
   const embed = new Discord.RichEmbed()
     .setAuthor('Desbanimento Efetuado!')
     .setDescription(`Desbanimento efetuado por ${message.author.username}`)
-    .addField('Usuário Desbanido: ', `${unbuser.id}`, false)
+    .addField('Usuário Desbanido: ', `${unBuser.id}`, false)
     .addField('Desbanido por: ', `<@${message.author.id}>`, false)
     .addField('Motivo: ', `${reason}`, false)
     .setTimestamp();
 
   message.channel.send(embed).then(async msg => {
-    await message.guild.unban(unbuser, reason).catch(err => {
+    await message.guild.unban(unBuser, reason).catch(err => {
       console.log(err);
       msg.edit(error4);
     });

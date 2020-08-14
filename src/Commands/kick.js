@@ -25,8 +25,6 @@ const now = new Date();
 
 exports.run = async (aruna, message, args) => {
   
-  const kuser = await aruna.fetchUser(message.mentions.users.first() || args[0]);
-  
   const error1 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
@@ -44,21 +42,31 @@ exports.run = async (aruna, message, args) => {
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Você deve inserir um usuário para ser punido!')
     .setTimestamp();
+
+  if (!args[0] || isNaN(args[0]) && (!args[0].includes('<@') || !args[0].includes('>'))) return message.channel.send(error3);
+
+  const kuser = await aruna.fetchUser(message.mentions.users.first() || args[0]);
+
+  if (!kuser) return message.channel.send(error3);
+
   const error4 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription(`Você não pode banir ${kuser.username} pois este é o(a) dono(a) do servidor!`)
     .setTimestamp();
+
   const error5 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription(`Você não pode banir este usuário pois seu cargo é igual ou inferior ao de ${kuser.username}.`)
     .setTimestamp();
+
   const error6 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription(`Eu não posso banir este usuário pois meu cargo é igual ou inferior ao de ${kuser.username}`)
     .setTimestamp();
+
   const error7 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
@@ -69,8 +77,6 @@ exports.run = async (aruna, message, args) => {
     return message.channel.send(error1);
   if (!message.guild.members.get(aruna.user.id).hasPermission('KICK_MEMBERS'))
     return message.channel.send(error2);
-  
-  if (!kuser) return message.channel.send(error3);
   
   const guildBuser = message.guild.member(
     message.mentions.users.first() || message.guild.members.get(args[0])
