@@ -39,6 +39,7 @@ exports.run = (aruna, message, args, langc) => {
     .setTimestamp();
   message.channel.send(embed);
 };
+
 exports.config = {
   name: 'avatar',
   aliases: [''],

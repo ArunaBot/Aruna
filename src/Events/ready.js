@@ -23,9 +23,10 @@ const chalk = require('chalk');
 const { apiKeys, config, database } = require('../../Configs');
 
 const language = require(`../../languages/bot/${config.language}/internal.json`);
+const langE = require(`../../languages/bot/${config.defaultLanguage}/events.json`);
 
 exports.run = async (aruna) => {
-  log('Conectado!');
+  log(language.ready.connected);
 
   let totalSeconds = (aruna.uptime / 1000);
   const days = Math.floor(totalSeconds / 86400);
@@ -48,36 +49,40 @@ exports.run = async (aruna) => {
 
   const status = [
     { 
-      name: 'Muppet Show', 
+      name: langE.ready.status['1'], 
       type: 'watching' 
     },
     { 
-      name: 'M83 - Midnight City', 
+      name: langE.ready.status['2'], 
       type: 'listening'
     },
     { 
-      name: `Faz ${uptime}`, 
+      name: langE.ready.status['3'].replace('[time]', uptime), 
       type: 'playing' 
     },
     {
-      name: 'Netflix',
+      name: langE.ready.status['4'],
       type: 'watching'
     },
     {
-      name: `Versão ${pkg.version}`,
+      name: langE.ready.status['5'].replace('[version]', pkg.version),
       type: 'streaming',
-      url: 'https://www.twitch.tv/lobometalurgico'
+      url: config.twitch
     },
     {
-      name: `Seu Shard é o ${aruna.shard.id}!`,
+      name: langE.ready.status['6'].replace('[shard]', aruna.shard.id),
       type: 'watching'
+    },
+    {
+      name: langE.ready.status['7'],
+      type: 'listening'
     }
   ];
   async function setStatus() {
     var maintenance = await database.System.findOne({ _id: 1 });
     var inMaintenance = maintenance.maintenance;
     if (inMaintenance === true){
-      aruna.user.setPresence({ game: { name: `🚫AVISO: MANUTENÇÃO PROGRAMADA PARA ${maintenance.date}! FICAREI INDISPONÍVEL POR ${maintenance.time}!🚫`}});
+      aruna.user.setPresence({ game: { name: langE.ready.maintenance.replace('[date]', maintenance.date).replace('[time]', maintenance.time)}});
     } else {
       const randomStatus = status[Math.floor(Math.random() * status.length)];
       aruna.user.setPresence({ game: randomStatus });

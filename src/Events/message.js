@@ -128,7 +128,7 @@ exports.run = async (aruna, message) => {
     const db = database;
 
     const xpsystem = require('../utils/rankSystem.js');
-    xpsystem.run(aruna, message, db, cooldown, utils, Discord);
+    xpsystem.run(aruna, message, lang, langc, db, cooldown, utils, Discord);
   }
 
   if (message.content.startsWith(prefix)) {

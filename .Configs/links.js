@@ -18,9 +18,10 @@
 */
 
 module.exports = {
-  supportServers: [''],
-  invites: [''],
   donate: [''],
-  website: '',
-  trelloBoard: ''
+  invites: [''],
+  supportServers: [''],
+  trelloBoard: '',
+  twitch: 'https://www.twitch.tv/lobometalurgico', // Required
+  website: ''
 };
