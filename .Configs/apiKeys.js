@@ -18,7 +18,7 @@
 */
 
 
-// Dbots API Keys
+// API Keys
 module.exports = {
 
 };

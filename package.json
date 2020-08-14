@@ -18,7 +18,7 @@
     "@discordjs/opus": "^0.3.2",
     "chalk": "^4.1.0",
     "dateformat": "^3.0.3",
-    "dbots": "^5.0.4",
+    "dblapi.js": "^2.4.1",
     "discord.js": "^11.6.4",
     "express": "^4.17.1",
     "express-session": "^1.17.1",

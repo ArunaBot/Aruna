@@ -117,15 +117,24 @@ exports.run = async (aruna) => {
     return !!aruna.shard;
   }
 
-  if (apiKeys) {
-    const client = aruna;
-    const dbots = require('dbots');
-    const poster = new dbots.Poster({
-      client,
-      apiKeys,
-      clientLibrary: 'discord.js'
+  if (apiKeys.topgg) {
+    const DBL = require('dblapi.js');
+
+    const dbl = new DBL(apiKeys.topgg, aruna);
+
+    dbl.postStats(aruna.guilds.size);
+
+    setInterval(() => {
+      dbl.postStats(aruna.guilds.size);
+    }, 900000);
+
+    // Optional events
+    dbl.on('posted', () => {
+      console.log('Server count posted!');
     });
 
-    poster.startInterval();
+    dbl.on('error', e => {
+      console.log(`Oops! ${e}`);
+    });
   }
 };
