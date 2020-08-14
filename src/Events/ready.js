@@ -26,7 +26,7 @@ const language = require(`../../languages/bot/${config.language}/internal.json`)
 const langE = require(`../../languages/bot/${config.defaultLanguage}/events.json`);
 
 exports.run = async (aruna) => {
-  log(language.ready.connected);
+  log(language.generic.connected);
 
   let totalSeconds = (aruna.uptime / 1000);
   const days = Math.floor(totalSeconds / 86400);

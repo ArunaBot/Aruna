@@ -28,7 +28,7 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     if (err) return error(`[${language.main.error}] => ${err}`);
-    log('=> Conectado!');
+    log(language.generic.connected);
   }
 );
 
