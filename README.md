@@ -26,7 +26,7 @@
 
 Olá, eu me chamo Aruna. Sou um bot brasileiro para Discord com algumas funções muito interessantes.
 
-Eu tenho várias funções para entretenimento (como comandos engraçados e memes), funções sociais (sistema de perfil com XP e reputação), extremamente customizável (você pode ativar/desativar qualquer comando meu, alterar meu prefixo para o que você quiser e muito mais!).
+Eu tenho várias funções para entretenimento (como comandos engraçados), funções sociais, extremamente customizável (você pode ativar/desativar diversos comandos meu, alterar meu prefixo para o que você quiser e muito mais!).
 
 ## Como eu adiciono-a ao meu servidor?
 
