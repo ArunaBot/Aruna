@@ -26,12 +26,13 @@ const chalk = require('chalk');
 const pkg = require('../package.json');
 
 const language = require(`../languages/bot/${config.language}/internal.json`);
+const defaultLanguage = require(`../languages/bot/${config.defaultLanguage}/internal.json`);
 
 const infoPrefix = `${chalk.gray('[')}${chalk.green(language.generic.base.toUpperCase())}${chalk.gray(']')}`;
 const errorPrefix = `${chalk.gray('[')}${chalk.red(language.generic.base.toUpperCase())}${chalk.gray(']')}`;
 
 console.log(language.initialization.initializing.replace('[prefix]', infoPrefix));
-console.log(`${infoPrefix} ${language.initialization.language.replace('[language]', chalk.yellow(config.language)).replace('[default]', chalk.yellow(config.defaultLanguage))}`);
+console.log(`${infoPrefix} ${language.initialization.language.replace('[language]', chalk.yellow(language.generic.languageName)).replace('[default]', chalk.yellow(defaultLanguage.generic.languageName))}`);
 console.log(`${infoPrefix} ${language.initialization.version.replace('[version]', pkg.version)}`);
 
 const aruna = new Discord.Client();
