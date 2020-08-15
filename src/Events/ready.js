@@ -20,7 +20,7 @@
 
 const pkg = require('../../package.json');
 const chalk = require('chalk');
-const { apiKeys, config, database } = require('../../Configs');
+const { apiKeys, config, database, links } = require('../../Configs');
 
 const language = require(`../../languages/bot/${config.language}/internal.json`);
 const langE = require(`../../languages/bot/${config.defaultLanguage}/events.json`);
@@ -67,7 +67,7 @@ exports.run = async (aruna) => {
     {
       name: langE.ready.status['5'].replace('[version]', pkg.version),
       type: 'streaming',
-      url: config.twitch
+      url: links.twitch
     },
     {
       name: langE.ready.status['6'].replace('[shard]', aruna.shard.id),
@@ -117,7 +117,7 @@ exports.run = async (aruna) => {
     return !!aruna.shard;
   }
 
-  if (apiKeys.topgg) {
+  if (apiKeys && apiKeys.topgg) {
     const DBL = require('dblapi.js');
 
     const client = aruna;
