@@ -43,7 +43,7 @@ exports.run = async (aruna, message) => {
   var guild = await database.Guilds.findOne({ _id: message.guild.id });
   var user = await database.Users.findOne({ _id: message.author.id });
   if (!guild) {
-    var language = '';
+    var language;
     if (message.guild.region == 'brazil') {
       language = 'br';
     } else {

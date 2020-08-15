@@ -16,14 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var { database } = require('../../Configs');
+var { config, database } = require('../../Configs');
 
 exports.run = async (aruna, guild) => {
-  var language = '';
+  var language;
   if (guild.region == 'brazil') {
     language = 'br';
   } else {
-    language = 'us';
+    language = config.defaultLanguage;
   }
   var saveG = await new database.Guilds({ _id: guild.id, language: language });
   await saveG.save();
