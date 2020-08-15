@@ -20,7 +20,7 @@ const { emojis } = require('../Utils');
 const Discord = require('discord.js');
 const math = require('mathjs');
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.language}/commands.json`);
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = (aruna, message, args, langc) => {
 
@@ -29,13 +29,13 @@ exports.run = (aruna, message, args, langc) => {
   }
 
   const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
-    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.calculator.embed.error.description1)
     .setTimestamp();
   const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
-    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.calculator.embed.error.description2)
     .setTimestamp();
 

@@ -27,7 +27,7 @@ function verify(messages, args, message, language) {
 
 const Discord = require('discord.js');
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.language}/commands.json`);
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (aruna, message, args, langc) => {
 
@@ -36,26 +36,26 @@ exports.run = async (aruna, message, args, langc) => {
   }
   
   const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
-    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.clear.embed.error.description1.replace('[manageMessages]', language.generic.permissions.manageMessages))
     .setTimestamp();
   
   const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
-    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.clear.embed.error.description2.replace('[manageMessages]', language.generic.permissions.manageMessages))
     .setTimestamp();
   
   const error3 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
-    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.clear.embed.error.description3)
     .setTimestamp();
   
   const error4 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.author.username), message.author.avatarURL)
-    .setFooter(language.generic.embed.error.footer.replace('[username]', message.author.username))
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.clear.embed.error.description4)
     .setTimestamp();
   

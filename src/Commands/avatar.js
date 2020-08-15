@@ -19,7 +19,7 @@
 const Discord = require('discord.js');
 const { emoji } = require('../Utils');
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.language}/commands.json`);
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = (aruna, message, args, langc) => {
   const user1 = message.guild.member(
