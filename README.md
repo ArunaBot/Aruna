@@ -1,10 +1,10 @@
 
 <p align="center">
-<a href="https://discord.gg/NqbBgEf"><img src="https://discordapp.com/api/guilds/660610178009530380/widget.png"></a>
+<a href="https://discord.gg/NqbBgEf" target="_blank"><img src="https://discordapp.com/api/guilds/660610178009530380/widget.png"></a>
 </p>
 <h1 align="center">Aruna</h1>
 <p align="center">
-<a href="https://top.gg/bot/593303574725787657" >
+<a href="https://top.gg/bot/593303574725787657" target="_blank" >
   <img src="https://top.gg/api/widget/593303574725787657.svg" alt="Aruna" />
 </a>
  </p>
