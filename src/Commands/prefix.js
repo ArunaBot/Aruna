@@ -18,7 +18,7 @@
 
 const Discord = require('discord.js');
 const { database, config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguagee}/commands.json`);
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 /** @deprecated This Will Be Removed In A future Version */
 exports.run = async (aruna, message, args, langc) => {

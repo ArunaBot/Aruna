@@ -16,19 +16,28 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-exports.run = async (aruna, message) => {
-  var add = Math.round(Math.random());
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+
+exports.run = async (aruna, message, args, langc) => {
+
+  if (langc) {
+    language = langc;
+  }
+
+  var add = await Math.round(Math.random());
   if (add == 0){
-    message.channel.send('Cara!');
+    message.channel.send(language.flip.heads);
   } else if (add == 1){
-    message.channel.send('Coroa!');
+    message.channel.send(language.flip.tails);
   } else {
-    message.reply('Erro!');
+    message.reply(language.generic.error);
   }
 };
 
 exports.config = {
   name: 'flip',
+  description: language.flip.config.description,
   aliases: ['moeda', 'girar'],
   category: '🎉 Entretenimento'
 };
