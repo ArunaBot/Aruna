@@ -46,7 +46,7 @@ exports.run = async (aruna, message) => {
 
   var prefix = guildDB.prefix;
 
-  var categories = '';
+  var categories;
 
   categories = aruna.commands
     .map(c => c.config.category)
@@ -65,10 +65,7 @@ exports.run = async (aruna, message) => {
         embed.addField(`${category}`, '```' + commands + '```', false);
       }
       embed.setColor('#004080');
-      embed.setAuthor(
-        `${aruna.user.username}`,
-        `${aruna.user.displayAvatarURL}`
-      );
+      embed.setAuthor(aruna.user.username, aruna.user.displayAvatarURL);
       embed.setFooter(`Comando Solicitado por ${message.author.username}#${message.author.discriminator}`, message.author.avatarURL);
       embed.setTimestamp();
     });
