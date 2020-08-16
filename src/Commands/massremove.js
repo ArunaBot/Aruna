@@ -18,9 +18,11 @@
 
 const Discord = require('discord.js');
 const { emoji } = require('../Utils');
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
-exports.run = (aruna, message, args) => {
-  var role = '';
+exports.run = (aruna, message, args, langc) => {
+  var role;
   if (!args[0]) {
     role = undefined;
   } else {
@@ -33,17 +35,20 @@ exports.run = (aruna, message, args) => {
     undefined;
   }
   
+  if (langc) {
+    language = langc;
+  }
 
   const error1 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você não possui a permissão de `Gerenciar Cargos`!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.massRemove.embed.error.description1.replace('[manageRoles]', language.generic.permissions.manageRoles))
     .setTimestamp();
 
   const error2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Eu não possuo a permissão de `Gerenciar Cargos`!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.massRemove.embed.error.description2.replace('[manageRoles]', language.generic.permissions.manageRoles))
     .setTimestamp();
   
   if (!message.member.hasPermission('MANAGE_ROLES'))
@@ -51,59 +56,52 @@ exports.run = (aruna, message, args) => {
   if (!message.guild.members.get(aruna.user.id).hasPermission('MANAGE_ROLES'))
     return message.channel.send(error2);
   
-  const error4 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você deve inserir um rank para remover dos membros!')
+  const error3 = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.massRemove.embed.error.description3)
     .setTimestamp();
   
-  if (!role || role === undefined) return message.channel.send(error4);
+  if (!role || role === undefined) return message.channel.send(error3);
 
-  const error5 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      `Você não pode remover o cargo \`${role.name}\` pois meu cargo é esse ou inferior a ele.`
-    )
+  const error4 = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.massRemove.embed.error.description4.replace('[roleName]', role.name))
     .setTimestamp();
 
-  const error6 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      `Você não pode remover o cargo \`${role.name}\` pois seu cargo é esse ou inferior a ele.`
-    )
+  const error5 = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.massRemove.embed.error.description5.replace('[roleName]', role.name))
     .setTimestamp();
   
   if (
     role.position >=
     message.guild.members.get(aruna.user.id).highestRole.position
   )
-    return message.channel.send(error5);
+    return message.channel.send(error4);
 
   if (
     role.position >=
       message.guild.members.get(message.author.id).highestRole.position &&
     message.guild.owner.id !== message.author.id
   )
-    return message.channel.send(error6);
+    return message.channel.send(error5);
 
   const executando = new Discord.RichEmbed()
-    .setTitle(`${emoji.loading} Aguarde, ${message.author.username}`, message.author.avatarURL)
+    .setTitle(language.generic.embed.running.title.replace('[emoji]', emoji.loading)
+      .replace('[username]', message.member.displayName), message.author.avatarURL)
     .setColor('#f2ff00')
-    .setFooter(`Operação em Execução, ${message.author.username}`)
-    .setDescription(
-      `O cargo \`${role.name}\` está sendo removido de todos os usuários do servidor. Por favor, aguarde um momento.`
-    )
+    .setFooter(language.generic.embed.running.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.massRemove.embed.running.description.replace('[roleName]', role.name).replace('[userSize]', message.guild.members.size))
     .setTimestamp();
 
   const sucess = new Discord.RichEmbed()
-    .setAuthor(`YAY, ${message.author.username}`, message.author.avatarURL)
+    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
     .setColor([0, 255, 0])
-    .setFooter(`Operação efetuada com sucesso, ${message.author.username}`)
-    .setDescription(
-      `O cargo \`${role.name}\` foi removido de todos os usuários com sucesso!`
-    )
+    .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+    .setDescription(language.massRemove.embed.sucess.description.replace('[roleName]', role.name).replace('[userSize]', message.guild.members.size))
     .setTimestamp();
 
   message.channel.send(executando).then(msg => {
