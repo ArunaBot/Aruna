@@ -23,7 +23,7 @@ const { date } = require('../Utils');
 const dateFormat = require('dateformat');
 const now = new Date();
 
-exports.run = async (aruna, message, args) => {
+exports.run = async (aruna, message, args, langc, prefix, command) => {
   
   const error1 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
@@ -91,13 +91,21 @@ exports.run = async (aruna, message, args) => {
       return message.channel.send(error6);
   }
   
-  var reason = '';
-  if (!args.join(' ').slice(19)) {
+  var reason = message.content.slice(command.length + prefix.length).trim();
+
+  if (args[0].includes('<@!') && args[0].includes('>')) {
+    reason = reason.slice(5 + kuser.id.length).trim();
+  } else if (args[0].includes('<@') && args[0].includes('>')) {
+    reason = reason.slice(4 + kuser.id.length).trim();
+  } else {
+    reason = reason.slice(kuser.id.length).trim();
+  }
+  
+  if (!reason) {
     reason = `Punido por: ${message.author.username}`;
   } else {
     reason =
-      `Punido por: ${message.author.username} com o Motivo: ` +
-      args.join(' ').slice(19);
+      `Punido por: ${message.author.username} com o Motivo: ${reason}`;
   }
 
   const embed = new Discord.RichEmbed()

@@ -18,7 +18,7 @@
 
 const Discord = require('discord.js');
 
-exports.run = async (aruna, message, args) => {
+exports.run = async (aruna, message, args, langc, prefix, command) => {
   
   const error1 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
@@ -55,13 +55,13 @@ exports.run = async (aruna, message, args) => {
 
   if (!unBuser) return message.channel.send(error3);
   
-  var reason = '';
-  if (!args.join(' ').slice(19)) {
+  var reason = message.content.slice(command.length + prefix.length + unBuser.id.length).trim();
+  
+  if (!reason) {
     reason = `Desbanido por: ${message.author.username}`;
   } else {
     reason =
-      `Desbanido por: ${message.author.username} com o Motivo: ` +
-      args.join(' ').slice(19);
+      `Desbanido por: ${message.author.username} com o Motivo: ${reason}`;
   }
 
   const embed = new Discord.RichEmbed()
