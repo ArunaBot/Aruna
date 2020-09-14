@@ -17,7 +17,10 @@
 */
 
 const Discord = require('discord.js');
-var { database } = require('../../Configs');
+var { config, database } = require('../../Configs');
+
+const lang = require(`../languages/bot/${config.lang}/events.json`);
+const langD = require(`../languages/bot/${config.defaultLanguage}/events.json`);
 
 const serverStatsPrincipal = {
   guildID: '660610178009530380',
@@ -32,7 +35,7 @@ exports.run = async (aruna, member) => {
   if (!user) {
     var saveU = await new database.Users({ _id: member.user.id });
     await saveU.save();
-    console.log('New Member on database :)');
+    console.log(lang.memberAdd.db);
   }
 
   /* AUTOROLE MAIN GUILD*/
@@ -47,11 +50,9 @@ exports.run = async (aruna, member) => {
     }
   } else if (member.guild.id == serverStatsPrincipal.oldGuildID) {
     const changingMessage = new Discord.RichEmbed()
-      .setAuthor(`Oops, ${member.user.username}`, member.user.avatarURL)
-      .setFooter('Nos Vemos Em Breve :)')
-      .setDescription(
-        'Olá! No momento estamos trocando de servidor. Por favor, peço que entre no nosso novo servidor clicando **[aqui](https://discord.gg/NqbBgEf)** :)'
-      )
+      .setAuthor(langD.memberAdd.change.embed.title.replace('[username]', member.user.username), member.user.avatarURL)
+      .setFooter(langD.memberAdd.change.embed.footer.replace('[username]', member.user.username))
+      .setDescription(langD.memberAdd.change.embed.description.replace('[link]', 'https://discord.gg/NqbBgEf'))
       .setTimestamp();
     member.send(changingMessage);
   }
