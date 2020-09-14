@@ -24,8 +24,7 @@ exports.run = async (aruna, message) => {
     `Olá, ${message.author.username}`
   )
     .setDescription(`Encontrou algum erro esquisito, tem alguma reclamação ou sugestões para mim?
-\nPara isso, basta clicar [aqui](
-https://discord.gg/NqbBgEf) e venha conversar com meus desenvolvedores!`);
+      \nPara isso, basta clicar [aqui](https://discord.gg/NqbBgEf) e venha conversar com meus desenvolvedores!`);
   message.channel.send(embed);
 };
 
