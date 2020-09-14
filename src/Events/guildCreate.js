@@ -29,5 +29,5 @@ exports.run = async (aruna, guild) => {
   }
   var saveG = await new database.Guilds({ _id: guild.id, language: language });
   await saveG.save();
-  console.log(lang.guild.create);
+  console.log(lang.guild.create.replace('[guildName]', guild.name));
 };

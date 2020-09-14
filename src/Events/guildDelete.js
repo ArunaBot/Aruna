@@ -22,5 +22,5 @@ const lang = require(`../../languages/bot/${config.language}/events.json`);
 
 exports.run = async (aruna, guild) => {
   await database.Guilds.findOneAndDelete({ _id: guild.id });
-  console.log(lang.guild.delete);
+  console.log(lang.guild.delete.replace('[guildName]', guild.name));
 };
