@@ -56,7 +56,7 @@ exports.run = (aruna, message) => {
     .addField('(🕹️) Usuários', `${aruna.users.size}`, true)
     .addField('(💻) Seu Shard', `${aruna.shard.id}`, true)
     .addField('(💠) Status do Shard', 'ONLINE', true) /** @todo status verdadeiro e-e */
-    .addField('(🏓) Shards Totais', `${global.shardingManager.totalShards}`, true)
+    .addField('(🏓) Ping do Shard', `${aruna.ping}ms`, true) /** @todo ping do shard, não do bot */
     .addField(
       'Convite',
       `${links.invites[0] ? `[Link](${links.invites[0]})` : 'INDISPONÍVEL'}`,
