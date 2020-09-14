@@ -16,9 +16,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var { database } = require('../../Configs');
+var { config, database } = require('../../Configs');
+
+const lang = require(`../../languages/bot/${config.language}/events.json`);
 
 exports.run = async (aruna, guild) => {
   await database.Guilds.findOneAndDelete({ _id: guild.id });
-  console.log('Server Removed :(');
+  console.log(lang.guild.delete);
 };

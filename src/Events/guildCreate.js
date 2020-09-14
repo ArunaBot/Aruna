@@ -18,6 +18,8 @@
 
 var { config, database } = require('../../Configs');
 
+const lang = require(`../../languages/bot/${config.language}/events.json`);
+
 exports.run = async (aruna, guild) => {
   var language;
   if (guild.region == 'brazil') {
@@ -27,5 +29,5 @@ exports.run = async (aruna, guild) => {
   }
   var saveG = await new database.Guilds({ _id: guild.id, language: language });
   await saveG.save();
-  console.log('New Server Entry! :)');
+  console.log(lang.guild.create);
 };
