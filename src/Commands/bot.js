@@ -30,7 +30,7 @@ exports.run = (aruna, message) => {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = Math.floor(totalSeconds % 60);
 
-  var uptime = '';
+  var uptime;
 
   if (days >= 1) {
     uptime = `${days}d, ${hours}h, ${minutes}m`;
