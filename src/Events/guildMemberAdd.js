@@ -19,8 +19,8 @@
 const Discord = require('discord.js');
 var { config, database } = require('../../Configs');
 
-const lang = require(`../languages/bot/${config.lang}/events.json`);
-const langD = require(`../languages/bot/${config.defaultLanguage}/events.json`);
+const lang = require(`../../languages/bot/${config.language}/events.json`);
+const langD = require(`../../languages/bot/${config.defaultLanguage}/events.json`);
 
 const serverStatsPrincipal = {
   guildID: '660610178009530380',
