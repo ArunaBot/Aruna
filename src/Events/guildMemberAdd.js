@@ -18,6 +18,7 @@
 
 const Discord = require('discord.js');
 var { config, database } = require('../../Configs');
+const { links } = require('../../Configs');
 
 const lang = require(`../../languages/bot/${config.language}/events.json`);
 const langD = require(`../../languages/bot/${config.defaultLanguage}/events.json`);
@@ -52,7 +53,7 @@ exports.run = async (aruna, member) => {
     const changingMessage = new Discord.RichEmbed()
       .setAuthor(langD.memberAdd.change.embed.title.replace('[username]', member.user.username), member.user.avatarURL)
       .setFooter(langD.memberAdd.change.embed.footer.replace('[username]', member.user.username))
-      .setDescription(langD.memberAdd.change.embed.description.replace('[link]', 'https://discord.gg/NqbBgEf'))
+      .setDescription(langD.memberAdd.change.embed.description.replace('[link]', links.supportServers[0]))
       .setTimestamp();
     member.send(changingMessage);
   }

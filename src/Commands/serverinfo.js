@@ -52,21 +52,25 @@ exports.run = async (aruna, message) => {
   if (region === 'india') region = ':flag_in: India';
   if (region === 'japan') region = ':flag_jp: Japão';
   if (region === 'russia') region = ':flag_ru: Rússia';
-  if (region === 'singapore') region = ':flag_br: Singapura';
+  if (region === 'singapore') region = ':flag_sg: Singapura';
   if (
     region === 'us-central' ||
     region === 'us-east' ||
     region === 'us-south' ||
     region === 'us-west'
-  )
-    region = ':flag_us: Estados Unidos';
+  ) region = ':flag_us: Estados Unidos';
 
+  var guildIcon;
+
+  if (message.guild.iconURL.includes('a_')) {
+    guildIcon = message.guild.iconURL.slice(0, -3).trim() + 'gif';
+  } else {
+    guildIcon = message.guild.iconURL;
+  }
   const embed = new Discord.RichEmbed()
     .setColor([0, 23, 132])
     .setTitle(`${pType} ${message.guild.name}`)
-    .setThumbnail(
-      `https://cdn.discordapp.com/icons/${message.guild.id}/${message.guild.icon}.png`
-    )
+    .setThumbnail(guildIcon)
     .addField(':computer: ID da Guild', message.guild.id, true)
     .addField(':crown: Dono', `${message.guild.owner}`, true)
     .addField(':earth_americas: Região', `${region}`, true)
@@ -98,15 +102,23 @@ exports.run = async (aruna, message) => {
       }`,
       false
     )
-    .addField(`${emoji.nitro} Informações sobre Impulsos`, 
-      `${emoji.nitro} » Nível do Impulso: ${message.guild.premiumTier}
-      ${emoji.nitro} » Quantidade de Impulsos: ${message.guild.premiumSubscriptionCount}`,
-      false
-    )
     .setFooter(`Comando Solicitado por ${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
     .setTimestamp();
 
-  message.reply(embed);
+  if (message.guild.premiumSubscriptionCount >= 1 && message.guild.premiumTier >= 1) {
+    embed.addField(`${emoji.nitro} Informações sobre Impulsos`, 
+      `${emoji.nitro} » Nível do Impulso: ${message.guild.premiumTier}
+      ${emoji.nitro} » Quantidade de Impulsos: ${message.guild.premiumSubscriptionCount}`,
+      false
+    );
+  } else if (message.guild.premiumSubscriptionCount >= 1) {
+    embed.addField(`${emoji.nitro} Informações sobre Impulsos`, 
+      `${emoji.nitro} » Quantidade de Impulsos: ${message.guild.premiumSubscriptionCount}`,
+      false
+    );
+  }
+
+  message.channel.send(embed);
 };
 
 exports.config = {

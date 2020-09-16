@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -84,7 +85,7 @@ exports.run = (aruna, message, args) => {
   const premium = message.guild.member(message.author).premiumSinceTimestamp;
   var userBoost = '';
   if (premium !== null) {
-    userBoost = `${emoji.nitro} Impulsionando Desde: ${dateFormat(message.guild.member(message.author).premiumSinceTimestamp, 'dd/mm/yyyy "às" HH:MM:ss')}\n`;
+    userBoost = `\n\n(${emoji.nitro}) **Impulsionando Desde:** ${dateFormat(message.guild.member(message.author).premiumSinceTimestamp, 'dd/mm/yyyy "às" HH:MM:ss')}`;
   }
   const accountCreated = dateFormat(mentionedUser.user.createdTimestamp, 'dd/mm/yyyy "às" HH:MM:ss');
   const joinedIn = dateFormat(mentionedUser.joinedTimestamp, 'dd/mm/yyyy "às" HH:MM:ss');
@@ -101,13 +102,13 @@ exports.run = (aruna, message, args) => {
     ${userStatusEmoji} **Status:** \`${userStatus}\`
 
     ${emoji.pass} **Criou a Conta Em:** \`${accountCreated}\` (${userDaysDiscord} ${stringtime1} atrás)`, false)
-
     .addField('Informações do Membro', `
     (${emoji.discord}) **Apelido:** \`${userNickName}\`
 
     (👮) **É Administrador:** \`${userAdminServer}\`
-    ${userBoost}
-    (:date:) **Entrou Em:** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} atrás)`, false)
+    
+    (:date:) **Entrou Em:** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} atrás)${userBoost}
+    `, false)
     .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
     .setThumbnail(userAvatar)
     .setColor('#56eaf5')
