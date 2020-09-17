@@ -29,11 +29,21 @@ exports.run = async (aruna, message, args, langc) => {
     language = langc;
   }
 
+  const error = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setDescription(language.invite.embed.error)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setTimestamp();
+
+  if (!pkg.repository.url) {
+    return message.channel.send(error);
+  }
+
   const embed = new Discord.RichEmbed()
     .setAuthor(language.generic.embed.title.replace('[username]', message.member.displayName), message.author.avatarURL)
-    .setDescription(`${language.github.embed.description.line1}
-\n${language.github.embed.description.line2.replace('[url]', pkg.repository.url)}
-\n${language.github.embed.description.line3}`)
+    .setDescription(`${language.github.embed.sucess.description.line1}
+\n${language.github.embed.sucess.description.line2.replace('[url]', pkg.repository.url)}
+\n${language.github.embed.sucess.description.line3}`)
     .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
     .setTimestamp();
   message.channel.send(embed);
