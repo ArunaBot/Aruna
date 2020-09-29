@@ -83,7 +83,7 @@ exports.run = async (aruna) => {
     var inMaintenance;
     if (!maintenance) {
       inMaintenance = false;
-      await new database.System({ _id: 1 });
+      await new database.System({ _id: 1 }).save();
       debug(langE.ready.databaseAdd);
     } else {
       inMaintenance = maintenance.maintenance;
