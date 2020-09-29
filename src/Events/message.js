@@ -155,10 +155,10 @@ exports.run = async (aruna, message) => {
         return message.reply(linkError);
       } else if (!user.SUPER && !commandFile.config.public) {
         const denied = new Discord.RichEmbed()
-          .setAuthor(language.generic.embed.denied.title, message.author.avatarURL)
-          .setDescription(`${language.generic.embed.denied.description.line1.replace('[username]', message.member.displayName).replace('[command]', command)}\n
-          ${language.generic.embed.denied.description.line2.replace('[prefix]', prefix)}`)
-          .setFooter(language.generic.embed.denied.footer)
+          .setAuthor(langc.generic.embed.denied.title, message.author.avatarURL)
+          .setDescription(`${langc.generic.embed.denied.description.line1.replace('[username]', message.member.displayName).replace('[command]', command)}\n
+          ${langc.generic.embed.denied.description.line2.replace('[prefix]', prefix)}`)
+          .setFooter(langc.generic.embed.denied.footer)
           .setTimestamp();
         return message.channel.send(denied);
       }
