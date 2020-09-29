@@ -98,7 +98,7 @@ function isSharded() {
 }
 
 aruna.login(config.token).then(() => {
-  console.log(`${infoPrefix} ${language.initialization.complete}`);
+  log(`=> ${language.initialization.complete}`);
 }).catch(e => {
-  console.exception(`${errorPrefix} ${language.initialization.fail} ${e}`);
+  error(`=> ${language.initialization.fail} ${e}`);
 });
