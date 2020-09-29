@@ -43,7 +43,7 @@ fs.readdir('./src/Events/', (erro, files) => {
   if (erro) return error(`[${language.main.error}] => ${erro}`);
   const jsfile = files.filter(f => f.split('.').pop() === 'js');
   if (jsfile.length <= 0) {
-    return warn(`[${language.main.event}] ${language.generic.notFound}`);
+    return warn(`[${language.main.events}] ${language.generic.notFound}`);
   }
   files.forEach(file => {
     const eventFunction = require(`./Events/${file}`);
