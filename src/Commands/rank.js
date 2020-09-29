@@ -70,5 +70,6 @@ exports.config = {
   name: 'rank',
   description: language.rank.config.description,
   aliases: ['perfil'],
-  category: '🎉 Entretenimento'
+  category: '🎉 Entretenimento',
+  public: true
 };

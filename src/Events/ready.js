@@ -35,7 +35,7 @@ exports.run = async (aruna) => {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = Math.floor(totalSeconds % 60);
 
-  var uptime = '';
+  var uptime;
 
   if (days >= 1) {
     uptime = `${days}d, ${hours}h, ${minutes}m`;
@@ -80,7 +80,14 @@ exports.run = async (aruna) => {
   ];
   async function setStatus() {
     var maintenance = await database.System.findOne({ _id: 1 });
-    var inMaintenance = maintenance.maintenance;
+    var inMaintenance;
+    if (!maintenance) {
+      inMaintenance = false;
+      await new database.System({ _id: 1 });
+      debug(langE.ready.databaseAdd);
+    } else {
+      inMaintenance = maintenance.maintenance;
+    }
     if (inMaintenance === true){
       aruna.user.setPresence({ game: { name: langE.ready.maintenance.replace('[date]', maintenance.date).replace('[time]', maintenance.time)}});
     } else {
@@ -110,7 +117,9 @@ exports.run = async (aruna) => {
   }
 
   function debug(...a) {
-    return console.debug(logPrefix(), chalk.magenta(...a));
+    if (config.debug) {
+      return console.debug(logPrefix(), chalk.magenta(...a));
+    } else return;
   }
 
   function isSharded() {
@@ -132,11 +141,11 @@ exports.run = async (aruna) => {
 
     // Optional events
     dbl.on('posted', () => {
-      console.log('Server count posted!');
+      log(`[${langE.dbl}] => ${langE.ready.posted}`);
     });
 
     dbl.on('error', e => {
-      console.log(`Oops! ${e}`);
+      warn(`[${langE.dbl}][${language.main.error}] => ${e}`);
     });
   }
 };

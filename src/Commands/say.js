@@ -62,5 +62,6 @@ exports.config = {
   name: 'say',
   description: language.say.config.description,
   aliases: ['falar'],
-  category: '🎉 Entretenimento'
+  category: '🎉 Entretenimento',
+  public: true
 };

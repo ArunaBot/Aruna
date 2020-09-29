@@ -48,5 +48,6 @@ exports.config = {
   name: 'suporte',
   aliases: ['support'],
   description: language.support.config.description,
-  category: `${emoji.robot} Utilidades`
+  category: `${emoji.robot} Utilidades`,
+  public: true
 };

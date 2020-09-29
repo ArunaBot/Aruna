@@ -66,5 +66,6 @@ exports.config = {
   name: 'calc',
   description: language.calculator.config.description,
   aliases: ['calculadora', 'math', 'matematica', 'calcular', 'calculator'],
-  category: `${emojis.robot} Utilidades`
+  category: `${emojis.robot} Utilidades`,
+  public: true
 };

@@ -55,7 +55,7 @@ exports.run = (aruna, message) => {
     .addField('(🖥️) Servidores', `${aruna.guilds.size}`, true)
     .addField('(🕹️) Usuários', `${aruna.users.size}`, true)
     .addField('(💻) Seu Shard', `${aruna.shard.id}`, true)
-    .addField('(💠) Status do Shard', 'ONLINE', true) /** @todo status verdadeiro e-e */
+    .addField('(💠) Status do Shard', 'ONLINE', true) /** @todo pensar em algo melhor pra colocar aqui */
     .addField('(🏓) Ping do Shard', `${aruna.ping}ms`, true) /** @todo ping do shard, não do bot */
     .addField(
       'Convite',
@@ -78,5 +78,6 @@ exports.config = {
   name: 'botinfo',
   aliases: ['bot', 'uptime'],
   description: 'Lista as Principais informações do bot',
-  category: `${emojis.robot} Utilidades`
+  category: `${emojis.robot} Utilidades`,
+  public: true
 };

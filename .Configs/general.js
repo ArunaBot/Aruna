@@ -17,12 +17,13 @@
 */
 
 module.exports = {
+  debug: false,
   prefix: '-',
   token: '',
   mongoose: '',
   superUsersId: ['281515925960654848'], // Your User ID Comes Here!
-  language: 'br',
-  defaultLanguage: 'us',
+  language: 'br', // Console Language
+  defaultLanguage: 'us', // Bot Language
   sharding: {
     totalShards: 'auto',
     delay: 7500

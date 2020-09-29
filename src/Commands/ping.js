@@ -51,5 +51,6 @@ exports.config = {
   name: 'ping',
   description: language.ping.config.description,
   aliases: ['pong'],
-  category: `${emoji.robot} Utilidades`
+  category: `${emoji.robot} Utilidades`,
+  public: true
 };

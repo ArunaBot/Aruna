@@ -18,6 +18,7 @@
 */
 
 const Discord = require('discord.js');
+const chalk = require('chalk');
 var { database, config, links } = require('../../Configs');
 const { cooldown, utils } = require('../Utils');
 
@@ -49,7 +50,7 @@ exports.run = async (aruna, message) => {
     } else {
       language = config.defaultLanguage;
     }
-    console.log('No Server!');
+    debug('No Server!');
     var saveG = await new database.Guilds({
       _id: message.guild.id,
       language: language
@@ -59,7 +60,7 @@ exports.run = async (aruna, message) => {
   }
 
   if (!user) {
-    console.log('No User!');
+    debug('No User!');
     var isSuper = false;
     if (config.superUsersId.includes(message.author.id)) {
       isSuper = true;
@@ -80,6 +81,7 @@ exports.run = async (aruna, message) => {
       
   const lang = require(`../../languages/bot/${language}/events.json`);
   const langc = require(`../../languages/bot/${language}/commands.json`);
+  const langI = require(`../../languages/bot/${config.language}/internal.json`);
 
   const emojiError = lang.message.errors.emojiError.replace('[externalEmojis]', langc.generic.permissions.useExternalEmojis);
   const linkError = lang.message.errors.linkError.replace('[sendLinks]', langc.generic.permissions.embedLinks);
@@ -151,6 +153,14 @@ exports.run = async (aruna, message) => {
         return message.reply(emojiError);
       } else if (!message.guild.members.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
         return message.reply(linkError);
+      } else if (!user.SUPER && !commandFile.config.public) {
+        const denied = new Discord.RichEmbed()
+          .setAuthor(language.generic.embed.denied.title, message.author.avatarURL)
+          .setDescription(`${language.generic.embed.denied.description.line1.replace('[username]', message.member.displayName).replace('[command]', command)}\n
+          ${language.generic.embed.denied.description.line2.replace('[prefix]', prefix)}`)
+          .setFooter(language.generic.embed.denied.footer)
+          .setTimestamp();
+        return message.channel.send(denied);
       }
       commandFile.run(aruna, message, args, langc, prefix, command);
     } else if (!commandFile) {
@@ -166,5 +176,33 @@ exports.run = async (aruna, message) => {
         message.reply(lang.message.commandNotFound.replace('[command]', command).replace('[alt]', alts));
       }
     }
+  }
+  function logPrefix() {
+    return `${chalk.gray('[')}${isSharded() ? `${langI.generic.shard} ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  function log(...a) {
+    return console.log(logPrefix(), ...a);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  function warn(...a) {
+    return console.warn(logPrefix(), chalk.yellow(...a));
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  function error(...a) {
+    return console.error(logPrefix(), chalk.red(...a));
+  }
+
+  function debug(...a) {
+    if (config.debug) {
+      return console.debug(logPrefix(), chalk.magenta(...a));
+    } else return;
+  }
+
+  function isSharded() {
+    return !!aruna.shard;
   }
 };

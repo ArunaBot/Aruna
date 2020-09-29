@@ -72,5 +72,6 @@ exports.run = (aruna, message, args) => {
 exports.config = {
   name: 'eval',
   aliases: [],
-  category: '🧰 Administração'
+  category: '🧰 Administração',
+  public: false
 };

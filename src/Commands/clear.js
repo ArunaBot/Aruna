@@ -81,5 +81,6 @@ exports.config = {
   name: 'clear',
   description: language.clear.config.description,
   aliases: [],
-  category: '👮‍♂️ Moderação'
+  category: '👮‍♂️ Moderação',
+  public: true
 };

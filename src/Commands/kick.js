@@ -128,5 +128,6 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
 exports.config = {
   name: 'kickar',
   aliases: ['kick', 'expulsar'],
-  category: '👮‍♂️ Moderação'
+  category: '👮‍♂️ Moderação',
+  public: true
 };

@@ -44,5 +44,6 @@ exports.config = {
   name: 'avatar',
   aliases: [''],
   description: language.avatar.config.description,
-  category: '🎉 Entretenimento'
+  category: '🎉 Entretenimento',
+  public: true
 };

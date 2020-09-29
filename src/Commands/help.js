@@ -48,27 +48,44 @@ exports.run = async (aruna, message) => {
 
   var categories;
 
-  categories = aruna.commands
-    .map(c => c.config.category)
-    .filter((v, i, a) => a.indexOf(v) === i);
-  categories
-    .sort((a, b) => a.localeCompare(b))
-    .forEach(category => {
-      const commands = aruna.commands
-        .filter(c => c.config.category === category)
-        .sort((a, b) => a.config.name.localeCompare(b.config.name))
-        .map(c => prefix + c.config.name)
-        .join(', ');
-      if (category == '🧰 Administração' && userDB.SUPER == false) {
-        null;
-      } else {
+  if (!userDB.SUPER) {
+    categories = aruna.commands
+      .map(c => c.config.category)
+      .filter((v, i, a) => a.indexOf(v) === i);
+    categories
+      .sort((a, b) => a.localeCompare(b))
+      .forEach(category => {
+        const commands = aruna.commands
+          .filter(c => c.config.category === category && c.config.public === true)
+          .sort((a, b) => a.config.name.localeCompare(b.config.name))
+          .map(c => prefix + c.config.name)
+          .join(', ');
+        if (category == '🧰 Administração') {
+          null;
+        } else {
+          embed.addField(`${category}`, '```' + commands + '```', false);
+        }
+      });
+  } else {
+    categories = aruna.commands
+      .map(c => c.config.category)
+      .filter((v, i, a) => a.indexOf(v) === i);
+    categories
+      .sort((a, b) => a.localeCompare(b))
+      .forEach(category => {
+        const commands = aruna.commands
+          .filter(c => c.config.category === category)
+          .sort((a, b) => a.config.name.localeCompare(b.config.name))
+          .map(c => prefix + c.config.name)
+          .join(', ');
         embed.addField(`${category}`, '```' + commands + '```', false);
-      }
-      embed.setColor('#004080');
-      embed.setAuthor(aruna.user.username, aruna.user.displayAvatarURL);
-      embed.setFooter(`Comando Solicitado por ${message.author.username}#${message.author.discriminator}`, message.author.avatarURL);
-      embed.setTimestamp();
-    });
+      });
+  }
+
+  embed.setColor('#004080');
+  embed.setAuthor(aruna.user.username, aruna.user.displayAvatarURL);
+  embed.setFooter(`Comando Solicitado por ${message.author.username}#${message.author.discriminator}`, message.author.avatarURL);
+  embed.setTimestamp();
 
   message.channel.send(sucesso).then(msg => {
     message.author.send(embed).catch(err => {
@@ -81,5 +98,6 @@ exports.run = async (aruna, message) => {
 exports.config = {
   name: 'help',
   aliases: ['ajuda', 'comandos', 'commands'],
-  category: `${emoji.robot} Utilidades`
+  category: `${emoji.robot} Utilidades`,
+  public: true
 };

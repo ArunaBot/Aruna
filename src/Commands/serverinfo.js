@@ -124,5 +124,6 @@ exports.run = async (aruna, message) => {
 exports.config = {
   name: 'serverinfo',
   aliases: ['si'],
-  category: `${emoji.robot} Utilidades`
+  category: `${emoji.robot} Utilidades`,
+  public: true
 };

@@ -98,5 +98,6 @@ exports.config = {
   name: 'prefix',
   description: language.prefix.config.description,
   aliases: ['prefixo', 'pref'],
-  category: '⚙️ Configurações'
+  category: '⚙️ Configurações',
+  public: true
 };

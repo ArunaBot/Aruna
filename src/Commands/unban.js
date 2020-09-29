@@ -83,5 +83,6 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
 exports.config = {
   name: 'desbanir',
   aliases: ['unban'],
-  category: '👮‍♂️ Moderação'
+  category: '👮‍♂️ Moderação',
+  public: true
 };

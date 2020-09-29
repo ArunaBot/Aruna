@@ -51,5 +51,6 @@ exports.config = {
   name: 'invite',
   aliases: ['convidar', 'convite'],
   description: language.invite.config.description,
-  category: `${emoji.robot} Utilidades`
+  category: `${emoji.robot} Utilidades`,
+  public: true
 };

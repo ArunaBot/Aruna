@@ -39,5 +39,6 @@ exports.config = {
   name: 'flip',
   description: language.flip.config.description,
   aliases: ['moeda', 'girar'],
-  category: '🎉 Entretenimento'
+  category: '🎉 Entretenimento',
+  public: true
 };

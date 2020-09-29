@@ -146,5 +146,6 @@ exports.run = async (aruna, message, args) => {
 exports.config = {
   name: 'dice',
   aliases: ['dado'],
-  category: '🎉 Entretenimento'
+  category: '🎉 Entretenimento',
+  public: true
 };

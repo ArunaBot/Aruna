@@ -121,5 +121,6 @@ exports.run = (aruna, message, args, langc) => {
 exports.config = {
   name: 'massremove',
   aliases: ['masscargoremove'],
-  category: '👮‍♂️ Moderação'
+  category: '👮‍♂️ Moderação',
+  public: true
 };

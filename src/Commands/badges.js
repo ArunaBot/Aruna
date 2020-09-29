@@ -157,5 +157,6 @@ exports.run = async (aruna, message, args) => {
 exports.config = {
   name: 'badge',
   aliases: ['badges'],
-  category: '🧰 Administração'
+  category: '🧰 Administração',
+  public: false
 };

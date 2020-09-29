@@ -116,5 +116,6 @@ exports.config = {
   name: 'massrole',
   description: language.massRole.config.description,
   aliases: ['masscargo', 'cargomassivo'],
-  category: '👮‍♂️ Moderação'
+  category: '👮‍♂️ Moderação',
+  public: true
 };

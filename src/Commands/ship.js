@@ -100,5 +100,6 @@ exports.run = async (client, message) => {
 exports.config = {
   name: 'ship',
   aliases: ['shipar', 'shipp', 'casal'],
-  category: '🎉 Entretenimento'
+  category: '🎉 Entretenimento',
+  public: true
 };

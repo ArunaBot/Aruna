@@ -155,5 +155,6 @@ exports.run = (aruna, message, args) => {
 exports.config = {
   name: 'userinfo',
   aliases: ['ui'],
-  category: `${emoji.robot} Utilidades`
+  category: `${emoji.robot} Utilidades`,
+  public: true
 };

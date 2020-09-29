@@ -55,7 +55,7 @@ fs.readdir('./src/Commands/', (err, files) => {
   if (jsfile.length <= 0) {
     return warn(`[${language.main.commands}] ${language.generic.notFound}`);
   }
-  jsfile.forEach(f => {
+  jsfile.forEach(async f => {
     const pull = require(`./Commands/${f}`);
     aruna.commands.set(pull.config.name, pull);
     log(`[${language.main.command}] => ${f}`);
@@ -84,7 +84,9 @@ function error(...a) {
 
 // eslint-disable-next-line no-unused-vars
 function debug(...a) {
-  return console.debug(logPrefix(), chalk.magenta(...a));
+  if (config.debug) {
+    return console.debug(logPrefix(), chalk.magenta(...a));
+  } else return;
 }
 
 function isSharded() {

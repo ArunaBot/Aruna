@@ -53,5 +53,6 @@ exports.config = {
   name: 'github',
   aliases: ['git', 'repo', 'repositório', 'repositorio'],
   description: language.github.config.description,
-  category: `${emoji.robot} Utilidades`
+  category: `${emoji.robot} Utilidades`,
+  public: true
 };

@@ -180,5 +180,6 @@ exports.run = async (aruna, message, args) => {
 exports.config = {
   name: 'config',
   aliases: ['configurar', 'configurações'],
-  category: '⚙️ Configurações'
+  category: '⚙️ Configurações',
+  public: true
 };
