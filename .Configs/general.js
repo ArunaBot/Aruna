@@ -22,6 +22,7 @@ module.exports = {
   token: '',
   mongoose: '',
   superUsersId: ['281515925960654848'], // Your User ID Comes Here!
+  noFakeId: ['187915892384858112', '281515925960654848'],
   language: 'br', // Console Language
   defaultLanguage: 'us', // Bot Language
   sharding: {

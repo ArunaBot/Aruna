@@ -41,6 +41,7 @@ var User = new Schema({
 var Guild = new Schema({
   _id: { type: String },
   prefix: { type: String, default: config.prefix },
+  antifake: { type: Boolean, default: true },
   ticketLogID: { type: String, default: null },
   ticketSupportID: { type: String, default: null },
   rankEnable: { type: Boolean, default: false },

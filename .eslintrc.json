@@ -30,7 +30,7 @@
     "max-len": [
       "warn",
       {
-        "code": 160,
+        "code": 165,
         "ignoreComments": true,
         "ignoreUrls": true
       }

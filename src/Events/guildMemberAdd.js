@@ -21,17 +21,52 @@ var { config, database } = require('../../Configs');
 const { links } = require('../../Configs');
 
 const lang = require(`../../languages/bot/${config.language}/events.json`);
-const langD = require(`../../languages/bot/${config.defaultLanguage}/events.json`);
 
 const serverStatsPrincipal = {
   guildID: '660610178009530380',
   oldGuildID: '610206821763776522'
 };
 
+
+var noFakeId = config.noFakeId;
+
 exports.run = async (aruna, member) => {
   const user = database.Users.findOne({ _id: member.user.id });
-  // eslint-disable-next-line no-unused-vars
   const guild = database.Guilds.findOne({ _id: member.guild.id });
+
+  const langD = require(`../../languages/bot/${guild.language || config.defaultLanguage}/events.json`);
+
+  if (guild.antifake !== false) {
+    const kickFakeEmbed = new Discord.RichEmbed()
+      .setAuthor(langD.memberAdd.antifake.embed.fakemember.title.replace('[username]', member.user.username), member.user.avatarURL)
+      .setFooter(langD.memberAdd.antifake.embed.fakemember.footer.replace('[username]', member.user.username))
+      .setDescription(langD.memberAdd.antifake.embed.fakemember.description)
+      .setTimestamp();
+
+    noFakeId.forEach(async id => {
+      if (member.guild.member(id)) {
+        const userNew = member.user.username.toLocaleLowerCase().replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const noFakeUser = await aruna.fetchUser(id);
+        const noFakeUsername = noFakeUser.username.toLocaleLowerCase().replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        if (userNew == noFakeUsername && !noFakeId.includes(member.user.id)) {
+          if (member.guild.members.get(aruna.user.id).hasPermission('KICK_MEMBERS')) {
+            member.kick(langD.memberAdd.antifake.kickMessage);
+            member.send(kickFakeEmbed);
+          } else {
+            const guildOwner = member.guild.owner;
+            const fakeUser = member.user;
+            const adminFakeWarn = new Discord.RichEmbed()
+              .setAuthor(langD.memberAdd.antifake.embed.adminwarn.title.replace('[username]', guildOwner.user.username), guildOwner.user.avatarURL)
+              .setFooter(langD.memberAdd.antifake.embed.adminwarn.footer)
+              .setDescription(`${langD.memberAdd.antifake.embed.adminwarn.description.line1.replace('[fakeTag]', fakeUser.tag).replace('[fakeId]', fakeUser.id)}\n
+            ${langD.memberAdd.antifake.embed.adminwarn.description.line2.replace('[prefix]', guild.prefix)}`)
+              .setTimestamp();
+            guildOwner.send(adminFakeWarn);
+          }
+        }
+      }
+    });
+  }
   
   if (!user) {
     var saveU = await new database.Users({ _id: member.user.id });
