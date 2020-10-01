@@ -23,17 +23,17 @@ var { database, config, links } = require('../../Configs');
 const { cooldown, utils } = require('../Utils');
 
 exports.run = async (aruna, message) => {
+  const langI = require(`../../languages/bot/${config.language}/internal.json`);
   if (message.author.bot) return;
 
   if (message.channel.type == 'dm') {
     const dmUser = await database.Users.findOne({ _id: message.author.id });
-    const defaultDmEventL = require('../../languages/bot/br/internal.json');
     if (!dmUser) {
-      return message.reply(defaultDmEventL.message.errors.dmError);
+      return message.reply(langI.message.errors.dmError);
     } else {
       var dmEventL;
       if (dmUser.language == null) {
-        dmEventL = defaultDmEventL;
+        dmEventL = langI;
       } else {
         dmEventL = require(`../../languages/bot/${dmUser.language}/internal.json`);
       }
@@ -77,11 +77,9 @@ exports.run = async (aruna, message) => {
   } else {
     language = language || guild.language;
   }
-
       
-  const lang = require(`../../languages/bot/${language}/events.json`);
-  const langc = require(`../../languages/bot/${language}/commands.json`);
-  const langI = require(`../../languages/bot/${config.language}/internal.json`);
+  const lang = require(`../../languages/bot/${language || config.defaultLanguage}/events.json`);
+  const langc = require(`../../languages/bot/${language || config.defaultLanguage}/commands.json`);
 
   const emojiError = lang.message.errors.emojiError.replace('[externalEmojis]', langc.generic.permissions.useExternalEmojis);
   const linkError = lang.message.errors.linkError.replace('[sendLinks]', langc.generic.permissions.embedLinks);
