@@ -17,12 +17,11 @@
 */
 
 function verify(messages, args, message, language) {
-  if (args[0] == messages.size)
+  if (args[0] == messages.size) {
     return (language.clear.sucess.message1.replace('[messages]', messages.size).replace('[user]', message.author));
-  else
-    return (
-      language.clear.sucess.message2.replace('[messages]', messages.size).replace('[user]', message.author).replace('[request]', args[0])
-    );
+  } else {
+    return (language.clear.sucess.message2.replace('[messages]', messages.size).replace('[user]', message.author).replace('[request]', args[0]));
+  }
 }
 
 const Discord = require('discord.js');
@@ -70,11 +69,14 @@ exports.run = async (aruna, message, args, langc) => {
   if (args[0] > 100 || args[0] <= 1)
     return message.channel.send(error4);
   
-  await message.delete();
-  await message.channel.bulkDelete(args[0]).then(messages => {
-    message.channel
-      .send(verify(messages, args, message, language))
-      .then(msg => msg.delete(10000));
+  await message.delete().then(async () => {
+    await message.channel.fetchMessages({ limit: args[0] }).then(async messages => {
+      await message.channel.bulkDelete(messages, true).then(msgs => {
+        message.channel.send(verify(msgs, args, message, language)).then(msg => {
+          msg.delete(10000);
+        });
+      });
+    });
   });
 };
 exports.config = {
