@@ -39,5 +39,6 @@ module.exports = {
   partner: '<:partner:728849144734810163>',
   partnerPlus: '<:partnerPlus:728845414274564146>',
   premium: '<:vip:728816348892889118>',
-  loading: '<a:loading:732322631336067184>'
+  loading: '<a:loading:732322631336067184>',
+  stop: '<:stop:759833432443977768>'
 };
