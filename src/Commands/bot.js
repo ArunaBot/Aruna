@@ -21,9 +21,14 @@ const Discord = require('discord.js');
 const pak = require('../../package.json');
 const { links } = require('../../Configs');
 
-exports.run = (aruna, message) => {
+exports.run = async (aruna, message) => {
 
-  let totalSeconds = (aruna.uptime / 1000);
+  async function getUptime() {
+    const req = await aruna.shard.broadcastEval('this.uptime');
+    return req[0];
+  }
+
+  let totalSeconds = (await getUptime() / 1000);
   const days = Math.floor(totalSeconds / 86400);
   const hours = Math.floor(totalSeconds / 3600);
   totalSeconds %= 3600;
@@ -42,6 +47,24 @@ exports.run = (aruna, message) => {
     uptime = `${seconds}s`;
   }
 
+  async function getServerCount() {
+    const req = await aruna.shard.fetchClientValues('guilds.size');
+
+    return req.reduce((p, n) => p + n, 0);
+  }
+
+  async function getChannelCount() {
+    const req = await aruna.shard.fetchClientValues('channels.size');
+
+    return req.reduce((p, n) => p + n, 0);
+  }
+
+  async function getUserCount() {
+    const req = await aruna.shard.fetchClientValues('users.size');
+
+    return req.reduce((p, n) => p + n, 0);
+  }
+
   const user = message.guild.member(aruna.user);
 
   const name = user.displayName;
@@ -51,12 +74,12 @@ exports.run = (aruna, message) => {
     .addField(`(${emojis.robot}) Nome na Guild`, name, true)
     .addField('(📡) Versão', pak.version, true)
     .addField('(🕰️) Uptime', uptime, true)
-    .addField('(📃) Canais', aruna.channels.size, true)
-    .addField('(🖥️) Servidores', aruna.guilds.size, true)
-    .addField('(🕹️) Usuários', aruna.users.size, true)
+    .addField('(📃) Canais', await getChannelCount(), true)
+    .addField('(🖥️) Servidores', await getServerCount(), true)
+    .addField('(🕹️) Usuários', await getUserCount(), true)
     .addField('(💻) Seu Shard', aruna.shard.id, true)
     .addField('(💠) Total de Shards', aruna.shard.count, true)
-    .addField('(🏓) Ping do Shard', `${aruna.ping}ms`, true) /** @todo ping do shard, não do bot */
+    .addField('(🏓) Ping do Shard', `${aruna.ping}ms`, true)
     .addField(
       'Convite',
       `${links.invites[0] ? `[Link](${links.invites[0]})` : 'INDISPONÍVEL'}`,
