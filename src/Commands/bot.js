@@ -44,18 +44,18 @@ exports.run = (aruna, message) => {
 
   const user = message.guild.member(aruna.user);
 
-  const name = user.nickname !== null ? user.nickname : aruna.user.username;
+  const name = user.displayName;
 
   const embed = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
-    .addField(`(${emojis.robot}) Nome na Guild`, `${name}`, true)
-    .addField('(📡) Versão', `${pak.version}`, true)
-    .addField('(🕰️) Uptime', `${uptime}`, true)
-    .addField('(📃) Canais', `${aruna.channels.size}`, true)
-    .addField('(🖥️) Servidores', `${aruna.guilds.size}`, true)
-    .addField('(🕹️) Usuários', `${aruna.users.size}`, true)
-    .addField('(💻) Seu Shard', `${aruna.shard.id}`, true)
-    .addField('(💠) Status do Shard', 'ONLINE', true) /** @todo pensar em algo melhor pra colocar aqui */
+    .addField(`(${emojis.robot}) Nome na Guild`, name, true)
+    .addField('(📡) Versão', pak.version, true)
+    .addField('(🕰️) Uptime', uptime, true)
+    .addField('(📃) Canais', aruna.channels.size, true)
+    .addField('(🖥️) Servidores', aruna.guilds.size, true)
+    .addField('(🕹️) Usuários', aruna.users.size, true)
+    .addField('(💻) Seu Shard', aruna.shard.id, true)
+    .addField('(💠) Total de Shards', aruna.shard.count, true)
     .addField('(🏓) Ping do Shard', `${aruna.ping}ms`, true) /** @todo ping do shard, não do bot */
     .addField(
       'Convite',

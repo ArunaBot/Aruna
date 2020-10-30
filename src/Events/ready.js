@@ -133,10 +133,10 @@ exports.run = async (aruna) => {
 
     const dbl = new DBL(apiKeys.topgg, client);
 
-    dbl.postStats(client.guilds.size, client.shard.id, 1); /** @todo total shard fix */
+    dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
 
     setInterval(() => {
-      dbl.postStats(client.guilds.size, client.shard.id, 1); /** @todo total shard fix */
+      dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
     }, 900000);
 
     // Optional events
