@@ -37,18 +37,25 @@ exports.run = (aruna, message, args) => {
     if (!code) return message.channel.send(embed);
   
     try {
-      const ev = eval(code);
-      let str = util.inspect(ev, { depth: 1 });
 
-      str = `${str.replace(
-        new RegExp(`${aruna.token}|${process.env.TOKEN}|${config.token}`, 'g'),
-        'Erro! Você não pode exibir esta informação!'
-      )}`;
+      var str;
+      // eslint-disable-next-line max-len
+      if (code.includes(`${aruna.token}` || `${process.env.TOKEN}` || `${config.token}` || 'aruna.token' || 'process.env.token' || 'config.token')) {
+        str = 'Erro! Você não pode exibir esta informação!';
+      } else {
+        const ev = eval(code);
+        str = util.inspect(ev, { depth: 1 });
+        str = `${str.replace(
+          new RegExp(`${aruna.token}|${process.env.TOKEN}|${config.token}`, 'g'),
+          'Erro! Você não pode exibir esta informação!'
+        )}`;
+      }
 
       if (str.length > 1800) {
         str = str.substr(0, 1800);
         str = str + '...';
       }
+
       const embed = new Discord.RichEmbed()
         .setAuthor('Console')
         .addField(
