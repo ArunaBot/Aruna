@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /*
     This File is part of ArunaBot
     Copyright (C) LoboMetalurgico (and contributors) 2019-2020
@@ -16,10 +17,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { emojis } = require('../Utils');
+const { emojis, sysdata } = require('../Utils');
 const Discord = require('discord.js');
-const pak = require('../../package.json');
-const { links } = require('../../Configs');
+const { config, links } = require('../../Configs');
 
 exports.run = async (aruna, message) => {
 
@@ -69,10 +69,13 @@ exports.run = async (aruna, message) => {
 
   const name = user.displayName;
 
+  const version = process.env['npm_package_version'];
+
   const embed = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
+    .setDescription('`Informações Básicas`')
     .addField(`(${emojis.robot}) Nome na Guild`, name, true)
-    .addField('(📡) Versão', pak.version, true)
+    .addField('(📡) Versão', version, true)
     .addField('(🕰️) Uptime', uptime, true)
     .addField('(📃) Canais', await getChannelCount(), true)
     .addField('(🖥️) Servidores', await getServerCount(), true)
@@ -94,7 +97,107 @@ exports.run = async (aruna, message) => {
     .setThumbnail(`${aruna.user.displayAvatarURL}`)
     .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
     .setTimestamp();
-  message.channel.send(embed);
+
+  var os = await sysdata.GetOSData();
+
+  var rambo = await sysdata.GetMemoryAmount();
+
+  const ram = Math.round(rambo.used / 1024 / 1024 * 10) / 10;
+
+  const ramT = Math.round(rambo.total / 1024 / 1024 * 10) / 10;
+
+  var cpu = await sysdata.GetCPUModel();
+
+  const time = 60000;
+
+  const embed2 = new Discord.RichEmbed()
+    .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
+    .setDescription('`Informações Avançadas`')
+    .addField('Versão do Node', process.version)
+    .addField('Versão do discord.js', process.env['npm_package_dependencies_discord_js'].replace('^', ''))
+    .addField('Informações da Host', `Sistema Operacional: ${os.distro}\n
+    Processador: ${cpu.manufacturer} ${cpu.brand}\n
+    Núcleos do Processador: ${cpu.cores}\n
+    Uso de Ram: ${ram}mb / ${ramT}mb`)
+    .addField('Criada Por', `${process.env['npm_package_author_name']} (<@${config.superUsersId[0]}>)`)
+    .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
+    .setTimestamp();
+
+  message.channel.send(embed).then(async msg => {
+    await collector1(msg, false);
+  });
+
+  async function collector1 (msg, needRemoveEmote) {
+    if (needRemoveEmote) {
+      await removeEmote(msg);
+      await msg.edit(embed);
+    }
+    await msg.react('🔴');
+    await msg.react('▶️');
+
+    const filter1 = (reaction, user) => {
+      return ['🔴', '▶️'].includes(reaction.emoji.name) && user.id === message.author.id;
+    };
+
+    const collector = msg.createReactionCollector(filter1, { max: 1, time: time, errors: ['time'] });
+
+    collector.on('collect', async (reaction, reactionCollector) => {
+      const reactionName = reaction.emoji.name;
+
+      switch (reactionName) {
+      case '▶️':
+        collector2(msg, true);
+        break;
+      case '🔴':
+      default: 
+        removeEmote(msg);
+        break;
+      }
+    });
+
+    collector.on('end', async () => {
+      await removeEmote(msg);
+    });
+  }
+
+  async function collector2 (msg, needRemoveEmote) {
+    if (needRemoveEmote) {
+      await removeEmote(msg);
+      await msg.edit(embed2);
+    }
+
+    await msg.react('◀️');
+    await msg.react('🔴');
+
+    const filter1 = (reaction, user) => {
+      return ['🔴', '◀️'].includes(reaction.emoji.name) && user.id === message.author.id;
+    };
+
+    const collector = msg.createReactionCollector(filter1, { max: 1, time: time, errors: ['time'] });
+
+    collector.on('collect', async (reaction, reactionCollector) => {
+      const reactionName = reaction.emoji.name;
+
+      switch (reactionName) {
+      case '◀️':
+        collector1(msg, true);
+        break;
+      case '🔴':
+      default: 
+        removeEmote(msg);
+        break;
+      }
+
+    });
+
+    collector.on('end', async () => {
+      await removeEmote(msg);
+    });
+  }
+
+  async function removeEmote(msg) {
+    await msg.clearReactions();
+  }
 };
 
 exports.config = {

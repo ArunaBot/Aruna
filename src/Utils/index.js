@@ -23,5 +23,6 @@ module.exports = {
   emoji: require('./emojis.js'),
   emojis: require('./emojis.js'),
   ranksystem: require('./rankSystem.js'),
-  utils: require('./utils.js')
+  utils: require('./utils.js'),
+  sysdata: require('./GetSystemData.js')
 };
