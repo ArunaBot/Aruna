@@ -62,7 +62,8 @@ Nós [recomendamos utilizar a versão pública da Aruna](https://discordapp.com/
 3. Tenha o `git-shell` ou o `git-cli` instalados. No Windows você pode utilizar o `Git Bash`.
 4. Caso você precise ou fazer modificações no código-fonte, é recomendado utilizar o [Visual Studio Code](https://code.visualstudio.com/).
 5. Execute o comando `git clone https://github.com/ArunaBot/Aruna.git` usando seu terminal git em uma pasta vazia do seu computador.
-6. Agora, usando o processador de comandos do seu sistema operacional (CMD, POWERSHELL, Terminal, etc), entre na pasta criada e utilize `npm install`.
+6. Acesse a pasta criada usando o processador de comandos do seu sistema operacional (CMD, POWERSHELL, Terminal, etc) e execute o comando `git submodule update --init` para baixar o pacote de idiomas da aruna.
+7. Ainda com o processador de comandos, execute o comando `npm install`.
 8. Ao terminar de fazer o download de tudo, verifique se foi criado a pasta `node_modules`.
 9. Caso essa pasta exista e tenha sido criado o arquivo `package-lock.json` significa que tudo deu certo!
 10. Agora, retire o `.` da pasta `.Configs`.
