@@ -56,6 +56,9 @@ exports.run = async (aruna, message, args) => {
     case 'prefix':
       prefixVar(args[1] || null);
       break;
+    case 'rank':
+      rankVar(args[1] || null);
+      break;
     default:
       return message.channel.send(error1);
   }
@@ -125,12 +128,50 @@ exports.run = async (aruna, message, args) => {
     }
   }
 
-  async function isEnabled (command) {
+  async function rankVar (action) {
+    const actionList = ['enable', 'ativar', 'disable', 'desativar'];
+
+    if (!action) return isEnabled ('rank', true);
+
+    if (!actionList.includes(action)) return invalidAction(actionList);
+
+    const result = await isEnabled('rank', false);
+
+    if (result === undefined) return;
+
+    switch (action) {
+      case 'enable':
+      case 'ativar':
+        if (result.enabled) return message.channel.send(result.message);
+
+        guild.rankEnable = true;
+
+        await guild.save();
+
+        final(true, 'rank');
+        break;
+      case 'disable':
+      case 'desativar':
+        if (!result.enabled) return message.channel.send(result.message);
+
+        guild.rankEnable = false;
+
+        await guild.save();
+
+        final(false, 'rank');
+        break;
+      default:
+        invalidAction(actionList);
+        break;
+    }
+  }
+
+  async function isEnabled (command, sendMessage) {
     const dbCommand = await database.Commands.findOne({ _id: `${command}` });
 
     if (!dbCommand || (!dbCommand.public && !user.SUPER)) {
       message.channel.send(error2);
-      return false;
+      return undefined;
     }
 
     const no = new Discord.RichEmbed()
@@ -149,13 +190,12 @@ exports.run = async (aruna, message, args) => {
       .setTimestamp();
 
     if (guild[command + 'Enable']) {
-      message.channel.send(yes);
-      return true;
-    } else if (!guild[command + 'Enable']) {
-      message.channel.send(no);
-      return false;
+      if (sendMessage) message.channel.send(yes);
+      return { enabled: true, message: yes };
+    } else {
+      if (sendMessage) message.channel.send(no);
+      return { enabled: false, message: no };
     }
-    return undefined;
   }
 
   function invalidAction (option) {
@@ -167,53 +207,27 @@ exports.run = async (aruna, message, args) => {
     return message.channel.send(optionError);
   } 
 
-  /* Below this line, old code */
-  
-  const toDo = args[1].toLowerCase();
+  function final (result, command) {
+    const enabled = new Discord.RichEmbed()
+      .setColor([0, 255, 0])
+      .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
+      .setFooter('Sucesso!')
+      .setDescription(`O comando \`${command}\` foi ativado com sucesso!`)
+      .setTimestamp();
 
-  const ativo = new Discord.RichEmbed()
-    .setColor([0, 255, 0])
-    .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter('Sucesso!')
-    .setDescription(`O comando \`${command}\` foi ativado com sucesso!`)
-    .setTimestamp();
+    const disabled = new Discord.RichEmbed()
+      .setColor([0, 255, 0])
+      .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
+      .setFooter('Sucesso!')
+      .setDescription(`O comando \`${command}\` foi desativado com sucesso!`)
+      .setTimestamp();
 
-  const inativo = new Discord.RichEmbed()
-    .setColor([0, 255, 0])
-    .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter('Sucesso!')
-    .setDescription(`O comando \`${command}\` foi desativado com sucesso!`)
-    .setTimestamp();
-
-  if (toDo == 'ativar' && guild.verify === false || toDo == 'enable' && guild.verify === true) {
-    if (command === 'rank') {
-      guild.rankEnable = true;
-      guild.save();
-    } else if (command === 'ticket') {
-      const { activeticket } = require('../Utils');
-      activeticket.run(aruna, message);
-      guild.ticketEnable = true;
-      guild.save();
-    } else if (command === 'autocargo' || command === 'autorole') {
-      guild.autoRole = true;
-      guild.save();
+    if (result) {
+      return message.channel.send(enabled);
+    } else {
+      return message.channel.send(disabled);
     }
-    return message.channel.send(ativo);
-  } else if (guild.verify === false) return message.channel.send(yes);
-
-  if (toDo == 'desativar' && guild.verify === true || toDo == 'disable' && guild.verify === true) {
-    if (command === 'rank') {
-      guild.rankEnable = false;
-      guild.save();
-    } else if (command === 'ticket') {
-      guild.ticketEnable = false;
-      guild.save();
-    } else if (command === 'autocargo' || command === 'autorole') {
-      guild.autoRole = false;
-      guild.save();
-    }
-    return message.channel.send(inativo);
-  } else if (guild.verify === true) return message.channel.send(no);
+  }
 };
 
 exports.config = {

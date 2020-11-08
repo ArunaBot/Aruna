@@ -32,7 +32,7 @@ exports.run = async (aruna, message, args, langc) => {
   const error = new Discord.RichEmbed()
     .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
-    .setDescription(language.generic.embed.disabled.replace('[config]', `${guild.prefix}config`))
+    .setDescription(language.generic.embed.disabled.description.replace('[config]', `${guild.prefix}config`))
     .setTimestamp();
 
   if (guild.rankEnable !== true) return message.channel.send(error);
@@ -61,7 +61,7 @@ exports.run = async (aruna, message, args, langc) => {
     .addField(language.rank.embed.field1, level, true)
     .addField(language.rank.embed.field2, xp, true)
     .addField(language.rank.embed.field3, need, true)
-    .setFooter(language.generic.footer.replace('[usertag]', message.author.tag))
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
     .setTimestamp();
   message.channel.send(embed);
 };
@@ -69,6 +69,9 @@ exports.run = async (aruna, message, args, langc) => {
 exports.config = {
   name: 'rank',
   description: language.rank.config.description,
+  register: {
+    public: true
+  },
   aliases: ['perfil'],
   category: '🎉 Entretenimento',
   public: true

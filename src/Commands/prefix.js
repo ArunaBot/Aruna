@@ -50,13 +50,13 @@ exports.run = async (aruna, message, args, langc) => {
   const prefixRemove = new Discord.RichEmbed()
     .setColor([0, 255, 0])
     .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
-    .setFooter(language.generic.embed.sucess.title)
+    .setFooter(language.generic.embed.sucess.footer)
     .setDescription(language.prefix.embed.sucess.description1.replace('[prefix]', config.prefix))
     .setTimestamp();
   const prefixDefinido = new Discord.RichEmbed()
     .setColor([0, 255, 0])
     .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
-    .setFooter(language.generic.embed.sucess.title)
+    .setFooter(language.generic.embed.sucess.footer)
     .setDescription(language.prefix.embed.sucess.description2.replace('[prefix]', args[1]))
     .setTimestamp();
   const deprecatedWarn = new Discord.RichEmbed()
@@ -67,7 +67,7 @@ exports.run = async (aruna, message, args, langc) => {
     .setFooter(language.generic.embed.deprecated.footer)
     .setTimestamp();
 
-  message.channel.send(deprecatedWarn).then(msg => msg.delete(60000));
+  message.channel.send(deprecatedWarn).then(msg => msg.delete(30000));
   if (!message.member.hasPermission('MANAGE_GUILD'))
     return message.channel.send(nopermission);
 

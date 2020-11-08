@@ -63,10 +63,11 @@ fs.readdir('./src/Commands/', (err, files) => {
     const pull = require(`./Commands/${f}`);
     aruna.commands.set(pull.config.name, pull);
     if (pull.config.register) {
-      const verReg = await database.Commands.findOne({ _id: pull.config.name});
+      const verReg = await database.Commands.findOne({ _id: pull.config.name });
       if (!verReg) {
         const reg = new database.Commands({ _id: pull.config.name, public: pull.config.register.public });
         await reg.save();
+        debug(`[${language.main.command}] [${language.main.cluster}] ${language.main.registered.replace('[COMMAND]', pull.config.name)}`);
       }
     }
     log(`[${language.main.command}] => ${f}`);
@@ -81,20 +82,20 @@ function logPrefix() {
   return `${chalk.gray('[')}${isSharded() ? `${language.generic.shard} ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
 }
 
-function log(...a) {
+async function log(...a) {
   return console.log(infoPrefix, logPrefix(), ...a);
 }
 
-function warn(...a) {
+async function warn(...a) {
   return console.warn(logPrefix(), chalk.yellow(...a));
 }
 
-function error(...a) {
+async function error(...a) {
   return console.error(errorPrefix, logPrefix(), chalk.red(...a));
 }
 
 // eslint-disable-next-line no-unused-vars
-function debug(...a) {
+async function debug(...a) {
   if (config.debug) {
     return console.debug(logPrefix(), chalk.magenta(...a));
   } else return;
@@ -104,8 +105,8 @@ function isSharded() {
   return !!aruna.shard;
 }
 
-aruna.login(config.token).then(() => {
-  log(`=> ${language.initialization.complete}`);
+aruna.login(config.token).then(async () => {
+  await log(`=> ${language.initialization.complete}`);
 }).catch(e => {
   error(`=> ${language.initialization.fail} ${e}`);
 });

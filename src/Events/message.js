@@ -109,7 +109,7 @@ exports.run = async (aruna, message) => {
     }
   });
 
-  if (guild.rankEnable === true) {
+  if (guild.rankEnable) {
     const rank = await database.Rank.findOne({
       _id: `${message.author.id}-${message.guild.id}`
     });
@@ -123,12 +123,12 @@ exports.run = async (aruna, message) => {
         guild: message.guild.id
       });
 
-      saveR.save();
+      await saveR.save();
     }
     const db = database;
 
     const xpsystem = require('../utils/rankSystem.js');
-    xpsystem.run(aruna, message, lang, langc, db, cooldown, utils, Discord);
+    await xpsystem.run(aruna, message, lang, langc, db, cooldown, utils, Discord);
   }
 
   if (message.content.startsWith(prefix)) {
