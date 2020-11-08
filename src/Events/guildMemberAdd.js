@@ -36,7 +36,7 @@ exports.run = async (aruna, member) => {
 
   const langD = require(`../../languages/bot/${guild.language || config.defaultLanguage}/events.json`);
 
-  if (guild.antifake !== false) {
+  if (guild.antiFakeEnable) {
     const kickFakeEmbed = new Discord.RichEmbed()
       .setAuthor(langD.memberAdd.antifake.embed.fakemember.title.replace('[username]', member.user.username), member.user.avatarURL)
       .setFooter(langD.memberAdd.antifake.embed.fakemember.footer.replace('[username]', member.user.username))

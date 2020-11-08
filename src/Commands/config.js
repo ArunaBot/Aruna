@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
@@ -21,13 +20,9 @@
 const { config, database } = require('../../Configs');
 const Discord = require('discord.js');
 
+var options = ['rank', 'autorole', 'prefix'];
+
 exports.run = async (aruna, message, args) => {
-  var validOptions = ['rank', 'ticket', 'autorole', 'autocargo', 'prefix', 'prefixo'];
-
-  const guild = await database.Guilds.findOne({ _id: message.guild.id });
-  
-  const user = await database.Users.findOne({ _id: message.author.id });
-
   const noPermission = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
@@ -36,99 +31,143 @@ exports.run = async (aruna, message, args) => {
   const error1 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      'Insira um dos seguintes comandos para que seja efetuado o gerenciamento: ' +
-        '``' +
-        validOptions +
-        '``'
-    )
+    .setDescription(`Por Favor, utilize uma das seguintes opções junto ao comando: ${options}`)
     .setTimestamp();
   const error2 = new Discord.RichEmbed()
     .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      'Este comando ainda não pode ser ativado. Desculpe pelo incoveniente.'
-    )
+    .setDescription('Esse comando não pode ser configurado no momento :(')
     .setTimestamp();
-  const prefixError = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setDescription(
-      'Insira se você deseja definir um prefixo (set) ou se deseja voltar ao padrão (remove).'
-    )
-    .setTimestamp();
-  const prefixError2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você deve inserir o prefixo desejado!')
-    .setTimestamp();
-  const prefixError3 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('O prefixo atual já é o prefixo padrão!')
-    .setTimestamp();
-  const prefixRemove = new Discord.RichEmbed()
-    .setColor([0, 255, 0])
-    .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter('Sucesso!')
-    .setDescription(
-      `Prefixo redefinido para \`${config.prefix}\` com sucesso!`
-    )
-    .setTimestamp();
-  const prefixDefinido = new Discord.RichEmbed()
-    .setColor([0, 255, 0])
-    .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter('Sucesso!')
-    .setDescription(`Prefixo definido para \`${args[2]}\` com sucesso!`)
-    .setTimestamp();
+
+  const guild = await database.Guilds.findOne({ _id: message.guild.id });
+  
+  const user = await database.Users.findOne({ _id: message.author.id });
 
   if (!message.member.hasPermission('MANAGE_GUILD'))
     return message.channel.send(noPermission);
 
   if (!args || !args[0]) return message.channel.send(error1);
 
-  if (!validOptions.includes(args[0].toLowerCase())) return message.channel.send(error1);
-
-  const command = args[0].toLowerCase();
-
-  if (command === 'rank') {
-    guild.verify = guild.rankEnable;
-  } else if (command === 'ticket') {
-    guild.verify = guild.ticketEnable;
-  } else if (command === 'autocargo' || command === 'autorole') {
-    guild.verify = guild.autoRole;
-  } else if (command === 'prefix' || command === 'prefixo') {
-    guild.verify = true;
+  if (!options.includes(args[0].toLowerCase())) {
+    return message.channel.send(error1);
   }
 
-  const no = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      `Neste momento, o comando ${command} está desativado. Para ativar, use \`\`${guild.prefix}config ${command} ativar\`\`.`
-    )
-    .setTimestamp();
-  const yes = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      `Neste momento, o comando ${command} está ativado. Para desativar, use \`\`${guild.prefix}config ${command} desativar\`\`.`
-    )
-    .setTimestamp();
+  switch (args[0].toLowerCase()) {
+    case 'prefix':
+      prefixVar(args[1] || null);
+      break;
+    default:
+      return message.channel.send(error1);
+  }
 
-  const dbCommand = await database.Comandos.findOne({ name: `${command}` });
+  async function prefixVar(action) {
+    const actionList = ['set', 'remove', 'definir', 'remover'];
 
-  if (!dbCommand || dbCommand.public !== true && user.SUPER !== true)
-    return message.channel.send(error2);
-  
-  
-  
-  if (!args[1] || args[1] !== 'ativar' && args[1] !== 'desativar' && args[1] !== 'enable' && args[1] !== 'disable') {
-    if (guild.verify === false) {
-      return message.channel.send(no);
-    } else {
-      return message.channel.send(yes);
+    if (!action || !actionList.includes(action)) return invalidAction(actionList);
+
+    const prefixError = new Discord.RichEmbed()
+      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+      .setFooter(`Algo deu errado, ${message.author.username}`)
+      .setDescription('Você deve inserir o prefixo desejado!')
+      .setTimestamp();
+    const prefixError2 = new Discord.RichEmbed()
+      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+      .setFooter(`Algo deu errado, ${message.author.username}`)
+      .setDescription('Esse já é o prefixo atual!')
+      .setTimestamp();
+    const prefixError3 = new Discord.RichEmbed()
+      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+      .setFooter(`Algo deu errado, ${message.author.username}`)
+      .setDescription('O prefixo atual já é o prefixo padrão!')
+      .setTimestamp();
+    const prefixRemove = new Discord.RichEmbed()
+      .setColor([0, 255, 0])
+      .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
+      .setFooter('Sucesso!')
+      .setDescription(
+        `Prefixo redefinido para \`${config.prefix}\` com sucesso!`
+      )
+      .setTimestamp();
+    const prefixDefinido = new Discord.RichEmbed()
+      .setColor([0, 255, 0])
+      .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
+      .setFooter('Sucesso!')
+      .setDescription(`Prefixo definido para \`${args[2] || undefined}\` com sucesso!`)
+      .setTimestamp();
+
+    switch (action) {
+      case 'set':
+      case 'definir':
+        if (!args[2]) return message.channel.send(prefixError);
+
+        if (args[2] === guild.prefix) return message.channel.send(prefixError2);
+
+        guild.prefix = args[2];
+
+        guild.save();
+          
+        message.channel.send(prefixDefinido);
+
+        break;
+      case 'remove':
+      case 'remover':
+        if (guild.prefix === config.general.prefix) return message.channel.send(prefixError3);
+
+        guild.prefix = config.prefix;
+
+        guild.save();
+
+        message.channel.send(prefixRemove);
+
+        break;
+      default:
+        return invalidAction(actionList);
     }
   }
+
+  async function isEnabled (command) {
+    const dbCommand = await database.Commands.findOne({ _id: `${command}` });
+
+    if (!dbCommand || (!dbCommand.public && !user.SUPER)) {
+      message.channel.send(error2);
+      return false;
+    }
+
+    const no = new Discord.RichEmbed()
+      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+      .setFooter(`Algo deu errado, ${message.author.username}`)
+      .setDescription(
+        `Neste momento, o comando ${command} está desativado. Para ativar, use \`\`${guild.prefix}config ${command} ativar\`\`.`
+      )
+      .setTimestamp();
+    const yes = new Discord.RichEmbed()
+      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+      .setFooter(`Algo deu errado, ${message.author.username}`)
+      .setDescription(
+        `Neste momento, o comando ${command} está ativado. Para desativar, use \`\`${guild.prefix}config ${command} desativar\`\`.`
+      )
+      .setTimestamp();
+
+    if (guild[command + 'Enable']) {
+      message.channel.send(yes);
+      return true;
+    } else if (!guild[command + 'Enable']) {
+      message.channel.send(no);
+      return false;
+    }
+    return undefined;
+  }
+
+  function invalidAction (option) {
+    const optionError = new Discord.RichEmbed()
+      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+      .setFooter(`Algo deu errado, ${message.author.username}`)
+      .setDescription(`Por Favor, utilize uma das seguintes ações após a seleção da opção: ${option}`)
+      .setTimestamp();
+    return message.channel.send(optionError);
+  } 
+
+  /* Below this line, old code */
   
   const toDo = args[1].toLowerCase();
 

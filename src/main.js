@@ -21,7 +21,7 @@ require('events').EventEmitter.defaultMaxListeners = 999;
 
 const Discord = require('discord.js');
 const fs = require('fs');
-const { config } = require('../Configs');
+const { config, database } = require('../Configs');
 const chalk = require('chalk');
 const pkg = require('../package.json');
 
@@ -62,6 +62,13 @@ fs.readdir('./src/Commands/', (err, files) => {
   jsfile.forEach(async f => {
     const pull = require(`./Commands/${f}`);
     aruna.commands.set(pull.config.name, pull);
+    if (pull.config.register) {
+      const verReg = await database.Commands.findOne({ _id: pull.config.name});
+      if (!verReg) {
+        const reg = new database.Commands({ _id: pull.config.name, public: pull.config.register.public });
+        await reg.save();
+      }
+    }
     log(`[${language.main.command}] => ${f}`);
     pull.config.aliases.forEach(alias => {
       aruna.aliases.set(alias, pull.config.name);

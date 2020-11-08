@@ -41,12 +41,12 @@ var User = new Schema({
 var Guild = new Schema({
   _id: { type: String },
   prefix: { type: String, default: config.prefix },
-  antifake: { type: Boolean, default: true },
+  antiFakeEnable: { type: Boolean, default: true },
   ticketLogID: { type: String, default: null },
   ticketSupportID: { type: String, default: null },
   rankEnable: { type: Boolean, default: false },
   ticketEnable: { type: Boolean, default: false },
-  autoRole: { type: Boolean, default: false },
+  autoRoleEnable: { type: Boolean, default: false },
   autoRoleRole: { type: String, default: null },
   language: { type: String, default: config.language },
   isPremium: { type: Boolean, default: false },
@@ -77,7 +77,6 @@ var Support = new Schema({
 
 var Command = new Schema({
   _id: { type: String },
-  name: { type: String },
   public: { type: Boolean, default: false }
 });
 
