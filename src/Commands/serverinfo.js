@@ -67,6 +67,7 @@ exports.run = async (aruna, message) => {
   } else {
     guildIcon = message.guild.iconURL;
   }
+  
   const embed = new Discord.RichEmbed()
     .setColor([0, 23, 132])
     .setTitle(`${pType} ${message.guild.name}`)

@@ -22,28 +22,31 @@ const { config } = require('../../Configs');
 var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = (aruna, message, args, langc) => {
-  const user1 = message.guild.member(
-    message.mentions.users.first() || aruna.users.get(args[0]) || message.author
-  );
 
   if (langc) {
     language = langc;
   }
 
-  const user = user1.user;
+  var guildIcon;
+
+  if (message.guild.iconURL.includes('a_')) {
+    guildIcon = message.guild.iconURL.slice(0, -3).trim() + 'gif';
+  } else {
+    guildIcon = message.guild.iconURL;
+  }
 
   const embed = new Discord.RichEmbed()
-    .setTitle(language.avatar.embed.title.replace('[emoji]', emoji.picture).replace('[user]', user1.displayName))
-    .setDescription(language.avatar.embed.description.replace('[url]', user.avatarURL))
-    .setImage(user.avatarURL)
+    .setTitle(language.servericon.embed.title.replace('[emoji]', emoji.picture).replace('[guild]', message.guild.name))
+    .setDescription(language.servericon.embed.description.replace('[url]', guildIcon))
+    .setImage(guildIcon)
     .setTimestamp();
   message.channel.send(embed);
 };
 
 exports.config = {
-  name: 'avatar',
-  aliases: ['usericon'],
-  description: language.avatar.config.description,
+  name: 'servericon',
+  aliases: ['guildicon'],
+  description: language.servericon.config.description,
   category: '🎉 Entretenimento',
   public: true
 };
