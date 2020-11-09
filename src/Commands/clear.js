@@ -71,9 +71,9 @@ exports.run = async (aruna, message, args, langc) => {
   
   await message.delete().then(async () => {
     await message.channel.fetchMessages({ limit: args[0] }).then(async messages => {
-      await message.channel.bulkDelete(messages, true).then(msgs => {
-        message.channel.send(verify(msgs, args, message, language)).then(msg => {
-          msg.delete(10000);
+      await message.channel.bulkDelete(messages, true).then(async msgs => {
+        await message.channel.send(verify(msgs, args, message, language)).then(async msg => {
+          await msg.delete(10000);
         });
       });
     });
@@ -82,7 +82,7 @@ exports.run = async (aruna, message, args, langc) => {
 exports.config = {
   name: 'clear',
   description: language.clear.config.description,
-  aliases: [],
+  aliases: ['limpar'],
   category: '👮‍♂️ Moderação',
   public: true
 };
