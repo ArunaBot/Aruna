@@ -18,25 +18,31 @@
 */
 
 const { config, database } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const Discord = require('discord.js');
 
 var options = ['rank', 'autorole', 'prefix'];
 
-exports.run = async (aruna, message, args) => {
+exports.run = async (aruna, message, args, langc) => {
+
+  if (langc) {
+    language = langc;
+  }
+
   const noPermission = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você não possui a permissão de `Gerenciar Servidor`')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.config.embed.error.noperm.replace('[manageGuild]', language.generic.permissions.manageGuild))
     .setTimestamp();
   const error1 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Por Favor, utilize uma das seguintes opções junto ao comando: ${options}`)
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.config.embed.error.description1.replace('[OPTIONS]', options))
     .setTimestamp();
   const error2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Esse comando não pode ser configurado no momento :(')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.config.embed.error.description2)
     .setTimestamp();
 
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
@@ -69,33 +75,31 @@ exports.run = async (aruna, message, args) => {
     if (!action || !actionList.includes(action)) return invalidAction(actionList);
 
     const prefixError = new Discord.RichEmbed()
-      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-      .setFooter(`Algo deu errado, ${message.author.username}`)
-      .setDescription('Você deve inserir o prefixo desejado!')
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.prefix.description1)
       .setTimestamp();
     const prefixError2 = new Discord.RichEmbed()
-      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-      .setFooter(`Algo deu errado, ${message.author.username}`)
-      .setDescription('Esse já é o prefixo atual!')
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.prefix.description2)
       .setTimestamp();
     const prefixError3 = new Discord.RichEmbed()
-      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-      .setFooter(`Algo deu errado, ${message.author.username}`)
-      .setDescription('O prefixo atual já é o prefixo padrão!')
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.prefix.description3)
       .setTimestamp();
     const prefixRemove = new Discord.RichEmbed()
       .setColor([0, 255, 0])
-      .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-      .setFooter('Sucesso!')
-      .setDescription(
-        `Prefixo redefinido para \`${config.prefix}\` com sucesso!`
-      )
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.prefix.description1.replace('[prefix]', config.prefix))
       .setTimestamp();
     const prefixDefinido = new Discord.RichEmbed()
       .setColor([0, 255, 0])
-      .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-      .setFooter('Sucesso!')
-      .setDescription(`Prefixo definido para \`${args[2] || undefined}\` com sucesso!`)
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.prefix.description1.replace('[prefix]', args[2] || undefined))
       .setTimestamp();
 
     switch (action) {
@@ -174,19 +178,17 @@ exports.run = async (aruna, message, args) => {
       return undefined;
     }
 
+    const replacer = /\[COMMAND\]/g;
+
     const no = new Discord.RichEmbed()
-      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-      .setFooter(`Algo deu errado, ${message.author.username}`)
-      .setDescription(
-        `Neste momento, o comando ${command} está desativado. Para ativar, use \`\`${guild.prefix}config ${command} ativar\`\`.`
-      )
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.generic.no.replace(replacer, command).replace('[PREFIX]', guild.prefix))
       .setTimestamp();
     const yes = new Discord.RichEmbed()
-      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-      .setFooter(`Algo deu errado, ${message.author.username}`)
-      .setDescription(
-        `Neste momento, o comando ${command} está ativado. Para desativar, use \`\`${guild.prefix}config ${command} desativar\`\`.`
-      )
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.generic.yes.replace(replacer, command).replace('[PREFIX]', guild.prefix))
       .setTimestamp();
 
     if (guild[command + 'Enable']) {
@@ -198,11 +200,11 @@ exports.run = async (aruna, message, args) => {
     }
   }
 
-  function invalidAction (option) {
+  function invalidAction (options) {
     const optionError = new Discord.RichEmbed()
-      .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-      .setFooter(`Algo deu errado, ${message.author.username}`)
-      .setDescription(`Por Favor, utilize uma das seguintes ações após a seleção da opção: ${option}`)
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.invalidaction.replace('[OPTIONS]', options))
       .setTimestamp();
     return message.channel.send(optionError);
   } 
@@ -210,16 +212,16 @@ exports.run = async (aruna, message, args) => {
   function final (result, command) {
     const enabled = new Discord.RichEmbed()
       .setColor([0, 255, 0])
-      .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-      .setFooter('Sucesso!')
-      .setDescription(`O comando \`${command}\` foi ativado com sucesso!`)
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.description1.replace('[COMMAND]', command))
       .setTimestamp();
 
     const disabled = new Discord.RichEmbed()
       .setColor([0, 255, 0])
-      .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-      .setFooter('Sucesso!')
-      .setDescription(`O comando \`${command}\` foi desativado com sucesso!`)
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.description2.replace('[COMMAND]', command))
       .setTimestamp();
 
     if (result) {
