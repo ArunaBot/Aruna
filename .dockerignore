@@ -1,0 +1,8 @@
+.Configs/
+node_modules/
+.vscode/
+Dockerfile
+README.md
+LICENSE
+.eslintrc.json
+.eslintignore
