@@ -28,15 +28,6 @@ const langE = require(`../../languages/bot/${config.defaultLanguage}/events.json
 exports.run = async (aruna) => {
   log(language.generic.connected);
 
-  let totalSeconds = (aruna.uptime / 1000);
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor(totalSeconds / 3600);
-  totalSeconds %= 3600;
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = Math.floor(totalSeconds % 60);
-
-  var uptime;
-
   async function getUserCount() {
     const req = await aruna.shard.fetchClientValues('users.size');
 
@@ -49,16 +40,6 @@ exports.run = async (aruna) => {
     return req.reduce((p, n) => p + n, 0);
   }
 
-  if (days >= 1) {
-    uptime = `${days}d, ${hours}h, ${minutes}m`;
-  } else if (hours >= 1) {
-    uptime = `${hours}h, ${minutes}m, ${seconds}s`;
-  } else if (minutes >= 1) {
-    uptime = `${minutes}m, ${seconds}s`;
-  } else {
-    uptime = `${seconds}s`;
-  }
-
   const status = [
     { 
       name: langE.ready.status['1'], 
@@ -69,7 +50,7 @@ exports.run = async (aruna) => {
       type: 'listening'
     },
     { 
-      name: langE.ready.status['3'].replace('[time]', uptime), 
+      name: langE.ready.status['3'], 
       type: 'playing' 
     },
     {
@@ -98,7 +79,7 @@ exports.run = async (aruna) => {
       type: 'listening'
     }
   ];
-  async function setStatus() {
+  async function setStatus(time) {
     var maintenance = await database.System.findOne({ _id: 1 });
     var inMaintenance;
     if (!maintenance) {
@@ -111,13 +92,33 @@ exports.run = async (aruna) => {
     if (inMaintenance === true){
       aruna.user.setPresence({ game: { name: langE.ready.maintenance.replace('[date]', maintenance.date).replace('[time]', maintenance.time)}});
     } else {
-      const randomStatus = status[Math.floor(Math.random() * status.length)];
+      var randomStatus = status[Math.floor(Math.random() * status.length)];
+      randomStatus = { name: randomStatus.name.replace('[time]', time), type: randomStatus.type };
       aruna.user.setPresence({ game: randomStatus });
     }
   }
   setStatus();
   setInterval(() => {
-    setStatus();
+    let totalSeconds = (aruna.uptime / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    totalSeconds %= 86400;
+    const hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+
+    var uptime;
+
+    if (days >= 1) {
+      uptime = `${days}d, ${hours}h, ${minutes}m`;
+    } else if (hours >= 1) {
+      uptime = `${hours}h, ${minutes}m, ${seconds}s`;
+    } else if (minutes >= 1) {
+      uptime = `${minutes}m, ${seconds}s`;
+    } else {
+      uptime = `${seconds}s`;
+    }
+    setStatus(uptime);
   }, 15000);
 
   function logPrefix() {
