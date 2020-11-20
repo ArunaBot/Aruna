@@ -145,13 +145,13 @@ exports.run = async (aruna, message) => {
       const reactionName = reaction.emoji.name;
 
       switch (reactionName) {
-      case '▶️':
-        collector2(msg, true);
-        break;
-      case '🔴':
-      default: 
-        removeEmote(msg);
-        break;
+        case '▶️':
+          collector2(msg, true);
+          break;
+        case '🔴':
+        default: 
+          removeEmote(msg);
+          break;
       }
     });
 
@@ -179,13 +179,13 @@ exports.run = async (aruna, message) => {
       const reactionName = reaction.emoji.name;
 
       switch (reactionName) {
-      case '◀️':
-        collector1(msg, true);
-        break;
-      case '🔴':
-      default: 
-        removeEmote(msg);
-        break;
+        case '◀️':
+          collector1(msg, true);
+          break;
+        case '🔴':
+        default: 
+          removeEmote(msg);
+          break;
       }
 
     });
