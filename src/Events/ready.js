@@ -37,6 +37,18 @@ exports.run = async (aruna) => {
 
   var uptime;
 
+  async function getUserCount() {
+    const req = await aruna.shard.fetchClientValues('users.size');
+
+    return req.reduce((p, n) => p + n, 0);
+  }
+
+  async function getServerCount() {
+    const req = await aruna.shard.fetchClientValues('guilds.size');
+
+    return req.reduce((p, n) => p + n, 0);
+  }
+
   if (days >= 1) {
     uptime = `${days}d, ${hours}h, ${minutes}m`;
   } else if (hours >= 1) {
@@ -75,6 +87,14 @@ exports.run = async (aruna) => {
     },
     {
       name: langE.ready.status['7'],
+      type: 'listening'
+    },
+    {
+      name: langE.ready.status['8'].replace('[USERS]', await getUserCount()),
+      type: 'listening'
+    },
+    {
+      name: langE.ready.status['9'].replace('[GUILDS]', await getServerCount()),
       type: 'listening'
     }
   ];
