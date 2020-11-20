@@ -118,7 +118,7 @@ exports.run = async (aruna, message, args, langc) => {
         break;
       case 'remove':
       case 'remover':
-        if (guild.prefix === config.general.prefix) return message.channel.send(prefixError3);
+        if (guild.prefix === config.prefix) return message.channel.send(prefixError3);
 
         guild.prefix = config.prefix;
 
