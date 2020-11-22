@@ -31,25 +31,24 @@ exports.run = async (client, message) => {
 
   porcentagem = aleatorio;
 
-  const user1 = message.mentions.users.first() || message.author;
-  const user2 = message.mentions.users.array()[1];
+  const user1 = message.mentions.users.first();
+  const user2 = message.mentions.users.array()[1] || message.author;
 
   if (!user2) return message.channel.send(error1);
 
   const richard_lindu = await Jimp.read(user1.avatarURL);
   const richard_dmais = await Jimp.read(user2.avatarURL);
 
-  await richard_lindu.resize(115, 115);
-  await richard_dmais.resize(115, 115);
+  richard_lindu.resize(115, 115);
+  richard_dmais.resize(115, 115);
 
   const eu_amo_o_richard = await Jimp.read(
     'https://cdn.discordapp.com/attachments/486016051851689994/509883077707694100/ships.png'
   );
 
-  await eu_amo_o_richard.composite(richard_lindu, 1, 1);
-  await eu_amo_o_richard
-    .composite(richard_dmais, 229, 1)
-    .write(`./tmp/img/${user1.id}${user2.id}.png`);
+  eu_amo_o_richard.composite(richard_lindu, 1, 1);
+  eu_amo_o_richard.composite(richard_dmais, 229, 1);
+  eu_amo_o_richard.write(`./tmp/img/${user1.id}-${user2.id}.png`);
 
   const aido = new Array();
   aido[1] = 'Msg 1';
@@ -90,7 +89,7 @@ exports.run = async (client, message) => {
     },
     files: [
       {
-        attachment: './tmp/img/' + user1.id + user2.id + '.png',
+        attachment: `./tmp/img/${user1.id}-${user2.id}.png`,
         name: 'file.jpg'
       }
     ]
