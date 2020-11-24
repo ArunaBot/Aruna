@@ -18,27 +18,29 @@
 */
 
 const Discord = require('discord.js');
-const { database } = require('../../Configs');
+const { config, database } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const { emoji } = require('../Utils');
 
-exports.run = async (aruna, message) => {
+exports.run = async (aruna, message, args, langc) => {
+
+  if (langc) {
+    language = langc;
+  }
+
   const embed = new Discord.RichEmbed(message.author);
 
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
     .setColor([255, 0, 0])
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      'Verifique se tenho permissão para lhe enviar mensagens no privado pois, é por lá que envio os comandos.'
-    )
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.help.embed.error.description)
     .setTimestamp();
-  const sucesso = new Discord.RichEmbed()
+  const sucess = new Discord.RichEmbed()
     .setColor([0, 255, 0])
-    .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter('Comandos Enviados')
-    .setDescription(
-      'Os comandos foram enviados em seu privado com sucesso!'
-    )
+    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
+    .setDescription(language.help.embed.sucess.description)
     .setTimestamp();
 
   const guildDB = await database.Guilds.findOne({ _id: message.guild.id });
@@ -84,20 +86,20 @@ exports.run = async (aruna, message) => {
 
   embed.setColor('#004080');
   embed.setAuthor(aruna.user.username, aruna.user.displayAvatarURL);
-  embed.setFooter(`Comando Solicitado por ${message.author.username}#${message.author.discriminator}`, message.author.avatarURL);
+  embed.setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL);
   embed.setTimestamp();
 
-  message.channel.send(sucesso).then(msg => {
-    message.author.send(embed).catch(err => {
-      console.log(err);
-      msg.edit(error1);
-    });
+  message.author.send(embed).then(() => {
+    message.channel.send(sucess);
+  }).catch(() => {
+    message.channel.send(error);
   });
 };
 
 exports.config = {
   name: 'help',
-  aliases: ['ajuda', 'comandos', 'commands'],
+  aliases: ['ajuda', 'comandos', 'commands', 'comando', 'command'],
   category: `${emoji.robot} Utilidades`,
+  description: language.help.config.description,
   public: true
 };
