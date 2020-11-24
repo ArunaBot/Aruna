@@ -21,7 +21,8 @@ const { config, database } = require('../../Configs');
 var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const Discord = require('discord.js');
 
-var options = ['rank', 'autorole', 'prefix'];
+var options = ['rank', 'autorole', 'prefix', 'language', 'idioma'];
+var userOptions = ['language', 'idioma'];
 
 exports.run = async (aruna, message, args, langc) => {
 
@@ -37,7 +38,7 @@ exports.run = async (aruna, message, args, langc) => {
   const error1 = new Discord.RichEmbed()
     .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
-    .setDescription(language.config.embed.error.description1.replace('[OPTIONS]', options))
+    .setDescription(language.config.embed.error.description1.replace('[OPTIONS]', options.join(', ')))
     .setTimestamp();
   const error2 = new Discord.RichEmbed()
     .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
@@ -49,12 +50,12 @@ exports.run = async (aruna, message, args, langc) => {
   
   const user = await database.Users.findOne({ _id: message.author.id });
 
-  if (!message.member.hasPermission('MANAGE_GUILD'))
+  if (!message.member.hasPermission('MANAGE_GUILD') && (!args || !args[0] || !userOptions.includes(args[0].toLowerCase())))
     return message.channel.send(noPermission);
 
   if (!args || !args[0]) return message.channel.send(error1);
 
-  if (!options.includes(args[0].toLowerCase())) {
+  if (!options.includes(args[0].toLowerCase()) || !userOptions.includes(args[0].toLowerCase())) {
     return message.channel.send(error1);
   }
 
@@ -64,6 +65,10 @@ exports.run = async (aruna, message, args, langc) => {
       break;
     case 'rank':
       rankVar(args[1] || null);
+      break;
+    case 'language':
+    case 'idioma':
+      languageVar(args[1] || null);
       break;
     default:
       return message.channel.send(error1);
@@ -92,13 +97,13 @@ exports.run = async (aruna, message, args, langc) => {
     const prefixRemove = new Discord.RichEmbed()
       .setColor([0, 255, 0])
       .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
-      .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.sucess.prefix.description1.replace('[prefix]', config.prefix))
       .setTimestamp();
     const prefixDefinido = new Discord.RichEmbed()
       .setColor([0, 255, 0])
       .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
-      .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.sucess.prefix.description1.replace('[prefix]', args[2] || undefined))
       .setTimestamp();
 
@@ -170,6 +175,71 @@ exports.run = async (aruna, message, args, langc) => {
     }
   }
 
+  async function languageVar (sLanguage) {
+    const validLanguages = config.validLanguages;
+    const actionList = ['user', 'guild'];
+
+    const invalidLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.language.description1.replace('[LANGUAGES]', validLanguages.join(', ')))
+      .setTimestamp();
+
+    if (!sLanguage || !validLanguages.includes(sLanguage)) return message.channel.send(invalidLanguage);
+
+    if (!args[2] || !actionList.includes(args[2])) return invalidAction(actionList);
+
+    if (args[2] === 'guild' && !message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(noPermission);
+
+    const setGuildLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.language.description1.replace('[LANGUAGE]', args[2]))
+      .setTimestamp();
+
+    const errorGuildLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.language.description2)
+      .setTimestamp();
+
+    const setUserLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.language.description2.replace('[LANGUAGE]', args[2]))
+      .setTimestamp();
+
+    const errorUserLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.language.description3)
+      .setTimestamp();
+
+    switch (args[2]) {
+      case 'guild':
+        if (guild.language === args[2]) return message.channel.send(errorGuildLanguage);
+
+        guild.language = args[2];
+
+        await guild.save();
+
+        message.channel.send(setGuildLanguage);
+        break;
+      case 'user':
+        if (user.language === args[2]) return message.channel.send(errorUserLanguage);
+
+        user.language = args[2];
+
+        await user.save();
+
+        message.channel.send(setUserLanguage);
+        break;
+      default:
+        invalidAction(actionList);
+        break;
+    }
+  }
+
   async function isEnabled (command, sendMessage) {
     const dbCommand = await database.Commands.findOne({ _id: `${command}` });
 
@@ -200,11 +270,11 @@ exports.run = async (aruna, message, args, langc) => {
     }
   }
 
-  function invalidAction (options) {
+  function invalidAction (optionL) {
     const optionError = new Discord.RichEmbed()
       .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
-      .setDescription(language.config.embed.error.invalidaction.replace('[OPTIONS]', options))
+      .setDescription(language.config.embed.error.invalidaction.replace('[OPTIONS]', optionL.join(', ')))
       .setTimestamp();
     return message.channel.send(optionError);
   } 
