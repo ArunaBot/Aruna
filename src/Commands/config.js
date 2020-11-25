@@ -175,7 +175,7 @@ exports.run = async (aruna, message, args, langc) => {
     }
   }
 
-  async function languageVar (sLanguage) {
+  async function languageVar (type) {
     const validLanguages = config.validLanguages;
     const actionList = ['user', 'guild'];
 
@@ -184,12 +184,12 @@ exports.run = async (aruna, message, args, langc) => {
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.error.language.description1.replace('[LANGUAGES]', validLanguages.join(', ')))
       .setTimestamp();
-
-    if (!sLanguage || !validLanguages.includes(sLanguage)) return message.channel.send(invalidLanguage);
-
-    if (!args[2] || !actionList.includes(args[2])) return invalidAction(actionList);
-
-    if (args[2] === 'guild' && !message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(noPermission);
+      
+    if (!type || !actionList.includes(type)) return invalidAction(actionList);
+      
+    if (type === 'guild' && !message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(noPermission);
+      
+    if (!args[2] || !validLanguages.includes(args[2])) return message.channel.send(invalidLanguage);
 
     const setGuildLanguage = new Discord.RichEmbed()
       .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
@@ -215,7 +215,7 @@ exports.run = async (aruna, message, args, langc) => {
       .setDescription(language.config.embed.error.language.description3)
       .setTimestamp();
 
-    switch (args[2]) {
+    switch (args[1]) {
       case 'guild':
         if (guild.language === args[2]) return message.channel.send(errorGuildLanguage);
 

@@ -23,9 +23,9 @@ module.exports = {
   mongoose: '',
   superUsersId: ['281515925960654848'], // Your User ID Comes Here!
   noFakeId: ['187915892384858112', '281515925960654848'],
-  validLanguages: ['br', 'us', 'es'], // DON'T CHANGE THIS IF YOU DON'T KNOW WHAT ARE YOU DOING!
+  validLanguages: ['br', 'en', 'es'], // DON'T CHANGE THIS IF YOU DON'T KNOW WHAT ARE YOU DOING!
   language: 'br', // Console Language
-  defaultLanguage: 'us', // Bot Language
+  defaultLanguage: 'en', // Bot Language
   sharding: {
     totalShards: 'auto',
     delay: 7500
