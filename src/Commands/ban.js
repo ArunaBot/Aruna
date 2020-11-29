@@ -134,11 +134,11 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
     .addField(language.ban.embed.sucess.field4, reason, false)
     .setTimestamp();
 
-  message.channel.send(embed).then(async msg => {
-    await message.guild.ban(buser, reason).catch(err => {
-      console.log(err);
-      msg.edit(error7);
-    });
+  message.guild.ban(buser, reason).catch(err => {
+    console.log(err);
+    message.channel.send(error7);
+  }).then(() => {
+    message.channel.send(embed);
   });
 };
 
