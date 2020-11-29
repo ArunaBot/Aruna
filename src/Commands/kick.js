@@ -18,29 +18,34 @@
 */
 
 const Discord = require('discord.js');
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 // eslint-disable-next-line no-unused-vars
 const { date } = require('../Utils');
 const dateFormat = require('dateformat');
 const now = new Date();
 
 exports.run = async (aruna, message, args, langc, prefix, command) => {
-  
+  if (langc) {
+    language = langc;
+  }
+
   const error1 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você não possui a permissão de `Expulsar Membros`!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.kick.embed.error.description1.replace('[kickMembers]', language.generic.permissions.kickMembers))
     .setTimestamp();
   
   const error2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Eu não possuo a permissão de `Expulsar Membros`!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.kick.embed.error.description2.replace('[kickMembers]', language.generic.permissions.kickMembers))
     .setTimestamp();
   
   const error3 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você deve inserir um usuário para ser punido!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.kick.embed.error.description3)
     .setTimestamp();
 
   if (!args[0] || isNaN(args[0]) && (!args[0].includes('<@') || !args[0].includes('>'))) return message.channel.send(error3);
@@ -50,27 +55,27 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
   if (!kuser) return message.channel.send(error3);
 
   const error4 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você não pode banir ${kuser.username} pois este é o(a) dono(a) do servidor!`)
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.kick.embed.error.description4.replace('[ownerName]', kuser.username))
     .setTimestamp();
 
   const error5 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Você não pode banir este usuário pois seu cargo é igual ou inferior ao de ${kuser.username}.`)
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.kick.embed.error.description5.replace('[username]', kuser.username))
     .setTimestamp();
 
   const error6 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Eu não posso banir este usuário pois meu cargo é igual ou inferior ao de ${kuser.username}`)
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.kick.embed.error.description6.replace('[username]', kuser.username))
     .setTimestamp();
-
+    
   const error7 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Infelizmente não sei informar qual o erro. Sinto muito ${message.author.username} :(`)
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.generic.embed.error.description)
     .setTimestamp();
   
   if (!message.member.hasPermission('KICK_MEMBERS'))
@@ -102,32 +107,33 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
   }
   
   if (!reason) {
-    reason = `Punido por: ${message.author.username}`;
+    reason = language.kick.reason['1'].replace('[username]', message.author.username);
   } else {
-    reason =
-      `Punido por: ${message.author.username} com o Motivo: ${reason}`;
+    reason = language.kick.reason['2'].replace('[username]', message.author.username).replace('[reason]', reason);
   }
 
   const embed = new Discord.RichEmbed()
-    .setAuthor('Expulsão Efetuada com Sucesso!')
-    .setDescription(`Expulsão efetuada por ${message.author.username}`)
-    .addField('Usuário Expulso: ', `${kuser} id ${kuser.id}`, false)
-    .addField('Expulso por: ', `<@${message.author.id}>`, false)
-    .addField('Data de Expulsão: ', dateFormat(now, 'dd/mm/yyyy "às" HH:MM:ss'), false)
-    .addField('Motivo: ', `${reason}`, false)
+    .setAuthor(language.kick.embed.sucess.title)
+    .setDescription(language.kick.embed.sucess.description.replace('[username]', kuser.username))
+    .addField(language.kick.embed.sucess.field1.title, language.kick.embed.sucess.field1.content.replace('[username]', kuser.username).replace('[userId]', kuser.id), false)
+    .addField(language.kick.embed.sucess.field2, message.author, false)
+    .addField(language.kick.embed.sucess.field3, dateFormat(now, 'dd/mm/yyyy "às" HH:MM:ss'), false) // Localize the date
+    .addField(language.kick.embed.sucess.field4, reason, false)
     .setTimestamp();
 
-  message.channel.send(embed).then(async msg => {
-    await message.guild.ban(kuser, reason).catch(err => {
-      console.log(err);
-      msg.edit(error7);
-    });
+  
+  message.guild.member(kuser).kick(reason).catch(err => {
+    console.log(err);
+    message.channel.send(error7);
+  }).then(() => {
+    message.channel.send(embed);
   });
 };
 
 exports.config = {
   name: 'kickar',
   aliases: ['kick', 'expulsar'],
+  description: language.kick.config.description,
   category: '👮‍♂️ Moderação',
   public: true
 };
