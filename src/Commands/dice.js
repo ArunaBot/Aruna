@@ -17,56 +17,61 @@
 */
 
 const Discord = require('discord.js');
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
-exports.run = async (aruna, message, args) => {
+exports.run = async (aruna, message, args, langc, prefix, comando) => {
+  if (langc) {
+    language = langc;
+  }
   const error1 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você deve inserir o tipo do dado que devo girar!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.dice.embed.error.description1)
     .setTimestamp();
 
   const error2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Só aceito até d100.')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.dice.embed.error.description2)
     .setTimestamp();
 
   const error3 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Essa quantidade de dados é absurda!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.dice.embed.error.description3)
     .setTimestamp();
 
   const error4 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Acho que esse número nem existe!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.dice.embed.error.description4)
     .setTimestamp();
 
   const error5 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Insira algo como 1d6 por favor')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.dice.embed.error.description5)
     .setTimestamp();
   
   const error6 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Todos sabemos que o resultado do d0 é 0!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.dice.embed.error.description6)
     .setTimestamp();
   
   const error7 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('0 não é uma quantidade de dados que se possa girar!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.dice.embed.error.description7)
     .setTimestamp();
 
   if (!args[0]) return message.channel.send(error5);
 
   const split = message.content
-    .slice(5)
+    .slice(comando.length + prefix.length)
     .trim()
-    .split('d' || 'D');
+    .split('d' || 'D' || ' ');
 
   if (!split) return message.channel.send(error5);
 
@@ -86,15 +91,12 @@ exports.run = async (aruna, message, args) => {
   
   if (number == 0) return message.channel.send(error7);
   
-  var diceStr = '';
-  
-  if (number == 1) diceStr = 'dado';
-  else diceStr = 'dados';
+  var diceStr = number == 1 ? language.dice.embed.generic.dice : language.dice.embed.generic.dices;
   
   const error8 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(`Todos sabemos que o resultado de ${number} ${diceStr} de 1 lado é ${number}!`)
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.dice.embed.error.description8.replace(/\[NUMBER\]/g, number).replace('[diceString]', diceStr))
     .setTimestamp();
   
   if (dice == 1) return message.channel.send(error8);
@@ -102,30 +104,19 @@ exports.run = async (aruna, message, args) => {
   var result = [];
 
   var loop = number;
-  var embed = '';
+  var embed = new Discord.RichEmbed()
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
+    .setTimestamp();
 
   var idVar = setInterval(() => {
     if (loop <= 0) {
-      
       if (number > 1) {
-
-        embed = new Discord.RichEmbed()
-          .setAuthor(
-            `Resultado dos ${number} dados de ${dice} lados girados por ${message.author.username}`,
-            message.author.avatarURL
-          )
-          .setDescription(`\`${result}\``)
-          .setFooter(`Dados de ${message.author.username}`)
-          .setTimestamp();
+        embed.setAuthor(language.dice.embed.sucess['1'].title.replace('[username]', message.member.displayName).replace('[NUMBER]', number).replace('[DICE]', dice),
+          message.author.avatarURL)
+          .setDescription(language.dice.embed.sucess['1'].description.replace('[DICES]', result.join(', ')).replace('[TOTAL]', result.reduce((a, b) => a + b)));
       } else {
-        embed = new Discord.RichEmbed()
-          .setAuthor(
-            `Resultado do dado de ${dice} lados girado por ${message.author.username}`,
-            message.author.avatarURL
-          )
-          .setDescription(`\`${result[0]}\``)
-          .setFooter(`Dados de ${message.author.username}`)
-          .setTimestamp();
+        embed.setAuthor(language.dice.embed.sucess['2'].title.replace('[username]', message.member.displayName).replace('[DICE]', dice), message.author.avatarURL)
+          .setDescription(language.dice.embed.sucess['2'].description.replace('[DICES]', result[0]));
       }
       clearInterval(idVar);
       return message.channel.send(embed);
@@ -146,6 +137,7 @@ exports.run = async (aruna, message, args) => {
 exports.config = {
   name: 'dice',
   aliases: ['dado'],
+  description: language.dice.config.description,
   category: '🎉 Entretenimento',
   public: true
 };
