@@ -12,7 +12,17 @@
     "type": "git",
     "url": "https://github.com/ArunaBot/Aruna.git"
   },
-  "author": "Lobo Metalurgico",
+  "author": {
+    "name": "Lobo Metalurgico",
+    "email": "contato@lobometalurgico.tk",
+    "url": "https://youtube.com/LoboMetalurgico"
+  },
+  "contributors": [
+    {
+      "name": "Kira's Art",
+      "url": "https://twitter.com/kiratokioArt/"
+    }
+  ],
   "license": "AGPL-3.0",
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
