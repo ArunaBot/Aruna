@@ -121,7 +121,7 @@ exports.run = async (aruna, message) => {
     Núcleos do Processador: ${cpu.cores}\n
     Uso de Ram: ${ram}mb / ${ramT}mb`)
     .addField('Criada e Desenvolvida Por', 'Lobo Metalurgico (<@281515925960654848>)\n\nContato: https://youtube.com/LoboMetalurgico | contato@lobometalurgico.tk')
-    .addField('Idealizada Por', 'Carson (<@773670346921476166>')
+    .addField('Idealizada Por', 'Carson (<@773670346921476166>)')
     .addField('Avatar Por', 'Kira\'s Art (<@207023257512181760>)\n\nContato: https://twitter.com/kiratokioArt/')
     .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
     .setTimestamp();
