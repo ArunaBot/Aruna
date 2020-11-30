@@ -17,8 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-require('events').EventEmitter.defaultMaxListeners = 999;
-
 const Discord = require('discord.js');
 const fs = require('fs');
 const { config, database } = require('../Configs');
