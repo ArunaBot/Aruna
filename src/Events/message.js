@@ -51,7 +51,7 @@ exports.run = async (aruna, message) => {
       language = config.defaultLanguage;
     }
     debug('No Server!');
-    var saveG = await new database.Guilds({
+    var saveG = new database.Guilds({
       _id: message.guild.id,
       language: language
     });
@@ -65,7 +65,7 @@ exports.run = async (aruna, message) => {
     if (config.superUsersId.includes(message.author.id)) {
       isSuper = true;
     }
-    var saveU = await new database.Users({ _id: message.author.id, SUPER: isSuper });
+    var saveU = new database.Users({ _id: message.author.id, SUPER: isSuper });
     await saveU.save();
     user = await database.Users.findOne({ _id: message.author.id });
   }

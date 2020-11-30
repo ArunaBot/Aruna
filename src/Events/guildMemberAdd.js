@@ -69,7 +69,7 @@ exports.run = async (aruna, member) => {
   }
   
   if (!user) {
-    var saveU = await new database.Users({ _id: member.user.id });
+    var saveU = new database.Users({ _id: member.user.id });
     await saveU.save();
     console.log(lang.memberAdd.db);
   }
