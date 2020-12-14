@@ -91,7 +91,7 @@ exports.run = async (aruna, message) => {
       false
     )
     .addField(
-      `:busts_in_silhouette: ${message.guild.members.size} Membros (Sendo ${message.guild.members.filter(m => m.user.bot).size} Bots e ${message.guild.members.filter(m => !m.user.bot).size} Humanos)`,
+      `:busts_in_silhouette: ${message.guild.memberCount} Membros (Sendo ${message.guild.members.filter(m => m.user.bot).size} Bots e ${message.guild.members.filter(m => !m.user.bot).size} Humanos)`,
       `${status['online']}: ${
         message.guild.members.filter(m => m.presence.status === 'online').size
       }\n${status['idle']}: ${

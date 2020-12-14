@@ -20,6 +20,7 @@
 const { emojis, sysdata } = require('../Utils');
 const Discord = require('discord.js');
 const { config, links } = require('../../Configs');
+const pkg = require('../../package.json');
 
 exports.run = async (aruna, message) => {
 
@@ -61,7 +62,7 @@ exports.run = async (aruna, message) => {
   }
 
   async function getUserCount() {
-    const req = await aruna.shard.fetchClientValues('users.size');
+    const req = await aruna.shard.broadcastEval('this.guilds.reduce((p, n) => p + n.memberCount, 0)');
 
     return req.reduce((p, n) => p + n, 0);
   }
@@ -70,7 +71,7 @@ exports.run = async (aruna, message) => {
 
   const name = user.displayName;
 
-  const version = process.env['npm_package_version'];
+  const version = pkg.version;
 
   const embed = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
@@ -83,21 +84,22 @@ exports.run = async (aruna, message) => {
     .addField('(🕹️) Usuários', await getUserCount(), true)
     .addField('(💻) Seu Shard', aruna.shard.id, true)
     .addField('(💠) Total de Shards', aruna.shard.count, true)
-    .addField('(🏓) Ping do Shard', `${aruna.ping}ms`, true)
-    .addField(
-      'Convite',
-      `${links.invites[0] ? `[Link](${links.invites[0]})` : 'INDISPONÍVEL'}`,
-      true
-    )
-    .addField('Meu Site', `${links.website ? `[Link](${links.website})` : 'Em Breve™️'}`, true)
-    .addField(
-      'Servidor de Suporte',
-      `${links.supportServers[0] ? `[Link](${links.supportServers[0]})` : 'INDISPONÍVEL'}`,
-      true
-    )
+    .addField('(🏓) Ping do Shard', `${Math.round(aruna.ping)}ms`, true)
     .setThumbnail(`${aruna.user.displayAvatarURL}`)
     .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
     .setTimestamp();
+
+  if (links.invites[0]) {
+    embed.addField('Convite', `${`[Link](${links.invites[0]})`}`, true);
+  }
+    
+  if (links.website) {
+    embed.addField('Meu Site', `[Link](${links.website})}`, true);
+  }
+    
+  if (links.supportServers[0]) {
+    embed.addField('Servidor de Suporte', `[Link](${links.supportServers[0]})}`, true);
+  }
 
   var os = await sysdata.GetOSData();
 
@@ -115,7 +117,7 @@ exports.run = async (aruna, message) => {
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
     .setDescription('`Informações Avançadas`')
     .addField('Versão do Node', process.version)
-    .addField('Versão do discord.js', process.env['npm_package_dependencies_discord_js'].replace('^', ''))
+    .addField('Versão do discord.js', pkg.dependencies['discord.js'].replace('^', ''))
     .addField('Informações da Host', `Sistema Operacional: ${os.distro}\n
     Processador: ${cpu.manufacturer} ${cpu.brand}\n
     Núcleos do Processador: ${cpu.cores}\n
