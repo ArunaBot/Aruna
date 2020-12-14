@@ -19,11 +19,11 @@
 const Discord = require('discord.js');
 const Jimp = require('jimp');
 
-exports.run = async (client, message) => {
+exports.run = async (client, message, args) => {
   const error1 = new Discord.RichEmbed()
     .setAuthor('Oops!', message.author.avatarURL)
     .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você deve mencionar um segundo usuário!')
+    .setDescription('Você deve mencionar no mínimo 1 usuário!')
     .setTimestamp();
 
   var porcentagem = 0;
@@ -31,10 +31,29 @@ exports.run = async (client, message) => {
 
   porcentagem = aleatorio;
 
-  const user1 = message.mentions.users.first();
-  const user2 = message.mentions.users.array()[1] || message.author;
+  if (!message.mentions.users.first() && isNaN(args[0])) {
+    return message.channel.send(error1);
+  } else if (!message.mentions.users.array()[1] && !!args[1] && isNaN(args[1])) {
+    return message.channel.send(error1);
+  }
 
-  if (!user2) return message.channel.send(error1);
+  var user1;
+
+  if (message.mentions.users.first()) {
+    user1 = message.mentions.users.first();
+  } else if (message.guild.members.get(args[0])) {
+    user1 = message.guild.members.get(args[0]).user;
+  } else user1 = null;
+
+  var user2;
+
+  if (message.mentions.users.array()[1]) {
+    user2 = message.mentions.users.array()[1];
+  } else if (message.guild.members.get(args[1])) {
+    user2 = message.guild.members.get(args[1]).user;
+  } else user2 = message.author;
+
+  if (!user1 || user1 === user2) return message.channel.send(error1);
 
   const richard_lindu = await Jimp.read(user1.avatarURL);
   const richard_dmais = await Jimp.read(user2.avatarURL);
