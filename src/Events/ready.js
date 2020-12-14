@@ -154,12 +154,6 @@ exports.run = async (aruna) => {
 
     const dbl = new DBL(apiKeys.topgg, client);
 
-    dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
-
-    setInterval(() => {
-      dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
-    }, 900000);
-
     // Optional events
     dbl.on('posted', () => {
       log(`[${langE.dbl}] => ${langE.ready.posted}`);
@@ -168,5 +162,11 @@ exports.run = async (aruna) => {
     dbl.on('error', e => {
       warn(`[${langE.dbl}][${language.main.error}] => ${e}`);
     });
+
+    dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
+
+    setInterval(() => {
+      dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
+    }, 900000);
   }
 };
