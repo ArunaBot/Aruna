@@ -79,7 +79,7 @@ exports.run = async (aruna) => {
       type: 'listening'
     }
   ];
-  async function setStatus(time) {
+  async function setStatus() {
     var maintenance = await database.System.findOne({ _id: 1 });
     var inMaintenance;
     if (!maintenance) {
@@ -95,7 +95,7 @@ exports.run = async (aruna) => {
     } else {
       aruna.user.setStatus('online');
       var randomStatus = status[Math.floor(Math.random() * status.length)];
-      randomStatus = { name: randomStatus.name.replace('[time]', time), type: randomStatus.type };
+      randomStatus = { name: randomStatus.name.replace('[time]', await getUptime()), type: randomStatus.type };
       aruna.user.setPresence({ game: randomStatus });
     }
   }
@@ -121,9 +121,9 @@ exports.run = async (aruna) => {
     }
     return uptime;
   }
-  setStatus(await getUptime());
-  setInterval(async () => {
-    setStatus(await getUptime());
+  setStatus();
+  setInterval(() => {
+    setStatus();
   }, 15000);
 
   function logPrefix() {
