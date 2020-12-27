@@ -90,15 +90,15 @@ exports.run = async (aruna, message) => {
     .setTimestamp();
 
   if (links.invites[0]) {
-    embed.addField('Convite', `${`[Link](${links.invites[0]})`}`, true);
+    embed.addField('Convite', `[Link](${links.invites[0]})`, true);
   }
     
   if (links.website) {
-    embed.addField('Meu Site', `[Link](${links.website})}`, true);
+    embed.addField('Meu Site', `[Link](${links.website})`, true);
   }
     
   if (links.supportServers[0]) {
-    embed.addField('Servidor de Suporte', `[Link](${links.supportServers[0]})}`, true);
+    embed.addField('Servidor de Suporte', `[Link](${links.supportServers[0]})`, true);
   }
 
   var os = await sysdata.GetOSData();
