@@ -45,9 +45,11 @@ exports.run = async (aruna, member) => {
 
     noFakeId.forEach(async id => {
       if (member.guild.member(id)) {
-        const userNew = member.user.username.toLocaleLowerCase().replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const userNew = member.user.username.toLocaleLowerCase().replace('4','a').replace('3','e').replace('5','s').replace('@','a')
+          .replace('i','u').replace('u','l').replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
         const noFakeUser = await aruna.fetchUser(id);
-        const noFakeUsername = noFakeUser.username.toLocaleLowerCase().replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const noFakeUsername = noFakeUser.username.toLocaleLowerCase().replace('4','a').replace('3','e').replace('5','s').replace('@','a')
+          .replace('i','u').replace('u','l').replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
         if (userNew == noFakeUsername && !noFakeId.includes(member.user.id)) {
           if (member.guild.members.get(aruna.user.id).hasPermission('KICK_MEMBERS')) {
             member.kick(langD.memberAdd.antifake.kickMessage);
