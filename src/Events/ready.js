@@ -159,7 +159,6 @@ exports.run = async (aruna) => {
 
     const dbl = new DBL(apiKeys.topgg, client);
 
-    // Optional events
     dbl.on('posted', () => {
       log(`[${langE.dbl}] => ${langE.ready.posted}`);
     });
