@@ -90,15 +90,16 @@ exports.run = async (aruna) => {
       inMaintenance = maintenance.maintenance;
     }
     if (inMaintenance === true){
+      aruna.user.setStatus('dnd');
       aruna.user.setPresence({ game: { name: langE.ready.maintenance.replace('[date]', maintenance.date).replace('[time]', maintenance.time)}});
     } else {
+      aruna.user.setStatus('online');
       var randomStatus = status[Math.floor(Math.random() * status.length)];
       randomStatus = { name: randomStatus.name.replace('[time]', time), type: randomStatus.type };
       aruna.user.setPresence({ game: randomStatus });
     }
   }
-  setStatus();
-  setInterval(() => {
+  async function getUptime() {
     let totalSeconds = (aruna.uptime / 1000);
     const days = Math.floor(totalSeconds / 86400);
     totalSeconds %= 86400;
@@ -118,7 +119,11 @@ exports.run = async (aruna) => {
     } else {
       uptime = `${seconds}s`;
     }
-    setStatus(uptime);
+    return uptime;
+  }
+  setStatus(await getUptime());
+  setInterval(async () => {
+    setStatus(await getUptime());
   }, 15000);
 
   function logPrefix() {
