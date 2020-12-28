@@ -141,7 +141,7 @@ exports.run = async (aruna, message) => {
     const command = args.shift().toLowerCase();
     const ma = message.content.split(' ');
     const cmd = ma[0];
-    if (cmd == prefix) return;
+    if (cmd == prefix || cmd.slice(prefix.length).length < 2) return;
     const commandFile =
           aruna.commands.get(cmd.slice(prefix.length).toLowerCase()) ||
           aruna.commands.get(aruna.aliases.get(cmd.slice(prefix.length).toLowerCase()));
@@ -167,11 +167,15 @@ exports.run = async (aruna, message) => {
               .filter(c =>
                 c.config.name.startsWith(cmd.slice(prefix.length).toLowerCase())
               )
-              .map(a => '`' + a.config.name + '`')
+              .map(a => `${prefix}${a.config.name}`)
               .join(', ') || undefined;
 
       if (alts !== undefined) {
-        message.reply(lang.message.commandNotFound.replace('[command]', command).replace('[alt]', alts));
+        message.reply(lang.message.errors.commandNotFound.replace('[command]', command).replace('[alt]', alts)).then(async msg => {
+          setTimeout(() => {
+            msg.delete();
+          }, 30000);
+        });
       }
     }
   }
