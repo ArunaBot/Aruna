@@ -136,7 +136,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
 };
 exports.config = {
   name: 'dice',
-  aliases: ['dado'],
+  aliases: ['dado', 'roll'],
   description: language.dice.config.description,
   category: '🎉 Entretenimento',
   public: true

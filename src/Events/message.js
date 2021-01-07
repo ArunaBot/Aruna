@@ -23,26 +23,19 @@ var { database, config, links } = require('../../Configs');
 const { cooldown, utils } = require('../Utils');
 
 exports.run = async (aruna, message) => {
-  const langI = require(`../../languages/bot/${config.language}/internal.json`);
   if (message.author.bot) return;
-
+  
   if (message.channel.type == 'dm') {
     const dmUser = await database.Users.findOne({ _id: message.author.id });
-    if (!dmUser) {
-      return message.reply(langI.message.errors.dmError);
-    } else {
-      var dmEventL;
-      if (dmUser.language == null) {
-        dmEventL = langI;
-      } else {
-        dmEventL = require(`../../languages/bot/${dmUser.language}/internal.json`);
-      }
-      return message.reply(dmEventL.message.errors.dmError);
-    }
-  }
 
+    const dmLang = require(`../../languages/bot/${dmUser.language || config.defaultLanguage}/events.json`);
+
+    return message.reply(dmLang.message.errors.dmError);
+  }
+  
   var guild = await database.Guilds.findOne({ _id: message.guild.id });
   var user = await database.Users.findOne({ _id: message.author.id });
+  
   if (!guild) {
     var language;
     if (message.guild.region == 'brazil') {
@@ -58,7 +51,7 @@ exports.run = async (aruna, message) => {
     await saveG.save();
     guild = await database.Guilds.findOne({ _id: message.guild.id });
   }
-
+  
   if (!user) {
     debug('No User!');
     var isSuper = false;
@@ -69,18 +62,19 @@ exports.run = async (aruna, message) => {
     await saveU.save();
     user = await database.Users.findOne({ _id: message.author.id });
   }
-
+  
   var prefix = guild.prefix || config.prefix;
-
+  
   if (user.language !== guild.language && user.language !== null) {
     language = user.language;
   } else {
     language = language || guild.language;
   }
-      
+  
   const lang = require(`../../languages/bot/${language || config.defaultLanguage}/events.json`);
+  const langI = require(`../../languages/bot/${config.language}/internal.json`);
   const langc = require(`../../languages/bot/${language || config.defaultLanguage}/commands.json`);
-
+  
   const emojiError = lang.message.errors.emojiError.replace('[externalEmojis]', langc.generic.permissions.useExternalEmojis);
   const linkError = lang.message.errors.linkError.replace('[sendLinks]', langc.generic.permissions.embedLinks);
 
