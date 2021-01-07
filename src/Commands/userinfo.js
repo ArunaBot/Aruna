@@ -20,10 +20,15 @@
 // eslint-disable-next-line no-unused-vars
 const { emoji, date } = require('../Utils');
 const Discord = require('discord.js');
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const dateFormat = require('dateformat');
 
-exports.run = (aruna, message, args) => {
-  
+exports.run = (aruna, message, args, langc) => {
+  if (langc) {
+    language = langc;
+  }
+
   const mentionedUser = message.guild.member(
     message.mentions.users.first() ||
       aruna.users.get(args[0]) ||
@@ -46,23 +51,30 @@ exports.run = (aruna, message, args) => {
         (24 * 60 * 60 * 1000)
     )
   );
-  let userStatus;
-  if (mentionedUser.presence.status === 'dnd') userStatus = 'Não Pertube';
-  if (mentionedUser.presence.status === 'idle') userStatus = 'Ausente';
-  if (mentionedUser.presence.status === 'stream') userStatus = 'Transmitindo';
-  if (mentionedUser.presence.status === 'offline') userStatus = 'Offline';
-  if (mentionedUser.presence.status === 'online') userStatus = 'Disponível';
+  var userStatus;
+  var userStatusEmoji;
 
-  let userStatusEmoji;
-  if (mentionedUser.presence.status === 'dnd') userStatusEmoji = emoji.dnd;
-  if (mentionedUser.presence.status === 'idle') userStatusEmoji = emoji.idle;
-  if (mentionedUser.presence.status === 'stream')
-    userStatusEmoji = emoji.stream;
-  if (mentionedUser.presence.status === 'offline')
-    userStatusEmoji = emoji.offline;
-  if (mentionedUser.presence.status === 'online')
-    userStatusEmoji = emoji.online;
-
+  switch (mentionedUser.presence.status) {
+    case 'online':
+      userStatus = language.generic.status.online;
+      userStatusEmoji = emoji.online;
+      break;
+    case 'idle':
+      userStatus = language.generic.status.idle;
+      userStatusEmoji = emoji.idle;
+      break;
+    case 'dnd':
+      userStatus = language.generic.status.dnd;
+      userStatusEmoji = emoji.dnd;
+      break;
+    case 'offline':
+      userStatus = language.generic.status.offline;
+      userStatusEmoji = emoji.offline;
+      break;
+    default:
+      userStatus = undefined;
+  }
+    
   let userAdminServer;
   if (mentionedUser.hasPermission('ADMINISTRATOR') === true)
     userAdminServer = 'Sim';
@@ -74,19 +86,34 @@ exports.run = (aruna, message, args) => {
     userAvatar = `${mentionedUser.user.displayAvatarURL}?size=2048`;
   }
 
-  var stringtime1 = '';
-  if (userDaysDiscord == 1) stringtime1 = 'dia';
-  else stringtime1 = 'dias';
+  var stringtime1;
+  switch (userDaysDiscord) {
+    case 1:
+      stringtime1 = language.userinfo.generic.days;
+      break;
+    default:
+      stringtime1 = language.userinfo.generic.day;
+      break;
+  }
 
-  var stringtime2 = '';
-  if (userDaysGuild == 1) stringtime2 = 'dia';
-  else stringtime2 = 'dias';
+  var stringtime2;
+  switch (userDaysGuild) {
+    case 1:
+      stringtime2 = language.userinfo.generic.days;
+      break;
+    default:
+      stringtime2 = language.userinfo.generic.day;
+      break;
+  }
 
-  const premium = message.guild.member(message.author).premiumSinceTimestamp;
   var userBoost = '';
+
+  const premium = message.guild.member(mentionedUser.user).premiumSinceTimestamp;
+  
   if (premium !== null) {
     userBoost = `\n\n(${emoji.nitro}) **Impulsionando Desde:** ${dateFormat(message.guild.member(message.author).premiumSinceTimestamp, 'dd/mm/yyyy "às" HH:MM:ss')}`;
   }
+
   const accountCreated = dateFormat(mentionedUser.user.createdTimestamp, 'dd/mm/yyyy "às" HH:MM:ss');
   const joinedIn = dateFormat(mentionedUser.joinedTimestamp, 'dd/mm/yyyy "às" HH:MM:ss');
   
@@ -109,52 +136,16 @@ exports.run = (aruna, message, args) => {
     
     (:date:) **Entrou Em:** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} atrás)${userBoost}
     `, false)
-    .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
+    .setFooter(language.generic.embed.footer2.replace('[usertag]', message.author.tag))
     .setThumbnail(userAvatar)
     .setColor('#56eaf5')
     .setTimestamp();
-
-  /* let embed2 = new Discord.RichEmbed()
-    .setAuthor(`${mentionedUser.user.username}`, `${userAvatar}`)
-    .addField(`(${emoji.passport}) Permissões`, `${userPerms}`)
-    .setFooter("Criada pelo Lobo Metalurgico")
-    .setThumbnail(userAvatar)
-    .setColor("#56eaf5")
-    .setTimestamp();*/
   
   message.channel.send(embed);
-    
-  /* .then(msg => {
-    msg.react("638067652337729597");
-    const collector = msg.createReactionCollector(
-      (r, u) =>
-        r.emoji.name === "passport" &&
-        (u.id !== aruna.user.id && u.id === message.author.id)
-    );
-    collector.on("collect", r => {
-      switch (r.emoji.name) {
-        case "passport":
-          msg.edit(embed2).then(msg2 => {
-            msg2.react("⬅");
-            const collector2 = msg.createReactionCollector(
-              (r, u) =>
-                r.emoji.name === "⬅" &&
-                (u.id !== aruna.user.id && u.id === message.author.id)
-            );
-            collector2.on("collect", r => {
-              switch (r.emoji.name) {
-                case "⬅":
-                  msg.edit(embed);
-              }
-            });
-          });
-      }
-    });
-  });*/
 };
 exports.config = {
   name: 'userinfo',
-  aliases: ['ui'],
+  aliases: [],
   category: `${emoji.robot} Utilidades`,
   public: true
 };
