@@ -19,11 +19,18 @@
 const Discord = require('discord.js');
 const Jimp = require('jimp');
 
-exports.run = async (client, message, args) => {
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+
+exports.run = async (client, message, args, langc) => {
+  if (langc) {
+    language = langc;
+  }
+
   const error1 = new Discord.RichEmbed()
-    .setAuthor('Oops!', message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você deve mencionar no mínimo 1 usuário!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.ship.embed.error.description)
     .setTimestamp();
 
   var porcentagem = 0;
@@ -55,49 +62,43 @@ exports.run = async (client, message, args) => {
 
   if (!user1 && user1 === user2) return message.channel.send(error1);
 
-  const richard_lindu = await Jimp.read(user1.avatarURL);
-  const richard_dmais = await Jimp.read(user2.avatarURL);
+  const avatar1 = await Jimp.read(user1.avatarURL);
+  const avatar2 = await Jimp.read(user2.avatarURL);
 
-  richard_lindu.resize(115, 115);
-  richard_dmais.resize(115, 115);
+  avatar1.resize(115, 115);
+  avatar2.resize(115, 115);
 
-  const eu_amo_o_richard = await Jimp.read(
+  const baseImage = await Jimp.read(
     'https://cdn.discordapp.com/attachments/486016051851689994/509883077707694100/ships.png'
   );
 
-  eu_amo_o_richard.composite(richard_lindu, 1, 1);
-  eu_amo_o_richard.composite(richard_dmais, 229, 1);
-  eu_amo_o_richard.write(`./tmp/img/${user1.id}-${user2.id}.png`);
-
-  const aido = new Array();
-  aido[1] = 'Msg 1';
-  aido[2] = 'Msg 2';
+  baseImage.composite(avatar1, 1, 1);
+  baseImage.composite(avatar2, 229, 1);
+  baseImage.write(`./tmp/img/${user1.id}-${user2.id}.png`);
 
   var mensagem =
     porcentagem <= 10
-      ? `${porcentagem}% [----------] Nada é impossível, apenas improvável.`
+      ? language.ship.shipStatus[0].replace('%s', porcentagem).replace('%s', porcentagem)
       : porcentagem <= 20
-        ? `${porcentagem}% [█---------] Um dia talvez. `
+        ? language.ship.shipStatus[1].replace('%s', porcentagem)
         : porcentagem <= 30
-          ? `${porcentagem}% [██--------] Bem, olhando por esse ângulo... `
+          ? language.ship.shipStatus[2].replace('%s', porcentagem)
           : porcentagem <= 40
-            ? `${porcentagem}% [███-------] Possível, é. Díficil? De fato.`
+            ? language.ship.shipStatus[3].replace('%s', porcentagem)
             : porcentagem <= 50
-              ? `${porcentagem}% [████------] Numa galáxia não tão distante...`
+              ? language.ship.shipStatus[4].replace('%s', porcentagem)
               : porcentagem <= 60
-                ? `${porcentagem}% [█████-----] Até que formariam um belo casal. `
+                ? language.ship.shipStatus[5].replace('%s', porcentagem)
                 : porcentagem <= 70
-                  ? `${porcentagem}% [██████----] Esse casal está perto de ser muito bom! `
+                  ? language.ship.shipStatus[6].replace('%s', porcentagem)
                   : porcentagem <= 80
-                    ? `${porcentagem}% [███████---] Casal de primeira! `
+                    ? language.ship.shipStatus[7].replace('%s', porcentagem)
                     : porcentagem <= 90
-                      ? `${porcentagem}% [████████--] Já poderiam estar casados! 💍 `
+                      ? language.ship.shipStatus[8].replace('%s', porcentagem)
                       : porcentagem <= 100
-                        ? `${porcentagem}% [█████████-] Casal perfeito, só um terremoto os separa! 💍`
-                        : `${porcentagem}% [██████████] Casal perfeito, ninguém os separa! 💍`;
+                        ? language.ship.shipStatus[9].replace('%s', porcentagem)
+                        : language.ship.shipStatus[10].replace('%s', porcentagem);
   
-  console.log(porcentagem);
-  console.log(mensagem);
   message.channel.send({
     embed: {
       description: `${user1} + ${user2}\n\n**${mensagem}**`,
