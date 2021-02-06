@@ -20,16 +20,15 @@
 const { emojis, sysdata } = require('../Utils');
 const Discord = require('discord.js');
 const { config, links } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const pkg = require('../../package.json');
 
-exports.run = async (aruna, message) => {
-
-  async function getUptime() {
-    const req = await aruna.shard.broadcastEval('this.uptime');
-    return req.reduce((p, n) => p + n, 0);
+exports.run = async (aruna, message, args, langc) => {
+  if (langc) {
+    language = langc;
   }
 
-  let totalSeconds = ((await getUptime() / aruna.shard.count) / 1000);
+  let totalSeconds = (aruna.uptime / 1000);
   const days = Math.floor(totalSeconds / 86400);
   totalSeconds %= 86400;
   const hours = Math.floor(totalSeconds / 3600);
@@ -49,7 +48,7 @@ exports.run = async (aruna, message) => {
     uptime = `${seconds}s`;
   }
 
-  async function getServerCount() {
+  /* async function getServerCount() {
     const req = await aruna.shard.fetchClientValues('guilds.size');
 
     return req.reduce((p, n) => p + n, 0);
@@ -65,7 +64,7 @@ exports.run = async (aruna, message) => {
     const req = await aruna.shard.broadcastEval('this.guilds.reduce((p, n) => p + n.memberCount, 0)');
 
     return req.reduce((p, n) => p + n, 0);
-  }
+  } */
 
   const user = message.guild.member(aruna.user);
 
@@ -75,30 +74,39 @@ exports.run = async (aruna, message) => {
 
   const embed = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
-    .setDescription('`Informações Básicas`')
-    .addField(`(${emojis.robot}) Nome na Guild`, name, true)
-    .addField('(📡) Versão', version, true)
-    .addField('(🕰️) Uptime', uptime, true)
-    .addField('(📃) Canais', await getChannelCount(), true)
-    .addField('(🖥️) Servidores', await getServerCount(), true)
-    .addField('(🕹️) Usuários', await getUserCount(), true)
-    .addField('(💻) Seu Shard', aruna.shard.id, true)
-    .addField('(💠) Total de Shards', aruna.shard.count, true)
-    .addField('(🏓) Ping do Shard', `${Math.round(aruna.ping)}ms`, true)
-    .setThumbnail(`${aruna.user.displayAvatarURL}`)
-    .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
+    .setDescription(language.bot.embed.basic.description)
+    .addField(language.bot.embed.basic.field[0].replace('%s', emojis.robot), name, true)
+    .addField(language.bot.embed.basic.field[1].replace('%s', '📡'), version, true)
+    .addField(language.bot.embed.basic.field[2].replace('%s', '🕰️'), uptime, true)
+    // .addField(language.bot.embed.basic.field[3].replace('%s', '📃'), await getChannelCount(), true)
+    // .addField(language.bot.embed.basic.field[4].replace('%s', '🖥️'), await getServerCount(), true)
+    // .addField(language.bot.embed.basic.field[5].replace('%s', '🕹️'), await getUserCount(), true)
+    .addField(language.bot.embed.basic.field[6].replace('%s', '💻'), aruna.shard.id, true)
+    .addField(language.bot.embed.basic.field[7].replace('%s', '💠'), aruna.shard.count, true)
+    .addField(language.bot.embed.basic.field[8].replace('%s', '🏓'), `${Math.round(aruna.ping)}ms`, true)
+    .setThumbnail(aruna.user.displayAvatarURL)
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL)
     .setTimestamp();
 
   if (links.invites[0]) {
-    embed.addField('Convite', `[Link](${links.invites[0]})`, true);
+    embed.addField(language.bot.embed.basic.field[9],
+      language.bot.generic.linkr
+        .replace('%s', language.generic.strings.link)
+        .replace('%s', links.invites[0]), true);
   }
     
   if (links.website) {
-    embed.addField('Meu Site', `[Link](${links.website})`, true);
+    embed.addField(language.bot.embed.basic.field[10],
+      language.bot.generic.linkr
+        .replace('%s', language.generic.strings.link)
+        .replace('%s', links.website), true);
   }
     
   if (links.supportServers[0]) {
-    embed.addField('Servidor de Suporte', `[Link](${links.supportServers[0]})`, true);
+    embed.addField(language.bot.embed.basic.field[11],
+      language.bot.generic.linkr
+        .replace('%s', language.generic.strings.link)
+        .replace('%s', links.supportServers[0]), true);
   }
 
   var os = await sysdata.GetOSData();
@@ -115,17 +123,19 @@ exports.run = async (aruna, message) => {
 
   const embed2 = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
-    .setDescription('`Informações Avançadas`')
-    .addField('Versão do Node', process.version)
-    .addField('Versão do discord.js', pkg.dependencies['discord.js'].replace('^', ''))
-    .addField('Informações da Host', `Sistema Operacional: ${os.distro}\n
-    Processador: ${cpu.manufacturer} ${cpu.brand}\n
-    Núcleos do Processador: ${cpu.cores}\n
-    Uso de Ram: ${ram}mb / ${ramT}mb`)
-    .addField('Criada e Desenvolvida Por', 'Lobo Metalurgico (<@281515925960654848>)\n\nContato: https://youtube.com/LoboMetalurgico | contato@lobometalurgico.tk')
-    .addField('Idealizada Por', 'Carson (<@773670346921476166>)')
-    .addField('Avatar Por', 'Kira\'s Art (<@207023257512181760>)\n\nContato: https://twitter.com/kiratokioArt')
-    .setFooter(`Informações Solicitadas por ${message.author.tag}`, message.author.avatarURL)
+    .setDescription(language.bot.embed.advanced.description)
+    .addField(language.bot.embed.advanced.field[0], process.version)
+    .addField(language.bot.embed.advanced.field[1], pkg.dependencies['discord.js'].replace('^', ''))
+    .addField(language.bot.embed.advanced.field[2],
+      `${language.bot.embed.advanced.content[2][0]} ${os.distro}\n
+       ${language.bot.embed.advanced.content[2][1]} ${cpu.manufacturer} ${cpu.brand}\n
+       ${language.bot.embed.advanced.content[2][2]} ${cpu.cores}\n
+       ${language.bot.embed.advanced.content[2][3]} ${ram}mb / ${ramT}mb
+      `)
+    .addField(language.bot.embed.advanced.field[3], language.bot.embed.advanced.content[3])
+    .addField(language.bot.embed.advanced.field[4], language.bot.embed.advanced.content[4])
+    .addField(language.bot.embed.advanced.field[5], language.bot.embed.advanced.content[5])
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL)
     .setTimestamp();
 
   message.channel.send(embed).then(async msg => {
@@ -207,8 +217,8 @@ exports.run = async (aruna, message) => {
 
 exports.config = {
   name: 'botinfo',
-  aliases: ['bot', 'uptime'],
-  description: 'Lista as Principais informações do bot',
+  aliases: ['bot', 'uptime', 'robotinfo', 'info'],
   category: `${emojis.robot} Utilidades`,
+  description: language.bot.config.description,
   public: true
 };

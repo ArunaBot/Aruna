@@ -39,11 +39,11 @@
     "mathjs": "^8.1.1",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
-    "mongoose": "^5.11.11",
+    "mongoose": "^5.11.12",
     "rss-parser": "^3.10.0",
     "superagent": "^6.1.0",
-    "systeminformation": "^4.34.5",
-    "ytdl-core": "^4.4.1",
+    "systeminformation": "^4.34.7",
+    "ytdl-core": "^4.4.3",
     "ytdl-core-discord": "^1.2.5"
   },
   "devDependencies": {

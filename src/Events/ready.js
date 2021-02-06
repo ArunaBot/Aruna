@@ -28,7 +28,7 @@ const langE = require(`../../languages/bot/${config.defaultLanguage}/events.json
 exports.run = async (aruna) => {
   log(language.generic.connected);
 
-  async function getUserCount() {
+  /* async function getUserCount() {
     const req = await aruna.shard.fetchClientValues('users.size');
 
     return req.reduce((p, n) => p + n, 0);
@@ -38,7 +38,7 @@ exports.run = async (aruna) => {
     const req = await aruna.shard.fetchClientValues('guilds.size');
 
     return req.reduce((p, n) => p + n, 0);
-  }
+  } */
 
   const status = [
     { 
@@ -70,14 +70,14 @@ exports.run = async (aruna) => {
       name: langE.ready.status['7'],
       type: 'listening'
     },
-    {
+    /* {
       name: langE.ready.status['8'].replace('[USERS]', await getUserCount()),
       type: 'listening'
     },
     {
       name: langE.ready.status['9'].replace('[GUILDS]', await getServerCount()),
       type: 'listening'
-    }
+    } */
   ];
   async function setStatus() {
     var maintenance = await database.System.findOne({ _id: 1 });
