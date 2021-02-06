@@ -25,9 +25,9 @@
   ],
   "license": "AGPL-3.0",
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
+    "@discordjs/opus": "^0.4.0",
     "chalk": "^4.1.0",
-    "dateformat": "^4.4.1",
+    "dateformat": "^4.5.1",
     "dblapi.js": "^2.4.1",
     "del": "^6.0.0",
     "discord.js": "^11.6.4",
@@ -36,17 +36,30 @@
     "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.2.7",
     "jimp": "^0.16.1",
-    "mathjs": "^8.1.1",
+    "mathjs": "^9.2.0",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
-    "mongoose": "^5.11.12",
-    "rss-parser": "^3.10.0",
+    "mongoose": "^5.11.15",
+    "nodemon": "^2.0.7",
+    "rss-parser": "^3.11.0",
     "superagent": "^6.1.0",
-    "systeminformation": "^4.34.7",
-    "ytdl-core": "^4.4.3",
+    "systeminformation": "^5.0.10",
+    "ytdl-core": "^4.4.5",
     "ytdl-core-discord": "^1.2.5"
   },
   "devDependencies": {
-    "eslint": "^7.17.0"
+    "eslint": "^7.19.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      ".Configs/*",
+      "Configs/*",
+      ".git/*",
+      ".gitignore",
+      ".github/",
+      "package.json",
+      "package-lock.json"
+    ],
+    "delay": "5000"
   }
 }
