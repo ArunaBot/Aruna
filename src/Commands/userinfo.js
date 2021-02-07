@@ -117,8 +117,8 @@ exports.run = (aruna, message, args, langc) => {
     userBoost = `\n\n(${emoji.nitro}) **${language.userinfo.strings.boosting}** ${dateFormat(message.guild.member(message.author).premiumSinceTimestamp, language.generic.strings.date)}`;
   }
 
-  const accountCreated = dateFormat(mentionedUser.user.createdTimestamp, language.userinfo.strings.date);
-  const joinedIn = dateFormat(mentionedUser.joinedTimestamp, language.userinfo.strings.date);
+  const accountCreated = dateFormat(mentionedUser.user.createdTimestamp, language.generic.strings.date);
+  const joinedIn = dateFormat(mentionedUser.joinedTimestamp, language.generic.strings.date);
   
   const embed = new Discord.RichEmbed()
     .setAuthor(mentionedUser.user.username, userAvatar)
