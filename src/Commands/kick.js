@@ -117,14 +117,14 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
     .setDescription(language.kick.embed.sucess.description.replace('[username]', kuser.username))
     .addField(language.kick.embed.sucess.field1.title, language.kick.embed.sucess.field1.content.replace('[username]', kuser.username).replace('[userId]', kuser.id), false)
     .addField(language.kick.embed.sucess.field2, message.author, false)
-    .addField(language.kick.embed.sucess.field3, dateFormat(now, 'dd/mm/yyyy "às" HH:MM:ss'), false) // Localize the date
+    .addField(language.kick.embed.sucess.field3, dateFormat(now, language.generic.strings.date), false)
     .addField(language.kick.embed.sucess.field4, reason, false)
     .setTimestamp();
 
   
   message.guild.member(kuser).kick(reason).catch(err => {
     console.log(err);
-    message.channel.send(error7);
+    return message.channel.send(error7);
   }).then(() => {
     message.channel.send(embed);
   });

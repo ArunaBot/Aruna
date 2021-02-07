@@ -101,9 +101,9 @@ exports.run = async (aruna, message, args, langc) => {
     .addField(`:computer: ${language.serverinfo.embed.field1.title}`, message.guild.id, true)
     .addField(`:crown: ${language.serverinfo.embed.field2.title}`, message.guild.owner, true)
     .addField(`:earth_americas: ${language.serverinfo.embed.field3.title}`, region, true)
-    .addField(`:date: ${language.serverinfo.embed.field4.title}`, dateFormat(message.guild.createdTimestamp, language.serverinfo.embed.field4.content), true)
+    .addField(`:date: ${language.serverinfo.embed.field4.title}`, dateFormat(message.guild.createdTimestamp, language.generic.strings.date), true)
     .addField(`:desktop: ${language.serverinfo.embed.field5.title}`, aruna.shard.id, true)
-    .addField(`:dizzy: ${language.serverinfo.embed.field6.title}`, dateFormat(message.guild.member(aruna.user).joinedTimestamp, language.serverinfo.embed.field6.content), true)
+    .addField(`:dizzy: ${language.serverinfo.embed.field6.title}`, dateFormat(message.guild.member(aruna.user).joinedTimestamp, language.generic.strings.date), true)
     .addField(
       language.serverinfo.embed.field7.title
         .replace('%1', ':speech_balloon:')

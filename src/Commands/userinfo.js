@@ -114,7 +114,7 @@ exports.run = (aruna, message, args, langc) => {
   const premium = message.guild.member(mentionedUser.user).premiumSinceTimestamp;
   
   if (premium !== null) {
-    userBoost = `\n\n(${emoji.nitro}) **${language.userinfo.strings.boosting}** ${dateFormat(message.guild.member(message.author).premiumSinceTimestamp, language.userinfo.strings.date)}`;
+    userBoost = `\n\n(${emoji.nitro}) **${language.userinfo.strings.boosting}** ${dateFormat(message.guild.member(message.author).premiumSinceTimestamp, language.generic.strings.date)}`;
   }
 
   const accountCreated = dateFormat(mentionedUser.user.createdTimestamp, language.userinfo.strings.date);

@@ -130,13 +130,13 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
     .setDescription(language.ban.embed.sucess.description.replace('[username]', buser.username))
     .addField(language.ban.embed.sucess.field1.title, language.ban.embed.sucess.field1.content.replace('[username]', buser.username).replace('[userId]', buser.id), false)
     .addField(language.ban.embed.sucess.field2, message.author, false)
-    .addField(language.ban.embed.sucess.field3, dateFormat(now, 'dd/mm/yyyy "às" HH:MM:ss'), false) // Localize the date
+    .addField(language.ban.embed.sucess.field3, dateFormat(now, language.generic.strings.date), false)
     .addField(language.ban.embed.sucess.field4, reason, false)
     .setTimestamp();
 
   message.guild.ban(buser, reason).catch(err => {
     console.log(err);
-    message.channel.send(error7);
+    return message.channel.send(error7);
   }).then(() => {
     message.channel.send(embed);
   });
