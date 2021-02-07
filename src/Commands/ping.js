@@ -28,7 +28,7 @@ exports.run = async (aruna, message, args, langc) => {
   }
 
   const embed = new Discord.RichEmbed()
-    .setTitle(language.ping.embed['1'].title.replace('[emoji]', emoji.loading).replace('[username]', message.author.username))
+    .setTitle(language.ping.embed['1'].title.replace('[emoji]', emoji.loading).replace('[username]', message.member.displayName))
     .setColor('#f5ebeb')
     .setDescription(language.ping.embed['1'].description)
     .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))

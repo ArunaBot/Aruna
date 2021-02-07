@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { emojis, sysdata } = require('../Utils');
+const { emoji, sysdata } = require('../Utils');
 const Discord = require('discord.js');
 const { config, links } = require('../../Configs');
 var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
@@ -27,6 +27,17 @@ exports.run = async (aruna, message, args, langc) => {
   if (langc) {
     language = langc;
   }
+
+  const preEmbed = new Discord.RichEmbed()
+    .setTitle(language.bot.embed.pre.title.replace('%s', emoji.loading).replace('%s', message.member.displayName))
+    .setColor('#00000')
+    .setDescription(language.bot.embed.pre.description)
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
+    .setTimestamp();
+
+  const preMessage = await message.channel.send(preEmbed);
+
+  const time = 60000;
 
   let totalSeconds = (aruna.uptime / 1000);
   const days = Math.floor(totalSeconds / 86400);
@@ -75,7 +86,7 @@ exports.run = async (aruna, message, args, langc) => {
   const embed = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
     .setDescription(language.bot.embed.basic.description)
-    .addField(language.bot.embed.basic.field[0].replace('%s', emojis.robot), name, true)
+    .addField(language.bot.embed.basic.field[0].replace('%s', emoji.robot), name, true)
     .addField(language.bot.embed.basic.field[1].replace('%s', '📡'), version, true)
     .addField(language.bot.embed.basic.field[2].replace('%s', '🕰️'), uptime, true)
     // .addField(language.bot.embed.basic.field[3].replace('%s', '📃'), await getChannelCount(), true)
@@ -119,8 +130,6 @@ exports.run = async (aruna, message, args, langc) => {
 
   var cpu = await sysdata.GetCPUModel();
 
-  const time = 60000;
-
   const embed2 = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
     .setDescription(language.bot.embed.advanced.description)
@@ -140,6 +149,7 @@ exports.run = async (aruna, message, args, langc) => {
 
   message.channel.send(embed).then(async msg => {
     await collector1(msg, false);
+    preMessage.delete();
   });
 
   async function collector1 (msg, needRemoveEmote) {
@@ -218,7 +228,7 @@ exports.run = async (aruna, message, args, langc) => {
 exports.config = {
   name: 'botinfo',
   aliases: ['bot', 'uptime', 'robotinfo', 'info'],
-  category: `${emojis.robot} Utilidades`,
+  category: `${emoji.robot} Utilidades`,
   description: language.bot.config.description,
   public: true
 };
