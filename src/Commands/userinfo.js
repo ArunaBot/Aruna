@@ -35,22 +35,26 @@ exports.run = (aruna, message, args, langc) => {
       message.author
   );
 
-  const userNickName =
-    mentionedUser.nickname !== null
-      ? `${mentionedUser.nickname}`
-      : 'Sem apelido';
+  if (mentionedUser.user === aruna.user) {
+    return require('./bot').run(aruna, message, args, langc);
+  }
+
+  const userNickName = mentionedUser.nickname !== null ? mentionedUser.nickname : language.userinfo.strings.nickname;
+
   const userDaysDiscord = Math.round(
     Math.abs(
       (mentionedUser.user.createdAt.getTime() - new Date().getTime()) /
         (24 * 60 * 60 * 1000)
     )
   );
+
   const userDaysGuild = Math.round(
     Math.abs(
       (mentionedUser.joinedAt.getTime() - new Date().getTime()) /
         (24 * 60 * 60 * 1000)
     )
   );
+
   var userStatus;
   var userStatusEmoji;
 
@@ -76,12 +80,11 @@ exports.run = (aruna, message, args, langc) => {
   }
     
   let userAdminServer;
-  if (mentionedUser.hasPermission('ADMINISTRATOR') === true)
-    userAdminServer = 'Sim';
-  if (mentionedUser.hasPermission('ADMINISTRATOR') === false)
-    userAdminServer = 'Não';
+
+  mentionedUser.hasPermission('ADMINISTRATOR') ? userAdminServer = language.generic.strings.yes : userAdminServer = language.generic.strings.no;
 
   let userAvatar = mentionedUser.user.displayAvatarURL;
+
   if (userAvatar.endsWith('.gif')) {
     userAvatar = `${mentionedUser.user.displayAvatarURL}?size=2048`;
   }
@@ -89,20 +92,20 @@ exports.run = (aruna, message, args, langc) => {
   var stringtime1;
   switch (userDaysDiscord) {
     case 1:
-      stringtime1 = language.userinfo.generic.days;
+      stringtime1 = language.generic.strings.day;
       break;
     default:
-      stringtime1 = language.userinfo.generic.day;
+      stringtime1 = language.generic.strings.days;
       break;
   }
 
   var stringtime2;
   switch (userDaysGuild) {
     case 1:
-      stringtime2 = language.userinfo.generic.days;
+      stringtime2 = language.generic.strings.day;
       break;
     default:
-      stringtime2 = language.userinfo.generic.day;
+      stringtime2 = language.generic.strings.days;
       break;
   }
 
@@ -111,34 +114,34 @@ exports.run = (aruna, message, args, langc) => {
   const premium = message.guild.member(mentionedUser.user).premiumSinceTimestamp;
   
   if (premium !== null) {
-    userBoost = `\n\n(${emoji.nitro}) **Impulsionando Desde:** ${dateFormat(message.guild.member(message.author).premiumSinceTimestamp, 'dd/mm/yyyy "às" HH:MM:ss')}`;
+    userBoost = `\n\n(${emoji.nitro}) **${language.userinfo.strings.boosting}** ${dateFormat(message.guild.member(message.author).premiumSinceTimestamp, language.userinfo.strings.date)}`;
   }
 
-  const accountCreated = dateFormat(mentionedUser.user.createdTimestamp, 'dd/mm/yyyy "às" HH:MM:ss');
-  const joinedIn = dateFormat(mentionedUser.joinedTimestamp, 'dd/mm/yyyy "às" HH:MM:ss');
+  const accountCreated = dateFormat(mentionedUser.user.createdTimestamp, language.userinfo.strings.date);
+  const joinedIn = dateFormat(mentionedUser.joinedTimestamp, language.userinfo.strings.date);
   
   const embed = new Discord.RichEmbed()
-    .setAuthor(`${mentionedUser.user.username}`, `${userAvatar}`)
-    .addField('Informações do Usuário', `
-    🙋 **Nome:** \`${mentionedUser.user.username}\`
+    .setAuthor(mentionedUser.user.username, userAvatar)
+    .addField(language.userinfo.embed.field.title[0], 
+      `🙋 **${language.userinfo.embed.field.description[0][0]}** \`${mentionedUser.user.username}\`
 
-    ${emoji.menu} **Tag Completa:** \`${mentionedUser.user.tag}\`
+    ${emoji.menu} **${language.userinfo.embed.field.description[0][1]}** \`${mentionedUser.user.tag}\`
 
-    **Id:** \`${mentionedUser.user.id}\`
+    **${language.userinfo.embed.field.description[0][2]}** \`${mentionedUser.user.id}\`
 
-    ${userStatusEmoji} **Status:** \`${userStatus}\`
+    ${userStatusEmoji} **${language.userinfo.embed.field.description[0][3]}** \`${userStatus}\`
 
-    ${emoji.pass} **Criou a Conta Em:** \`${accountCreated}\` (${userDaysDiscord} ${stringtime1} atrás)`, false)
-    .addField('Informações do Membro', `
-    (${emoji.discord}) **Apelido:** \`${userNickName}\`
-
-    (👮) **É Administrador:** \`${userAdminServer}\`
-    
-    (:date:) **Entrou Em:** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} atrás)${userBoost}
+    ${emoji.pass} **${language.userinfo.embed.field.description[0][4]}** \`${accountCreated}\` (${userDaysDiscord} ${stringtime1} ${language.generic.strings.back.toLowerCase()})${userBoost}
     `, false)
-    .setFooter(language.generic.embed.footer2.replace('[usertag]', message.author.tag))
+    .addField(language.userinfo.embed.field.title[1],
+      `(${emoji.discord}) **${language.userinfo.embed.field.description[1][0]}** \`${userNickName}\`
+
+    (👮) **${language.userinfo.embed.field.description[1][1]}** \`${userAdminServer}\`
+    
+    (:date:) **${language.userinfo.embed.field.description[1][2]}** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} ${language.generic.strings.back.toLowerCase()})`, false)
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
     .setThumbnail(userAvatar)
-    .setColor('#56eaf5')
+    .setColor('#012778')
     .setTimestamp();
   
   message.channel.send(embed);
@@ -147,5 +150,6 @@ exports.config = {
   name: 'userinfo',
   aliases: [],
   category: `${emoji.robot} Utilidades`,
+  description: language.userinfo.config.description,
   public: true
 };
