@@ -131,14 +131,13 @@ exports.run = (aruna, message, args, langc) => {
 
     ${userStatusEmoji} **${language.userinfo.embed.field.description[0][3]}** \`${userStatus}\`
 
-    ${emoji.pass} **${language.userinfo.embed.field.description[0][4]}** \`${accountCreated}\` (${userDaysDiscord} ${stringtime1} ${language.generic.strings.back.toLowerCase()})${userBoost}
-    `, false)
+    ${emoji.pass} **${language.userinfo.embed.field.description[0][4]}** \`${accountCreated}\` (${userDaysDiscord} ${stringtime1} ${language.generic.strings.back.toLowerCase()})`, false)
     .addField(language.userinfo.embed.field.title[1],
       `(${emoji.discord}) **${language.userinfo.embed.field.description[1][0]}** \`${userNickName}\`
 
     (👮) **${language.userinfo.embed.field.description[1][1]}** \`${userAdminServer}\`
     
-    (:date:) **${language.userinfo.embed.field.description[1][2]}** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} ${language.generic.strings.back.toLowerCase()})`, false)
+    (:date:) **${language.userinfo.embed.field.description[1][2]}** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} ${language.generic.strings.back.toLowerCase()})${userBoost}`, false)
     .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
     .setThumbnail(userAvatar)
     .setColor('#012778')
