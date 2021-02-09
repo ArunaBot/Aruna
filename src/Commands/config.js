@@ -55,7 +55,7 @@ exports.run = async (aruna, message, args, langc) => {
 
   if (!args || !args[0]) return message.channel.send(error1);
 
-  if (!options.includes(args[0].toLowerCase()) || !userOptions.includes(args[0].toLowerCase())) {
+  if (!options.includes(args[0].toLowerCase()) && !userOptions.includes(args[0].toLowerCase())) {
     return message.channel.send(error1);
   }
 
@@ -305,6 +305,7 @@ exports.run = async (aruna, message, args, langc) => {
 exports.config = {
   name: 'config',
   aliases: ['configurar', 'configurações'],
+  description: language.config.config.description,
   category: '⚙️ Configurações',
   public: true
 };
