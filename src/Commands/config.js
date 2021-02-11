@@ -59,16 +59,20 @@ exports.run = async (aruna, message, args, langc) => {
     return message.channel.send(error1);
   }
 
+  var argument;
+
+  args[1] !== undefined ? argument = args[1].toLowerCase() : null;
+
   switch (args[0].toLowerCase()) {
     case 'prefix':
-      prefixVar(args[1].toLowerCase() || null);
+      prefixVar(argument);
       break;
     case 'rank':
-      rankVar(args[1].toLowerCase() || null);
+      rankVar(argument);
       break;
     case 'language':
     case 'idioma':
-      languageVar(args[1].toLowerCase() || null);
+      languageVar(argument);
       break;
     default:
       return message.channel.send(error1);
