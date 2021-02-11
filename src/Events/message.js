@@ -21,6 +21,7 @@ const Discord = require('discord.js');
 const chalk = require('chalk');
 var { database, config, links } = require('../../Configs');
 const { cooldown, utils } = require('../Utils');
+const langI = require(`../../languages/bot/${config.language}/internal.json`);
 
 exports.run = async (aruna, message) => {
   if (message.author.bot) return;
@@ -72,7 +73,6 @@ exports.run = async (aruna, message) => {
   }
   
   const lang = require(`../../languages/bot/${language || config.defaultLanguage}/events.json`);
-  const langI = require(`../../languages/bot/${config.language}/internal.json`);
   const langc = require(`../../languages/bot/${language || config.defaultLanguage}/commands.json`);
   
   const emojiError = lang.message.errors.emojiError.replace('[externalEmojis]', langc.generic.permissions.useExternalEmojis);
