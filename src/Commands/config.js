@@ -61,14 +61,14 @@ exports.run = async (aruna, message, args, langc) => {
 
   switch (args[0].toLowerCase()) {
     case 'prefix':
-      prefixVar(args[1] || null);
+      prefixVar(args[1].toLowerCase() || null);
       break;
     case 'rank':
-      rankVar(args[1] || null);
+      rankVar(args[1].toLowerCase() || null);
       break;
     case 'language':
     case 'idioma':
-      languageVar(args[1] || null);
+      languageVar(args[1].toLowerCase() || null);
       break;
     default:
       return message.channel.send(error1);
@@ -104,7 +104,7 @@ exports.run = async (aruna, message, args, langc) => {
       .setColor([0, 255, 0])
       .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
       .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
-      .setDescription(language.config.embed.sucess.prefix.description1.replace('[prefix]', args[2] || undefined))
+      .setDescription(language.config.embed.sucess.prefix.description2.replace('[prefix]', args[2] || undefined))
       .setTimestamp();
 
     switch (action) {
@@ -117,7 +117,7 @@ exports.run = async (aruna, message, args, langc) => {
         guild.prefix = args[2];
 
         guild.save();
-          
+        
         message.channel.send(prefixDefinido);
 
         break;
@@ -182,7 +182,7 @@ exports.run = async (aruna, message, args, langc) => {
     const invalidLanguage = new Discord.RichEmbed()
       .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
-      .setDescription(language.config.embed.error.language.description1.replace('[LANGUAGES]', validLanguages.join(', ')))
+      .setDescription(language.config.embed.error.language.description1.replace('[LANGUAGES]', `\`\`${validLanguages.join(', ')}\`\``))
       .setTimestamp();
       
     if (!type || !actionList.includes(type)) return invalidAction(actionList);
@@ -274,7 +274,7 @@ exports.run = async (aruna, message, args, langc) => {
     const optionError = new Discord.RichEmbed()
       .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
-      .setDescription(language.config.embed.error.invalidaction.replace('[OPTIONS]', optionL.join(', ')))
+      .setDescription(language.config.embed.error.invalidaction.replace('[OPTIONS]', `\`\`${optionL.join(', ')}\`\``))
       .setTimestamp();
     return message.channel.send(optionError);
   } 
