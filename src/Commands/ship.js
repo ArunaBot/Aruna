@@ -60,7 +60,7 @@ exports.run = async (client, message, args, langc) => {
     user2 = message.guild.members.get(args[1]).user;
   } else user2 = message.author;
 
-  if (!user1 && user1 === user2) return message.channel.send(error1);
+  if (!user1 || user1 === user2) return message.channel.send(error1);
 
   const avatar1 = await Jimp.read(user1.avatarURL);
   const avatar2 = await Jimp.read(user2.avatarURL);
