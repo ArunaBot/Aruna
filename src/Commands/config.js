@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
@@ -18,140 +17,299 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { database } = require('../../Configs');
+const { config, database } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const Discord = require('discord.js');
 
-exports.run = async (aruna, message, args) => {
-  var validOptions = ['rank', 'ticket', 'autorole'];
+var options = ['rank', 'autorole', 'prefix', 'language', 'idioma'];
+var userOptions = ['language', 'idioma'];
+
+exports.run = async (aruna, message, args, langc) => {
+
+  if (langc) {
+    language = langc;
+  }
+
+  const noPermission = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.config.embed.error.noperm.replace('[manageGuild]', language.generic.permissions.manageGuild))
+    .setTimestamp();
+  const error1 = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.config.embed.error.description1.replace('[OPTIONS]', options.join(', ')))
+    .setTimestamp();
+  const error2 = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.config.embed.error.description2)
+    .setTimestamp();
 
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
   
   const user = await database.Users.findOne({ _id: message.author.id });
 
-  const commandOff = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Este comando não está disponível no momento!')
-    .setTimestamp();
-  const nopermission = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você não possui a permissão de `Gerenciar Servidor`')
-    .setTimestamp();
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      'Insira um dos seguintes comandos para que seja efetuado o gerenciamento: ' +
-        '``' +
-        validOptions +
-        '``'
-    )
-    .setTimestamp();
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      'Este comando ainda não pode ser ativado. Desculpe pelo incoveniente.'
-    )
-    .setTimestamp();
-
-  if (!message.member.hasPermission('MANAGE_GUILD'))
-    return message.channel.send(nopermission);
+  if (!message.member.hasPermission('MANAGE_GUILD') && (!args || !args[0] || !userOptions.includes(args[0].toLowerCase())))
+    return message.channel.send(noPermission);
 
   if (!args || !args[0]) return message.channel.send(error1);
 
-  if (!validOptions.includes(args[0].toLowerCase())) return message.channel.send(error1);
-
-  const command = args[0].toLowerCase();
-
-  if (command === 'rank') {
-    guild.verify = guild.rankEnable;
-  } else if (command === 'ticket') {
-    guild.verify = guild.ticketEnable;
-  } else if (command === 'autoRole' || command === 'autorole') {
-    guild.verify = guild.autoRole;
+  if (!options.includes(args[0].toLowerCase()) && !userOptions.includes(args[0].toLowerCase())) {
+    return message.channel.send(error1);
   }
 
-  const no = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      `Neste momento, o comando ${command} não está ativado. Para ativar, use \`\`${guild.prefix}config ${command} ativar\`\`.`
-    )
-    .setTimestamp();
-  const yes = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      `Neste momento, o comando ${command} está ativado. Para desativar, use \`\`${guild.prefix}config ${command} desativar\`\`.`
-    )
-    .setTimestamp();
+  var argument;
 
-  const dbcommand = await database.Comandos.findOne({ name: `${command}` });
+  args[1] !== undefined ? argument = args[1].toLowerCase() : null;
 
-  if (!dbcommand || dbcommand.public !== true && user.SUPER !== true)
-    return message.channel.send(error2);
-  
-  
-  
-  if (!args[1] || args[1] !== 'ativar' && args[1] !== 'desativar' && args[1] !== 'enable' && args[1] !== 'disable') {
-    if (guild.verify === false) {
-      return message.channel.send(no);
+  switch (args[0].toLowerCase()) {
+    case 'prefix':
+      prefixVar(argument);
+      break;
+    case 'rank':
+      rankVar(argument);
+      break;
+    case 'language':
+    case 'idioma':
+      languageVar(argument);
+      break;
+    default:
+      return message.channel.send(error1);
+  }
+
+  async function prefixVar(action) {
+    const actionList = ['set', 'remove', 'definir', 'remover'];
+
+    if (!action || !actionList.includes(action)) return invalidAction(actionList);
+
+    const prefixError = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.prefix.description1)
+      .setTimestamp();
+    const prefixError2 = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.prefix.description2)
+      .setTimestamp();
+    const prefixError3 = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.prefix.description3)
+      .setTimestamp();
+    const prefixRemove = new Discord.RichEmbed()
+      .setColor([0, 255, 0])
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.prefix.description1.replace('[prefix]', config.prefix))
+      .setTimestamp();
+    const prefixDefinido = new Discord.RichEmbed()
+      .setColor([0, 255, 0])
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.prefix.description2.replace('[prefix]', args[2] || undefined))
+      .setTimestamp();
+
+    switch (action) {
+      case 'set':
+      case 'definir':
+        if (!args[2]) return message.channel.send(prefixError);
+
+        if (args[2] === guild.prefix) return message.channel.send(prefixError2);
+
+        guild.prefix = args[2];
+
+        guild.save();
+        
+        message.channel.send(prefixDefinido);
+
+        break;
+      case 'remove':
+      case 'remover':
+        if (guild.prefix === config.prefix) return message.channel.send(prefixError3);
+
+        guild.prefix = config.prefix;
+
+        guild.save();
+
+        message.channel.send(prefixRemove);
+
+        break;
+      default:
+        return invalidAction(actionList);
+    }
+  }
+
+  async function rankVar (action) {
+    const actionList = ['enable', 'ativar', 'disable', 'desativar'];
+
+    if (!action) return isEnabled ('rank', true);
+
+    if (!actionList.includes(action)) return invalidAction(actionList);
+
+    const result = await isEnabled('rank', false);
+
+    if (result === undefined) return;
+
+    switch (action) {
+      case 'enable':
+      case 'ativar':
+        if (result.enabled) return message.channel.send(result.message);
+
+        guild.rankEnable = true;
+
+        await guild.save();
+
+        final(true, 'rank');
+        break;
+      case 'disable':
+      case 'desativar':
+        if (!result.enabled) return message.channel.send(result.message);
+
+        guild.rankEnable = false;
+
+        await guild.save();
+
+        final(false, 'rank');
+        break;
+      default:
+        invalidAction(actionList);
+        break;
+    }
+  }
+
+  async function languageVar (type) {
+    const validLanguages = config.validLanguages;
+    const actionList = ['user', 'guild'];
+
+    const invalidLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.language.description1.replace('[LANGUAGES]', `\`\`${validLanguages.join(', ')}\`\``))
+      .setTimestamp();
+      
+    if (!type || !actionList.includes(type)) return invalidAction(actionList);
+      
+    if (type === 'guild' && !message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(noPermission);
+      
+    if (!args[2] || !validLanguages.includes(args[2])) return message.channel.send(invalidLanguage);
+
+    const setGuildLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.language.description1.replace('[LANGUAGE]', args[2]))
+      .setTimestamp();
+
+    const errorGuildLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.language.description2)
+      .setTimestamp();
+
+    const setUserLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.language.description2.replace('[LANGUAGE]', args[2]))
+      .setTimestamp();
+
+    const errorUserLanguage = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.language.description3)
+      .setTimestamp();
+
+    switch (args[1]) {
+      case 'guild':
+        if (guild.language === args[2]) return message.channel.send(errorGuildLanguage);
+
+        guild.language = args[2];
+
+        await guild.save();
+
+        message.channel.send(setGuildLanguage);
+        break;
+      case 'user':
+        if (user.language === args[2]) return message.channel.send(errorUserLanguage);
+
+        user.language = args[2];
+
+        await user.save();
+
+        message.channel.send(setUserLanguage);
+        break;
+      default:
+        invalidAction(actionList);
+        break;
+    }
+  }
+
+  async function isEnabled (command, sendMessage) {
+    const dbCommand = await database.Commands.findOne({ _id: `${command}` });
+
+    if (!dbCommand || (!dbCommand.public && !user.SUPER)) {
+      message.channel.send(error2);
+      return undefined;
+    }
+
+    const replacer = /\[COMMAND\]/g;
+
+    const no = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.generic.no.replace(replacer, command).replace('[PREFIX]', guild.prefix))
+      .setTimestamp();
+    const yes = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.generic.yes.replace(replacer, command).replace('[PREFIX]', guild.prefix))
+      .setTimestamp();
+
+    if (guild[command + 'Enable']) {
+      if (sendMessage) message.channel.send(yes);
+      return { enabled: true, message: yes };
     } else {
-      return message.channel.send(yes);
+      if (sendMessage) message.channel.send(no);
+      return { enabled: false, message: no };
     }
   }
-  
-  const todo = args[1].toLowerCase();
 
-  const ativo = new Discord.RichEmbed()
-    .setColor([0, 255, 0])
-    .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter('Sucesso!')
-    .setDescription(`O comando \`${command}\` foi ativado com sucesso!`)
-    .setTimestamp();
+  function invalidAction (optionL) {
+    const optionError = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.error.invalidaction.replace('[OPTIONS]', `\`\`${optionL.join(', ')}\`\``))
+      .setTimestamp();
+    return message.channel.send(optionError);
+  } 
 
-  const inativo = new Discord.RichEmbed()
-    .setColor([0, 255, 0])
-    .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
-    .setFooter('Sucesso!')
-    .setDescription(`O comando \`${command}\` foi desativado com sucesso!`)
-    .setTimestamp();
+  function final (result, command) {
+    const enabled = new Discord.RichEmbed()
+      .setColor([0, 255, 0])
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.description1.replace('[COMMAND]', command))
+      .setTimestamp();
 
-  if (todo == 'ativar' && guild.verify === false || todo == 'enable' && guild.verify === true) {
-    if (command === 'rank') {
-      guild.rankEnable = true;
-      guild.save();
-    } else if (command === 'ticket') {
-      const { activeticket } = require('../Utils');
-      activeticket.run(aruna, message);
-      guild.ticketEnable = true;
-      guild.save();
-    } else if (command === 'autoRole' || command === 'autorole') {
-      guild.autoRole = true;
-      guild.save();
+    const disabled = new Discord.RichEmbed()
+      .setColor([0, 255, 0])
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
+      .setDescription(language.config.embed.sucess.description2.replace('[COMMAND]', command))
+      .setTimestamp();
+
+    if (result) {
+      return message.channel.send(enabled);
+    } else {
+      return message.channel.send(disabled);
     }
-    return message.channel.send(ativo);
-  } else if (guild.verify === false) return message.channel.send(yes);
-
-  if (todo == 'desativar' && guild.verify === true || todo == 'disable' && guild.verify === true) {
-    if (command === 'rank') {
-      guild.rankEnable = false;
-      guild.save();
-    } else if (command === 'ticket') {
-      guild.ticketEnable = false;
-      guild.save();
-    } else if (command === 'autoRole' || command === 'autorole') {
-      guild.autoRole = false;
-      guild.save();
-    }
-    return message.channel.send(inativo);
-  } else if (guild.verify === true) return message.channel.send(no);
+  }
 };
 
 exports.config = {
   name: 'config',
-  aliases: ['configurar', 'configurações'],
-  category: '⚙️ Configurações'
+  aliases: ['configurar', 'configurações', 'settings'],
+  description: language.config.config.description,
+  category: '⚙️ Configurações',
+  public: true
 };

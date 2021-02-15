@@ -18,21 +18,39 @@
 */
 
 const { emoji } = require('../Utils');
-const { links } = require('../../Configs');
+const { config, links } = require('../../Configs');
 const Discord = require('discord.js');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
-exports.run = async (aruna, message) => {
-  const embed = new Discord.RichEmbed().setAuthor(
-    `Olá, ${message.author.username}`
-  )
-    .setDescription(`Fico feliz que tenha gostado de mim e queira me adicionar :) 
-\nPara isso, basta clicar [aqui](${links.invites[0]}), selecionar o servidor na lista, confirmar o reCaptcha e pronto! Eu estarei em seu servidor! 
-\nNovamente, obrigado pelo interesse e nos vemos em seu servidor!`);
+exports.run = async (aruna, message, args, langc) => {
+  if (langc) {
+    language = langc;
+  }
+
+  const error = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setDescription(language.invite.embed.error.description)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setTimestamp();
+
+  if (!links.invites[0]) {
+    return message.channel.send(error);
+  }
+
+  const embed = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setDescription(`${language.invite.embed.sucess.description.line1}
+\n${language.invite.embed.sucess.description.line2.replace('[link]', links.invites[0])}
+\n${language.invite.embed.sucess.description.line3}`)
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
+    .setTimestamp();
   message.channel.send(embed);
 };
 
 exports.config = {
   name: 'invite',
   aliases: ['convidar', 'convite'],
-  category: `${emoji.robot} Utilidades`
+  description: language.invite.config.description,
+  category: `${emoji.robot} Utilidades`,
+  public: true
 };

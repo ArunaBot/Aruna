@@ -18,6 +18,8 @@
 
 var mongoose = require('mongoose');
 const config = require('./general.js');
+const chalk = require('chalk');
+const language = require(`../languages/bot/${config.language}/internal.json`);
 
 var Schema = mongoose.Schema;
 const url = config.mongoose;
@@ -25,25 +27,28 @@ mongoose.connect(
   url,
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
-    if (err) return console.log('(CLUSTER) => Erro\n', err);
-    console.log('(CLUSTER) => Conectado!');
+    if (err) return error(`[${language.main.error}] => ${err}`);
+    log(language.generic.connected);
   }
 );
 
 var User = new Schema({
   _id: { type: String },
+  language: { type: String, default: null },
   SUPER: { type: Boolean, default: false }
 });
 
 var Guild = new Schema({
   _id: { type: String },
   prefix: { type: String, default: config.prefix },
+  antiFakeEnable: { type: Boolean, default: true },
   ticketLogID: { type: String, default: null },
   ticketSupportID: { type: String, default: null },
   rankEnable: { type: Boolean, default: false },
   ticketEnable: { type: Boolean, default: false },
-  autoRole: { type: Boolean, default: false },
+  autoRoleEnable: { type: Boolean, default: false },
   autoRoleRole: { type: String, default: null },
+  language: { type: String, default: config.language },
   isPremium: { type: Boolean, default: false },
   isPartner: { type: Boolean, default: false }
 });
@@ -72,7 +77,6 @@ var Support = new Schema({
 
 var Command = new Schema({
   _id: { type: String },
-  name: { type: String },
   public: { type: Boolean, default: false }
 });
 
@@ -98,3 +102,25 @@ exports.System = Systems;
 exports.Guilds = Guilds;
 exports.Users = Users;
 exports.Rank = Ranks;
+
+function logPrefix() {
+  return `${chalk.gray('[')}${chalk.blue(language.main.cluster)}${chalk.gray(']')}`;
+}
+
+function log(...a) {
+  return console.log(logPrefix(), ...a);
+}
+
+// eslint-disable-next-line no-unused-vars
+function warn(...a) {
+  return console.warn(logPrefix(), chalk.yellow(...a));
+}
+
+function error(...a) {
+  return console.error(logPrefix(), chalk.red(...a));
+}
+
+// eslint-disable-next-line no-unused-vars
+function debug(...a) {
+  return console.debug(logPrefix(), chalk.magenta(...a));
+}

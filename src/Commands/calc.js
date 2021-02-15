@@ -19,19 +19,24 @@
 const { emojis } = require('../Utils');
 const Discord = require('discord.js');
 const math = require('mathjs');
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
-exports.run = (aruna, message, args) => {
+exports.run = (aruna, message, args, langc) => {
+
+  if (langc) {
+    language = langc;
+  }
+
   const error1 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você deve inserir o cálculo a ser feito.')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.calculator.embed.error.description1)
     .setTimestamp();
   const error2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription(
-      'Desculpe, mas não consegui efetuar o cálculo. Tente inserir outra conta.'
-    )
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.calculator.embed.error.description2)
     .setTimestamp();
 
   if (!args[0]) return message.channel.send(error1);
@@ -39,19 +44,18 @@ exports.run = (aruna, message, args) => {
   var response;
 
   try {
-    response = math.eval(args.join(' '));
+    response = math.evaluate(args.join(' '));
   } catch (e) {
+    console.error(e);
     return message.channel.send(error2);
   }
   
   const embed = new Discord.RichEmbed()
-    .setAuthor('Calculadora V2')
-    .addField(
-      `(${emojis.upload}) Entrada`,
+    .setTitle(language.calculator.embed.sucess.title)
+    .addField(language.calculator.embed.sucess.field1.replace('[emoji]', emojis.upload),
       `\`\`\`js\n${args.join(' ')}\`\`\``
     )
-    .addField(
-      `(${emojis.dev}) Saida`,
+    .addField(language.calculator.embed.sucess.field2.replace('[emoji]', emojis.dev),
       `\`\`\`js\n${response}\`\`\``
     )
     .setColor([54, 57, 63]);
@@ -60,6 +64,8 @@ exports.run = (aruna, message, args) => {
 
 exports.config = {
   name: 'calc',
+  description: language.calculator.config.description,
   aliases: ['calculadora', 'math', 'matematica', 'calcular', 'calculator'],
-  category: `${emojis.robot} Utilidades`
+  category: `${emojis.robot} Utilidades`,
+  public: true
 };

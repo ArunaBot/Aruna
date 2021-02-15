@@ -1,10 +1,10 @@
 
 <p align="center">
-<a href="https://discord.gg/NqbBgEf"><img src="https://discordapp.com/api/guilds/660610178009530380/widget.png"></a>
+<a href="https://discord.gg/NqbBgEf" target="_blank"><img src="https://discordapp.com/api/guilds/660610178009530380/widget.png"></a>
 </p>
 <h1 align="center">Aruna</h1>
 <p align="center">
-<a href="https://top.gg/bot/593303574725787657" >
+<a href="https://top.gg/bot/593303574725787657" target="_blank" >
   <img src="https://top.gg/api/widget/593303574725787657.svg" alt="Aruna" />
 </a>
  </p>
@@ -26,7 +26,7 @@
 
 Olá, eu me chamo Aruna. Sou um bot brasileiro para Discord com algumas funções muito interessantes.
 
-Eu tenho várias funções para entretenimento (como comandos engraçados e memes), funções sociais (sistema de perfil com XP e reputação), extremamente customizável (você pode ativar/desativar qualquer comando meu, alterar meu prefixo para o que você quiser e muito mais!).
+Eu tenho várias funções para entretenimento (como comandos engraçados), funções sociais, extremamente customizável (você pode ativar/desativar diversos comandos meu, alterar meu prefixo para o que você quiser e muito mais!).
 
 ## Como eu adiciono-a ao meu servidor?
 
@@ -38,8 +38,9 @@ Você pode obter suporte sobre a Aruna [clicando aqui](https://discord.gg/NqbBgE
 
 ## Como ajudar?
 
-No momento, existe apenas 1 repositório [na nossa organização](https://github.com/ArunaBot); Este é,
+No momento, temos 2 repositórios [na nossa organização](https://github.com/ArunaBot); Estes são,
 * [Aruna](https://github.com/ArunaBot/Aruna): Código-fonte da Aruna ("backend"), isto inclui todo o bot em si.
+* [ArunaLanguages](https://github.com/ArunaBot/ArunaLanguages): Os idiomas da aruna, toda e qualquer tradução vem de lá.
 
 ### 💵 Como Doar?
 
@@ -55,16 +56,18 @@ Você também pode hospedar a Aruna você mesmo (afinal, é por isso que se cham
 * Para evitar confusões e problemas, você **não pode** utilizar o nome ou a personagem "Aruna" ou nomes parecidos na sua versão selfhosted.
 
 Nós [recomendamos utilizar a versão pública da Aruna](https://discordapp.com/oauth2/authorize?client_id=593303574725787657&scope=bot&permissions=2146954751), mas se você *realmente* quiser hospedar ou ajudar a desenvolver a Aruna, siga os seguintes passos:
-1. Tenha o [NODE 12.16.2 (ou superior)](https://nodejs.org/en/) instalado na sua máquina e certifique-se que o node e o npm (incluso no node) está acessível pelo terminal. (Tente executar `node` e `npm` no terminal, caso não funcione, procure reinstalar o node ou reiniciar a máquina).
+
+1. Tenha o [NODE 12.16.2 (ou superior)](https://nodejs.org/en/) instalado na sua máquina e certifique-se que o node e o npm (incluso no nodejs) estão acessíveis pelo terminal. (Tente executar `node -v` e `npm -v` no terminal, caso não funcionem, procure reinstalar o nodejs ou reiniciar a máquina).
 2. Tenha o MongoDB instalado na sua máquina. (Ou se prefereir, pode usar o [MongoDB Online](https://mongodb.com/)).
 3. Tenha o `git-shell` ou o `git-cli` instalados. No Windows você pode utilizar o `Git Bash`.
 4. Caso você precise ou fazer modificações no código-fonte, é recomendado utilizar o [Visual Studio Code](https://code.visualstudio.com/).
-5. Faça `git clone https://github.com/ArunaBot/Aruna.git` em alguma pasta no seu computador.
-6. Agora, usando o processador de comandos do seu sistema operacional (CMD, POWERSHELL, Terminal, etc), entre na pasta criada e utilize `npm install`.
-8. Ao terminar de fazer o download de tudo, verifique se foi criado a pasta `node modules`.
+5. Execute o comando `git clone https://github.com/ArunaBot/Aruna.git` usando seu terminal git em uma pasta vazia do seu computador.
+6. Acesse a pasta criada usando o processador de comandos do seu sistema operacional (CMD, POWERSHELL, Terminal, etc) e execute o comando `git submodule update --init` para baixar o pacote de idiomas da aruna.
+7. Ainda com o processador de comandos, execute o comando `npm install`.
+8. Ao terminar de fazer o download de tudo, verifique se foi criado a pasta `node_modules`.
 9. Caso essa pasta exista e tenha sido criado o arquivo `package-lock.json` significa que tudo deu certo!
-10. Agora, retire o `_` da pasta `_configs` e do aquivo `_.env`.
-11. Depois, abra o arquivo .env e preencha o `TOKEN_ARUNA` com o token do seu bot, e o `MONGOOSE` com seu diretório do moongose criado no mongodb.com. (Caso tenha hospedado o mongo em sua máquina, altere o arquivo presente na configs/mongoose.js com as configurações adequadas no campo de url e login (verifique a documentação do mongoose para isso)).
+10. Agora, retire o `.` da pasta `.Configs`.
+11. Depois, abra o arquivo `general` e preencha o campo `token` com o token do seu bot, o campo `mongoose` com o link de acesso ao mongoose e por fim, altere o campo `superUsersId` para o id do seu usuário.
 11. Com tudo pronto, podemos iniciá-la abrindo um terminal e digitando `npm start`.
 12. Caso tenha dado tudo certo, a sua versão selfhosted irá iniciar e você poderá utilizar os comandos dela! 🎉
 
@@ -78,11 +81,11 @@ O seu código não pode ser algo "gambiarra", meu código pode ter gambiarras ma
 
 Você precisa pensar "será que alguém iria utilizar isto?", se você criar um comando que só seja útil no seu servidor, provavelmente eu irei negar o seu Pull Request.
 
-Funcionalidades (como comandos) relacionados a coisas NSFW **não serão** adicionadas na Aruna e seu Pull Request será negado, eu prefiro que as pessoas pensem que ela é um bot que faz memes, ao invés de um bot que fica mandando coisas NSFW no chat.
+Funcionalidades (como comandos) relacionados a coisas NSFW **não serão** adicionadas na Aruna e seu Pull Request será negado.
 
 ## Dependências
 
-A Aruna utiliza várias [dependências no código-fonte dela](https://github.com/ArunaBot/Aruna/blob/stable/package.json), obrigado a todos os mantenedores das dependências! Sem vocês, a Aruna não iria existir (ou teria várias funcionalidades reduzidas ou talvez até inexistentes!).
+A Aruna utiliza várias [dependências no código-fonte](https://github.com/ArunaBot/Aruna/blob/stable/package.json), obrigado a todos os mantenedores das dependências! Sem vocês, a Aruna não iria existir (ou teria várias funcionalidades reduzidas ou até inexistentes!).
 
 | Nome  | Mantenedor |
 | ------------- | ------------- |
@@ -93,7 +96,6 @@ A Aruna utiliza várias [dependências no código-fonte dela](https://github.com
 | [Mongoose](http://mongoosejs.com/) |  vkarpov15, aheckmann, rauchg, etc  |
 | [Moment](http://momentjs.com) |  ichernev, timrwood, icambron, etc  |
 | [Moment Duration Format](https://github.com/jsmreese/moment-duration-format) |  jsmreese  |
-| [Dotenv](https://github.com/motdotla/dotenv) |  motdotla, maxbeatty, etc  |
 | [Ytdl Core](https://github.com/fent/node-ytdl-core) |  fent, #3TimeForANinja, etc  |
 | [Node Opus](github.com/Rantanen/node-opus) |  Rantanen, thijstriemstra, nfriedly, etc  |
 | [Jimp](github.com/oliver-moran/jimp) |  hipstersmoothie, oliver-moran, strandedcity, etc  |

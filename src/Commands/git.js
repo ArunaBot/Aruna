@@ -21,18 +21,38 @@ const { emoji } = require('../Utils');
 const pkg = require('../../package.json');
 const Discord = require('discord.js');
 
-exports.run = async (aruna, message) => {
-  const embed = new Discord.RichEmbed().setAuthor(
-    `Olá, ${message.author.username}`
-  )
-    .setDescription(`Fico feliz que tenha gostado de mim e que queira contribuir com meu desenvolvimento :) 
-\nPara ver meu repositório e poder ajudar, basta clicar [aqui](${pkg.repository.url}), dar "fork" no repositório, editar minha branch "Unstable" e fazer um pull request no meu repositório principal e pronto! Você já terá contriubuído comigo :)
-\nNovamente, obrigado pelo interesse e nos vemos no nosso git!`);
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+
+exports.run = async (aruna, message, args, langc) => {
+  if (langc) {
+    language = langc;
+  }
+
+  const error = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setDescription(language.invite.embed.error.description)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setTimestamp();
+
+  if (!pkg.repository.url) {
+    return message.channel.send(error);
+  }
+
+  const embed = new Discord.RichEmbed()
+    .setAuthor(language.generic.embed.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setDescription(`${language.github.embed.sucess.description.line1}
+\n${language.github.embed.sucess.description.line2.replace('[url]', pkg.repository.url)}
+\n${language.github.embed.sucess.description.line3}`)
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
+    .setTimestamp();
   message.channel.send(embed);
 };
 
 exports.config = {
   name: 'github',
   aliases: ['git', 'repo', 'repositório', 'repositorio'],
-  category: `${emoji.robot} Utilidades`
+  description: language.github.config.description,
+  category: `${emoji.robot} Utilidades`,
+  public: true
 };

@@ -16,11 +16,25 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var { config, database } = require('../../Configs');
+const si = require('systeminformation');
 
-const lang = require(`../../languages/bot/${config.language}/events.json`);
-
-exports.run = async (aruna, guild) => {
-  await database.Guilds.findOneAndDelete({ _id: guild.id });
-  console.log(lang.guild.delete.replace('[guildName]', guild.name));
+module.exports = {
+  GetCPUModel: async () => {
+    return await si.cpu().then(data => {return data;});
+  },
+  GetComputerModel: async () => {
+    return await si.system().then(data => {return data;});
+  },
+  GetCPUTemp: async () => {
+    return await si.cpuTemperature().then(data => {return data;});
+  },
+  GetMemoryAmount: async () => {
+    return await si.mem().then(data => {return data;});
+  },
+  GetGPUModel: async () => {
+    return await si.graphics().then(data => {return data.controllers;});
+  },
+  GetOSData: async () => {
+    return await si.osInfo().then(data => {return data;});
+  }
 };

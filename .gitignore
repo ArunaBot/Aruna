@@ -1,4 +1,4 @@
-.env
 Configs/
 node_modules/
 .vscode/
+tmp/

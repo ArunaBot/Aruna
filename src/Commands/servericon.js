@@ -18,36 +18,35 @@
 
 const Discord = require('discord.js');
 const { emoji } = require('../Utils');
-const { config, links } = require('../../Configs');
+const { config } = require('../../Configs');
 var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
-exports.run = async (aruna, message, args, langc) => {
+exports.run = (aruna, message, args, langc) => {
+
   if (langc) {
     language = langc;
   }
-  const error = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
-    .setDescription(language.support.embed.error.description)
-    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
-    .setTimestamp();
 
-  if (!links.supportServers[0]) {
-    return message.channel.send(error);
+  var guildIcon;
+
+  if (message.guild.iconURL.includes('a_')) {
+    guildIcon = message.guild.iconURL.slice(0, -3).trim() + 'gif';
+  } else {
+    guildIcon = message.guild.iconURL;
   }
+
   const embed = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.title.replace('[username]', message.member.displayName), message.author.avatarURL)
-    .setDescription(`${language.support.embed.sucess.description.line1}
-    \n${language.support.embed.sucess.description.line2.replace('[link]', links.supportServers[0])}
-    \n${language.support.embed.sucess.description.line3}`)
-    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
+    .setTitle(language.servericon.embed.title.replace('[emoji]', emoji.picture).replace('[guild]', message.guild.name))
+    .setDescription(language.servericon.embed.description.replace('[url]', guildIcon))
+    .setImage(guildIcon)
     .setTimestamp();
   message.channel.send(embed);
 };
 
 exports.config = {
-  name: 'suporte',
-  aliases: ['support'],
-  description: language.support.config.description,
-  category: `${emoji.robot} Utilidades`,
+  name: 'servericon',
+  aliases: ['guildicon'],
+  description: language.servericon.config.description,
+  category: '🎉 Entretenimento',
   public: true
 };

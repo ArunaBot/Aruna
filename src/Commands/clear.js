@@ -16,71 +16,73 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-function verify(messages, args, message) {
-  if (args[0] == messages.size)
-    return (
-      'Foram deletadas `' +
-      messages.size +
-      '` mensagens por ' +
-      `<@${message.author.id}>`
-    );
-  else
-    return (
-      `<@${message.author.id}> deletou apenas \`${messages.size}\`` +
-      ' mensagens das ' +
-      `\`${args[0]} requisitadas\`` +
-      ' por não existirem outras ou serem mais antigas que 2 semanas.'
-    );
+function verify(messages, args, message, language) {
+  if (args[0] == messages.size) {
+    return (language.clear.sucess.message1.replace('[messages]', messages.size).replace('[user]', message.author));
+  } else {
+    return (language.clear.sucess.message2.replace('[messages]', messages.size).replace('[user]', message.author).replace('[request]', args[0]));
+  }
 }
 
 const Discord = require('discord.js');
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
-exports.run = async (client, message, args) => {
+exports.run = async (aruna, message, args, langc) => {
+
+  if (langc) {
+    language = langc;
+  }
   
   const error1 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você não possui a permissão de `Gerenciar Mensagens`!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.clear.embed.error.description1.replace('[manageMessages]', language.generic.permissions.manageMessages))
     .setTimestamp();
   
   const error2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Eu não possuo a permissão de `Gerenciar Mensagens`!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.clear.embed.error.description2.replace('[manageMessages]', language.generic.permissions.manageMessages))
     .setTimestamp();
   
   const error3 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você deve inserir a quantidade de mensagens a ser apagada!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.clear.embed.error.description3)
     .setTimestamp();
   
   const error4 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Eu só posso apagar entre 2 e 100 mensagens.')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.clear.embed.error.description4)
     .setTimestamp();
   
-  if (
-    !message.guild.members.get(client.user.id).hasPermission('MANAGE_MESSAGES')
-  )
-    return message.channel.send(error2);
   if (!message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send(error1);
+  if (!message.guild.members.get(aruna.user.id).hasPermission('MANAGE_MESSAGES'))
+    return message.channel.send(error2);
+
   if (!args[0])
     return message.channel.send(error3);
+    
   if (args[0] > 100 || args[0] <= 1)
     return message.channel.send(error4);
   
-  await message.delete();
-  await message.channel.bulkDelete(args[0]).then(messages => {
-    message.channel
-      .send(verify(messages, args, message))
-      .then(msg => msg.delete(10000));
+  await message.delete().then(async () => {
+    await message.channel.fetchMessages({ limit: args[0] }).then(async messages => {
+      await message.channel.bulkDelete(messages, true).then(async msgs => {
+        await message.channel.send(verify(msgs, args, message, language)).then(async msg => {
+          await msg.delete(10000);
+        });
+      });
+    });
   });
 };
 exports.config = {
   name: 'clear',
-  aliases: [],
-  category: '👮‍♂️ Moderação'
+  description: language.clear.config.description,
+  aliases: ['limpar'],
+  category: '👮‍♂️ Moderação',
+  public: true
 };

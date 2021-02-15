@@ -19,11 +19,18 @@
 const Discord = require('discord.js');
 const Jimp = require('jimp');
 
-exports.run = async (client, message) => {
+const { config } = require('../../Configs');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+
+exports.run = async (client, message, args, langc) => {
+  if (langc) {
+    language = langc;
+  }
+
   const error1 = new Discord.RichEmbed()
-    .setAuthor('Oops!', message.author.avatarURL)
-    .setFooter(`Algo deu errado, ${message.author.username}`)
-    .setDescription('Você deve mencionar um segundo usuário!')
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.ship.embed.error.description)
     .setTimestamp();
 
   var porcentagem = 0;
@@ -31,55 +38,67 @@ exports.run = async (client, message) => {
 
   porcentagem = aleatorio;
 
-  const user1 = message.mentions.users.first() || message.author;
-  const user2 = message.mentions.users.array()[1];
+  if (!message.mentions.users.first() && isNaN(args[0])) {
+    return message.channel.send(error1);
+  } else if (!message.mentions.users.array()[1] && !!args[1] && isNaN(args[1])) {
+    return message.channel.send(error1);
+  }
 
-  if (!user2) return message.channel.send(error1);
+  var user1;
 
-  const richard_lindu = await Jimp.read(user1.avatarURL);
-  const richard_dmais = await Jimp.read(user2.avatarURL);
+  if (message.mentions.users.first()) {
+    user1 = message.mentions.users.first();
+  } else if (message.guild.members.get(args[0])) {
+    user1 = message.guild.members.get(args[0]).user;
+  } else user1 = null;
 
-  await richard_lindu.resize(115, 115);
-  await richard_dmais.resize(115, 115);
+  var user2;
 
-  const eu_amo_o_richard = await Jimp.read(
+  if (message.mentions.users.array()[1]) {
+    user2 = message.mentions.users.array()[1];
+  } else if (message.guild.members.get(args[1])) {
+    user2 = message.guild.members.get(args[1]).user;
+  } else user2 = message.author;
+
+  if (!user1 || user1 === user2) return message.channel.send(error1);
+
+  const avatar1 = await Jimp.read(user1.avatarURL);
+  const avatar2 = await Jimp.read(user2.avatarURL);
+
+  avatar1.resize(115, 115);
+  avatar2.resize(115, 115);
+
+  const baseImage = await Jimp.read(
     'https://cdn.discordapp.com/attachments/486016051851689994/509883077707694100/ships.png'
   );
 
-  await eu_amo_o_richard.composite(richard_lindu, 1, 1);
-  await eu_amo_o_richard
-    .composite(richard_dmais, 229, 1)
-    .write(`./tmp/img/${user1.id}${user2.id}.png`);
-
-  const aido = new Array();
-  aido[1] = 'Msg 1';
-  aido[2] = 'Msg 2';
+  baseImage.composite(avatar1, 1, 1);
+  baseImage.composite(avatar2, 229, 1);
+  baseImage.write(`./tmp/img/${user1.id}-${user2.id}.png`);
 
   var mensagem =
     porcentagem <= 10
-      ? `${porcentagem}% [----------] Nada é impossível, apenas improvável.`
+      ? language.ship.shipStatus[0].replace('%s', porcentagem).replace('%s', porcentagem)
       : porcentagem <= 20
-        ? `${porcentagem}% [█---------] Um dia talvez. `
+        ? language.ship.shipStatus[1].replace('%s', porcentagem)
         : porcentagem <= 30
-          ? `${porcentagem}% [██--------] Bem, olhando por esse ângulo... `
+          ? language.ship.shipStatus[2].replace('%s', porcentagem)
           : porcentagem <= 40
-            ? `${porcentagem}% [███-------] Possível, é. Díficil? De fato.`
+            ? language.ship.shipStatus[3].replace('%s', porcentagem)
             : porcentagem <= 50
-              ? `${porcentagem}% [████------] Numa galáxia não tão distante...`
+              ? language.ship.shipStatus[4].replace('%s', porcentagem)
               : porcentagem <= 60
-                ? `${porcentagem}% [█████-----] Até que formariam um belo casal. `
+                ? language.ship.shipStatus[5].replace('%s', porcentagem)
                 : porcentagem <= 70
-                  ? `${porcentagem}% [██████----] Esse casal está perto de ser muito bom! `
+                  ? language.ship.shipStatus[6].replace('%s', porcentagem)
                   : porcentagem <= 80
-                    ? `${porcentagem}% [███████---] Casal de primeira! `
+                    ? language.ship.shipStatus[7].replace('%s', porcentagem)
                     : porcentagem <= 90
-                      ? `${porcentagem}% [████████--] Já poderiam estar casados! 💍 `
+                      ? language.ship.shipStatus[8].replace('%s', porcentagem)
                       : porcentagem <= 100
-                        ? `${porcentagem}% [█████████-] Casal perfeito, só um terremoto os separa! 💍`
-                        : `${porcentagem}% [██████████] Casal perfeito, ninguém os separa! 💍`;
+                        ? language.ship.shipStatus[9].replace('%s', porcentagem)
+                        : language.ship.shipStatus[10].replace('%s', porcentagem);
   
-  console.log(porcentagem);
-  console.log(mensagem);
   message.channel.send({
     embed: {
       description: `${user1} + ${user2}\n\n**${mensagem}**`,
@@ -90,7 +109,7 @@ exports.run = async (client, message) => {
     },
     files: [
       {
-        attachment: './tmp/img/' + user1.id + user2.id + '.png',
+        attachment: `./tmp/img/${user1.id}-${user2.id}.png`,
         name: 'file.jpg'
       }
     ]
@@ -100,5 +119,6 @@ exports.run = async (client, message) => {
 exports.config = {
   name: 'ship',
   aliases: ['shipar', 'shipp', 'casal'],
-  category: '🎉 Entretenimento'
+  category: '🎉 Entretenimento',
+  public: true
 };

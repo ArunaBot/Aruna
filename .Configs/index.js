@@ -17,6 +17,7 @@
 */
 
 module.exports = {
+  apiKeys: require('./apiKeys.js'),
   configs: require('./general.js'),
   config: require('./general.js'),
   links: require('./links.js'),

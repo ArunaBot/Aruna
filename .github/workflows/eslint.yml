@@ -1,15 +1,14 @@
 name: ESLint
-on:
-  push:
-    paths:
-      - "src/**"
-      - ".eslintrc.*"
-      - ".github/workflows/eslint.yml"
+on: [push, pull_request]
 
 jobs:
   update:
     name: ESLint
+
     runs-on: ubuntu-latest
+
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

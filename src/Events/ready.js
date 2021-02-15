@@ -20,66 +20,106 @@
 
 const pkg = require('../../package.json');
 const chalk = require('chalk');
-const { apiKeys, database } = require('../../Configs');
+const { apiKeys, config, database, links } = require('../../Configs');
+
+const language = require(`../../languages/bot/${config.language}/internal.json`);
+const langE = require(`../../languages/bot/${config.defaultLanguage}/events.json`);
 
 exports.run = async (aruna) => {
-  log('Conectado!');
+  log(language.generic.connected);
 
-  let totalSeconds = (aruna.uptime / 1000);
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor(totalSeconds / 3600);
-  totalSeconds %= 3600;
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = Math.floor(totalSeconds % 60);
+  /* async function getUserCount() {
+    const req = await aruna.shard.fetchClientValues('users.size');
 
-  var uptime = '';
-
-  if (days >= 1) {
-    uptime = `${days}d, ${hours}h, ${minutes}m`;
-  } else if (hours >= 1) {
-    uptime = `${hours}h, ${minutes}m, ${seconds}s`;
-  } else if (minutes >= 1) {
-    uptime = `${minutes}m, ${seconds}s`;
-  } else {
-    uptime = `${seconds}s`;
+    return req.reduce((p, n) => p + n, 0);
   }
+
+  async function getServerCount() {
+    const req = await aruna.shard.fetchClientValues('guilds.size');
+
+    return req.reduce((p, n) => p + n, 0);
+  } */
 
   const status = [
     { 
-      name: 'Muppet Show', 
+      name: langE.ready.status['1'], 
       type: 'watching' 
     },
     { 
-      name: 'M83 - Midnight City', 
+      name: langE.ready.status['2'], 
       type: 'listening'
     },
     { 
-      name: `Faz ${uptime}`, 
+      name: langE.ready.status['3'], 
       type: 'playing' 
     },
     {
-      name: 'Netflix',
+      name: langE.ready.status['4'],
       type: 'watching'
     },
     {
-      name: `Versão ${pkg.version}`,
+      name: langE.ready.status['5'].replace('[version]', pkg.version),
       type: 'streaming',
-      url: 'https://www.twitch.tv/lobometalurgico'
+      url: links.twitch
     },
     {
-      name: `Seu Shard é o ${aruna.shard.id}!`,
+      name: langE.ready.status['6'].replace('[shard]', aruna.shard.id),
       type: 'watching'
-    }
+    },
+    {
+      name: langE.ready.status['7'],
+      type: 'listening'
+    },
+    /* {
+      name: langE.ready.status['8'].replace('[USERS]', await getUserCount()),
+      type: 'listening'
+    },
+    {
+      name: langE.ready.status['9'].replace('[GUILDS]', await getServerCount()),
+      type: 'listening'
+    } */
   ];
   async function setStatus() {
     var maintenance = await database.System.findOne({ _id: 1 });
-    var inMaintenance = maintenance.maintenance;
-    if (inMaintenance === true){
-      aruna.user.setPresence({ game: { name: `🚫AVISO: MANUTENÇÃO PROGRAMADA PARA ${maintenance.date}! FICAREI INDISPONÍVEL POR ${maintenance.time}!🚫`}});
+    var inMaintenance;
+    if (!maintenance) {
+      inMaintenance = false;
+      await new database.System({ _id: 1 }).save();
+      debug(langE.ready.databaseAdd);
     } else {
-      const randomStatus = status[Math.floor(Math.random() * status.length)];
+      inMaintenance = maintenance.maintenance;
+    }
+    if (inMaintenance === true){
+      aruna.user.setStatus('dnd');
+      aruna.user.setPresence({ game: { name: langE.ready.maintenance.replace('[date]', maintenance.date).replace('[time]', maintenance.time)}});
+    } else {
+      aruna.user.setStatus('online');
+      var randomStatus = status[Math.floor(Math.random() * status.length)];
+      randomStatus = { name: randomStatus.name.replace('[time]', await getUptime()), type: randomStatus.type };
       aruna.user.setPresence({ game: randomStatus });
     }
+  }
+  async function getUptime() {
+    let totalSeconds = (aruna.uptime / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    totalSeconds %= 86400;
+    const hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+
+    var uptime;
+
+    if (days >= 1) {
+      uptime = `${days}d, ${hours}h, ${minutes}m`;
+    } else if (hours >= 1) {
+      uptime = `${hours}h, ${minutes}m, ${seconds}s`;
+    } else if (minutes >= 1) {
+      uptime = `${minutes}m, ${seconds}s`;
+    } else {
+      uptime = `${seconds}s`;
+    }
+    return uptime;
   }
   setStatus();
   setInterval(() => {
@@ -87,7 +127,7 @@ exports.run = async (aruna) => {
   }, 15000);
 
   function logPrefix() {
-    return `${chalk.gray('[')}${isSharded() ? `SHARD ${chalk.blue(aruna.shard.id)}` : 'ARUNA'}${chalk.gray(']')}`;
+    return `${chalk.gray('[')}${isSharded() ? `${language.generic.shard} ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
   }
 
   function log(...a) {
@@ -103,22 +143,34 @@ exports.run = async (aruna) => {
   }
 
   function debug(...a) {
-    return console.debug(logPrefix(), chalk.magenta(...a));
+    if (config.debug) {
+      return console.debug(logPrefix(), chalk.magenta(...a));
+    } else return;
   }
 
   function isSharded() {
     return !!aruna.shard;
   }
 
-  if (apiKeys) {
+  if (apiKeys && apiKeys.topgg) {
+    const DBL = require('dblapi.js');
+
     const client = aruna;
-    const dbots = require('dbots');
-    const poster = new dbots.Poster({
-      client,
-      apiKeys,
-      clientLibrary: 'discord.js'
+
+    const dbl = new DBL(apiKeys.topgg, client);
+
+    dbl.on('posted', () => {
+      log(`[${langE.dbl}] => ${langE.ready.posted}`);
     });
 
-    poster.startInterval();
+    dbl.on('error', e => {
+      warn(`[${langE.dbl}][${language.main.error}] => ${e}`);
+    });
+
+    dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
+
+    setInterval(() => {
+      dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
+    }, 900000);
   }
 };

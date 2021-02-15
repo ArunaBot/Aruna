@@ -17,9 +17,15 @@
 */
 
 module.exports = {
+  debug: false,
   prefix: '-',
   token: '',
   mongoose: '',
+  superUsersId: ['281515925960654848'], // Your User ID Comes Here!
+  noFakeId: ['187915892384858112', '281515925960654848'],
+  validLanguages: ['br', 'en', 'es'], // DON'T CHANGE THIS IF YOU DON'T KNOW WHAT ARE YOU DOING!
+  language: 'br', // Console Language
+  defaultLanguage: 'en', // Bot Language
   sharding: {
     totalShards: 'auto',
     delay: 7500

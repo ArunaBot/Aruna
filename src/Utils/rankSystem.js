@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-exports.run = async (aruna, message, database, cooldown, utils, Discord) => {
+exports.run = async (aruna, message, lang, langc, database, cooldown, utils, Discord) => {
   const user = message.author;
 
   const rank = await database.Rank.findOne({
@@ -59,19 +59,14 @@ exports.run = async (aruna, message, database, cooldown, utils, Discord) => {
       level = rank2.level;
       
       const embed = new Discord.RichEmbed()
-        .setAuthor('Novo Nível!')
-        .setDescription(
-          `Parabéns <@${message.author.id}>` +
-            ', agora você está no **Nível ' +
-            rank2.level +
-            '**!'
-        )
+        .setAuthor(lang.rank.embed.newLevel.title)
+        .setDescription(lang.rank.embed.newLevel.description.replace('[user]', message.author).replace('[level]', level))
         .setColor([15, 15, 250])
         .setTimestamp();
       message.channel.send(embed);
       const args = '';
-      const exiberank = require('../cmds/rank.js');
-      exiberank.run(aruna, message, args);
+      const exiberank = require('../Commands/rank.js');
+      exiberank.run(aruna, message, args, langc);
     }
   }
 };
