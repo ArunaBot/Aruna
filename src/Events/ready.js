@@ -153,11 +153,11 @@ exports.run = async (aruna) => {
   }
 
   if (apiKeys && apiKeys.topgg) {
-    const DBL = require('dblapi.js');
+    const DBL = require('topgg-autoposter');
 
     const client = aruna;
 
-    const dbl = new DBL(apiKeys.topgg, client);
+    const dbl = DBL(apiKeys.topgg, client);
 
     dbl.on('posted', () => {
       log(`[${langE.dbl}] => ${langE.ready.posted}`);
@@ -166,11 +166,5 @@ exports.run = async (aruna) => {
     dbl.on('error', e => {
       warn(`[${langE.dbl}][${language.main.error}] => ${e}`);
     });
-
-    dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
-
-    setInterval(() => {
-      dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
-    }, 900000);
   }
 };
