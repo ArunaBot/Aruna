@@ -27,39 +27,39 @@ exports.run = async (aruna, message, args, langc) => {
   }
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
 
-  const nopermission = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const nopermission = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.prefix.embed.error.noperm.replace('[manageGuild]', language.generic.permissions.manageGuild))
     .setTimestamp();
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.prefix.embed.error.description1)
     .setTimestamp();
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.prefix.embed.error.description2)
     .setTimestamp();
-  const error3 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error3 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.prefix.embed.error.description3)
     .setTimestamp();
-  const prefixRemove = new Discord.RichEmbed()
+  const prefixRemove = new Discord.MessageEmbed()
     .setColor([0, 255, 0])
-    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.sucess.footer)
     .setDescription(language.prefix.embed.sucess.description1.replace('[prefix]', config.prefix))
     .setTimestamp();
-  const prefixDefinido = new Discord.RichEmbed()
+  const prefixDefinido = new Discord.MessageEmbed()
     .setColor([0, 255, 0])
-    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.sucess.footer)
     .setDescription(language.prefix.embed.sucess.description2.replace('[prefix]', args[1]))
     .setTimestamp();
-  const deprecatedWarn = new Discord.RichEmbed()
+  const deprecatedWarn = new Discord.MessageEmbed()
     .setTitle(language.generic.embed.deprecated.title)
     .setDescription(`${language.generic.embed.deprecated.description1}\n
     ${language.generic.embed.deprecated.description2.replace('[alternative]', language.prefix.deprecatedAlternative.replace('[prefix]', guild.prefix))}`)

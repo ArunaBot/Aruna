@@ -28,17 +28,17 @@ exports.run = async (aruna, message, args, langc) => {
     language = langc;
   }
 
-  const embed = new Discord.RichEmbed(message.author);
+  const embed = new Discord.MessageEmbed(message.author);
 
-  const error = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setColor([255, 0, 0])
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.help.embed.error.description)
     .setTimestamp();
-  const sucess = new Discord.RichEmbed()
+  const sucess = new Discord.MessageEmbed()
     .setColor([0, 255, 0])
-    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
     .setDescription(language.help.embed.sucess.description)
     .setTimestamp();
@@ -85,8 +85,8 @@ exports.run = async (aruna, message, args, langc) => {
   }
 
   embed.setColor('#004080');
-  embed.setAuthor(aruna.user.username, aruna.user.displayAvatarURL);
-  embed.setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL);
+  embed.setAuthor(aruna.user.username, aruna.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
+  embed.setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
   embed.setTimestamp();
 
   message.author.send(embed).then(() => {

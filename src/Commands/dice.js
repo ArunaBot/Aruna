@@ -24,44 +24,44 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
   if (langc) {
     language = langc;
   }
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.dice.embed.error.description1)
     .setTimestamp();
 
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.dice.embed.error.description2)
     .setTimestamp();
 
-  const error3 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error3 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.dice.embed.error.description3)
     .setTimestamp();
 
-  const error4 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error4 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.dice.embed.error.description4)
     .setTimestamp();
 
-  const error5 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error5 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.dice.embed.error.description5)
     .setTimestamp();
   
-  const error6 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error6 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.dice.embed.error.description6)
     .setTimestamp();
   
-  const error7 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error7 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.dice.embed.error.description7)
     .setTimestamp();
@@ -93,8 +93,8 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
   
   var diceStr = number == 1 ? language.dice.embed.generic.dice : language.dice.embed.generic.dices;
   
-  const error8 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error8 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.dice.embed.error.description8.replace(/\[NUMBER\]/g, number).replace('[diceString]', diceStr))
     .setTimestamp();
@@ -104,7 +104,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
   var result = [];
 
   var loop = number;
-  var embed = new Discord.RichEmbed()
+  var embed = new Discord.MessageEmbed()
     .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
     .setTimestamp();
 
@@ -112,10 +112,10 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
     if (loop <= 0) {
       if (number > 1) {
         embed.setAuthor(language.dice.embed.sucess['1'].title.replace('[username]', message.member.displayName).replace('[NUMBER]', number).replace('[DICE]', dice),
-          message.author.avatarURL)
+          message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
           .setDescription(language.dice.embed.sucess['1'].description.replace('[DICES]', result.join(', ')).replace('[TOTAL]', result.reduce((a, b) => a + b)));
       } else {
-        embed.setAuthor(language.dice.embed.sucess['2'].title.replace('[username]', message.member.displayName).replace('[DICE]', dice), message.author.avatarURL)
+        embed.setAuthor(language.dice.embed.sucess['2'].title.replace('[username]', message.member.displayName).replace('[DICE]', dice), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
           .setDescription(language.dice.embed.sucess['2'].description.replace('[DICES]', result[0]));
       }
       clearInterval(idVar);

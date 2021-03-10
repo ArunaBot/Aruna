@@ -30,20 +30,20 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
     language = langc;
   }
 
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.kick.embed.error.description1.replace('[kickMembers]', language.generic.permissions.kickMembers))
     .setTimestamp();
   
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.kick.embed.error.description2.replace('[kickMembers]', language.generic.permissions.kickMembers))
     .setTimestamp();
   
-  const error3 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error3 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.kick.embed.error.description3)
     .setTimestamp();
@@ -54,45 +54,45 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
 
   if (!kuser) return message.channel.send(error3);
 
-  const error4 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error4 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.kick.embed.error.description4.replace('[ownerName]', kuser.username))
     .setTimestamp();
 
-  const error5 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error5 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.kick.embed.error.description5.replace('[username]', kuser.username))
     .setTimestamp();
 
-  const error6 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error6 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.kick.embed.error.description6.replace('[username]', kuser.username))
     .setTimestamp();
     
-  const error7 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error7 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.generic.embed.error.description)
     .setTimestamp();
   
   if (!message.member.hasPermission('KICK_MEMBERS'))
     return message.channel.send(error1);
-  if (!message.guild.members.get(aruna.user.id).hasPermission('KICK_MEMBERS'))
+  if (!message.guild.members.cache.get(aruna.user.id).hasPermission('KICK_MEMBERS'))
     return message.channel.send(error2);
   
   const guildBuser = message.guild.member(
-    message.mentions.users.first() || message.guild.members.get(args[0])
+    message.mentions.users.first() || message.guild.members.cache.get(args[0])
   );
 
   if (guildBuser) {
     if (message.guild.owner.id == kuser.id)
       return message.channel.send(error4);
-    if (guildBuser.highestRole.position >= message.guild.members.get(message.author.id).highestRole.position && message.guild.owner.id !== message.author.id)
+    if (guildBuser.highestRole.position >= message.guild.members.cache.get(message.author.id).highestRole.position && message.guild.owner.id !== message.author.id)
       return message.channel.send(error5);
-    if (guildBuser.highestRole.position >= message.guild.members.get(aruna.user.id).highestRole.position)
+    if (guildBuser.highestRole.position >= message.guild.members.cache.get(aruna.user.id).highestRole.position)
       return message.channel.send(error6);
   }
   
@@ -112,7 +112,7 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
     reason = language.kick.reason['2'].replace('[username]', message.author.username).replace('[reason]', reason);
   }
 
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setAuthor(language.kick.embed.sucess.title)
     .setDescription(language.kick.embed.sucess.description.replace('[username]', kuser.username))
     .addField(language.kick.embed.sucess.field1.title, language.kick.embed.sucess.field1.content.replace('[username]', kuser.username).replace('[userId]', kuser.id), false)

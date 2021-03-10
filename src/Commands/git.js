@@ -29,8 +29,8 @@ exports.run = async (aruna, message, args, langc) => {
     language = langc;
   }
 
-  const error = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription(language.invite.embed.error.description)
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setTimestamp();
@@ -39,8 +39,8 @@ exports.run = async (aruna, message, args, langc) => {
     return message.channel.send(error);
   }
 
-  const embed = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const embed = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription(`${language.github.embed.sucess.description.line1}
 \n${language.github.embed.sucess.description.line2.replace('[url]', pkg.repository.url)}
 \n${language.github.embed.sucess.description.line3}`)

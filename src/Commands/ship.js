@@ -27,8 +27,8 @@ exports.run = async (client, message, args, langc) => {
     language = langc;
   }
 
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.ship.embed.error.description)
     .setTimestamp();
@@ -48,22 +48,22 @@ exports.run = async (client, message, args, langc) => {
 
   if (message.mentions.users.first()) {
     user1 = message.mentions.users.first();
-  } else if (message.guild.members.get(args[0])) {
-    user1 = message.guild.members.get(args[0]).user;
+  } else if (message.guild.members.cache.get(args[0])) {
+    user1 = message.guild.members.cache.get(args[0]).user;
   } else user1 = null;
 
   var user2;
 
   if (message.mentions.users.array()[1]) {
     user2 = message.mentions.users.array()[1];
-  } else if (message.guild.members.get(args[1])) {
-    user2 = message.guild.members.get(args[1]).user;
+  } else if (message.guild.members.cache.get(args[1])) {
+    user2 = message.guild.members.cache.get(args[1]).user;
   } else user2 = message.author;
 
   if (!user1 || user1 === user2) return message.channel.send(error1);
 
-  const avatar1 = await Jimp.read(user1.avatarURL);
-  const avatar2 = await Jimp.read(user2.avatarURL);
+  const avatar1 = await Jimp.read(user1.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
+  const avatar2 = await Jimp.read(user2.avatarURL({ format: 'png', dynamic: true, size: 1024 }));
 
   avatar1.resize(115, 115);
   avatar2.resize(115, 115);

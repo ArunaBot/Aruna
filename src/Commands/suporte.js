@@ -25,8 +25,8 @@ exports.run = async (aruna, message, args, langc) => {
   if (langc) {
     language = langc;
   }
-  const error = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription(language.support.embed.error.description)
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setTimestamp();
@@ -34,8 +34,8 @@ exports.run = async (aruna, message, args, langc) => {
   if (!links.supportServers[0]) {
     return message.channel.send(error);
   }
-  const embed = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const embed = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription(`${language.support.embed.sucess.description.line1}
     \n${language.support.embed.sucess.description.line2.replace('[link]', links.supportServers[0])}
     \n${language.support.embed.sucess.description.line3}`)

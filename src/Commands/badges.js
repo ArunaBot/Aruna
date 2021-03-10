@@ -22,53 +22,53 @@ const { database } = require('../../Configs');
 exports.run = async (aruna, message, args) => {
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
 
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Esse servidor já é VIP!')
     .setTimestamp();
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Esse servidor já é um PARCEIRO!')
     .setTimestamp();
-  const error3 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error3 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Esse servidor já é um PARCEIRO+')
     .setTimestamp();
-  const error4 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error4 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Esse servidor não é um PARCEIRO+')
     .setTimestamp();
-  const error5 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error5 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Esse servidor não é um PARCEIRO')
     .setTimestamp();
-  const error6 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error6 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Esse servidor não é VIP')
     .setTimestamp();
-  const error8 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error8 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Erro Desconhecido!')
     .setTimestamp();
-  const error9 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error9 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Opção Inválida! Use apenas `set` ou `remove` como argumento primário!')
     .setTimestamp();
-  const error10 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error10 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Insira Algum Argumento!')
     .setTimestamp();
-  const error11 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error11 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Opção Inválida! Use apenas `partner`, `vip` ou `partner+` como argumento secundário!')
     .setTimestamp();
@@ -81,9 +81,9 @@ exports.run = async (aruna, message, args) => {
     return message.channel.send(error11);
   }
 
-  const sucess = new Discord.RichEmbed()
+  const sucess = new Discord.MessageEmbed()
     .setColor([0, 255, 0])
-    .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL)
+    .setAuthor(`Yay, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter('Sucesso!')
     .setDescription(`The Badge \`${args[1]}\` has been \`${args[0]}ed\` with sucess!`)
     .setTimestamp();

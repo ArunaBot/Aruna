@@ -34,33 +34,37 @@ exports.run = async (aruna, message, args, langc) => {
     language = langc;
   }
   
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]',
+      message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.clear.embed.error.description1.replace('[manageMessages]', language.generic.permissions.manageMessages))
     .setTimestamp();
   
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]',
+      message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.clear.embed.error.description2.replace('[manageMessages]', language.generic.permissions.manageMessages))
     .setTimestamp();
   
-  const error3 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error3 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]',
+      message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.clear.embed.error.description3)
     .setTimestamp();
   
-  const error4 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error4 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]',
+      message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.clear.embed.error.description4)
     .setTimestamp();
   
   if (!message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send(error1);
-  if (!message.guild.members.get(aruna.user.id).hasPermission('MANAGE_MESSAGES'))
+  if (!message.guild.members.cache.get(aruna.user.id).hasPermission('MANAGE_MESSAGES'))
     return message.channel.send(error2);
 
   if (!args[0])
@@ -69,11 +73,11 @@ exports.run = async (aruna, message, args, langc) => {
   if (args[0] > 100 || args[0] <= 1)
     return message.channel.send(error4);
   
-  await message.delete().then(async () => {
-    await message.channel.fetchMessages({ limit: args[0] }).then(async messages => {
+  await message.delete({ timeout: 0, reason: 'None' }).then(async () => {
+    await message.channel.messages.fetch({ limit: args[0] }).then(async messages => {
       await message.channel.bulkDelete(messages, true).then(async msgs => {
         await message.channel.send(verify(msgs, args, message, language)).then(async msg => {
-          await msg.delete(10000);
+          await msg.delete({ timeout: 10000, reason: 'None' });
         });
       });
     });

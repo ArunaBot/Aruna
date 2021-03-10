@@ -31,7 +31,7 @@ exports.run = (aruna, message, args, langc) => {
 
   const mentionedUser = message.guild.member(
     message.mentions.users.first() ||
-      aruna.users.get(args[0]) ||
+      aruna.users.cache.get(args[0]) ||
       message.author
   );
 
@@ -83,11 +83,7 @@ exports.run = (aruna, message, args, langc) => {
 
   mentionedUser.hasPermission('ADMINISTRATOR') ? userAdminServer = language.generic.strings.yes : userAdminServer = language.generic.strings.no;
 
-  let userAvatar = mentionedUser.user.displayAvatarURL;
-
-  if (userAvatar.endsWith('.gif')) {
-    userAvatar = `${mentionedUser.user.displayAvatarURL}?size=2048`;
-  }
+  const userAvatar = mentionedUser.user.avatarURL({ format: 'png', dynamic: true, size: 2048 });
 
   var stringtime1;
   switch (userDaysDiscord) {
@@ -120,7 +116,7 @@ exports.run = (aruna, message, args, langc) => {
   const accountCreated = dateFormat(mentionedUser.user.createdTimestamp, language.generic.strings.date);
   const joinedIn = dateFormat(mentionedUser.joinedTimestamp, language.generic.strings.date);
   
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setAuthor(mentionedUser.user.username, userAvatar)
     .addField(language.userinfo.embed.field.title[0], 
       `🙋 **${language.userinfo.embed.field.description[0][0]}** \`${mentionedUser.user.username}\`

@@ -28,7 +28,7 @@ exports.run = async (aruna, message, args, langc) => {
     language = langc;
   }
 
-  const preEmbed = new Discord.RichEmbed()
+  const preEmbed = new Discord.MessageEmbed()
     .setTitle(language.bot.embed.pre.title.replace('%s', emoji.loading).replace('%s', message.member.displayName))
     .setColor('#00000')
     .setDescription(language.bot.embed.pre.description)
@@ -39,7 +39,7 @@ exports.run = async (aruna, message, args, langc) => {
 
   const time = 60000;
 
-  let totalSeconds = (aruna.uptime / 1000);
+  let totalSeconds = (await aruna.uptime / 1000);
   const days = Math.floor(totalSeconds / 86400);
   totalSeconds %= 86400;
   const hours = Math.floor(totalSeconds / 3600);
@@ -83,8 +83,8 @@ exports.run = async (aruna, message, args, langc) => {
 
   const version = pkg.version;
 
-  const embed = new Discord.RichEmbed()
-    .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
+  const embed = new Discord.MessageEmbed()
+    .setAuthor(aruna.user.username, aruna.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription(language.bot.embed.basic.description)
     .addField(language.bot.embed.basic.field[0].replace('%s', emoji.robot), name, true)
     .addField(language.bot.embed.basic.field[1].replace('%s', '📡'), version, true)
@@ -92,11 +92,11 @@ exports.run = async (aruna, message, args, langc) => {
     // .addField(language.bot.embed.basic.field[3].replace('%s', '📃'), await getChannelCount(), true)
     // .addField(language.bot.embed.basic.field[4].replace('%s', '🖥️'), await getServerCount(), true)
     // .addField(language.bot.embed.basic.field[5].replace('%s', '🕹️'), await getUserCount(), true)
-    .addField(language.bot.embed.basic.field[6].replace('%s', '💻'), aruna.shard.id, true)
+    .addField(language.bot.embed.basic.field[6].replace('%s', '💻'), message.guild.shardID, true)
     .addField(language.bot.embed.basic.field[7].replace('%s', '💠'), aruna.shard.count, true)
-    .addField(language.bot.embed.basic.field[8].replace('%s', '🏓'), `${Math.round(aruna.ping)}ms`, true)
-    .setThumbnail(aruna.user.displayAvatarURL)
-    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL)
+    .addField(language.bot.embed.basic.field[8].replace('%s', '🏓'), `${Math.round(aruna.ws.ping)}ms`, true)
+    .setThumbnail(aruna.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setTimestamp();
 
   if (links.invites[0]) {
@@ -130,8 +130,8 @@ exports.run = async (aruna, message, args, langc) => {
 
   var cpu = await sysdata.GetCPUModel();
 
-  const embed2 = new Discord.RichEmbed()
-    .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)
+  const embed2 = new Discord.MessageEmbed()
+    .setAuthor(aruna.user.username, aruna.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription(language.bot.embed.advanced.description)
     .addField(language.bot.embed.advanced.field[0], process.version)
     .addField(language.bot.embed.advanced.field[1], pkg.dependencies['discord.js'].replace('^', ''))
@@ -144,12 +144,12 @@ exports.run = async (aruna, message, args, langc) => {
     .addField(language.bot.embed.advanced.field[3], language.bot.embed.advanced.content[3])
     .addField(language.bot.embed.advanced.field[4], language.bot.embed.advanced.content[4])
     .addField(language.bot.embed.advanced.field[5], language.bot.embed.advanced.content[5])
-    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL)
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setTimestamp();
 
   message.channel.send(embed).then(async msg => {
     await collector1(msg, false);
-    preMessage.delete();
+    preMessage.delete({ timeout: 0, reason: 'None' });
   });
 
   async function collector1 (msg, needRemoveEmote) {
@@ -221,7 +221,7 @@ exports.run = async (aruna, message, args, langc) => {
   }
 
   async function removeEmote(msg) {
-    await msg.clearReactions();
+    await msg.reactions.removeAll();
   }
 };
 

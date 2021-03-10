@@ -58,7 +58,7 @@ exports.run = async (aruna, message, lang, langc, database, cooldown, utils, Dis
 
       level = rank2.level;
       
-      const embed = new Discord.RichEmbed()
+      const embed = new Discord.MessageEmbed()
         .setAuthor(lang.rank.embed.newLevel.title)
         .setDescription(lang.rank.embed.newLevel.description.replace('[user]', message.author).replace('[level]', level))
         .setColor([15, 15, 250])

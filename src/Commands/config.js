@@ -30,18 +30,18 @@ exports.run = async (aruna, message, args, langc) => {
     language = langc;
   }
 
-  const noPermission = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const noPermission = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.config.embed.error.noperm.replace('[manageGuild]', language.generic.permissions.manageGuild))
     .setTimestamp();
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.config.embed.error.description1.replace('[OPTIONS]', options.join(', ')))
     .setTimestamp();
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.config.embed.error.description2)
     .setTimestamp();
@@ -83,30 +83,30 @@ exports.run = async (aruna, message, args, langc) => {
 
     if (!action || !actionList.includes(action)) return invalidAction(actionList);
 
-    const prefixError = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const prefixError = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.error.prefix.description1)
       .setTimestamp();
-    const prefixError2 = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const prefixError2 = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.error.prefix.description2)
       .setTimestamp();
-    const prefixError3 = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const prefixError3 = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.error.prefix.description3)
       .setTimestamp();
-    const prefixRemove = new Discord.RichEmbed()
+    const prefixRemove = new Discord.MessageEmbed()
       .setColor([0, 255, 0])
-      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.sucess.prefix.description1.replace('[prefix]', config.prefix))
       .setTimestamp();
-    const prefixDefinido = new Discord.RichEmbed()
+    const prefixDefinido = new Discord.MessageEmbed()
       .setColor([0, 255, 0])
-      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.sucess.prefix.description2.replace('[prefix]', args[2] || undefined))
       .setTimestamp();
@@ -183,8 +183,8 @@ exports.run = async (aruna, message, args, langc) => {
     const validLanguages = config.validLanguages;
     const actionList = ['user', 'guild'];
 
-    const invalidLanguage = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const invalidLanguage = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.error.language.description1.replace('[LANGUAGES]', `\`\`${validLanguages.join(', ')}\`\``))
       .setTimestamp();
@@ -195,26 +195,26 @@ exports.run = async (aruna, message, args, langc) => {
       
     if (!args[2] || !validLanguages.includes(args[2])) return message.channel.send(invalidLanguage);
 
-    const setGuildLanguage = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const setGuildLanguage = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.sucess.language.description1.replace('[LANGUAGE]', args[2]))
       .setTimestamp();
 
-    const errorGuildLanguage = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const errorGuildLanguage = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.error.language.description2)
       .setTimestamp();
 
-    const setUserLanguage = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const setUserLanguage = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.sucess.language.description2.replace('[LANGUAGE]', args[2]))
       .setTimestamp();
 
-    const errorUserLanguage = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const errorUserLanguage = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.error.language.description3)
       .setTimestamp();
@@ -254,13 +254,13 @@ exports.run = async (aruna, message, args, langc) => {
 
     const replacer = /\[COMMAND\]/g;
 
-    const no = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const no = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.generic.no.replace(replacer, command).replace('[PREFIX]', guild.prefix))
       .setTimestamp();
-    const yes = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const yes = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.generic.yes.replace(replacer, command).replace('[PREFIX]', guild.prefix))
       .setTimestamp();
@@ -275,8 +275,8 @@ exports.run = async (aruna, message, args, langc) => {
   }
 
   function invalidAction (optionL) {
-    const optionError = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    const optionError = new Discord.MessageEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.error.invalidaction.replace('[OPTIONS]', `\`\`${optionL.join(', ')}\`\``))
       .setTimestamp();
@@ -284,16 +284,16 @@ exports.run = async (aruna, message, args, langc) => {
   } 
 
   function final (result, command) {
-    const enabled = new Discord.RichEmbed()
+    const enabled = new Discord.MessageEmbed()
       .setColor([0, 255, 0])
-      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.sucess.description1.replace('[COMMAND]', command))
       .setTimestamp();
 
-    const disabled = new Discord.RichEmbed()
+    const disabled = new Discord.MessageEmbed()
       .setColor([0, 255, 0])
-      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(language.generic.embed.sucess.footer.replace('[username]', message.member.displayName))
       .setDescription(language.config.embed.sucess.description2.replace('[COMMAND]', command))
       .setTimestamp();

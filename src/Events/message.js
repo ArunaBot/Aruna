@@ -80,12 +80,12 @@ exports.run = async (aruna, message) => {
 
   mention.find(mention => {
     if (message.content === mention) {
-      if (!message.guild.members.get(aruna.user.id).hasPermission('USE_EXTERNAL_EMOJIS')) {
+      if (!message.guild.members.cache.get(aruna.user.id).hasPermission('USE_EXTERNAL_EMOJIS')) {
         return message.reply(emojiError);
-      } else if (!message.guild.members.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
+      } else if (!message.guild.members.cache.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
         return message.reply(linkError);
       }
-      const embed = new Discord.RichEmbed()
+      const embed = new Discord.MessageEmbed()
         .setTitle(lang.message.mention.title)
         .setDescription(
           `${lang.message.mention.line1.replace('[username]', message.author.username).replace('[me]', aruna.user.username)}\n
@@ -139,13 +139,13 @@ exports.run = async (aruna, message) => {
           aruna.commands.get(aruna.aliases.get(cmd.slice(prefix.length).toLowerCase()));
 
     if (commandFile) {
-      if (!message.guild.members.get(aruna.user.id).hasPermission('USE_EXTERNAL_EMOJIS')) {
+      if (!message.guild.members.cache.get(aruna.user.id).hasPermission('USE_EXTERNAL_EMOJIS')) {
         return message.reply(emojiError);
-      } else if (!message.guild.members.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
+      } else if (!message.guild.members.cache.get(aruna.user.id).hasPermission('EMBED_LINKS')) {
         return message.reply(linkError);
       } else if (!user.SUPER && !commandFile.config.public) {
-        const denied = new Discord.RichEmbed()
-          .setAuthor(langc.generic.embed.denied.title, message.author.avatarURL)
+        const denied = new Discord.MessageEmbed()
+          .setAuthor(langc.generic.embed.denied.title, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
           .setDescription(`${langc.generic.embed.denied.description.line1.replace('[username]', message.member.displayName).replace('[command]', command)}\n
           ${langc.generic.embed.denied.description.line2.replace('[prefix]', prefix)}`)
           .setFooter(langc.generic.embed.denied.footer)
@@ -165,7 +165,7 @@ exports.run = async (aruna, message) => {
       if (alts !== undefined) {
         message.reply(lang.message.errors.commandNotFound.replace('[command]', command).replace('[alt]', alts)).then(async msg => {
           setTimeout(() => {
-            msg.delete();
+            msg.delete({ timeout: 0, reason: 'None' });
           }, 30000);
         });
       }

@@ -37,8 +37,8 @@ exports.run = async (aruna, member) => {
   const langD = require(`../../languages/bot/${guild.language || config.defaultLanguage}/events.json`);
 
   if (guild.antiFakeEnable) {
-    const kickFakeEmbed = new Discord.RichEmbed()
-      .setAuthor(langD.memberAdd.antifake.embed.fakemember.title.replace('[username]', member.user.username), member.user.avatarURL)
+    const kickFakeEmbed = new Discord.MessageEmbed()
+      .setAuthor(langD.memberAdd.antifake.embed.fakemember.title.replace('[username]', member.user.username), member.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(langD.memberAdd.antifake.embed.fakemember.footer.replace('[username]', member.user.username))
       .setDescription(langD.memberAdd.antifake.embed.fakemember.description)
       .setTimestamp();
@@ -51,14 +51,14 @@ exports.run = async (aruna, member) => {
         const noFakeUsername = noFakeUser.username.toLocaleLowerCase().replace('4','a').replace('3','e').replace('5','s').replace('@','a')
           .replace('i','u').replace('u','l').replace(/\s+/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
         if (userNew == noFakeUsername && !noFakeId.includes(member.user.id)) {
-          if (member.guild.members.get(aruna.user.id).hasPermission('KICK_MEMBERS')) {
+          if (member.guild.members.cache.get(aruna.user.id).hasPermission('KICK_MEMBERS')) {
             member.kick(langD.memberAdd.antifake.kickMessage);
             member.send(kickFakeEmbed);
           } else {
             const guildOwner = member.guild.owner;
             const fakeUser = member.user;
-            const adminFakeWarn = new Discord.RichEmbed()
-              .setAuthor(langD.memberAdd.antifake.embed.adminwarn.title.replace('[username]', guildOwner.user.username), guildOwner.user.avatarURL)
+            const adminFakeWarn = new Discord.MessageEmbed()
+              .setAuthor(langD.memberAdd.antifake.embed.adminwarn.title.replace('[username]', guildOwner.user.username), guildOwner.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
               .setFooter(langD.memberAdd.antifake.embed.adminwarn.footer)
               .setDescription(`${langD.memberAdd.antifake.embed.adminwarn.description.line1.replace('[fakeTag]', fakeUser.tag).replace('[fakeId]', fakeUser.id)}\n
             ${langD.memberAdd.antifake.embed.adminwarn.description.line2.replace('[prefix]', guild.prefix)}`)
@@ -82,13 +82,13 @@ exports.run = async (aruna, member) => {
     member.addRole('660612149009448988', 'AutoRole');
     const isOld = aruna.guilds
       .get('610206821763776522')
-      .members.get(member.user.id);
+      .members.cache.get(member.user.id);
     if (isOld) {
       isOld.kick('Entrou no novo Servidor');
     }
   } else if (member.guild.id == serverStatsPrincipal.oldGuildID) {
-    const changingMessage = new Discord.RichEmbed()
-      .setAuthor(langD.memberAdd.change.embed.title.replace('[username]', member.user.username), member.user.avatarURL)
+    const changingMessage = new Discord.MessageEmbed()
+      .setAuthor(langD.memberAdd.change.embed.title.replace('[username]', member.user.username), member.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setFooter(langD.memberAdd.change.embed.footer.replace('[username]', member.user.username))
       .setDescription(langD.memberAdd.change.embed.description.replace('[link]', links.supportServers[0]))
       .setTimestamp();

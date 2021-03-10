@@ -30,26 +30,26 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
     language = langc;
   }
   
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.unban.embed.error.description1.replace('[banMembers]', language.generic.permissions.banMembers))
     .setTimestamp();
   
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.unban.embed.error.description2.replace('[banMembers]', language.generic.permissions.banMembers))
     .setTimestamp();
   
-  const error3 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error3 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.unban.embed.error.description3)
     .setTimestamp();
 
-  const error6 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error6 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(`${language.unban.embed.error.userNotFound.line1}\n
     ${language.unban.embed.error.userNotFound.line2}`)
@@ -67,25 +67,25 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
   if (!unbUser) return message.channel.send(error3);
   if (unbUser == 'STOP') return;
 
-  const error4 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error4 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.unban.embed.error.description4.replace('[ownerName]', unbUser.username))
     .setTimestamp();
     
-  const error5 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error5 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.generic.embed.error.description)
     .setTimestamp();
   
   if (!message.member.hasPermission('BAN_MEMBERS'))
     return message.channel.send(error1);
-  if (!message.guild.members.get(aruna.user.id).hasPermission('BAN_MEMBERS'))
+  if (!message.guild.members.cache.get(aruna.user.id).hasPermission('BAN_MEMBERS'))
     return message.channel.send(error2);
   
   const guildBuser = message.guild.member(
-    message.mentions.users.first() || message.guild.members.get(args[0])
+    message.mentions.users.first() || message.guild.members.cache.get(args[0])
   );
 
   if (guildBuser) {
@@ -109,7 +109,7 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
     reason = language.unban.reason['2'].replace('[username]', message.author.username).replace('[reason]', reason);
   }
 
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setAuthor(language.unban.embed.sucess.title)
     .setDescription(language.unban.embed.sucess.description.replace('[username]', unbUser.username))
     .addField(language.unban.embed.sucess.field1.title, language.unban.embed.sucess.field1.content.replace('[username]', unbUser.username).replace('[userId]', unbUser.id), false)

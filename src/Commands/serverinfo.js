@@ -86,15 +86,9 @@ exports.run = async (aruna, message, args, langc) => {
       break;
   }
 
-  var guildIcon;
-
-  if (message.guild.iconURL.includes('a_')) {
-    guildIcon = message.guild.iconURL.slice(0, -3).trim() + 'gif';
-  } else {
-    guildIcon = message.guild.iconURL;
-  }
+  const guildIcon = message.guild.iconURL({ format: 'png', dynamic: true, size: 1024 });
   
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setColor([0, 23, 132])
     .setTitle(`${pType} ${message.guild.name}`)
     .setThumbnail(guildIcon)
@@ -102,43 +96,43 @@ exports.run = async (aruna, message, args, langc) => {
     .addField(`:crown: ${language.serverinfo.embed.field2.title}`, message.guild.owner, true)
     .addField(`:earth_americas: ${language.serverinfo.embed.field3.title}`, region, true)
     .addField(`:date: ${language.serverinfo.embed.field4.title}`, dateFormat(message.guild.createdTimestamp, language.generic.strings.date), true)
-    .addField(`:desktop: ${language.serverinfo.embed.field5.title}`, aruna.shard.id, true)
+    .addField(`:desktop: ${language.serverinfo.embed.field5.title}`, message.guild.shardID, true)
     .addField(`:dizzy: ${language.serverinfo.embed.field6.title}`, dateFormat(message.guild.member(aruna.user).joinedTimestamp, language.generic.strings.date), true)
     .addField(
       language.serverinfo.embed.field7.title
         .replace('%1', ':speech_balloon:')
-        .replace('%2',message.guild.channels.filter(
+        .replace('%2',message.guild.channels.cache.filter(
           chn => chn.type === 'text').size +
-          message.guild.channels.filter(chn => chn.type === 'voice').size +
-          message.guild.channels.filter(chn => chn.type === 'news').size +
-          message.guild.channels.filter(chn => chn.type === 'store').size)
-        .replace('%3', message.guild.channels.filter(chn => chn.type === 'category').size),
+          message.guild.channels.cache.filter(chn => chn.type === 'voice').size +
+          message.guild.channels.cache.filter(chn => chn.type === 'news').size +
+          message.guild.channels.cache.filter(chn => chn.type === 'store').size)
+        .replace('%3', message.guild.channels.cache.filter(chn => chn.type === 'category').size),
       language.serverinfo.embed.field7.content
         .replace('%1', ':pencil:')
-        .replace('%2', message.guild.channels.filter(chn => chn.type === 'text').size)
+        .replace('%2', message.guild.channels.cache.filter(chn => chn.type === 'text').size)
         .replace('%3', ':speaking_head:')
-        .replace('%4', message.guild.channels.filter(chn => chn.type === 'voice').size)
+        .replace('%4', message.guild.channels.cache.filter(chn => chn.type === 'voice').size)
         .replace('%5', ':loudspeaker:')
-        .replace('%6', message.guild.channels.filter(chn => chn.type === 'news').size),
+        .replace('%6', message.guild.channels.cache.filter(chn => chn.type === 'news').size),
       false
     )
     .addField(
       language.serverinfo.embed.field8.title
         .replace('%1', `:busts_in_silhouette: ${message.guild.memberCount}`)
-        .replace('%2', message.guild.members.filter(m => m.user.bot).size)
-        .replace('%3', message.guild.members.filter(m => !m.user.bot).size),
+        .replace('%2', message.guild.members.cache.filter(m => m.user.bot).size)
+        .replace('%3', message.guild.members.cache.filter(m => !m.user.bot).size),
       `${status['online']}: ${
-        message.guild.members.filter(m => m.presence.status === 'online').size
+        message.guild.members.cache.filter(m => m.presence.status === 'online').size
       }\n${status['idle']}: ${
-        message.guild.members.filter(m => m.presence.status === 'idle').size
+        message.guild.members.cache.filter(m => m.presence.status === 'idle').size
       }\n${status['dnd']}: ${
-        message.guild.members.filter(m => m.presence.status === 'dnd').size
+        message.guild.members.cache.filter(m => m.presence.status === 'dnd').size
       }\n${status['offline']}: ${
-        message.guild.members.filter(m => m.presence.status === 'offline').size
+        message.guild.members.cache.filter(m => m.presence.status === 'offline').size
       }`,
       false
     )
-    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL)
+    .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setTimestamp();
 
   if (message.guild.premiumSubscriptionCount >= 1 && message.guild.premiumTier >= 1) {

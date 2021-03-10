@@ -30,29 +30,29 @@ exports.run = async (aruna, message, args) => {
 
   const prefix = guild.prefix;
 
-  const noperm = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const noperm = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription('Este comando não está disponível no momento!')
     .setTimestamp();
 
-  const error = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription(
       'Insira `criar` para criar um ticket ou `fechar` para fechar o ticket.'
     )
     .setTimestamp();
 
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription(
       `Este comando não está ativado em seu servidor. Peça para algum ADM ativar com o comando \`${prefix}config\``
     )
     .setTimestamp();
-  const error4 = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const error4 = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(`Algo deu errado, ${message.author.username}`)
     .setDescription(
       `Você não possui tickets abertos. Para abrir, use o comando \`\`${guild.prefix}ticket criar\`\``
@@ -69,8 +69,8 @@ exports.run = async (aruna, message, args) => {
 
   if (mode == 'criar' || mode == 'create' || mode == 'new') {
     if (ticket) {
-      const error3 = new Discord.RichEmbed()
-        .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+      const error3 = new Discord.MessageEmbed()
+        .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
         .setFooter(`Algo deu errado, ${message.author.username}`)
         .setDescription(
           `Você já possui um ticket aberto! Para visualiza-lo, acesse o canal <#${ticket.channel}>.`

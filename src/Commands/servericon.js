@@ -35,7 +35,7 @@ exports.run = (aruna, message, args, langc) => {
     guildIcon = message.guild.iconURL;
   }
 
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setTitle(language.servericon.embed.title.replace('[emoji]', emoji.picture).replace('[guild]', message.guild.name))
     .setDescription(language.servericon.embed.description.replace('[url]', guildIcon))
     .setImage(guildIcon)

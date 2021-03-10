@@ -28,13 +28,13 @@ exports.run = (aruna, message, args, langc) => {
     language = langc;
   }
 
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.calculator.embed.error.description1)
     .setTimestamp();
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.calculator.embed.error.description2)
     .setTimestamp();
@@ -50,7 +50,7 @@ exports.run = (aruna, message, args, langc) => {
     return message.channel.send(error2);
   }
   
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setTitle(language.calculator.embed.sucess.title)
     .addField(language.calculator.embed.sucess.field1.replace('[emoji]', emojis.upload),
       `\`\`\`js\n${args.join(' ')}\`\`\``

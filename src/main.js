@@ -32,7 +32,7 @@ console.log(language.initialization.initializing.replace('[prefix]', infoPrefix)
 console.log(`${infoPrefix} ${language.initialization.language.replace('[language]', chalk.yellow(language.generic.languageName)).replace('[default]', chalk.yellow(defaultLanguage.generic.languageName))}`);
 console.log(`${infoPrefix} ${language.initialization.version.replace('[version]', pkg.version)}`);
 
-const aruna = new Discord.Client();
+const aruna = new Discord.Client({ disableMentions: 'everyone' });
 aruna.commands = new Discord.Collection();
 aruna.aliases = new Discord.Collection();
 

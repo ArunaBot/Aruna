@@ -40,7 +40,10 @@ try {
 
   console.log(language.initialization.initializing.replace('[prefix]', infoPrefix));
 
-  manager.on('launch', shard => console.log(`${infoPrefix} ${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) ${language.shard.launch.replace('[shard] ', '')}`));
+  manager.on('shardCreate', shard => {
+    console.log(`${infoPrefix} ${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) ${language.shard.launch.replace('[shard] ', '')}`);
+  });
+  
   process.on('exit', code => {
     console.error(`${errorPrefix} ${language.initialization.fail}`);
     console.exception(`${errorPrefix} ${logPrefix} ${chalk.red(language.shard.exit)} ${language.shard.exitCode}`, code);

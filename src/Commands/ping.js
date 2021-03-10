@@ -27,7 +27,7 @@ exports.run = async (aruna, message, args, langc) => {
     language = langc;
   }
 
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setTitle(language.ping.embed['1'].title.replace('[emoji]', emoji.loading).replace('[username]', message.member.displayName))
     .setColor('#f5ebeb')
     .setDescription(language.ping.embed['1'].description)
@@ -35,10 +35,10 @@ exports.run = async (aruna, message, args, langc) => {
     .setTimestamp();
 
   message.channel.send(embed).then(async msg => {
-    const apiTime = Math.round(aruna.ping);
+    const apiTime = Math.round(aruna.ws.ping);
     const responseTime = msg.createdTimestamp - message.createdTimestamp;
-    const embed2 = new Discord.RichEmbed()
-      .setAuthor(aruna.user.username, aruna.user.displayAvatarURL)
+    const embed2 = new Discord.MessageEmbed()
+      .setAuthor(aruna.user.username, aruna.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setColor('#33def5')
       .setDescription(`${language.ping.embed['2'].description.line1.replace('[responseTime]', responseTime)}
       ${language.ping.embed['2'].description.line2.replace('[apiTime]', apiTime)}`)

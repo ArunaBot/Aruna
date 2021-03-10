@@ -26,18 +26,18 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
     language = langc;
   }
 
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription(language.say.embed.error.description1.replace('[manageMessages]', language.generic.permissions.manageMessages))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setTimestamp();
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription(language.say.embed.error.description2.replace('[manageMessages]', language.generic.permissions.manageMessages))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setTimestamp();
-  const error3 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error3 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription(language.say.embed.error.description3)
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setTimestamp();
@@ -45,7 +45,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
   if (!message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send(error1);
 
-  if (!message.guild.members.get(aruna.user.id).hasPermission('MANAGE_MESSAGES'))
+  if (!message.guild.members.cache.get(aruna.user.id).hasPermission('MANAGE_MESSAGES'))
     return message.channel.send(error2);
 
   var content = message.content.slice(comando.length + prefix.length).trim();
@@ -54,7 +54,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
     return message.channel.send(error3);
   }
 
-  await message.delete();
+  await message.delete({ timeout: 0, reason: 'None' });
   await message.channel.send(content);
 };
 

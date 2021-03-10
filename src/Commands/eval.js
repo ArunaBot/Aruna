@@ -23,8 +23,8 @@ const { database, config } = require('../../Configs');
 exports.run = async (aruna, message, args, langc, prefix, comando) => {
   const util = require('util');
   const code = args.join(' ');
-  const embed = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
+  const embed = new Discord.MessageEmbed()
+    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setDescription('Você precisa digitar um código!')
     .setFooter(`Algo deu errado, ${message.author.username}`);
   if (!code) return message.channel.send(embed);
@@ -49,7 +49,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
       str = str + '...';
     }
 
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
       .setAuthor('Console')
       .addField(
         '(<:uploaduisvgrepocom:637027335173832727>) Entrada',

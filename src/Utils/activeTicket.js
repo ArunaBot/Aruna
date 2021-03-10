@@ -62,7 +62,7 @@ exports.run = async (aruna, message) => {
       }
     }
   }
-  let ticketCategory = message.guild.channels.find('name', 'Tickets');
+  let ticketCategory = message.guild.channels.cache.find('name', 'Tickets');
 
   if (!ticketCategory) {
     try {
@@ -106,7 +106,7 @@ exports.run = async (aruna, message) => {
     }
   } else {
     var ticketLog = guild.ticketLogID;
-    if (!aruna.channels.get(ticketLog)) {
+    if (!aruna.channels.cache.get(ticketLog)) {
       try {
         var ticketLog = await message.guild
           .createChannel('ticket-log', 'text', [
@@ -209,7 +209,7 @@ exports.run = async (aruna, message) => {
     }
   } else {
     var ticketLog = guild.ticketLogID;
-    if (!aruna.channels.get(ticketLog)) {
+    if (!aruna.channels.cache.get(ticketLog)) {
       try {
         var ticketLog = await message.guild
           .createChannel('ticket-log', 'text', [

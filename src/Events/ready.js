@@ -30,55 +30,56 @@ exports.run = async (aruna) => {
   logger.log(language.generic.connected);
 
   /* async function getUserCount() {
-    const req = await aruna.shard.fetchClientValues('users.size');
-
-    return req.reduce((p, n) => p + n, 0);
-  }
-
-  async function getServerCount() {
-    const req = await aruna.shard.fetchClientValues('guilds.size');
+    const req = await aruna.shard.fetchClientValues('users.cache.size');
 
     return req.reduce((p, n) => p + n, 0);
   } */
 
+  async function getServerCount() {
+    const req = await aruna.shard.fetchClientValues('guilds.cache.size');
+
+    return req.reduce((p, n) => p + n, 0);
+  }
+
   const status = [
     { 
       name: langE.ready.status['1'], 
-      type: 'watching' 
+      type: 'WATCHING' 
     },
     { 
       name: langE.ready.status['2'], 
-      type: 'listening'
+      type: 'LISTENING'
     },
     { 
       name: langE.ready.status['3'], 
-      type: 'playing' 
+      type: 'PLAYING' 
     },
     {
       name: langE.ready.status['4'],
-      type: 'watching'
+      type: 'WATCHING'
     },
     {
       name: langE.ready.status['5'].replace('[version]', pkg.version),
-      type: 'streaming',
+      type: 'STREAMING',
       url: links.twitch
     },
     {
       name: langE.ready.status['6'].replace('[shard]', aruna.shard.id),
-      type: 'watching'
+      type: 'WATCHING'
     },
     {
       name: langE.ready.status['7'],
-      type: 'listening'
+      type: 'LISTENING'
     },
     /* {
       name: langE.ready.status['8'].replace('[USERS]', await getUserCount()),
-      type: 'listening'
+      type: 'LISTENING'
     },
+    */
     {
       name: langE.ready.status['9'].replace('[GUILDS]', await getServerCount()),
-      type: 'listening'
-    } */
+      type: 'LISTENING'
+    }
   ];
   async function setStatus() {
     var maintenance = await database.System.findOne({ _id: 1 });
@@ -91,13 +92,11 @@ exports.run = async (aruna) => {
       inMaintenance = maintenance.maintenance;
     }
     if (inMaintenance === true){
-      aruna.user.setStatus('dnd');
-      aruna.user.setPresence({ game: { name: langE.ready.maintenance.replace('[date]', maintenance.date).replace('[time]', maintenance.time)}});
+      aruna.user.setPresence({ activity: { name: langE.ready.maintenance.replace('[date]', maintenance.date).replace('[time]', maintenance.time) }, status: 'dnd', shardID: aruna.shard.ids });
     } else {
-      aruna.user.setStatus('online');
       var randomStatus = status[Math.floor(Math.random() * status.length)];
       randomStatus = { name: randomStatus.name.replace('[time]', await getUptime()), type: randomStatus.type };
-      aruna.user.setPresence({ game: randomStatus });
+      aruna.user.setPresence({ activity: randomStatus, status: 'online', shardID: aruna.shard.ids });
     }
   }
   async function getUptime() {

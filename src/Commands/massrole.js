@@ -39,60 +39,60 @@ exports.run = (aruna, message, args, langc) => {
     language = langc;
   }
 
-  const error1 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error1 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.massRole.embed.error.description1.replace('[manageRoles]', language.generic.permissions.manageRoles))
     .setTimestamp();
 
-  const error2 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error2 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.massRole.embed.error.description2.replace('[manageRoles]', language.generic.permissions.manageRoles))
     .setTimestamp();
   
   if (!message.member.hasPermission('MANAGE_ROLES'))
     return message.channel.send(error1);
-  if (!message.guild.members.get(aruna.user.id).hasPermission('MANAGE_ROLES'))
+  if (!message.guild.members.cache.get(aruna.user.id).hasPermission('MANAGE_ROLES'))
     return message.channel.send(error2);
   
-  const error3 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error3 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.massRole.embed.error.description3)
     .setTimestamp();
   
   if (!role || role === undefined) return message.channel.send(error3);
 
-  const error4 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error4 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.massRole.embed.error.description4.replace('[roleName]', role.name))
     .setTimestamp();
 
-  const error5 = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error5 = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.massRole.embed.error.description5.replace('[roleName]', role.name))
     .setTimestamp();
   
-  if (role.position >= message.guild.members.get(aruna.user.id).highestRole.position)
+  if (role.position >= message.guild.members.cache.get(aruna.user.id).highestRole.position)
     return message.channel.send(error4);
 
-  if (role.position >= message.guild.members.get(message.author.id).highestRole.position 
+  if (role.position >= message.guild.members.cache.get(message.author.id).highestRole.position 
     && message.guild.owner.id !== message.author.id
   ) return message.channel.send(error5);
 
-  const executando = new Discord.RichEmbed()
+  const executando = new Discord.MessageEmbed()
     .setTitle(language.generic.embed.running.title.replace('[emoji]', emoji.loading)
-      .replace('[username]', message.member.displayName), message.author.avatarURL)
+      .replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setColor('#f2ff00')
     .setFooter(language.generic.embed.running.footer.replace('[username]', message.member.displayName))
     .setDescription(language.massRole.embed.running.description.replace('[roleName]', role.name).replace('[userSize]', message.guild.members.size))
     .setTimestamp();
 
-  const sucess = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const sucess = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setColor([0, 255, 0])
     .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
     .setDescription(language.massRole.embed.sucess.description.replace('[roleName]', role.name).replace('[userSize]', message.guild.members.size))

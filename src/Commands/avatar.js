@@ -23,7 +23,7 @@ var language = require(`../../languages/bot/${config.defaultLanguage}/commands.j
 
 exports.run = (aruna, message, args, langc) => {
   const user1 = message.guild.member(
-    message.mentions.users.first() || aruna.users.get(args[0]) || message.author
+    message.mentions.users.first() || aruna.users.cache.get(args[0]) || message.author
   );
 
   if (langc) {
@@ -32,10 +32,10 @@ exports.run = (aruna, message, args, langc) => {
 
   const user = user1.user;
 
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setTitle(language.avatar.embed.title.replace('[emoji]', emoji.picture).replace('[user]', user1.displayName))
-    .setDescription(language.avatar.embed.description.replace('[url]', user.avatarURL))
-    .setImage(user.avatarURL)
+    .setDescription(language.avatar.embed.description.replace('[url]', user.avatarURL({ format: 'png', dynamic: true, size: 1024 })))
+    .setImage(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setTimestamp();
   message.channel.send(embed);
 };

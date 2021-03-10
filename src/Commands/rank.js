@@ -29,8 +29,8 @@ exports.run = async (aruna, message, args, langc) => {
     language = langc;
   }
 
-  const error = new Discord.RichEmbed()
-    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+  const error = new Discord.MessageEmbed()
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
     .setDescription(language.generic.embed.disabled.description.replace('[config]', `${guild.prefix}config`))
     .setTimestamp();
@@ -39,7 +39,7 @@ exports.run = async (aruna, message, args, langc) => {
 
   var userid = message.guild.member(
     message.mentions.users.first() ||
-      message.guild.members.get(args[0]) ||
+      message.guild.members.cache.get(args[0]) ||
       message.author.id
   );
 
@@ -55,9 +55,9 @@ exports.run = async (aruna, message, args, langc) => {
 
   const need = utils.need(level);
 
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setColor([54, 57, 63])
-    .setAuthor(language.rank.embed.title.replace('[username]', userid.displayName), userid.user.avatarURL)
+    .setAuthor(language.rank.embed.title.replace('[username]', userid.displayName), userid.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
     .addField(language.rank.embed.field1, level, true)
     .addField(language.rank.embed.field2, xp, true)
     .addField(language.rank.embed.field3, need, true)
