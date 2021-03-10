@@ -18,10 +18,8 @@
 */
 
 const Discord = require('discord.js');
-const chalk = require('chalk');
-var { database, config, links } = require('../../Configs');
-const { cooldown, utils } = require('../Utils');
-const langI = require(`../../languages/bot/${config.language}/internal.json`);
+const { database, config, links } = require('../../Configs');
+const { cooldown, logger, utils } = require('../Utils');
 
 exports.run = async (aruna, message) => {
   if (message.author.bot) return;
@@ -44,7 +42,7 @@ exports.run = async (aruna, message) => {
     } else {
       language = config.defaultLanguage;
     }
-    debug('No Server!');
+    logger.debug('No Server!');
     var saveG = new database.Guilds({
       _id: message.guild.id,
       language: language
@@ -54,7 +52,7 @@ exports.run = async (aruna, message) => {
   }
   
   if (!user) {
-    debug('No User!');
+    logger.debug('No User!');
     var isSuper = false;
     if (config.superUsersId.includes(message.author.id)) {
       isSuper = true;
@@ -172,33 +170,5 @@ exports.run = async (aruna, message) => {
         });
       }
     }
-  }
-  function logPrefix() {
-    return `${chalk.gray('[')}${isSharded() ? `${langI.generic.shard} ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  function log(...a) {
-    return console.log(logPrefix(), ...a);
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  function warn(...a) {
-    return console.warn(logPrefix(), chalk.yellow(...a));
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  function error(...a) {
-    return console.error(logPrefix(), chalk.red(...a));
-  }
-
-  function debug(...a) {
-    if (config.debug) {
-      return console.debug(logPrefix(), chalk.magenta(...a));
-    } else return;
-  }
-
-  function isSharded() {
-    return !!aruna.shard;
   }
 };

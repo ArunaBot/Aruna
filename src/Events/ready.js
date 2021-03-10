@@ -21,12 +21,13 @@
 const pkg = require('../../package.json');
 const chalk = require('chalk');
 const { apiKeys, config, database, links } = require('../../Configs');
+const { logger } = require('../Utils');
 
 const language = require(`../../languages/bot/${config.language}/internal.json`);
 const langE = require(`../../languages/bot/${config.defaultLanguage}/events.json`);
 
 exports.run = async (aruna) => {
-  log(language.generic.connected);
+  logger.log(language.generic.connected);
 
   /* async function getUserCount() {
     const req = await aruna.shard.fetchClientValues('users.size');
@@ -85,7 +86,7 @@ exports.run = async (aruna) => {
     if (!maintenance) {
       inMaintenance = false;
       await new database.System({ _id: 1 }).save();
-      debug(langE.ready.databaseAdd);
+      logger.debug(langE.ready.databaseAdd);
     } else {
       inMaintenance = maintenance.maintenance;
     }
@@ -126,32 +127,6 @@ exports.run = async (aruna) => {
     setStatus();
   }, 15000);
 
-  function logPrefix() {
-    return `${chalk.gray('[')}${isSharded() ? `${language.generic.shard} ${chalk.blue(aruna.shard.id)}` : aruna.user.username}${chalk.gray(']')}`;
-  }
-
-  function log(...a) {
-    return console.log(logPrefix(), ...a);
-  }
-
-  function warn(...a) {
-    return console.warn(logPrefix(), chalk.yellow(...a));
-  }
-
-  function error(...a) {
-    return console.error(logPrefix(), chalk.red(...a));
-  }
-
-  function debug(...a) {
-    if (config.debug) {
-      return console.debug(logPrefix(), chalk.magenta(...a));
-    } else return;
-  }
-
-  function isSharded() {
-    return !!aruna.shard;
-  }
-
   if (apiKeys && apiKeys.topgg) {
     const DBL = require('topgg-autoposter');
 
@@ -160,11 +135,11 @@ exports.run = async (aruna) => {
     const dbl = DBL(apiKeys.topgg, client);
 
     dbl.on('posted', () => {
-      log(`[${langE.dbl}] => ${langE.ready.posted}`);
+      logger.log(`[${langE.dbl}] => ${langE.ready.posted}`);
     });
 
     dbl.on('error', e => {
-      warn(`[${langE.dbl}][${language.main.error}] => ${e}`);
+      logger.warn(`[${langE.dbl}][${language.main.error}] => ${e}`);
     });
   }
 };
