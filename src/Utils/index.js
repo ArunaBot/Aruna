@@ -22,6 +22,7 @@ module.exports = {
   date: require('./date.js'),
   emoji: require('./emojis.js'),
   emojis: require('./emojis.js'),
+  logger: require('./logger.js'),
   ranksystem: require('./rankSystem.js'),
   utils: require('./utils.js'),
   sysdata: require('./GetSystemData.js')
