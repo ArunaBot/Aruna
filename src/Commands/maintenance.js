@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
