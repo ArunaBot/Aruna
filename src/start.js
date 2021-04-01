@@ -27,8 +27,14 @@ async function loadModules() {
   }
   if (advanced.modules.discord.enabled) {
     await require('./main/Discord/sharding.js').start().catch((error) => {
-      console.error('Error! The DiscordBot could not be initialized:', error);
+      console.error('Error! The Discord Module could not be initialized:', error);
       process.exit(1);
+    });
+  }
+  if (advanced.modules.twitch.enabled) {
+    await require('./main/Twitch/src/initial').start().catch((error) => {
+      console.error('Error! The Twitch Module could not be initialized:', error);
+      process.exit(2);
     });
   }
 }

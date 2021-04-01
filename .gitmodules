@@ -4,3 +4,6 @@
 [submodule "src/main/Website"]
 	path = src/main/Website
 	url = https://github.com/ArunaBot/Website.git
+[submodule "src/main/Twitch"]
+	path = src/main/Twitch
+	url = https://github.com/ArunaBot/ArunaTwitch.git
