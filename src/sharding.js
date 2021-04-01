@@ -29,6 +29,7 @@ const del = require('del');
 try {
   del.sync('tmp');
 } finally {
+
   const manager = new Discord.ShardingManager(`./${pkg.main}`, {
     token: config.token, 
     totalShards: config.sharding.totalShards
@@ -41,6 +42,7 @@ try {
   console.log(language.initialization.initializing.replace('[prefix]', infoPrefix));
 
   manager.on('shardCreate', shard => {
+    process.env.currentShard = shard.id + 1 || 0;
     console.log(`${infoPrefix} ${logPrefix} ${shard.id} (${shard.id + 1}/${manager.totalShards}) ${language.shard.launch.replace('[shard] ', '')}`);
   });
   

@@ -24,7 +24,7 @@ const infoPrefix = `${chalk.gray('[')}${chalk.green(languageI.generic.base.toUpp
 const errorPrefix = `${chalk.gray('[')}${chalk.red(languageI.generic.base.toUpperCase())}${chalk.gray(']')}`;
 
 function logPrefix() {
-  return `${chalk.gray('[')}${isSharded() ? `${languageI.generic.shard} ${chalk.blue('ID')}` : aruna.user.username}${chalk.gray(']')}`;
+  return `${chalk.gray('[')}${isSharded() ? `${languageI.generic.shard} ${chalk.blue(process.env.currentShard)}` : aruna.user.username}${chalk.gray(']')}`;
 }
   
 async function log(...a) {

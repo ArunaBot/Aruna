@@ -36,6 +36,10 @@ const aruna = new Discord.Client({ disableMentions: 'everyone' });
 aruna.commands = new Discord.Collection();
 aruna.aliases = new Discord.Collection();
 
+console.log(process.env.currentShard);
+
+aruna.shard.id = process.env.currentShard;
+
 global.bot = { aruna: aruna, config: config, database: database, languageI: language};
 
 const { logger } = require('./Utils');
