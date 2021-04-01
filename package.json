@@ -2,7 +2,7 @@
   "name": "arunabot",
   "version": "4.3.1",
   "description": "A nova e melhorada aruna!",
-  "main": "src/main.js",
+  "main": "src/main/discord/main.js",
   "scripts": {
     "start": "node src/start.js",
     "eslint": "eslint ./src",

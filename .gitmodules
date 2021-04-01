@@ -1,6 +1,6 @@
 [submodule "languages"]
 	path = languages
 	url = https://github.com/ArunaBot/ArunaLanguages.git
-[submodule "src/API/Website"]
-	path = src/API/Website
+[submodule "src/main/Website"]
+	path = src/main/Website
 	url = https://github.com/ArunaBot/Website.git

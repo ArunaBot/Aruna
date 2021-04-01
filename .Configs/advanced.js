@@ -17,20 +17,10 @@
 */
 
 module.exports = {
-  website: {
-    enabled: false,
-    host: 'localhost',
-    port: '3000',
-    ws: {
-      enabled: this.ws.enabled,
-      host: this.ws.host,
-      port: this.ws.port
-    }
-  },
   ws: {
     enabled: false,
     host: 'localhost',
-    port: '3001'
+    port: '3000'
   },
   modules: {
     discord: {
@@ -54,6 +44,16 @@ module.exports = {
     },
     twitch: {
       enabled: false
-    }
+    },
+    website: {
+      enabled: false,
+      host: 'localhost',
+      port: '3001',
+      ws: {
+        enabled: this.ws.enabled,
+        host: this.ws.host,
+        port: this.ws.port
+      }
+    },
   }
 };

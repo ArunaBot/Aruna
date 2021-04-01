@@ -16,21 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { advanced } = require('../Configs');
-
-async function loadModules() {
-  if (advanced.ws.enabled) {
-    await require('./main/API/WebSocket/main').start().catch((error) => {
-      console.exception('Error! The WebSocket could not be initialized:', error);
-      process.exit(-1);
-    });
-  }
-  if (advanced.modules.discord.enabled) {
-    await require('./main/Discord/sharding.js').start().catch((error) => {
-      console.error('Error! The DiscordBot could not be initialized:', error);
-      process.exit(1);
-    });
-  }
+async function start() {
+  return new Promise.reject('Not Implemented!');
 }
 
-loadModules();
+module.exports = {
+  start: start
+};
