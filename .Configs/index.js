@@ -17,10 +17,11 @@
 */
 
 module.exports = {
-  apiKeys: require('./apiKeys.js'),
-  configs: require('./general.js'),
-  config: require('./general.js'),
-  links: require('./links.js'),
-  database: require('./mongoose.js'),
-  db: require('./mongoose.js')
+  advanced: require('./advanced'),
+  configs: require('./general'),
+  config: require('./general'),
+  links: require('./links'),
+  database: require('./mongoose'),
+  db: require('./mongoose'),
+  apiKeys: require('./apiKeys')
 };

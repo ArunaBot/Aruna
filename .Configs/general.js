@@ -26,8 +26,4 @@ module.exports = {
   validLanguages: ['br', 'en', 'es'], // DON'T CHANGE THIS IF YOU DON'T KNOW WHAT ARE YOU DOING!
   language: 'br', // Console Language
   defaultLanguage: 'en', // Bot Language
-  sharding: {
-    totalShards: 'auto',
-    delay: 7500
-  }
 };

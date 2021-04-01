@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,7 @@
 
 const Discord = require('discord.js');
 const chalk = require('chalk');
-const { config } = require('../Configs');
+const { advanced, config } = require('../Configs');
 const pkg = require('../package.json');
 
 const language = require(`../languages/bot/${config.language}/internal.json`);
@@ -31,7 +31,7 @@ try {
 } finally {
   const manager = new Discord.ShardingManager(`./${pkg.main}`, {
     token: config.token, 
-    totalShards: config.sharding.totalShards
+    totalShards: advanced.modules.discord.sharding.totalShards
   });
 
   const infoPrefix = `${chalk.gray('[')}${chalk.green(language.generic.core.toUpperCase())}${chalk.gray(']')}`;
@@ -47,7 +47,7 @@ try {
   });
 
   console.log(language.shard.startGeneration.replace('[logPrefix]', `${infoPrefix} ${logPrefix}`));
-  manager.spawn(config.sharding.totalShards, config.sharding.delay).then(() => {
+  manager.spawn(advanced.modules.discord.sharding.totalShards, advanced.modules.discord.sharding.delay).then(() => {
     console.log(`${infoPrefix} ${logPrefix} ${chalk.green(language.shard.finishGeneration)}`);
     console.log(`${infoPrefix} ${language.initialization.complete}`);
   });
