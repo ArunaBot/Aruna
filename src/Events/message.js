@@ -65,6 +65,10 @@ exports.run = async (aruna, message) => {
   }
   
   var prefix = guild.prefix || config.prefix;
+
+  if (config.forcePrefix) {
+    prefix = config.prefix;
+  }
   
   if (user.language !== guild.language && user.language !== null) {
     language = user.language;
