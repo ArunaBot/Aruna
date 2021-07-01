@@ -28,17 +28,34 @@ const langE = require(`../../languages/bot/${config.defaultLanguage}/events.json
 exports.run = async (aruna) => {
   log(language.generic.connected);
 
+  if (apiKeys && apiKeys.topgg) {
+    const { DJSPoster } = require('topgg-autoposter');
+
+    const dbl = new DJSPoster(apiKeys.topgg, aruna, { interval: 900000 });
+
+    dbl.on('posted', () => {
+      log(`[${langE.ready.dbl}] => ${langE.ready.posted}`);
+    });
+
+    dbl.on('error', e => {
+      warn(`[${langE.ready.dbl}][${language.main.error}] => ${e}`);
+    });
+
+    dbl.start();
+  }
+
   /* async function getUserCount() {
     const req = await aruna.shard.fetchClientValues('users.size');
 
     return req.reduce((p, n) => p + n, 0);
   }
+  */
 
   async function getServerCount() {
     const req = await aruna.shard.fetchClientValues('guilds.size');
 
     return req.reduce((p, n) => p + n, 0);
-  } */
+  }
 
   const status = [
     { 
@@ -74,10 +91,11 @@ exports.run = async (aruna) => {
       name: langE.ready.status['8'].replace('[USERS]', await getUserCount()),
       type: 'listening'
     },
+    */
     {
       name: langE.ready.status['9'].replace('[GUILDS]', await getServerCount()),
       type: 'listening'
-    } */
+    }
   ];
   async function setStatus() {
     var maintenance = await database.System.findOne({ _id: 1 });
@@ -150,21 +168,5 @@ exports.run = async (aruna) => {
 
   function isSharded() {
     return !!aruna.shard;
-  }
-
-  if (apiKeys && apiKeys.topgg) {
-    const DBL = require('topgg-autoposter');
-
-    const client = aruna;
-
-    const dbl = DBL(apiKeys.topgg, client);
-
-    dbl.on('posted', () => {
-      log(`[${langE.dbl}] => ${langE.ready.posted}`);
-    });
-
-    dbl.on('error', e => {
-      warn(`[${langE.dbl}][${language.main.error}] => ${e}`);
-    });
   }
 };

@@ -26,6 +26,10 @@ const language = require(`../languages/bot/${config.language}/internal.json`);
 
 const del = require('del');
 
+const infoPrefix = `${chalk.gray('[')}${chalk.green(language.generic.core.toUpperCase())}${chalk.gray(']')}`;
+const errorPrefix = `${chalk.gray('[')}${chalk.red(language.generic.core.toUpperCase())}${chalk.gray(']')}`;
+const logPrefix = `${chalk.gray('[')}${chalk.yellow(language.shard.master)}${chalk.gray(']')}`;
+
 try {
   del.sync('tmp');
 } finally {
@@ -33,10 +37,6 @@ try {
     token: config.token, 
     totalShards: config.sharding.totalShards
   });
-
-  const infoPrefix = `${chalk.gray('[')}${chalk.green(language.generic.core.toUpperCase())}${chalk.gray(']')}`;
-  const errorPrefix = `${chalk.gray('[')}${chalk.red(language.generic.core.toUpperCase())}${chalk.gray(']')}`;
-  const logPrefix = `${chalk.gray('[')}${chalk.yellow(language.shard.master)}${chalk.gray(']')}`;
 
   console.log(language.initialization.initializing.replace('[prefix]', infoPrefix));
 

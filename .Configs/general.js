@@ -19,6 +19,7 @@
 module.exports = {
   debug: false,
   prefix: '-',
+  forcePrefix: false,
   token: '',
   mongoose: '',
   superUsersId: ['281515925960654848'], // Your User ID Comes Here!
