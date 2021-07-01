@@ -2,7 +2,7 @@ name: Publish Tag
 on:
   push:
     branches:
-      - release
+      - Stable
 
 jobs:
   job1:
