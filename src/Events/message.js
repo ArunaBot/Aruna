@@ -19,8 +19,8 @@
 
 const Discord = require('discord.js');
 const chalk = require('chalk');
-var { database, config, links } = require('../../Configs');
 const { cooldown, utils } = require('../Utils');
+const { database, config, links } = require('../../Configs');
 const langI = require(`../../languages/bot/${config.language}/internal.json`);
 
 exports.run = async (aruna, message) => {
@@ -28,6 +28,27 @@ exports.run = async (aruna, message) => {
   
   if (message.channel.type == 'dm') {
     const dmUser = await database.Users.findOne({ _id: message.author.id });
+
+    if (dmUser.language && dmUser.language.length === 2) {
+      switch (dmUser.language) {
+        case 'en':
+          dmUser.language = 'en-US';
+          break;
+        case 'pt':
+        case 'br':
+          dmUser.language = 'pt-BR';
+          break;
+        case 'es':
+          dmUser.language = 'es-ES';
+          break;
+        default:
+          dmUser.language = null;
+          break;
+      }
+
+      await database.Users.updateOne({ _id: message.author.id }, { $set: { language: dmUser.language } });
+      debug(`User ${message.author.tag} Updated!`);
+    }
 
     const dmLang = require(`../../languages/bot/${dmUser.language || config.defaultLanguage}/events.json`);
 
@@ -40,27 +61,36 @@ exports.run = async (aruna, message) => {
   if (!guild) {
     var language;
     if (message.guild.region == 'brazil') {
-      language = 'br';
+      language = 'pt-BR';
     } else {
       language = config.defaultLanguage;
     }
-    debug('No Server!');
+
+    debug('No Guild!');
+
     var saveG = new database.Guilds({
       _id: message.guild.id,
       language: language
     });
+
     await saveG.save();
+
     guild = await database.Guilds.findOne({ _id: message.guild.id });
   }
   
   if (!user) {
     debug('No User!');
+
     var isSuper = false;
+
     if (config.superUsersId.includes(message.author.id)) {
       isSuper = true;
     }
+
     var saveU = new database.Users({ _id: message.author.id, SUPER: isSuper });
+
     await saveU.save();
+
     user = await database.Users.findOne({ _id: message.author.id });
   }
   
@@ -69,6 +99,54 @@ exports.run = async (aruna, message) => {
   if (config.forcePrefix) {
     prefix = config.prefix;
   }
+
+  // Retro Compatibility with old language config system
+
+  if (guild.language && guild.language.length === 2) {
+    switch (guild.language) {
+      case 'en':
+        guild.language = 'en-US';
+        break;
+      case 'pt':
+      case 'br':
+        guild.language = 'pt-BR';
+        break;
+      case 'es':
+        guild.language = 'es-ES';
+        break;
+      default:
+        guild.language = config.defaultLanguage;
+        break;
+    }
+
+    await database.Guilds.updateOne({ _id: message.guild.id }, { $set: { language: guild.language } });
+    
+    debug(`Guild ${message.guild.name} Updated!`);
+  }
+
+  if (user.language && user.language.length === 2) {
+    switch (user.language) {
+      case 'en':
+        user.language = 'en-US';
+        break;
+      case 'pt':
+      case 'br':
+        user.language = 'pt-BR';
+        break;
+      case 'es':
+        user.language = 'es-ES';
+        break;
+      default:
+        user.language = null;
+        break;
+    }
+
+    await database.Users.updateOne({ _id: message.author.id }, { $set: { language: user.language } });
+
+    debug(`User ${message.author.tag} Updated!`);
+  }
+
+  // End of Retro Compatibility
   
   if (user.language !== guild.language && user.language !== null) {
     language = user.language;
@@ -123,10 +201,9 @@ exports.run = async (aruna, message) => {
 
       await saveR.save();
     }
-    const db = database;
 
     const xpsystem = require('../utils/rankSystem.js');
-    await xpsystem.run(aruna, message, lang, langc, db, cooldown, utils, Discord);
+    await xpsystem.run(aruna, message, lang, langc, database, cooldown, utils, Discord);
   }
 
   if (message.content.startsWith(prefix)) {
