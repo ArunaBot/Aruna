@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -24,9 +24,9 @@ module.exports = {
   mongoose: '',
   superUsersId: ['281515925960654848'], // Your User ID Comes Here!
   noFakeId: ['187915892384858112', '281515925960654848'],
-  validLanguages: ['br', 'en', 'es'], // DON'T CHANGE THIS IF YOU DON'T KNOW WHAT ARE YOU DOING!
-  language: 'br', // Console Language
-  defaultLanguage: 'en', // Bot Language
+  validLanguages: ['pt-BR', 'en-US', 'es-ES'], // DON'T CHANGE THIS IF YOU DON'T KNOW WHAT ARE YOU DOING!
+  language: 'en-US', // Console Language
+  defaultLanguage: 'en-US', // Bot Language
   sharding: {
     totalShards: 'auto',
     delay: 7500

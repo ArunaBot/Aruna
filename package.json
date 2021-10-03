@@ -1,6 +1,6 @@
 {
   "name": "arunabot",
-  "version": "4.3.2",
+  "version": "4.3.3",
   "description": "A nova e melhorada aruna!",
   "main": "src/main.js",
   "scripts": {
@@ -25,28 +25,23 @@
   ],
   "license": "AGPL-3.0",
   "dependencies": {
-    "@discordjs/opus": "^0.5.3",
-    "chalk": "^4.1.1",
+    "chalk": "^4.1.2",
     "dateformat": "^4.5.1",
     "del": "^6.0.0",
     "discord.js": "github:ArunaBot/discord.js#v11",
     "express": "^4.17.1",
-    "ffmpeg": "0.0.4",
-    "ffmpeg-static": "^4.4.0",
     "jimp": "^0.16.1",
-    "mathjs": "^9.4.3",
+    "mathjs": "^9.5.0",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
-    "mongoose": "^5.13.0",
-    "nodemon": "^2.0.9",
+    "mongoose": "^6.0.8",
+    "nodemon": "^2.0.13",
     "superagent": "^6.1.0",
-    "systeminformation": "^5.7.7",
-    "topgg-autoposter": "github:ArunaBot/topgg-autoposter#release",
-    "ytdl-core": "^4.8.3",
-    "ytdl-core-discord": "^1.3.1"
+    "systeminformation": "^5.9.4",
+    "topgg-autoposter": "github:ArunaBot/topgg-autoposter#release"
   },
   "devDependencies": {
-    "eslint": "^7.29.0"
+    "eslint": "^7.32.0"
   },
   "nodemonConfig": {
     "ignore": [

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -29,11 +29,25 @@ exports.run = (aruna, message, args, langc) => {
     language = langc;
   }
 
-  const mentionedUser = message.guild.member(
+  var mentionedUser = message.guild.member(
     message.mentions.users.first() ||
-      aruna.users.get(args[0]) ||
-      message.author
-  );
+    aruna.users.get(args[0])
+  ) || aruna.users.get(args[0]);
+
+  if (!args[0]) {
+    mentionedUser = message.member;
+  }
+
+  if (!mentionedUser || !mentionedUser.user) {
+    const fEmbed = new Discord.RichEmbed()
+      .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+      .setDescription(language.userinfo.embed.error.description.replace('%s', args[0]))
+      .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+      .setTimestamp();
+
+    return message.channel.send(fEmbed);
+  }
+      
 
   if (mentionedUser.user === aruna.user) {
     return require('./bot').run(aruna, message, args, langc);
@@ -77,6 +91,7 @@ exports.run = (aruna, message, args, langc) => {
       break;
     default:
       userStatus = undefined;
+      break;
   }
     
   let userAdminServer;
@@ -122,22 +137,22 @@ exports.run = (aruna, message, args, langc) => {
   
   const embed = new Discord.RichEmbed()
     .setAuthor(mentionedUser.user.username, userAvatar)
-    .addField(language.userinfo.embed.field.title[0], 
-      `🙋 **${language.userinfo.embed.field.description[0][0]}** \`${mentionedUser.user.username}\`
+    .addField(language.userinfo.embed.sucess.field.title[0], 
+      `🙋 **${language.userinfo.embed.sucess.field.description[0][0]}** \`${mentionedUser.user.username}\`
 
-    ${emoji.menu} **${language.userinfo.embed.field.description[0][1]}** \`${mentionedUser.user.tag}\`
+    ${emoji.menu} **${language.userinfo.embed.sucess.field.description[0][1]}** \`${mentionedUser.user.tag}\`
 
-    **${language.userinfo.embed.field.description[0][2]}** \`${mentionedUser.user.id}\`
+    **${language.userinfo.embed.sucess.field.description[0][2]}** \`${mentionedUser.user.id}\`
 
-    ${userStatusEmoji} **${language.userinfo.embed.field.description[0][3]}** \`${userStatus}\`
+    ${userStatusEmoji} **${language.userinfo.embed.sucess.field.description[0][3]}** \`${userStatus}\`
 
-    ${emoji.pass} **${language.userinfo.embed.field.description[0][4]}** \`${accountCreated}\` (${userDaysDiscord} ${stringtime1} ${language.generic.strings.back.toLowerCase()})`, false)
-    .addField(language.userinfo.embed.field.title[1],
-      `(${emoji.discord}) **${language.userinfo.embed.field.description[1][0]}** \`${userNickName}\`
+    ${emoji.pass} **${language.userinfo.embed.sucess.field.description[0][4]}** \`${accountCreated}\` (${userDaysDiscord} ${stringtime1} ${language.generic.strings.back.toLowerCase()})`, false)
+    .addField(language.userinfo.embed.sucess.field.title[1],
+      `(${emoji.discord}) **${language.userinfo.embed.sucess.field.description[1][0]}** \`${userNickName}\`
 
-    (👮) **${language.userinfo.embed.field.description[1][1]}** \`${userAdminServer}\`
+    (👮) **${language.userinfo.embed.sucess.field.description[1][1]}** \`${userAdminServer}\`
     
-    (:date:) **${language.userinfo.embed.field.description[1][2]}** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} ${language.generic.strings.back.toLowerCase()})${userBoost}`, false)
+    (:date:) **${language.userinfo.embed.sucess.field.description[1][2]}** \`${joinedIn}\` (${userDaysGuild} ${stringtime2} ${language.generic.strings.back.toLowerCase()})${userBoost}`, false)
     .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
     .setThumbnail(userAvatar)
     .setColor('#012778')

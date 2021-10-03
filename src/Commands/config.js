@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -181,6 +181,7 @@ exports.run = async (aruna, message, args, langc) => {
 
   async function languageVar (type) {
     const validLanguages = config.validLanguages;
+    validLanguages.push('default');
     const actionList = ['user', 'guild'];
 
     const invalidLanguage = new Discord.RichEmbed()
@@ -193,7 +194,9 @@ exports.run = async (aruna, message, args, langc) => {
       
     if (type === 'guild' && !message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(noPermission);
       
-    if (!args[2] || !validLanguages.includes(args[2])) return message.channel.send(invalidLanguage);
+    if (!args[2] || (!validLanguages.includes(args[2]))) return message.channel.send(invalidLanguage);
+
+    if (args[2] === 'default') args[2] = null;
 
     const setGuildLanguage = new Discord.RichEmbed()
       .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
@@ -207,12 +210,6 @@ exports.run = async (aruna, message, args, langc) => {
       .setDescription(language.config.embed.error.language.description2)
       .setTimestamp();
 
-    const setUserLanguage = new Discord.RichEmbed()
-      .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
-      .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
-      .setDescription(language.config.embed.sucess.language.description2.replace('[LANGUAGE]', args[2]))
-      .setTimestamp();
-
     const errorUserLanguage = new Discord.RichEmbed()
       .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
       .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
@@ -222,6 +219,8 @@ exports.run = async (aruna, message, args, langc) => {
     switch (args[1]) {
       case 'guild':
         if (guild.language === args[2]) return message.channel.send(errorGuildLanguage);
+
+        if (args[2] === null) args[2] = config.defaultLanguage;
 
         guild.language = args[2];
 
@@ -236,6 +235,19 @@ exports.run = async (aruna, message, args, langc) => {
 
         await user.save();
 
+        if (args[2] !== null) {
+          language = require(`../../languages/bot/${args[2]}/commands.json`);
+        } else {
+          const guild = await database.Guilds.findOne({ _id: message.guild.id });
+          language = require(`../../languages/bot/${guild.language}/commands.json`);
+        }
+
+        var setUserLanguage = new Discord.RichEmbed()
+          .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+          .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
+          .setDescription(language.config.embed.sucess.language.description2.replace('[LANGUAGE]', args[2] || guild.language))
+          .setTimestamp();
+        
         message.channel.send(setUserLanguage);
         break;
       default:

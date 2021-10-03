@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2020
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -96,69 +96,86 @@ exports.run = async (aruna, message, args) => {
     partnerPlus = true;
   }
 
-  if (args[0] == 'set') {
-    if (args[1] == 'partner+') {
-      if (partnerPlus == true) {
-        return message.channel.send(error3);
-      } else if (vip == true) {
-        guild.isPartner = true;
-        await guild.save();
-        return message.channel.send(sucess);
-      } else if (partner == true) {
-        guild.isPremium = true;
-        await guild.save();
-        return message.channel.send(sucess);
-      } else {
-        guild.isPartner = true;
-        guild.isPremium = true;
-        await guild.save();
-        return message.channel.send(sucess);
+  switch (args[0].toLowerCase()) {
+    case 'set':
+      switch (args[1].toLowerCase()) {
+        case 'partner':
+          if (partner == true) {
+            return message.channel.send(error2);
+          } else {
+            guild.isPartner = true;
+            await guild.save();
+            return message.channel.send(sucess);
+          }
+        case 'partner+':
+          if (partnerPlus == true) {
+            return message.channel.send(error3);
+          } else if (vip == true) {
+            guild.isPartner = true;
+            await guild.save();
+            return message.channel.send(sucess);
+          } else if (partner == true) {
+            guild.isPremium = true;
+            await guild.save();
+            return message.channel.send(sucess);
+          } else {
+            guild.isPartner = true;
+            guild.isPremium = true;
+            await guild.save();
+            return message.channel.send(sucess);
+          }
+        case 'vip':
+          if (vip == true) {
+            return message.channel.send(error1);
+          } else {
+            guild.isPremium = true;
+            await guild.save();
+            return message.channel.send(sucess);
+          }
+        default:
+          return message.channel.send(error8);
       }
-    } else if (args[1] == 'partner') {
-      if (partner == true) {
-        return message.channel.send(error2);
-      } else {
-        guild.isPartner = true;
-        await guild.save();
-        return message.channel.send(sucess);
+    case 'remove':
+      switch (args[1].toLowerCase()) {
+        case 'partner':
+          if (partner == false) {
+            return message.channel.send(error5);
+          } else {
+            guild.isPartner = false;
+            await guild.save();
+            return message.channel.send(sucess);
+          }
+        case 'partner+':
+          if (partnerPlus == false) {
+            return message.channel.send(error4);
+          } else if (vip == true) {
+            guild.isPartner = false;
+            await guild.save();
+            return message.channel.send(sucess);
+          } else if (partner == true) {
+            guild.isPremium = false;
+            await guild.save();
+            return message.channel.send(sucess);
+          } else {
+            guild.isPartner = false;
+            guild.isPremium = false;
+            await guild.save();
+            return message.channel.send(sucess);
+          }
+        case 'vip':
+          if (vip == false) {
+            return message.channel.send(error6);
+          } else {
+            guild.isPremium = false;
+            await guild.save();
+            return message.channel.send(sucess);
+          }
+        default:
+          return message.channel.send(error8);
       }
-    } else if (args[1] == 'vip') {
-      if (vip == true) {
-        return message.channel.send(error1);
-      } else {
-        guild.isPremium = true;
-        await guild.save();
-        return message.channel.send(sucess);
-      }
-    } else return message.channel.send(error8);
-  } else if (args[0] == 'remove') {
-    if (args[1] == 'partner+') {
-      if (partnerPlus == false) {
-        return message.channel.send(error4);
-      } else {
-        guild.isPartner = false;
-        guild.isPremium = false;
-        await guild.save();
-        return message.channel.send(sucess);
-      }
-    } else if (args[1] == 'partner') {
-      if (partner == false) {
-        return message.channel.send(error5);
-      } else {
-        guild.isPartner = false;
-        await guild.save();
-        return message.channel.send(sucess);
-      }
-    } else if (args[1] == 'vip') {
-      if (vip == false) {
-        return message.channel.send(error6);
-      } else {
-        guild.isPremium = false;
-        await guild.save();
-        return message.channel.send(sucess);
-      }
-    } else return message.channel.send(error8);
-  } else return message.channel.send(error8);
+    default:
+      return message.channel.send(error8);
+  }
 };
 
 exports.config = {
