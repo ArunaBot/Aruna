@@ -45,7 +45,7 @@ exports.run = (aruna, message, args, langc) => {
 
 exports.config = {
   name: 'servericon',
-  aliases: ['guildicon'],
+  aliases: ['sicon', 'guildicon', 'gicon'],
   description: language.servericon.config.description,
   category: '🎉 Entretenimento',
   public: true

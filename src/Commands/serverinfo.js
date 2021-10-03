@@ -164,7 +164,7 @@ exports.run = async (aruna, message, args, langc) => {
 
 exports.config = {
   name: 'serverinfo',
-  aliases: ['si'],
+  aliases: ['si', 'guildinfo', 'gi'],
   category: `${emoji.robot} Utilidades`,
   description: language.serverinfo.config.description,
   public: true
