@@ -32,7 +32,7 @@ exports.run = (aruna, message, args, langc) => {
   if (message.guild.iconURL.includes('a_')) {
     guildIcon = message.guild.iconURL.slice(0, -3).trim() + 'gif';
   } else {
-    guildIcon = message.guild.iconURL;
+    guildIcon = message.guild.iconURL.replace('jpg', 'png');
   }
 
   const embed = new Discord.RichEmbed()

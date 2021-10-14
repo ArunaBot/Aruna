@@ -102,6 +102,8 @@ exports.run = (aruna, message, args, langc) => {
 
   if (userAvatar.endsWith('.gif')) {
     userAvatar = `${mentionedUser.user.displayAvatarURL}?size=2048`;
+  } else if (userAvatar.endsWith('.jpg')) {
+    userAvatar = mentionedUser.user.displayAvatarURL.replace('.jpg', '.png');
   }
 
   var stringtime1;
