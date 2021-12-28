@@ -18,6 +18,7 @@
 
 module.exports = {
   activeticket: require('./activeTicket.js'),
+  checkInvites: require('./checkInvites.js'),
   cooldown: require('./cooldown.js'),
   date: require('./date.js'),
   emoji: require('./emojis.js'),
