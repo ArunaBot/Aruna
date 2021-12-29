@@ -83,6 +83,29 @@ exports.run = (aruna, message, args, langc) => {
     && message.guild.owner.id !== message.author.id
   ) return message.channel.send(error5);
 
+  var applyTO = 0;
+
+  if (args[1]) {
+    switch (args[1].toLowerCase()) {
+      case 'usuários':
+      case 'users':
+      case 'people':
+      case 'pessoas':
+        applyTO = 1;
+        break;
+      case 'bots':
+        applyTO = 2;
+        break;
+      case 'all':
+      case 'todos':
+      case 'both':
+      case 'ambos':
+      default:
+        applyTO = 0;
+        break;
+    }
+  }
+
   const executando = new Discord.RichEmbed()
     .setTitle(language.generic.embed.running.title.replace('[emoji]', emoji.loading)
       .replace('[username]', message.member.displayName), message.author.avatarURL)
@@ -91,17 +114,34 @@ exports.run = (aruna, message, args, langc) => {
     .setDescription(language.massRole.embed.running.description.replace('[roleName]', role.name).replace('[userSize]', message.guild.members.size))
     .setTimestamp();
 
+  
+    
+  const roleGuild = message.guild;
+  var memberArray;
+
+  switch (applyTO) {
+    case 1:
+      memberArray = roleGuild.members.filter(member => !member.user.bot).array();
+      break;
+    case 2:
+      memberArray = roleGuild.members.filter(member => member.user.bot).array();
+      break;
+    case 0:
+    default:
+      memberArray = roleGuild.members.array();
+      break;
+  }
+
+  const memberCount = memberArray.length;
+
   const sucess = new Discord.RichEmbed()
     .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
     .setColor([0, 255, 0])
     .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
-    .setDescription(language.massRole.embed.sucess.description.replace('[roleName]', role.name).replace('[userSize]', message.guild.members.size))
+    .setDescription(language.massRole.embed.sucess.description[applyTO].replace('[roleName]', role.name).replace('[userSize]', memberCount))
     .setTimestamp();
 
   message.channel.send(executando).then(msg => {
-    const roleGuild = message.guild;
-    const memberArray = roleGuild.members.array();
-    const memberCount = memberArray.length;
     for (var i = 0; i < memberCount; i++) {
       const member = memberArray[i];
       member.addRole(role);
