@@ -18,7 +18,7 @@
 
 const Discord = require('discord.js');
 
-async function check (message, lang, guildDB, database, debug) {
+async function check (aruna, message, lang, guildDB, database, debug) {
   if (!guildDB.antiInviteEnable) return false;
 
   const guild = message.guild;
@@ -49,6 +49,10 @@ async function check (message, lang, guildDB, database, debug) {
 
   if (!inviteLink || AIDB.invitesExcluded.includes(inviteLink)) return false;
 
+  const fetched = await aruna.fetchInvite(inviteLink);
+
+  if (AIDB.ignoreLocal && fetched.guild.id === guild.id) return false;
+
   const embed = new Discord.RichEmbed()
     .setAuthor(lang.antiInvite.embed.title.replace('%s', message.member.displayName), message.author.avatarURL)
     .setDescription(lang.antiInvite.embed.description)
@@ -56,7 +60,7 @@ async function check (message, lang, guildDB, database, debug) {
     .setColor('#ff0000')
     .setTimestamp();
 
-  await message.delete();
+  await message.delete().catch(() => {});
 
   message.reply(embed);
   return true;

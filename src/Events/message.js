@@ -156,7 +156,7 @@ exports.run = async (aruna, message) => {
   const lang = require(`../../languages/bot/${language || config.defaultLanguage}/events.json`);
   const langc = require(`../../languages/bot/${language || config.defaultLanguage}/commands.json`);
 
-  if (await checkInvites.check(message, lang, guild, database, debug)) return;
+  if (await checkInvites.check(aruna, message, lang, guild, database, debug)) return;
   
   if (message.author.bot) return;
 
