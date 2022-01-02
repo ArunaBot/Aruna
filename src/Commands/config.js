@@ -21,7 +21,7 @@ const { config, database } = require('../../Configs');
 var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const Discord = require('discord.js');
 
-var options = ['rank', 'autorole', 'prefix', 'language', 'idioma', 'lang', 'antiinvite', 'anticonvite', 'antinv'];
+var options = ['rank', 'autorole', 'prefix', 'language', 'idioma', 'lang', 'antiinvite', 'antinvite','anticonvite', 'antinv'];
 var userOptions = ['language', 'idioma', 'lang'];
 
 exports.run = async (aruna, message, args, langc) => {
@@ -75,8 +75,9 @@ exports.run = async (aruna, message, args, langc) => {
     case 'lang':
       languageVar(argument);
       break;
-    case 'antiinvite':
     case 'anticonvite':
+    case 'antiinvite':
+    case 'antinvite':
     case 'antinv':
       antiInviteVar(argument);
       break;
