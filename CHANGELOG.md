@@ -5,6 +5,7 @@
 - Changes:
   - Updated Dependencies;
   - Update languages;
+  - Prefixes are no longer case-sensitive;
 - New:
   - AntiInvite system:
     - Enable using `config antinvite enable`;
