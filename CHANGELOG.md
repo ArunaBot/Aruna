@@ -8,6 +8,8 @@
 - New:
   - AntiInvite system:
     - Enable using `config antiinvite enable`;
+  - Category selector to massrole:
+    - If you use `massrole @role users`, only humans will receive the role, and if you use `massrole @role bots`, only bots will receive the role;
 - Fix:
   - Avatar and Guild Icon using jpg instead png;
 
