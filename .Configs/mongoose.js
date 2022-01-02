@@ -32,13 +32,13 @@ mongoose.connect(
   }
 );
 
-var User = new Schema({
+const User = new Schema({
   _id: { type: String },
   language: { type: String, default: null },
   SUPER: { type: Boolean, default: false }
 });
 
-var Guild = new Schema({
+const Guild = new Schema({
   _id: { type: String },
   prefix: { type: String, default: config.prefix },
   antiFakeEnable: { type: Boolean, default: true },
@@ -46,6 +46,7 @@ var Guild = new Schema({
   ticketSupportID: { type: String, default: null },
   rankEnable: { type: Boolean, default: false },
   ticketEnable: { type: Boolean, default: false },
+  antiInviteEnable: { type: Boolean, default: false },
   autoRoleEnable: { type: Boolean, default: false },
   autoRoleRole: { type: String, default: null },
   language: { type: String, default: config.language },
@@ -53,7 +54,15 @@ var Guild = new Schema({
   isPartner: { type: Boolean, default: false }
 });
 
-var Rank = new Schema({
+const AntiInvite = new Schema({
+  _id: { type: String },
+  usersExcluded: { type: Array, default: [] },
+  rolesExcluded: { type: Array, default: [] },
+  channelsExcluded: { type: Array, default: [] },
+  invitesExcluded: { type: Array, default: [] }
+});
+
+const Rank = new Schema({
   _id: { type: String },
   user: { type: String },
   xp: { type: String },
@@ -61,7 +70,7 @@ var Rank = new Schema({
   guild: { type: String }
 });
 
-var Ticket = new Schema({
+const Ticket = new Schema({
   _id: { type: String },
   owner: { type: String },
   date: { type: String },
@@ -69,32 +78,34 @@ var Ticket = new Schema({
   channel: { type: String }
 });
 
-var Support = new Schema({
+const Support = new Schema({
   user: { type: String },
   guild: { type: String },
   stats: { type: Boolean, default: false }
 });
 
-var Command = new Schema({
+const Command = new Schema({
   _id: { type: String },
   public: { type: Boolean, default: false }
 });
 
-var System = new Schema({
+const System = new Schema({
   _id: { type: Number },
   maintenance: { type: Boolean, default: false},
   date: { type: String, default: null },
   time: { type: String, default: null }
 });
 
-var Commands = mongoose.model('Commands', Command);
-var Supports = mongoose.model('Suport', Support);
-var Tickets = mongoose.model('Tickets', Ticket);
-var Systems = mongoose.model('System', System);
-var Guilds = mongoose.model('Guilds', Guild);
-var Users = mongoose.model('Users', User);
-var Ranks = mongoose.model('Rank', Rank);
+const AntiInvites = mongoose.model('AntiInvite', AntiInvite);
+const Commands = mongoose.model('Commands', Command);
+const Supports = mongoose.model('Suport', Support);
+const Tickets = mongoose.model('Tickets', Ticket);
+const Systems = mongoose.model('System', System);
+const Guilds = mongoose.model('Guilds', Guild);
+const Users = mongoose.model('Users', User);
+const Ranks = mongoose.model('Rank', Rank);
 
+exports.AntiInvite = AntiInvites;
 exports.Commands = Commands;
 exports.Tickets = Tickets;
 exports.Suport = Supports;

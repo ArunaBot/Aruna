@@ -19,13 +19,11 @@
 
 const Discord = require('discord.js');
 const chalk = require('chalk');
-const { cooldown, utils } = require('../Utils');
 const { database, config, links } = require('../../Configs');
+const { checkInvites, cooldown, utils } = require('../Utils');
 const langI = require(`../../languages/bot/${config.language}/internal.json`);
 
 exports.run = async (aruna, message) => {
-  if (message.author.bot) return;
-  
   if (message.channel.type == 'dm') {
     const dmUser = await database.Users.findOne({ _id: message.author.id });
 
@@ -52,6 +50,7 @@ exports.run = async (aruna, message) => {
 
     const dmLang = require(`../../languages/bot/${dmUser.language || config.defaultLanguage}/events.json`);
 
+    if (message.author.bot) return;
     return message.reply(dmLang.message.errors.dmError);
   }
   
@@ -100,7 +99,7 @@ exports.run = async (aruna, message) => {
     prefix = config.prefix;
   }
 
-  // Retro Compatibility with old language config system
+  // Backward Compatibility with old language config system
 
   if (guild.language && guild.language.length === 2) {
     switch (guild.language) {
@@ -146,7 +145,7 @@ exports.run = async (aruna, message) => {
     debug(`User ${message.author.tag} Updated!`);
   }
 
-  // End of Retro Compatibility
+  // End of Backward Compatibility
   
   if (user.language !== guild.language && user.language !== null) {
     language = user.language;
@@ -156,7 +155,11 @@ exports.run = async (aruna, message) => {
   
   const lang = require(`../../languages/bot/${language || config.defaultLanguage}/events.json`);
   const langc = require(`../../languages/bot/${language || config.defaultLanguage}/commands.json`);
+
+  if (await checkInvites.check(aruna, message, lang, guild, database, debug)) return;
   
+  if (message.author.bot) return;
+
   const emojiError = lang.message.errors.emojiError.replace('[externalEmojis]', langc.generic.permissions.useExternalEmojis);
   const linkError = lang.message.errors.linkError.replace('[sendLinks]', langc.generic.permissions.embedLinks);
 
@@ -206,8 +209,8 @@ exports.run = async (aruna, message) => {
     await xpsystem.run(aruna, message, lang, langc, database, cooldown, utils, Discord);
   }
 
-  if (message.content.startsWith(prefix)) {
-    if (message.content === prefix) return;
+  if (message.content.toLowerCase().startsWith(prefix.toLowerCase())) {
+    if (message.content.toLowerCase() === prefix.toLowerCase()) return;
 
     const args = message.content
       .slice(prefix.length)
@@ -216,7 +219,7 @@ exports.run = async (aruna, message) => {
     const command = args.shift().toLowerCase();
     const ma = message.content.split(' ');
     const cmd = ma[0];
-    if (cmd == prefix || cmd.slice(prefix.length).length < 2) return;
+    if (cmd.toLowerCase() == prefix.toLowerCase() || cmd.slice(prefix.length).length < 2) return;
     const commandFile =
           aruna.commands.get(cmd.slice(prefix.length).toLowerCase()) ||
           aruna.commands.get(aruna.aliases.get(cmd.slice(prefix.length).toLowerCase()));

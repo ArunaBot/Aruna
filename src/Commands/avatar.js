@@ -31,6 +31,10 @@ exports.run = (aruna, message, args, langc) => {
   }
 
   const user = user1.user;
+  
+  if (user.avatarURL.endsWith('.jpg')) {
+    user.avatarURL = user.avatarURL.user.displayAvatarURL.replace('.jpg', '.png');
+  }
 
   const embed = new Discord.RichEmbed()
     .setTitle(language.avatar.embed.title.replace('[emoji]', emoji.picture).replace('[user]', user1.displayName))

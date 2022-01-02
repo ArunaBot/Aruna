@@ -19,44 +19,51 @@
 
 const Discord = require('discord.js');
 const { database, config } = require('../../Configs');
+const { emojis } = require('../Utils');
+var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (aruna, message, args, langc, prefix, comando) => {
+
+  if (langc) {
+    language = langc;
+  }
+
   const util = require('util');
   const code = args.join(' ');
   const embed = new Discord.RichEmbed()
-    .setAuthor(`Oops, ${message.author.username}`, message.author.avatarURL)
-    .setDescription('Você precisa digitar um código!')
-    .setFooter(`Algo deu errado, ${message.author.username}`);
+    .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setFooter(language.generic.embed.error.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.eval.embed.error.description1)
+    .setTimestamp();
+  
   if (!code) return message.channel.send(embed);
   
   try {
-
     var str;
-    // eslint-disable-next-line max-len
-    if (code.includes(`${aruna.token}` || `${process.env.TOKEN}` || `${config.token}` || 'aruna.token' || 'process.env.token' || 'config.token')) {
-      str = 'Erro! Você não pode exibir esta informação!';
+
+    if (code.includes(`${aruna.token}` || `${config.token}` || `${config.mongoose}` || 'aruna.token' || 'process.env.token' || 'config.token' || 'config.mongoose')) {
+      str = language.eval.generic.censor;
     } else {
       const ev = await eval(code);
       str = util.inspect(ev, { depth: 1 });
       str = `${str.replace(
-        new RegExp(`${aruna.token}|${process.env.TOKEN}|${config.token}`, 'g'),
-        'Erro! Você não pode exibir esta informação!'
+        new RegExp(`${config.token}|${config.mongoose}`, 'gi'),
+        language.eval.generic.censor
       )}`;
     }
 
-    if (str.length > 1800) {
-      str = str.substr(0, 1800);
-      str = str + '...';
+    if (str.length > 1012) {
+      str = str.substring(0, 1012) + '...';
     }
 
     const embed = new Discord.RichEmbed()
-      .setAuthor('Console')
+      .setAuthor(language.eval.embed.sucess.title)
       .addField(
-        '(<:uploaduisvgrepocom:637027335173832727>) Entrada',
+        language.eval.embed.sucess.fields[0].name.replace('%s', emojis.upload),
         `\`\`\`js\n${code}\`\`\``
       )
       .addField(
-        '(<:developmentsvgrepocom:637027334553337896>) Saida',
+        language.eval.embed.sucess.fields[1].name.replace('%s', emojis.dev),
         `\`\`\`js\n${str}\`\`\``
       )
       .setColor([54, 57, 63]);
@@ -68,7 +75,8 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
 
 exports.config = {
   name: 'eval',
-  aliases: [],
+  aliases: ['ev'],
+  description: language.eval.config.description,
   category: '🧰 Administração',
   public: false
 };

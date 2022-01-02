@@ -21,8 +21,8 @@ const { config, database } = require('../../Configs');
 var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const Discord = require('discord.js');
 
-var options = ['rank', 'autorole', 'prefix', 'language', 'idioma'];
-var userOptions = ['language', 'idioma'];
+var options = ['rank', 'autorole', 'prefix', 'language', 'idioma', 'lang', 'antiinvite', 'antinvite','anticonvite', 'antinv'];
+var userOptions = ['language', 'idioma', 'lang'];
 
 exports.run = async (aruna, message, args, langc) => {
 
@@ -72,7 +72,14 @@ exports.run = async (aruna, message, args, langc) => {
       break;
     case 'language':
     case 'idioma':
+    case 'lang':
       languageVar(argument);
+      break;
+    case 'anticonvite':
+    case 'antiinvite':
+    case 'antinvite':
+    case 'antinv':
+      antiInviteVar(argument);
       break;
     default:
       return message.channel.send(error1);
@@ -256,10 +263,48 @@ exports.run = async (aruna, message, args, langc) => {
     }
   }
 
-  async function isEnabled (command, sendMessage) {
+  async function antiInviteVar (action) {
+    const actionList = ['enable', 'ativar', 'disable', 'desativar'];
+
+    if (!action) return isEnabled ('antiInvite', true, true);
+
+    if (!actionList.includes(action)) return invalidAction(actionList);
+
+    const result = await isEnabled('antiInvite', false, true);
+
+    if (result === undefined) return;
+
+    switch (action) {
+      case 'enable':
+      case 'ativar':
+        if (result.enabled) return message.channel.send(result.message);
+
+        guild.antiInviteEnable = true;
+
+        await guild.save();
+
+        final(true, 'antiInvite');
+        break;
+      case 'disable':
+      case 'desativar':
+        if (!result.enabled) return message.channel.send(result.message);
+
+        guild.antiInviteEnable = false;
+
+        await guild.save();
+
+        final(false, 'antiInvite');
+        break;
+      default:
+        invalidAction(actionList);
+        break;
+    }
+  }
+
+  async function isEnabled (command, sendMessage, bypass = false) {
     const dbCommand = await database.Commands.findOne({ _id: `${command}` });
 
-    if (!dbCommand || (!dbCommand.public && !user.SUPER)) {
+    if ((!dbCommand || (!dbCommand.public && !user.SUPER)) && !bypass) {
       message.channel.send(error2);
       return undefined;
     }
@@ -319,8 +364,8 @@ exports.run = async (aruna, message, args, langc) => {
 };
 
 exports.config = {
-  name: 'config',
-  aliases: ['configurar', 'configurações', 'settings'],
+  name: 'configurações',
+  aliases: ['configuracoes', 'config', 'configs', 'configurar', 'preferências', 'preferencias', 'preferences', 'pref', 'settings'],
   description: language.config.config.description,
   category: '⚙️ Configurações',
   public: true
