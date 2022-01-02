@@ -105,16 +105,6 @@ exports.run = (aruna, message, args, langc) => {
         break;
     }
   }
-
-  const executando = new Discord.RichEmbed()
-    .setTitle(language.generic.embed.running.title.replace('[emoji]', emoji.loading)
-      .replace('[username]', message.member.displayName), message.author.avatarURL)
-    .setColor('#f2ff00')
-    .setFooter(language.generic.embed.running.footer.replace('[username]', message.member.displayName))
-    .setDescription(language.massRole.embed.running.description.replace('[roleName]', role.name).replace('[userSize]', message.guild.members.size))
-    .setTimestamp();
-
-  
     
   const roleGuild = message.guild;
   var memberArray;
@@ -134,6 +124,14 @@ exports.run = (aruna, message, args, langc) => {
 
   const memberCount = memberArray.length;
 
+  const executando = new Discord.RichEmbed()
+    .setTitle(language.generic.embed.running.title.replace('[emoji]', emoji.loading)
+      .replace('[username]', message.member.displayName), message.author.avatarURL)
+    .setColor('#f2ff00')
+    .setFooter(language.generic.embed.running.footer.replace('[username]', message.member.displayName))
+    .setDescription(language.massRole.embed.running.description.replace('[roleName]', role.name).replace('[userSize]', memberCount))
+    .setTimestamp();
+
   const sucess = new Discord.RichEmbed()
     .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
     .setColor([0, 255, 0])
@@ -141,10 +139,11 @@ exports.run = (aruna, message, args, langc) => {
     .setDescription(language.massRole.embed.sucess.description[applyTO].replace('[roleName]', role.name).replace('[userSize]', memberCount))
     .setTimestamp();
 
-  message.channel.send(executando).then(msg => {
+  message.channel.send(executando).then(async msg => {
     for (var i = 0; i < memberCount; i++) {
       const member = memberArray[i];
-      member.addRole(role);
+      // eslint-disable-next-line no-await-in-loop
+      await member.addRole(role);
       if (memberCount - i <= 1){
         msg.edit(sucess);
       }
