@@ -89,11 +89,15 @@ exports.run = (aruna, message, args, langc) => {
     switch (args[1].toLowerCase()) {
       case 'usuários':
       case 'users':
+      case 'user':
       case 'people':
       case 'pessoas':
         applyTO = 1;
         break;
+      case 'robots':
+      case 'robot':
       case 'bots':
+      case 'bot':
         applyTO = 2;
         break;
       case 'all':
