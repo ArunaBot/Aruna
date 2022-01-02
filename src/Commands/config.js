@@ -363,8 +363,8 @@ exports.run = async (aruna, message, args, langc) => {
 };
 
 exports.config = {
-  name: 'config',
-  aliases: ['configurar', 'configurações', 'settings'],
+  name: 'configurações',
+  aliases: ['configuracoes', 'config', 'configs', 'configurar', 'preferências', 'preferencias', 'preferences', 'pref', 'settings'],
   description: language.config.config.description,
   category: '⚙️ Configurações',
   public: true
