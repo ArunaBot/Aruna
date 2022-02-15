@@ -44,7 +44,7 @@ No momento, temos 2 repositórios [na nossa organização](https://github.com/Ar
 
 ### 💵 Como Doar?
 
-Mesmo que você não saiba programar, você pode ajudar no desenvolvimento doando! https://patreon.com/LoboMetalurgico (outras formas de doação estarão desponíveis em breve).
+Mesmo que você não saiba programar, você pode ajudar no desenvolvimento doando! https://patreon.com/LoboMetalurgico (outras formas de doação estarão disponíveis em breve).
 
 ### Como Usar?
 #### Como Selfhostear?
