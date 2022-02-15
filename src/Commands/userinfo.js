@@ -162,6 +162,7 @@ exports.run = (aruna, message, args, langc) => {
   
   message.channel.send(embed);
 };
+
 exports.config = {
   name: 'userinfo',
   aliases: [],

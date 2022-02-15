@@ -1,5 +1,13 @@
 # Changelog
 
+## v4.3.5: Voice Update
+
+- New:
+  - Text to Speech (TTS) command;
+- Fix:
+  - Fixed some grammar issues;
+  - Minor Bugs Fixed:tm:
+
 ## v4.3.4: No Invite Update
 
 - Changes:
