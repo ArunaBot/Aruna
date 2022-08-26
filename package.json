@@ -32,7 +32,7 @@
     "fs-extra": "^10.0.0",
     "jimp": "^0.16.1",
     "mathjs": "^10.1.1",
-    "mongoose": "^6.2.1",
+    "mongoose": "^6.4.6",
     "node-fetch": "^2.6.7",
     "nodemon": "^2.0.15",
     "superagent": "^7.1.1",
