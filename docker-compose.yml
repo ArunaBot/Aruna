@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  arunabot:
+    image: arunabot
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
