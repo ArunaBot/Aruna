@@ -1,6 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto eol=lf
 *.java text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
 *.md text eol=lf
 *.xml text eol=lf
 *.yml text eol=lf
