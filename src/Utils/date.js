@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var dateFormat = require('dateformat');
+const dateFormat = require('dateformat');
 dateFormat.i18n = {
   dayNames: [
     'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab',
