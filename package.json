@@ -34,7 +34,7 @@
     "mathjs": "^10.1.1",
     "mongoose": "^6.2.1",
     "node-fetch": "^2.6.7",
-    "nodemon": "^2.0.15",
+    "nodemon": "^2.0.20",
     "superagent": "^7.1.1",
     "systeminformation": "^5.11.3",
     "topgg-autoposter": "github:ArunaBot/topgg-autoposter#release"
