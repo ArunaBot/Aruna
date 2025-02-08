@@ -11,17 +11,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Install Node v12
-        uses: actions/setup-node@v1
+        uses: actions/checkout@v4
+      - name: Install Node v22
+        uses: actions/setup-node@v4
         with:
-          node-version: 12.x
-      - name: Install PNPM
-        run: curl -L https://unpkg.com/@pnpm/self-installer | node
+          node-version: 22.x
+      - name: Upgrade NPM
+        run: npm install -g npm@latest
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
       - name: Run ESLint
-        run: npm run eslint:fix
+        run: npm run lint
       - name: Commit changes
         uses: EndBug/add-and-commit@v4
         with:

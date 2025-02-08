@@ -1,12 +1,15 @@
 {
   "name": "arunabot",
-  "version": "4.3.5",
+  "version": "5.0.0",
   "description": "A nova e melhorada aruna!",
-  "main": "src/main.js",
+  "main": "build/aruna/index.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "node src/sharding.js",
-    "eslint": "eslint ./src",
-    "eslint:fix": "eslint ./src --fix"
+    "build": "npx tsc -p .",
+    "postbuild": "node src/scripts/updateResources.js",
+    "prestart": "npm run build",
+    "start": "node build/aruna/index.js",
+    "lint": "eslint ./src --fix"
   },
   "repository": {
     "type": "git",
@@ -14,44 +17,40 @@
   },
   "author": {
     "name": "Lobo Metalurgico",
-    "email": "contato@lobometalurgico.tk",
-    "url": "https://youtube.com/LoboMetalurgico"
+    "email": "lobometalurgico@allonsve.com",
+    "url": "https://github.com/LoboMetalurgico"
   },
   "contributors": [
     {
-      "name": "Kira's Art",
-      "url": "https://twitter.com/kiratokioArt/"
+      "name": "SpaceFox1",
+      "url": "https://github.com/SpaceFox1"
     }
   ],
   "license": "AGPL-3.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "dependencies": {
-    "chalk": "^4.1.2",
-    "dateformat": "^4.6.3",
-    "del": "^6.0.0",
-    "discord.js": "github:ArunaBot/discord.js#v11",
-    "fs-extra": "^10.0.0",
-    "jimp": "^0.16.1",
-    "mathjs": "^10.1.1",
-    "mongoose": "^6.2.1",
-    "node-fetch": "^2.6.7",
-    "nodemon": "^2.0.15",
-    "superagent": "^7.1.1",
-    "systeminformation": "^5.11.3",
-    "topgg-autoposter": "github:ArunaBot/topgg-autoposter#release"
+    "@promisepending/logger.js": "^1.0.4",
+    "arunabase": "^1.0.0-ALPHA.6",
+    "del": "^8.0.0",
+    "dotenv": "^16.4.7",
+    "mathjs": "^14.2.1",
+    "mongoose": "^8.10.0",
+    "systeminformation": "^5.25.11"
   },
   "devDependencies": {
-    "eslint": "^8.9.0"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      ".Configs/*",
-      "Configs/*",
-      ".git/*",
-      ".gitignore",
-      ".github/",
-      "package.json",
-      "package-lock.json"
-    ],
-    "delay": "5000"
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.20.0",
+    "@types/node": "^20.10.6",
+    "@typescript-eslint/eslint-plugin": "^8.19.0",
+    "@typescript-eslint/parser": "^8.19.0",
+    "eslint": "^9.17.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "globals": "^15.14.0",
+    "tsc-hooks": "^1.1.2",
+    "typescript": "^5.3.3"
   }
 }

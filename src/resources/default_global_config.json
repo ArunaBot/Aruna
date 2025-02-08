@@ -1,0 +1,17 @@
+{
+    "fileVersion": 1.0,
+    "id": "aruna",
+    "debug": false,
+    "logger": {
+        "coloredBackground": false,
+        "allLineColored": true
+    },
+    "database": {
+        "host": "localhost",
+        "credentials": {
+            "database": "aruna",
+            "user": "aruna",
+            "password": "AVerySecurePassword"
+        }
+    }
+}
