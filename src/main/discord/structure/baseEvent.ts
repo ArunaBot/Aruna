@@ -27,7 +27,6 @@ export class BaseEvent {
     return this.execute(...args);
   }
 
-  // eslint-disable-next-line no-unused-vars
   protected async execute(...args: any[]): Promise<void> {
     throw new Error(`The run method has not been implemented for event ${this.name}`);
   }
