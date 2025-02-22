@@ -9,6 +9,7 @@ export default class GithubCommand extends ArunaCommand {
       description_localizations: {
         'pt-BR': 'Retorna o repositório do bot no github',
       },
+      category: 'Information',
     });
   }
 
@@ -20,7 +21,7 @@ export default class GithubCommand extends ArunaCommand {
 
     const embed = new DefaultEmbed()
       .setAuthor({
-        name: `Hello, ${context.member?.displayName ?? context.author.username}`,
+        name: `Hello, ${context.member?.displayName ?? context.author.displayName}`,
         iconURL: context.member?.displayAvatarURL({ forceStatic: false, size: 512 }) ?? context.author.displayAvatarURL({ forceStatic: false, size: 512 }),
       })
       .setTitle('Github')

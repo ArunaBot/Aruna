@@ -2,10 +2,10 @@
 import { DiscordClient } from '../discord';
 
 export class BaseEvent {
-  protected name: string;
-  protected once = false;
-  protected runned = false;
   protected client: DiscordClient;
+  protected runned = false;
+  protected once = false;
+  protected name: string;
 
   constructor(name: string, client: DiscordClient, once = false) {
     this.name = name;

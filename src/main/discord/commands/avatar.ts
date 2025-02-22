@@ -86,7 +86,7 @@ export default class AvatarCommand extends ArunaCommand {
       new DefaultEmbed()
         .setImage(target.displayAvatarURL({ forceStatic: false, size: 4096, extension: 'png' }))
         .setColor('#333333')
-        .setDescription(`Avatar of ${target.tag}`),
+        .setDescription(`Avatar of ${target.displayName}`),
     );
   }
 }

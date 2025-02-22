@@ -1,9 +1,9 @@
+import { IDiscordCommandContext } from 'arunabase/build/interfaces';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 import { ArunaAsyncCommand } from '../structure';
 import { Discord } from 'arunabase';
 import { sleep } from '../../utils';
-import { IDiscordCommandContext } from 'arunabase/src/interfaces';
 
 export default class ClearCommand extends ArunaAsyncCommand {
   constructor() {
@@ -29,6 +29,7 @@ export default class ClearCommand extends ArunaAsyncCommand {
         },
       ],
       allowDM: false,
+      category: 'Moderation',
     });
   }
 
@@ -82,14 +83,14 @@ export default class ClearCommand extends ArunaAsyncCommand {
     }
   }
 
-  public override checkPermission(context: IDiscordCommandContext): boolean {
+  public override checkPermission(context: IDiscordCommandContext, silent = false): boolean {
     if (!context.member!.permissions.has(Discord.PermissionFlagsBits.ManageMessages)) {
-      context.discreteReply(new ErrorEmbed().setDescription('You don\'t have the manage messages permission!'));
+      if (!silent) context.discreteReply(new ErrorEmbed().setDescription('You don\'t have the manage messages permission!'));
       return false;
     }
 
     if (!context.guild!.members.cache.get(context.client.user!.id)!.permissions.has(Discord.PermissionFlagsBits.ManageMessages)) {
-      context.reply(new ErrorEmbed().setDescription('I don\'t have the permission to delete messages!'));
+      if (!silent) context.reply(new ErrorEmbed().setDescription('I don\'t have the permission to delete messages!'));
       return false;
     }
 

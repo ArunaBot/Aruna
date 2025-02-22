@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "build": "npx tsc -p .",
-    "postbuild": "node src/scripts/updateResources.js",
+    "postbuild": "node src/scripts/updateResources.cjs",
     "prestart": "npm run build",
     "start": "node build/aruna/index.js",
     "lint": "eslint ./src --fix"
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@promisepending/logger.js": "^1.0.4",
-    "arunabase": "^1.0.0-ALPHA.6",
+    "arunabase": "^1.0.0-ALPHA.7",
     "del": "^8.0.0",
     "dotenv": "^16.4.7",
     "mathjs": "^14.2.1",

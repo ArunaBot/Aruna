@@ -48,7 +48,7 @@ export default class CalculatorCommand extends ArunaAsyncCommand {
       return;
     }
 
-    if (expression.length < 2) {
+    if (expression.length < 3) {
       await context.discreteReply(new ErrorEmbed().setDescription('This expression is too short! (Valid expressions: `1+1, 1+1*2, 1+1*(2+3), 1+1*(2+3)/4`)'));
       return;
     }

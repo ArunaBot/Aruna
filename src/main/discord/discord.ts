@@ -1,4 +1,4 @@
-import { ArunaAsyncCommand, ArunaCommand, BaseEvent } from './structure';
+import { ArunaCommandBased, BaseEvent } from './structure';
 import { ILoggerOptions, Logger } from '@promisepending/logger.js';
 import { IDiscordProperties } from './interfaces';
 import { Discord, Interfaces } from 'arunabase';
@@ -22,7 +22,6 @@ export class DiscordClient {
     this.config = configs;
   }
 
-  // eslint-disable-next-line no-unused-vars
   public on(event: string, listener: (...args: any[]) => void): void {
     this.client.on(event, listener);
   }
@@ -48,7 +47,7 @@ export class DiscordClient {
         return;
       }
 
-      const commands: (ArunaCommand | ArunaAsyncCommand)[] = [];
+      const commands: ArunaCommandBased[] = [];
 
       for (const file of files) {
         if (!file.endsWith('.js')) continue;

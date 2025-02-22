@@ -2,7 +2,7 @@ import { ArunaAsyncCommand } from '../structure';
 import { DefaultEmbed } from '../utils';
 import { Interfaces } from 'arunabase';
 
-export default class Flipommand extends ArunaAsyncCommand {
+export default class FlipCommand extends ArunaAsyncCommand {
   constructor() {
     super('flip', {
       name_localizations: {
@@ -18,7 +18,7 @@ export default class Flipommand extends ArunaAsyncCommand {
   protected override async execute(context: Interfaces.IDiscordCommandContext): Promise<void> {
     const embed = new DefaultEmbed()
       .setAuthor({
-        name: context.member?.displayName ?? context.author.username,
+        name: context.member?.displayName ?? context.author.displayName,
         iconURL: context.member?.displayAvatarURL({ forceStatic: false, size: 512 }) ?? context.author.displayAvatarURL({ forceStatic: false, size: 512 }),
       })
       .setDescription(`

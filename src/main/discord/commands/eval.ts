@@ -1,8 +1,8 @@
 import { IDiscordFullCommandContext } from '../interfaces';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 import { ArunaAsyncCommand } from '../structure';
-import { inspect } from 'util';
 import { Discord } from 'arunabase';
+import { inspect } from 'util';
 
 export default class EvalCommand extends ArunaAsyncCommand {
   constructor() {
@@ -22,7 +22,8 @@ export default class EvalCommand extends ArunaAsyncCommand {
           type: Discord.ApplicationCommandOptionType.String,
         },
       ],
-      // isSlashCommand: false,
+      isSlashCommand: false,
+      category: 'Developer',
     });
   }
 
@@ -72,9 +73,9 @@ export default class EvalCommand extends ArunaAsyncCommand {
     await context.discreteReply(finalEmbed);
   }
 
-  public override checkPermission(context: IDiscordFullCommandContext): boolean {
+  public override checkPermission(context: IDiscordFullCommandContext, silent = false): boolean {
     if (context.botDevelopers.includes(context.author.id)) return true;
-    context.discreteReply(new ErrorEmbed().setDescription('You don\'t have permission to use this command!'));
+    if (!silent) context.discreteReply(new ErrorEmbed().setDescription('You don\'t have permission to use this command!'));
     return false;
   }
 }

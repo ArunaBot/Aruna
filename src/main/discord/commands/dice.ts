@@ -84,7 +84,7 @@ export default class DiceCommand extends ArunaAsyncCommand {
 
     const embed = new DefaultEmbed()
       .setAuthor({
-        name: context.member?.displayName ?? context.author.username,
+        name: context.member?.displayName ?? context.author.displayName,
         iconURL: context.member?.displayAvatarURL({ forceStatic: false, size: 512 }) ?? context.author.displayAvatarURL({ forceStatic: false, size: 512 }),
       })
       .setDescription(`
