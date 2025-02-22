@@ -17,7 +17,7 @@ export default class PingCommand extends ArunaAsyncCommand {
   }
 
   protected override async execute(context: Interfaces.IDiscordCommandContext): Promise<void> {
-    await context.reply('Processing...');
+    await context.deferReply();
     const embed = new DefaultEmbed()
       .setAuthor({ name: context.client.user!.displayName, iconURL: context.client.user!.displayAvatarURL({ forceStatic: false, size: 512 }) })
       .setDescription(`
