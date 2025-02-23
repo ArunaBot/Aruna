@@ -99,8 +99,7 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
     const message = await context.editReply(page1);
 
     async function setPage1(skipEdit = false): Promise<void> {
-      if (!skipEdit) await message.edit({ embeds: [page1] });
-      message.setButtons([
+      await message.setButtons([
         new ButtonStructure({
           label: 'Back',
           emoji: '◀️',
@@ -117,11 +116,11 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
           ctx.deferUpdate();
         }),
       ]);
+      if (!skipEdit) await message.edit({ embeds: [page1] });
     }
 
     async function setPage2(): Promise<void> {
-      await message.edit({ embeds: [embed2] });
-      message.setButtons([
+      await message.setButtons([
         new ButtonStructure({
           label: 'Back',
           emoji: '◀️',
@@ -137,6 +136,7 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
           style: ButtonStyle.Secondary,
         }),
       ]);
+      await message.edit({ embeds: [embed2] });
     }
 
     await setPage1(true);
