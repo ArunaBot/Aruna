@@ -9,6 +9,5 @@ export default class MessageCreateEvent extends BaseEvent {
 
   protected override async execute(message: Discord.Message): Promise<void> {
     if (message.author.bot) return;
-    this.client.getLogger().info(`${message.member?.displayName ?? message.author.tag}: ${message.content}`);
   }
 }
