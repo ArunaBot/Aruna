@@ -9,6 +9,7 @@
     },
     "botDevelopers": ["<discordID>"],
     "emojiList": {
-      "discordicon": "[discordiconEmoji]"
+      "discordicon": "[discordiconEmoji]",
+      "stage": "[stageEmoji]"
     }
 }

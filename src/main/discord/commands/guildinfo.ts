@@ -36,6 +36,7 @@ export default class ServerInfoCommand extends ArunaAsyncCommand {
           .filter((c) => c.type === ChannelType.GuildCategory).size})`,
       `:loudspeaker: Announcements: ${context.guild!.channels.cache.filter((c) => c.type === ChannelType.GuildAnnouncement).size}\n` +
       `:pencil: Text: ${context.guild!.channels.cache.filter((c) => c.type === ChannelType.GuildText).size}\n` +
+      `${context.emojiList.stage} Stage: ${context.guild!.channels.cache.filter((c) => c.type === ChannelType.GuildStageVoice).size}\n` +
       `:loud_sound: Voice: ${context.guild!.channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size}\n` +
       `:file_folder: Forums: ${context.guild!.channels.cache.filter((c) => c.type === ChannelType.GuildForum).size}\n`,
       false);
