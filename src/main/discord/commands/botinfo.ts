@@ -71,9 +71,14 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
 
         Contact: lobometalurgico
         Email: lobometalurgico@allonsve.com
+        Github: https://github.com/LoboMetalurgico
         Youtube: https://youtube.com/LoboMetalurgico
         `, false)
-      .addField('With the help of', `SpaceFox (<@430169509165268992>)`, false)
+      .addField('With the help of', `
+        SpaceFox (<@430169509165268992>)
+
+        Github: https://github.com/SpaceFox1
+        `, false)
       .addField('Art By', 'Kira\'s Art (<@207023257512181760>)', false);
 
     

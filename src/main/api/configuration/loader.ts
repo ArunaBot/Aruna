@@ -33,7 +33,7 @@ export class ConfigurationLoader {
       return null;
     }
 
-    this.logger.info(`${resource} loaded`);
+    this.logger.debug(`${resource} loaded`);
     return resources;
   }
 }

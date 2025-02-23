@@ -1,6 +1,6 @@
 {
   "name": "arunabot",
-  "version": "5.0.0",
+  "version": "5.0.0-BETA",
   "description": "A nova e melhorada aruna!",
   "main": "build/aruna/index.js",
   "type": "commonjs",

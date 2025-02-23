@@ -10,6 +10,7 @@ export interface IDiscordProperties {
         website: string;
     },
     botDevelopers: string[];
+    emojiList: { [key: string]: string };
 }
 
 export interface IDiscordFullCommandContext extends Interfaces.IDiscordCommandContext, IDiscordProperties { }
