@@ -4,6 +4,7 @@ import { ArunaAsyncCommand } from '../structure';
 import { version } from 'arunabase/package.json';
 import { DefaultEmbed } from '../utils';
 import si from 'systeminformation';
+import { getFormattedTime } from '../../utils';
 
 export default class BotInfoCommand extends ArunaAsyncCommand {
   constructor() {
@@ -22,26 +23,6 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
     await context.deferReply();
-
-    let totalSeconds = (context.client.uptime! / 1000);
-    const days = Math.floor(totalSeconds / 86400);
-    totalSeconds %= 86400;
-    const hours = Math.floor(totalSeconds / 3600);
-    totalSeconds %= 3600;
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = Math.floor(totalSeconds % 60);
-
-    var uptime;
-
-    if (days >= 1) {
-      uptime = `${days}d, ${hours}h, ${minutes}m`;
-    } else if (hours >= 1) {
-      uptime = `${hours}h, ${minutes}m, ${seconds}s`;
-    } else if (minutes >= 1) {
-      uptime = `${minutes}m, ${seconds}s`;
-    } else {
-      uptime = `${seconds}s`;
-    }
   
     const page1 = new DefaultEmbed()
       .setAuthor({
@@ -58,7 +39,7 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
       .addField('Node.js Version', process.version, true)
       .addField('Guilds', `${context.client.guilds.cache.size}`, true)
       .addField('Latency', `${Math.round(context.client.ws.ping)}ms`, true)
-      .addField('Uptime', uptime, true);
+      .addField('Uptime', getFormattedTime(context.client.uptime!), true);
 
     if (context.urls.github) {
       page1.addField('GitHub Repository', `[Click here](${context.urls.github})`, true);

@@ -1,6 +1,7 @@
-import { Discord } from 'arunabase';
+import { getFormattedTime } from '../../utils';
 import { DiscordClient } from '../discord';
 import { BaseEvent } from '../structure';
+import { Discord } from 'arunabase';
 
 export default class ReadyEvent extends BaseEvent {
   private readyAt: number;
@@ -20,7 +21,7 @@ export default class ReadyEvent extends BaseEvent {
   }
 
   private async updatePresence(): Promise<void> {
-    const presence = `Online for  ${Math.floor((Date.now() - this.readyAt) / 1000)} seconds.`;
+    const presence = `Online for  ${getFormattedTime(Date.now() - this.readyAt)}`;
     this.discordClient.user!.setActivity(presence, { type: Discord.ActivityType.Listening });
   }
 }
