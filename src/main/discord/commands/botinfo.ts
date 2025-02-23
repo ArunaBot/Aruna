@@ -98,8 +98,8 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
           style: ButtonStyle.Primary,
         }, async (ctx) => {
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          await setPage2();
-          ctx.deferUpdate();
+          await setPage2().catch(() => {});
+          ctx.deferUpdate().catch(() => {});
         }),
       ]);
       if (!skipEdit) await message.edit({ embeds: [page1] });
@@ -112,8 +112,8 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
           emoji: '◀️',
           style: ButtonStyle.Primary,
         }, async (ctx) => {
-          await setPage1();
-          ctx.deferUpdate();
+          await setPage1().catch(() => {});
+          ctx.deferUpdate().catch(() => {});
         }),
         new ButtonStructure({
           label: 'Next',
