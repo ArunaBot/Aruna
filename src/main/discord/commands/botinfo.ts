@@ -62,7 +62,7 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
         **OS:** ${await si.osInfo().then((os) => os.distro)}
         **CPU:** ${await si.cpu().then((cpu) => cpu.manufacturer + ' ' + cpu.brand + ' ')}
         **CPU Cores:** ${await si.cpu().then((cpu) => `${cpu.physicalCores} cores / ${cpu.cores} threads ${isNaN(cpu.speedMax) ? '' : `@ ${cpu.speedMax}GHz`}`)}
-        **RAM:** ${await si.mem().then((mem) => (mem.used / 1024 / 1024 / 1024).toFixed(2) + 'GB')} / ${await si.mem().then((mem) => (mem.total / 1024 / 1024 / 1024).toFixed(2) + 'GB')}
+        **RAM:** ${await si.mem().then((mem) => (mem.active / 1024 / 1024 / 1024).toFixed(2) + 'GB')} / ${await si.mem().then((mem) => (mem.total / 1024 / 1024 / 1024).toFixed(2) + 'GB')}
         `,
         false,
       )
