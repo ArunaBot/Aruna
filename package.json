@@ -33,10 +33,9 @@
   "dependencies": {
     "@promisepending/logger.js": "^1.0.4",
     "arunabase": "^1.0.0-ALPHA.8",
-    "del": "^8.0.0",
     "dotenv": "^16.4.7",
+    "jimp": "^1.6.0",
     "mathjs": "^14.2.1",
-    "mongoose": "^8.10.0",
     "systeminformation": "^5.25.11"
   },
   "devDependencies": {
