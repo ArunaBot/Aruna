@@ -1,10 +1,10 @@
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
+import { fileURLToPath } from 'node:url';
+import globals from 'globals';
+import path from 'node:path';
+import js from '@eslint/js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,7 +15,7 @@ const compat = new FlatCompat({
 });
 
 export default [{
-  ignores: ['build/**/*', 'src/scripts/**/*', 'resources/**/*'],
+  ignores: ['build/**/*', 'src/scripts/**/*', 'node_modules/**/*', 'tests/**/*', 'src/resources/**/*'],
 }, ...compat.extends(
   'eslint:recommended',
   'plugin:@typescript-eslint/eslint-recommended',
@@ -32,19 +32,37 @@ export default [{
     },
 
     parser: tsParser,
-    ecmaVersion: 2020,
+    ecmaVersion: 'latest',
     sourceType: 'module',
+
+    parserOptions: {
+      project: './tsconfig.json',
+    },
   },
 
   rules: {
     '@typescript-eslint/ban-ts-ignore': ['off'],
-    '@typescript-eslint/explicit-function-return-type': ['error'],
+    '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/interface-name-prefix': ['off'],
-    '@typescript-eslint/no-explicit-any': ['off'],
-    '@typescript-eslint/no-unused-expressions': ['error'],
-    '@typescript-eslint/no-var-requires': ['off'],
-    '@typescript-eslint/no-use-before-define': ['error'],
+    "@typescript-eslint/no-deprecated": "warn",
+
+    '@typescript-eslint/no-explicit-any': ['off', {
+      fixToUnknown: true,
+      ignoreRestArgs: true,
+    }],
+
+    '@typescript-eslint/no-unused-vars': ['warn', {
+      argsIgnorePattern: '^_',
+    }],
+
+    '@typescript-eslint/no-unused-expressions': ['error', {
+      allowTaggedTemplates: true,
+    }],
+
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-use-before-define': 'error',
     '@typescript-eslint/no-non-null-assertion': ['off'],
+    '@typescript-eslint/no-duplicate-enum-values': 'off',
     'array-bracket-spacing': ['warn', 'never'],
     capIsNew: ['off'],
     'comma-dangle': ['error', 'always-multiline'],
@@ -68,7 +86,7 @@ export default [{
     'linebreak-style': ['error', 'unix'],
 
     'max-len': ['warn', {
-      code: 250,
+      code: 200,
       ignoreComments: true,
       ignoreUrls: true,
     }],
@@ -84,6 +102,8 @@ export default [{
     'no-unsafe-negation': 'error',
     'no-undef': ['error'],
     'no-unused-vars': 'off',
+    'no-unused-labels': 'warn',
+    'no-unused-expressions': 'off',
 
     'no-empty': ['error', {
       allowEmptyCatch: true,
@@ -92,7 +112,7 @@ export default [{
     'no-console': 'off',
     'no-multi-spaces': 'warn',
 
-    'no-use-before-define': [2, {
+    'no-use-before-define': ['off', {
       functions: false,
       classes: false,
       variables: false,

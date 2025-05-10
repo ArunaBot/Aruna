@@ -1,5 +1,4 @@
 import { ArunaAsyncCommand, ArunaCommandBased } from '../structure';
-import { Collection } from 'arunabase/build/discord';
 import { DefaultEmbed } from '../utils';
 import { Interfaces } from 'arunabase';
 
@@ -27,7 +26,7 @@ export default class HelpCommand extends ArunaAsyncCommand {
           context.author.displayAvatarURL({ forceStatic: false, size: 512 }),
       });
 
-    const commands = (context.client.getCommandManager().getGlobalCommands() as unknown as Collection<string, ArunaCommandBased>)
+    const commands = (context.client.getCommandManager().getCommands() as ArunaCommandBased[])
       .filter((c) => c.checkPermission(context, true));
 
     const categories = commands.map((c) => c.getCategory()).filter((v, i, a) => a.indexOf(v) === i).sort((a, b) => a.localeCompare(b));

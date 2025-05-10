@@ -37,7 +37,7 @@ export class DiscordClient implements IBaseClient {
   }
 
   public async registerCommands(): Promise<void> {
-    if (this.client.getCommandManager().getGlobalCommands().size > 0) {
+    if (this.client.getCommandManager().getCommands().length > 0) {
       this.logger.warn('Commands already registered! Skipping...');
       return;
     }

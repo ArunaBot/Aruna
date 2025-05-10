@@ -34,7 +34,7 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
       .setThumbnail(context.client.user!.displayAvatarURL({ forceStatic: false, size: 512 }))
       .addField('Bot Name', context.client.user!.displayName, true)
       .addField('Bot Version', process.env.npm_package_version ?? 'unk', true)
-      .addField('Commands', `${context.client.getCommandManager().getGlobalCommands().size}`, true)
+      .addField('Commands', `${context.client.getCommandManager().getCommands().length}`, true)
       .addField('ArunaBase Version', 'v' + version, true)
       .addField('Node.js Version', process.version, true)
       .addField('Guilds', `${context.client.guilds.cache.size}`, true)
