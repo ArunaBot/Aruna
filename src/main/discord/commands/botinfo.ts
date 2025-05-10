@@ -1,10 +1,10 @@
-import { ButtonStructure, ButtonStyle } from 'arunabase/build/discord';
+import { ButtonStructure, ButtonStyle, MessageStructure } from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { ArunaAsyncCommand } from '../structure';
 import { version } from 'arunabase/package.json';
+import { getFormattedTime } from '../../utils';
 import { DefaultEmbed } from '../utils';
 import si from 'systeminformation';
-import { getFormattedTime } from '../../utils';
 
 export default class BotInfoCommand extends ArunaAsyncCommand {
   constructor() {
@@ -81,50 +81,52 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
         `, false)
       .addField('Art By', 'Kira\'s Art (<@207023257512181760>)', false);
 
-    
-    const message = await context.editReply(page1);
 
-    async function setPage1(skipEdit = false): Promise<void> {
-      await message.setButtons([
-        new ButtonStructure({
-          label: 'Back',
-          emoji: '◀️',
-          disabled: true,
-          style: ButtonStyle.Secondary,
-        }),
-        new ButtonStructure({
-          label: 'Next',
-          emoji: '▶️',
-          style: ButtonStyle.Primary,
-        }, async (ctx) => {
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          await setPage2().catch(() => {});
-          ctx.deferUpdate().catch(() => {});
-        }),
-      ]);
-      if (!skipEdit) await message.edit({ embeds: [page1] });
+    async function setPage1(): Promise<void> {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      await context.editReply(new MessageStructure(page1).addButtons(page1Buttons));
     }
 
     async function setPage2(): Promise<void> {
-      await message.setButtons([
-        new ButtonStructure({
-          label: 'Back',
-          emoji: '◀️',
-          style: ButtonStyle.Primary,
-        }, async (ctx) => {
-          await setPage1().catch(() => {});
-          ctx.deferUpdate().catch(() => {});
-        }),
-        new ButtonStructure({
-          label: 'Next',
-          emoji: '▶️',
-          disabled: true,
-          style: ButtonStyle.Secondary,
-        }),
-      ]);
-      await message.edit({ embeds: [embed2] });
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      await context.editReply(new MessageStructure(embed2).addButtons(page2Buttons));
     }
 
-    await setPage1(true);
+    const page1Buttons = [
+      new ButtonStructure({
+        label: 'Back',
+        emoji: '◀️',
+        disabled: true,
+        style: ButtonStyle.Secondary,
+      }),
+      new ButtonStructure({
+        label: 'Next',
+        emoji: '▶️',
+        style: ButtonStyle.Primary,
+      }, async (ctx) => {
+        await setPage2().catch(() => {});
+        ctx.deferUpdate().catch(() => {});
+      }),
+    ];
+
+    const page2Buttons = [
+      new ButtonStructure({
+        label: 'Back',
+        emoji: '◀️',
+        style: ButtonStyle.Primary,
+      }, async (ctx) => {
+        await setPage1().catch(() => {});
+        ctx.deferUpdate().catch(() => {});
+      }),
+      new ButtonStructure({
+        label: 'Next',
+        emoji: '▶️',
+        disabled: true,
+        style: ButtonStyle.Secondary,
+      }),
+    ];
+
+    
+    await context.editReply(new MessageStructure(page1).addButtons(page1Buttons));
   }
 }
