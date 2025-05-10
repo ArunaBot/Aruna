@@ -1,5 +1,6 @@
 import { Logger } from '@promisepending/logger.js';
 import { ConfigurationLoader } from './api';
+import { IBaseClient } from './common';
 import * as Discord from './discord';
 
 async function main(): Promise<void> {
@@ -12,7 +13,7 @@ async function main(): Promise<void> {
 
   const logger = new Logger({ ...globalLoggerConfig, prefix: 'MAIN' });
 
-  const clients = new Map<string, any>();
+  const clients = new Map<string, IBaseClient>();
 
   if (configs.arunacore) {
     logger.warn('[ArunaCore] Not Implemented Yet! (Really?)');

@@ -1,5 +1,5 @@
 import { Logger } from '@promisepending/logger.js';
-import { IConfiguration } from '../../interfaces';
+import { IConfiguration } from '../../common/interfaces';
 import { FileLoader } from '../utils';
 import path from 'path';
 

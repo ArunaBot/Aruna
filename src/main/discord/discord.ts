@@ -3,10 +3,11 @@ import { ILoggerOptions, Logger } from '@promisepending/logger.js';
 import { IDiscordProperties } from './interfaces';
 import { Discord, Interfaces } from 'arunabase';
 import { ConfigurationLoader } from '../api';
+import { IBaseClient } from '../common';
 import * as path from 'path';
 import * as fs from 'fs';
 
-export class DiscordClient {
+export class DiscordClient implements IBaseClient {
   private configurationLoader: ConfigurationLoader | undefined;
   private config: Interfaces.IDiscordConfiguration;
   private customProperties: IDiscordProperties;

@@ -14,10 +14,10 @@ export default class ReadyEvent extends BaseEvent {
   }
 
   protected override async execute(): Promise<void> {
-    this.client.getLogger().info(`Logged in as ${this.discordClient.user!.tag}!`);
     await this.client.registerCommands();
     this.updatePresence();
     setInterval(() => this.updatePresence(), 10000);
+    this.client.getLogger().info(`Logged in as ${this.discordClient.user!.tag}!`);
   }
 
   private async updatePresence(): Promise<void> {

@@ -1,5 +1,5 @@
 import { ConfigurationLoader } from '../../api';
-import { IConfiguration } from '../../interfaces';
+import { IConfiguration } from '../../common/interfaces';
 import { parentPort } from 'worker_threads';
 import { DiscordClient } from '../discord';
 

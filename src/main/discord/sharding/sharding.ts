@@ -1,10 +1,12 @@
 import { Logger } from '@promisepending/logger.js';
-import { IConfiguration } from '../../interfaces';
+import { IConfiguration } from '../../common/interfaces';
+import { IBaseClient } from '../../common';
 import { Discord } from 'arunabase';
 import path from 'path';
 
-export class Sharding {
-  private token: string;
+export class Sharding implements IBaseClient {
+  private readonly token: string;
+
   private manager: Discord.ShardingManager | null = null;
   private options: IConfiguration;
   private logger: Logger;
