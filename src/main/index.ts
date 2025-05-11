@@ -1,3 +1,4 @@
+import { DatabaseManager, MariaDBConnection } from 'promisedb';
 import { Logger } from '@promisepending/logger.js';
 import { ConfigurationLoader } from './api';
 import { IBaseClient } from './common';
@@ -13,7 +14,18 @@ async function main(): Promise<void> {
 
   const logger = new Logger({ ...globalLoggerConfig, prefix: 'MAIN' });
 
-  const clients = new Map<string, IBaseClient>();
+  const clients = new Map<string, any>();
+
+  /** Start Database */
+  logger.info('Starting Database...');
+  const dbConfig = configs.database;
+  const dbmgr = new DatabaseManager();
+  const dbConnection = new MariaDBConnection(dbConfig.host, dbConfig.port ?? 3306, dbConfig.credentials.user, dbConfig.credentials.password, dbConfig.credentials.database);
+  await dbmgr.registerConnection('global', dbConnection).catch((err => {
+    logger.error('Error registering database connection', err);
+  })).then(() => {
+    logger.info('Database started!');
+  });
 
   if (configs.arunacore) {
     logger.warn('[ArunaCore] Not Implemented Yet! (Really?)');
@@ -35,9 +47,6 @@ async function main(): Promise<void> {
   if (configs.twitch) {
     logger.warn('[Twitch] Not Implemented Yet!');
   }
-
-  /** Start Database */
-  // const database = new DataBase();
 
   /** Start all clients */
   clients.forEach((client) => client.start());

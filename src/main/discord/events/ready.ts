@@ -17,7 +17,7 @@ export default class ReadyEvent extends BaseEvent {
     await this.client.registerCommands();
     this.updatePresence();
     setInterval(() => this.updatePresence(), 10000);
-    this.client.getLogger().info(`Logged in as ${this.discordClient.user!.tag}!`);
+    this.client.getLogger().info(`Logged in as ${this.discordClient.user!.tag} on shard ${this.client.getConfig().shardId}!`);
   }
 
   private async updatePresence(): Promise<void> {

@@ -1,3 +1,3 @@
 export interface IBaseClient {
-  start(): void;
+  start(): Promise<void>;
 }

@@ -1,9 +1,10 @@
-import { ArunaCommandBased, BaseEvent } from './structure';
 import { ILoggerOptions, Logger } from '@promisepending/logger.js';
+import { DatabaseConnection, DatabaseManager, MariaDBConnection } from 'promisedb';
+import { ArunaCommandBased, BaseEvent } from './structure';
 import { IDiscordProperties } from './interfaces';
 import { Discord, Interfaces } from 'arunabase';
 import { ConfigurationLoader } from '../api';
-import { IBaseClient } from '../common';
+import { IBaseClient, IDatabaseConfiguration } from '../common';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -12,15 +13,34 @@ export class DiscordClient implements IBaseClient {
   private config: Interfaces.IDiscordConfiguration;
   private customProperties: IDiscordProperties;
   private client: Discord.DiscordClient;
+  private database: DatabaseConnection;
   private logger: Logger;
 
-  constructor(configs: Interfaces.IDiscordConfiguration, loggerOptions?: ILoggerOptions, configurationLoader?: ConfigurationLoader) {
+  constructor(configs: Interfaces.IDiscordConfiguration, loggerOptions?: ILoggerOptions, configurationLoader?: ConfigurationLoader, dbConfig?: IDatabaseConfiguration['database']) {
     this.configurationLoader = configurationLoader;
     this.customProperties = (this.configurationLoader?.loadJsonResource('discordProperties') ?? {}) as IDiscordProperties;
     configs.additionalCommandContext = { ...configs.additionalCommandContext ?? {}, ...this.customProperties };
     this.logger = new Logger({ prefix: 'DISCORD', ...loggerOptions ?? {} });
     this.client = new Discord.DiscordClient(configs, this.logger);
     this.config = configs;
+
+    const db = new DatabaseManager().getConnection('global');
+    if (!db && dbConfig) {
+      // Probably running in a sharding environment. We need to create a new connection
+      this.logger.warn('No database connection found, creating a new one');
+      this.database = new MariaDBConnection(
+        dbConfig.host,
+        dbConfig.port ?? 3306,
+        dbConfig.credentials.user,
+        dbConfig.credentials.password,
+        dbConfig.credentials.database,
+      );
+    } else if (!db) {
+      this.logger.error('No database connection found and no database configuration provided');
+      throw new Error('No database connection found and no database configuration provided');
+    } else {
+      this.database = db;
+    }
   }
 
   public on(event: string, listener: (...args: any[]) => void): void {
@@ -31,9 +51,39 @@ export class DiscordClient implements IBaseClient {
     return this.client;
   }
 
-  public start(): void {
+  public async start(): Promise<void> {
     this.registerEvents();
+    await this.registerModels();
     this.client.login(this.config.token);
+  }
+
+  public async registerModels(): Promise<void> {
+    if (this.config.shardId !== null) {
+      let stop = false;
+      this.logger.debug('Registering database connection for shard ' + this.config.shardId);
+      await DatabaseManager.instance.registerConnection(`shard-${this.config.shardId}`,this.database).catch((err) => {
+        this.logger.error('Error registering database connection for shard ' + this.config.shardId, err);
+        stop = true;
+      });
+      if (stop) {
+        this.logger.error('Stopping shard ' + this.config.shardId);
+        process.exit(1);
+        return;
+      }
+    }
+    const models = fs.readdirSync(path.join(__dirname, 'models'));
+    for await (const model of models) {
+      if (!model.endsWith('.js')) continue;
+
+      try {
+        this.logger.debug('Registering model ' + model);
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const modelFile = require(path.join(__dirname, 'models', model));
+        await this.database.registerModel(model.substring(0, model.length - 3).toLowerCase().replace('model', ''), new modelFile.default(this));
+      } catch (error) {
+        this.logger.error('An error occurred while registering model ' + model, error);
+      }
+    }
   }
 
   public async registerCommands(): Promise<void> {
@@ -104,6 +154,14 @@ export class DiscordClient implements IBaseClient {
 
   public getConfig(): Interfaces.IDiscordConfiguration {
     return this.config;
+  }
+
+  public getDatabaseConnection(): DatabaseConnection {
+    return this.database;
+  }
+
+  public getCustomProperties(): IDiscordProperties {
+    return this.customProperties;
   }
 
   public getLogger(): Logger {

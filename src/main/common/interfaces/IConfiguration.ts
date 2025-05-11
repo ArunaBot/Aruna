@@ -41,7 +41,7 @@ export interface IArunaCoreConfiguration {
 export interface IDatabaseConfiguration {
   database: {
     host: string;
-    port?: string;
+    port?: number;
     type?: string;
     credentials: {
       database: string;
