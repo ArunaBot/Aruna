@@ -49,7 +49,14 @@ async function main(): Promise<void> {
   }
 
   /** Start all clients */
-  clients.forEach((client) => client.start());
+  clients.forEach((client: IBaseClient) => {
+    client.start().then(() => {
+      logger.info(`Client ${client.constructor.name} started!`);
+    }).catch((err) => {
+      // TODO: Handle error and restart client
+      logger.error(`Error starting client ${client.constructor.name}`, err);
+    });
+  });
 }
 
 main();
