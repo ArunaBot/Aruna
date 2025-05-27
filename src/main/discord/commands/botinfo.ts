@@ -1,5 +1,6 @@
 import { ButtonStructure, ButtonStyle, MessageStructure } from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
+import { execSync } from 'node:child_process';
 import { ArunaAsyncCommand } from '../structure';
 import { version } from 'arunabase/package.json';
 import { getFormattedTime } from '../../utils';
@@ -23,6 +24,16 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
     await context.deferReply();
+
+    let botVersion = '';
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') botVersion = 'DEVELOPMENT';
+    else if (process.env.NODE_ENV === 'stage') {
+      if (process.env.npm_package_version) botVersion = `${process.env.npm_package_version}-`;
+      const gitHash = execSync('git rev-parse HEAD').toString().trim().slice(0, 6);
+      if (context.urls.github) {
+        botVersion += `[GIT#${gitHash}](${context.urls.github}/commit/${gitHash})`;
+      } else botVersion += `GIT#${gitHash}`;
+    } else botVersion = process.env.npm_package_version ?? 'unk';
   
     const page1 = new DefaultEmbed()
       .setAuthor({
@@ -33,7 +44,7 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
       .setTitle('**Bot Information**')
       .setThumbnail(context.client.user!.displayAvatarURL({ forceStatic: false, size: 512 }))
       .addField('Bot Name', context.client.user!.displayName, true)
-      .addField('Bot Version', process.env.npm_package_version ?? 'unk', true)
+      .addField('Bot Version', botVersion, true)
       .addField('Commands', `${context.client.getCommandManager().getCommands().length}`, true)
       .addField('ArunaBase Version', 'v' + version, true)
       .addField('Node.js Version', process.version, true)
