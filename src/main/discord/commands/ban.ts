@@ -17,13 +17,24 @@ export default class BanCommand extends ArunaAsyncCommand {
         {
           name: 'member',
           description: 'The member to ban',
+          name_localizations: {
+            'pt-BR': 'membro',
+          },
+          description_localizations: {
+            'pt-BR': 'O membro que será banido',
+          },
           required: true,
           type: ApplicationCommandOptionType.User,
         },
         {
           name: 'reason',
           description: 'The reason for the ban',
-          required: false,
+          name_localizations: {
+            'pt-BR': 'motivo',
+          },
+          description_localizations: {
+            'pt-BR': 'O motivo do banimento',
+          },
           type: ApplicationCommandOptionType.String,
           min_length: 1,
           max_length: 450,
@@ -104,7 +115,7 @@ export default class BanCommand extends ArunaAsyncCommand {
       .setColor('#00ff00');
 
     const youAreBannedMessage = new DefaultEmbed()
-      .setTitle('**You are banned**')
+      .setTitle('**You are Banned**')
       .setDescription(`Oops, look's like you were banned from the guild \`${
         context.guild!.name
       }\` with the reason: \`${reason}\`.\n\nIf you think this was a mistake, please contact the server owner or an administrator.`)
