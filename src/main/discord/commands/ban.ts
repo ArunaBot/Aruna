@@ -44,39 +44,45 @@ export default class BanCommand extends ArunaAsyncCommand {
     const guild = context.guild!;
 
     let member: GuildMember | null = null;
-    if (context.args[0] instanceof User) member = await guild.members.fetch(context.args[0].id).catch(() => null);
-    else if (context.message?.mentions.members?.first()) member = context.message!.mentions.members.first()!;
-    else {
+    let userId: string | null = null;
+    if (context.args[0] instanceof User) {
+      userId = context.args[0].id;
+      member = await guild.members.fetch(userId).catch(() => null);
+    } else if (context.message?.mentions.members?.first()) {
+      member = context.message!.mentions.members.first()!;
+      userId = member.id;
+    } else {
       member = (await guild.members.fetch((context.args[0] as string)).catch(() => null));
+      userId = context.args[0] as string;
     }
       
     
-    if (!member) {
+    if (!member && !userId) {
       await context.editReply(new ErrorEmbed().setDescription(`Member ${context.args[0]} was not found!`));
       return;
     }
 
-    if (member.id === context.author.id) {
+    if (userId === context.author.id) {
       await context.editReply(new ErrorEmbed().setDescription('You can\'t ban yourself!'));
       return;
     }
 
-    if (member.id === guild.members.me!.id) {
+    if (userId === guild.members.me!.id) {
       await context.editReply(new ErrorEmbed().setDescription('I can\'t ban myself!'));
       return;
     }
 
-    if (member.id === guild.ownerId) {
+    if (userId === guild.ownerId) {
       await context.editReply(new ErrorEmbed().setDescription('You can\'t ban the server owner!'));
       return;
     }
 
-    if ((context.author.id !== guild.ownerId) && (context.member!.roles.highest.comparePositionTo(member.roles.highest) <= 0)) {
+    if (member && ((context.author.id !== guild.ownerId) && (context.member!.roles.highest.comparePositionTo(member.roles.highest) <= 0))) {
       await context.editReply(new ErrorEmbed().setDescription('You can\'t ban a member with a higher or equal role position than you!'));
       return;
     }
 
-    if (context.guild!.members.me!.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+    if (member && (context.guild!.members.me!.roles.highest.comparePositionTo(member.roles.highest) <= 0)) {
       await context.editReply(new ErrorEmbed().setDescription('I can\'t ban a member with a higher or equal role position than me!'));
       return;
     }
@@ -85,12 +91,12 @@ export default class BanCommand extends ArunaAsyncCommand {
 
     const confirmationEmbed = new DefaultEmbed()
       .setTitle('**WARNING**')
-      .setDescription(`Are you sure you want to ban ${member.user.username} (${member.id})?\nReason: ${reason}`)
+      .setDescription(`Are you sure you want to ban ${member?.user.username ?? 'unk'} (${userId})?\nReason: ${reason}`)
       .setColor('#ff0000');
 
     const banMessage = new DefaultEmbed()
       .setTitle('**Member Banned**')
-      .setDescription(`Member: ${member.user.username} (${member.id})\nReason: ${reason}`)
+      .setDescription(`Member: ${member?.user.username ?? 'unk'} (${userId})\nReason: ${reason}`)
       .setColor('#00ff00');
 
     const canceledMessage = new DefaultEmbed()
@@ -99,7 +105,9 @@ export default class BanCommand extends ArunaAsyncCommand {
 
     const youAreBannedMessage = new DefaultEmbed()
       .setTitle('**You are banned**')
-      .setDescription(`Oops, look's like you were banned from the guild \`${context.guild!.name}\` with the reason: \`${reason}\`.\n\nIf you think this was a mistake, please contact the server owner or an administrator.`)
+      .setDescription(`Oops, look's like you were banned from the guild \`${
+        context.guild!.name
+      }\` with the reason: \`${reason}\`.\n\nIf you think this was a mistake, please contact the server owner or an administrator.`)
       .setColor('#ff0000')
       .setFooter({ text: 'This is an automated message, please do not reply to it.' });
 
@@ -117,10 +125,10 @@ export default class BanCommand extends ArunaAsyncCommand {
           style: ButtonStyle.Danger,
         }, async (ctx) => {
           clearTimeout(timeout);
-          await member!.send({ embeds: [youAreBannedMessage] }).catch(() => {});
-          await member!.ban({ reason: `Banned By: ${context.author.username} | Reason: ${reason}` }).catch((e) => {
-            context.client.getLogger().error('BanCommand: Error while banning member', e);
-            context.editReply(new MessageStructure(new ErrorEmbed().setDescription(`An error occurred while trying to ban the member: \`${e.message}\``)))
+          if (member) await member.send({ embeds: [youAreBannedMessage] }).catch(() => {});
+          await guild.bans.create(userId, { reason: `Banned By: ${context.author.username} | Reason: ${reason}` }).catch((e) => {
+            context.client.getLogger().error('BanCommand: Error while banning user', e);
+            context.editReply(new MessageStructure(new ErrorEmbed().setDescription(`An error occurred while trying to ban the user: \`${e.message}\``)))
               .catch((e) => {
                 context.client.getLogger().error('BanCommand: Error while editing message (ban)', e);
               });
@@ -151,7 +159,9 @@ export default class BanCommand extends ArunaAsyncCommand {
     }
 
     if (!context.guild!.members.me!.permissions.has(PermissionFlagsBits.BanMembers)) {
-      if (!silent) context.discreteReply(new ErrorEmbed().setDescription('I don\'t have the ban members permission!\nPlease, contact the server owner or an administrator to give me this permission.'));
+      if (!silent) context.discreteReply(
+        new ErrorEmbed().setDescription('I don\'t have the ban members permission!\nPlease, contact the server owner or an administrator to give me this permission.'),
+      );
       return false;
     }
 
