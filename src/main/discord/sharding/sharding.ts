@@ -1,5 +1,6 @@
 import { IConfiguration } from '../../common/interfaces';
 import { Logger } from '@promisepending/logger.js';
+import { AutoPoster } from 'topgg-autoposter';
 import { IBaseClient } from '../../common';
 import { Discord } from 'arunabase';
 import path from 'path';
@@ -37,6 +38,14 @@ export class Sharding implements IBaseClient {
         this.logger.error('Error spawning shards', error);
         reject(error);
       });
+
+      if (this.options.discord!.topggToken) {
+        const ap = AutoPoster(this.options.discord!.topggToken, this.manager);
+  
+        ap.on('posted', () => {
+          this.logger.info('Posted stats to Top.gg!');
+        });
+      }
     });
   };
 }

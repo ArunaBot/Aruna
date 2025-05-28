@@ -1,11 +1,12 @@
 import { getFormattedTime } from '../../utils';
+import { AutoPoster } from 'topgg-autoposter';
 import { DiscordClient } from '../discord';
 import { BaseEvent } from '../structure';
 import { Discord } from 'arunabase';
 
 export default class ReadyEvent extends BaseEvent {
-  private readyAt: number;
   private discordClient: Discord.Client;
+  private readyAt: number;
 
   constructor(client: DiscordClient) {
     super('ready', client, true);
@@ -18,6 +19,14 @@ export default class ReadyEvent extends BaseEvent {
     this.updatePresence();
     setInterval(() => this.updatePresence(), 10000);
     this.client.getLogger().info(`Logged in as ${this.discordClient.user!.tag} on shard ${this.client.getConfig().shardId}!`);
+
+    if (this.client.getConfig().topggToken && (!this.client.getConfig().shardCount || this.client.getConfig().shardCount === 1)) {
+      const ap = AutoPoster(this.client.getConfig().topggToken!, this.discordClient);
+
+      ap.on('posted', () => {
+        this.client.getLogger().info('Posted stats to Top.gg!');
+      });
+    }
   }
 
   private async updatePresence(): Promise<void> {

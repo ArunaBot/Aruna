@@ -14,10 +14,11 @@ export interface IDiscordConfiguration {
     token: string;
     defaultPrefix?: string;
     clientID?: string;
-    shardingOptions?: Discord.ShardingManagerOptions
-    partials?: Discord.Partials[],
-    intents: Discord.BitFieldResolvable<Discord.GatewayIntentsString, number>[],
-    shard?: boolean,
+    shardingOptions?: Discord.ShardingManagerOptions;
+    partials?: Discord.Partials[];
+    intents: Discord.BitFieldResolvable<Discord.GatewayIntentsString, number>[];
+    shard?: boolean;
+    topggToken?: string;
   }
 }
 
