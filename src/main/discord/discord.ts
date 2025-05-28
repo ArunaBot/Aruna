@@ -4,19 +4,24 @@ import { ArunaCommandBased, BaseEvent } from './structure';
 import { IDiscordProperties } from './interfaces';
 import { Discord, Interfaces } from 'arunabase';
 import { ConfigurationLoader } from '../api';
-import { IBaseClient, IDatabaseConfiguration } from '../common';
+import { IBaseClient, IConfiguration, IDatabaseConfiguration } from '../common';
 import * as path from 'path';
 import * as fs from 'fs';
 
 export class DiscordClient implements IBaseClient {
   private configurationLoader: ConfigurationLoader | undefined;
-  private config: Interfaces.IDiscordConfiguration;
+  private config: IConfiguration['discord'] & Interfaces.IDiscordConfiguration;
   private customProperties: IDiscordProperties;
   private client: Discord.DiscordClient;
   private database: DatabaseConnection;
   private logger: Logger;
 
-  constructor(configs: Interfaces.IDiscordConfiguration, loggerOptions?: ILoggerOptions, configurationLoader?: ConfigurationLoader, dbConfig?: IDatabaseConfiguration['database']) {
+  constructor(
+    configs: IConfiguration['discord'] & Interfaces.IDiscordConfiguration,
+    loggerOptions?: ILoggerOptions,
+    configurationLoader?: ConfigurationLoader,
+    dbConfig?: IDatabaseConfiguration['database'],
+  ) {
     this.configurationLoader = configurationLoader;
     this.customProperties = (this.configurationLoader?.loadJsonResource('discordProperties') ?? {}) as IDiscordProperties;
     configs.additionalCommandContext = { ...configs.additionalCommandContext ?? {}, ...this.customProperties };
@@ -152,7 +157,7 @@ export class DiscordClient implements IBaseClient {
     return this.client.getCommandManager();
   }
 
-  public getConfig(): Interfaces.IDiscordConfiguration {
+  public getConfig(): IConfiguration['discord'] & Interfaces.IDiscordConfiguration {
     return this.config;
   }
 
