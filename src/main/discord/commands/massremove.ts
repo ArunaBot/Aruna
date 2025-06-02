@@ -4,15 +4,15 @@ import { ArunaAsyncCommand } from '../structure';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 import { IDiscordCommandContext } from 'arunabase/build/interfaces';
 
-export default class MassRoleCommand extends ArunaAsyncCommand {
+export default class MassRemoveCommand extends ArunaAsyncCommand {
   constructor() {
-    super('massrole', {
+    super('massremove', {
       name_localizations: {
-        'pt-BR': 'massrole',
+        'pt-BR': 'massremove',
       },
-      description: 'Applies a role to all members in the guild',
+      description: 'Remove a role from all members in the guild',
       description_localizations: {
-        'pt-BR': 'Adiciona um cargo a todos os membros do servidor',
+        'pt-BR': 'Remove um cargo a todos os membros do servidor',
       },
       category: 'Moderation',
       aliases: ['masscargo', 'cargomassivo'],
@@ -20,24 +20,24 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
       parameters: [
         {
           name: 'role',
-          description: 'The role to apply to all members',
+          description: 'The role to remove from all members',
           name_localizations: {
             'pt-BR': 'cargo',
           },
           description_localizations: {
-            'pt-BR': 'O cargo que será adicionado a todos os membros',
+            'pt-BR': 'O cargo que será removido a todos os membros',
           },
           required: true,
           type: ApplicationCommandOptionType.Role,
         },
         {
           name: 'group',
-          description: 'The group of members to apply the role to (e.g., "all", "bots", "humans")',
+          description: 'The group of members to remove the role to (e.g., "all", "bots", "humans")',
           name_localizations: {
             'pt-BR': 'grupo',
           },
           description_localizations: {
-            'pt-BR': 'O grupo de membros ao qual o cargo será adicionado (ex: "todos", "bots", "humanos")',
+            'pt-BR': 'O grupo de membros ao qual o cargo será removido (ex: "todos", "bots", "humanos")',
           },
           required: false,
           type: ApplicationCommandOptionType.String,
@@ -80,12 +80,12 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
     }
 
     if (role.position >= context.member!.roles.highest.position && context.member!.id !== context.guild!.ownerId) {
-      await context.editReply(new ErrorEmbed().setDescription('You cannot apply a role that is higher than your highest role!'));
+      await context.editReply(new ErrorEmbed().setDescription('You cannot remove your highest role!'));
       return;
     }
 
     if (role.position >= context.guild!.members.me!.roles.highest.position) {
-      await context.editReply(new ErrorEmbed().setDescription('I cannot apply a role that is higher than my highest role!'));
+      await context.editReply(new ErrorEmbed().setDescription('I cannot remove my highest role!'));
       return;
     }
 
@@ -104,15 +104,15 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
     }
 
     const members = await context.guild!.members.list({ limit: 500 });
-    const membersToUpdate = group === 'all' ? members : members.filter(m => (group === 'bots' ? m.user.bot : !m.user.bot) && !(m.roles.cache.has(role.id)));
+    const membersToUpdate = group === 'all' ? members : members.filter(m => (group === 'bots' ? m.user.bot : !m.user.bot) && m.roles.cache.has(role.id));
 
     if (membersToUpdate.size === 0) {
-      await context.editReply(new DefaultEmbed().setDescription('No members found to apply the role to!'));
+      await context.editReply(new DefaultEmbed().setDescription('No members found to remove the role from!'));
       return;
     }
 
     await context.editReply(new DefaultEmbed()
-      .setDescription(`Applying role **${role.name}** to ${membersToUpdate.size} members...\nThis may take a while, please be patient.`)
+      .setDescription(`Removing role **${role.name}** from ${membersToUpdate.size} members...\nThis may take a while, please be patient.`)
       .setColor(role.color));
 
     let successCount: number = 0;
@@ -120,10 +120,10 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
 
     for await (const [_, member] of membersToUpdate) {
       try {
-        await member.roles.add(role);
+        await member.roles.remove(role);
         successCount++;
       } catch (error) {
-        context.client.getLogger().debug(`Failed to add role ${role.name} to member ${member.user.username}:`, error);
+        context.client.getLogger().debug(`Failed to remove role ${role.name} from member ${member.user.username}:`, error);
         failedCount++;
       }
     }
@@ -131,7 +131,7 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
     const embed = new DefaultEmbed()
       .setTitle('Mass Role Application Complete')
       .setDescription(
-        `Successfully applied role **${role.name}** to **${successCount}** members.${failedCount > 0 ? `\nFailed to apply role to **${failedCount}** members.` : ''}`,
+        `Successfully removed role **${role.name}** from **${successCount}** members.${failedCount > 0 ? `\nFailed to remove role from **${failedCount}** members.` : ''}`,
       )
       .setColor('#00ff00');
 
