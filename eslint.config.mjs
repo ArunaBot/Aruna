@@ -45,20 +45,27 @@ export default [{
     '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/interface-name-prefix': ['off'],
     "@typescript-eslint/no-deprecated": "warn",
-
     '@typescript-eslint/no-explicit-any': ['off', {
       fixToUnknown: true,
       ignoreRestArgs: true,
     }],
 
-    '@typescript-eslint/no-unused-vars': ['warn', {
-      argsIgnorePattern: '^_',
-    }],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        'args': 'all',
+        'argsIgnorePattern': '^_',
+        'caughtErrors': 'all',
+        'caughtErrorsIgnorePattern': '^_',
+        'destructuredArrayIgnorePattern': '^_',
+        'varsIgnorePattern': '^_',
+        'ignoreRestSiblings': true,
+      },
+    ],
 
     '@typescript-eslint/no-unused-expressions': ['error', {
       allowTaggedTemplates: true,
     }],
-
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-use-before-define': 'error',
     '@typescript-eslint/no-non-null-assertion': ['off'],
