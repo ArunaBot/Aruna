@@ -106,7 +106,7 @@ export default class KickCommand extends ArunaAsyncCommand {
       .setColor('#00ff00');
 
     const canceledMessage = new DefaultEmbed()
-      .setDescription('Operation canceled!')
+      .setDescription('Operation Canceled!')
       .setColor('#00ff00');
 
     const youAreKickedMessage = new DefaultEmbed()
@@ -138,9 +138,10 @@ export default class KickCommand extends ArunaAsyncCommand {
               .catch((e) => {
                 context.client.getLogger().error('KickCommand: Error while editing message (kick)', e);
               });
-          });
-          await context.editReply(new MessageStructure(kickMessage)).catch((e) => {
-            context.client.getLogger().error('KickCommand: Error while editing message (kick)', e);
+          }).then(async () => {
+            await context.editReply(new MessageStructure(kickMessage)).catch((e) => {
+              context.client.getLogger().error('KickCommand: Error while editing message (kick)', e);
+            });
           });
           await ctx.deferUpdate().catch(() => {});
         }))

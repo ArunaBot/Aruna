@@ -66,10 +66,17 @@ export default class BanCommand extends ArunaAsyncCommand {
       member = (await guild.members.fetch((context.args[0] as string)).catch(() => null));
       userId = context.args[0] as string;
     }
-      
-    
+
     if (!member && !userId) {
       await context.editReply(new ErrorEmbed().setDescription(`Member ${context.args[0]} was not found!`));
+      return;
+    }
+
+    const user = member?.user ?? await context.client.getRawClient().users.fetch(userId).catch(() => null);
+
+    const isBanned = await guild.bans.fetch(userId).then(() => true).catch(() => false);
+    if (isBanned) {
+      await context.editReply(new ErrorEmbed().setDescription(`The user ${user?.username ?? 'unk'} (${userId}) is already banned!`));
       return;
     }
 
@@ -102,16 +109,16 @@ export default class BanCommand extends ArunaAsyncCommand {
 
     const confirmationEmbed = new DefaultEmbed()
       .setTitle('**WARNING**')
-      .setDescription(`Are you sure you want to ban ${member?.user.username ?? 'unk'} (${userId})?\nReason: ${reason}`)
+      .setDescription(`Are you sure you want to ban ${user?.username ?? 'unk'} (${userId})?\nReason: ${reason}`)
       .setColor('#ff0000');
 
     const banMessage = new DefaultEmbed()
       .setTitle('**Member Banned**')
-      .setDescription(`Member: ${member?.user.username ?? 'unk'} (${userId})\nReason: ${reason}`)
+      .setDescription(`Member: ${user?.username ?? 'unk'} (${userId})\nReason: ${reason}`)
       .setColor('#00ff00');
 
     const canceledMessage = new DefaultEmbed()
-      .setDescription('Operation canceled!')
+      .setDescription('Operation Canceled!')
       .setColor('#00ff00');
 
     const youAreBannedMessage = new DefaultEmbed()
@@ -143,9 +150,10 @@ export default class BanCommand extends ArunaAsyncCommand {
               .catch((e) => {
                 context.client.getLogger().error('BanCommand: Error while editing message (ban)', e);
               });
-          });
-          await context.editReply(new MessageStructure(banMessage)).catch((e) => {
-            context.client.getLogger().error('BanCommand: Error while editing message (ban)', e);
+          }).then(async () => {
+            await context.editReply(new MessageStructure(banMessage)).catch((e) => {
+              context.client.getLogger().error('BanCommand: Error while editing message (ban)', e);
+            });
           });
           await ctx.deferUpdate().catch(() => {});
         }))
