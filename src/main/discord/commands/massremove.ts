@@ -66,16 +66,15 @@ export default class MassRemoveCommand extends ArunaAsyncCommand {
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
     await context.deferReply();
 
-    let role: Role | null = null;
-
-    if (context.message) {
-      role = context.message.mentions.roles.first() || context.guild?.roles.cache.get(context.args[0] as string) || null;
-    } else {
-      role = context.args[0] as Role;
-    }
+    const role: Role | null = context.message?.mentions.roles.first() || context.guild!.roles.cache.get(context.args[0] as string) || null;
 
     if (!role) {
       await context.editReply(new DefaultEmbed().setDescription('You must provide a valid role to apply!'));
+      return;
+    }
+
+    if (role.managed) {
+      await context.editReply(new ErrorEmbed().setDescription('You cannot remove a managed role!'));
       return;
     }
 
@@ -129,7 +128,7 @@ export default class MassRemoveCommand extends ArunaAsyncCommand {
     }
 
     const embed = new DefaultEmbed()
-      .setTitle('Mass Role Application Complete')
+      .setTitle('Operation Complete')
       .setDescription(
         `Successfully removed role **${role.name}** from **${successCount}** members.${failedCount > 0 ? `\nFailed to remove role from **${failedCount}** members.` : ''}`,
       )
