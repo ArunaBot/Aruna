@@ -1,6 +1,6 @@
-import { ArunaAsyncCommand } from '../structure';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
-import { Discord, Interfaces } from 'arunabase';
+import { ArunaAsyncCommand } from '../structure';
+import { Discord } from 'arunabase';
 
 export default class DiceCommand extends ArunaAsyncCommand {
   constructor() {
@@ -45,7 +45,7 @@ export default class DiceCommand extends ArunaAsyncCommand {
     });
   }
 
-  protected override async execute(context: Interfaces.IDiscordCommandContext): Promise<void> {
+  protected override async execute(context: Discord.ICommandContext): Promise<void> {
     const errorEmbed = new ErrorEmbed('Você precisa especificar a quantidade de dados a serem lançados!');
     if (context.args && (context.args.length === 0 || !context.args[0])) {
       await context.reply(errorEmbed);

@@ -1,6 +1,6 @@
-import { getFormattedTime } from '../../utils';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { ArunaAsyncCommand } from '../structure';
+import { getFormattedTime } from '../../utils';
 import { DefaultEmbed } from '../utils';
 
 export default class PingCommand extends ArunaAsyncCommand {

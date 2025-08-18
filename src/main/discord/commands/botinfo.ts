@@ -57,8 +57,8 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
     } else page1.addBlakField(true);
     
     if (context.client.shard) {
-      page1.addField('Current Shard ID', `${context.client.shard?.ids.join(', ') ?? '0'}`, true)
-        .addField('Total Shard Count', `${context.client.shard?.count ?? 1}`, true);
+      page1.addField('Current Shard ID', `${context.client.shard.ids.join(', ') ?? '0'}`, true)
+        .addField('Total Shard Count', `${context.client.shard.count ?? 1}`, true);
     }
 
     const embed2 = new DefaultEmbed()

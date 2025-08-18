@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType, AttachmentBuilder, User } from 'arunabase/build/discord';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 import { ArunaAsyncCommand } from '../structure';
-import { Interfaces } from 'arunabase';
+import { Discord } from 'arunabase';
 import { Jimp } from 'jimp';
 import path from 'path';
 import fs from 'fs';
@@ -35,7 +35,7 @@ export default class ShipCommand extends ArunaAsyncCommand {
     });
   }
 
-  protected override async execute(context: Interfaces.IDiscordCommandContext): Promise<void> {
+  protected override async execute(context: Discord.ICommandContext): Promise<void> {
     if (context.args.length === 0) {
       await context.reply(new ErrorEmbed().setDescription('You need to specify at least one user to be shipped!'));
       return;

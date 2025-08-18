@@ -1,12 +1,11 @@
-import { IAsyncCommandOptions, ICommandOptions, IDiscordCommandContext } from 'arunabase/build/interfaces';
 import { ICommandPermission } from '../interfaces';
 import { Discord } from 'arunabase';
 
-export interface IExtendedCommandOptions extends ICommandOptions {
+export interface IExtendedCommandOptions extends Discord.ICommandOptions {
   category?: string;
 }
 
-export interface IExtendedAsyncCommandOptions extends IAsyncCommandOptions {
+export interface IExtendedAsyncCommandOptions extends Discord.IAsyncCommandOptions {
   category?: string;
 }
 
@@ -20,7 +19,7 @@ export class ArunaCommand extends Discord.CommandStructure {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public override checkPermission(context: IDiscordCommandContext, silent = false): boolean {
+  public override checkPermission(context: Discord.ICommandContext, silent = false): boolean {
     return super.checkPermission(context);
   }
 
@@ -51,7 +50,7 @@ export class ArunaAsyncCommand extends Discord.AsyncCommandStructure {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public override checkPermission(context: IDiscordCommandContext, silent = false): boolean {
+  public override checkPermission(context: Discord.ICommandContext, silent = false): boolean {
     return super.checkPermission(context);
   }
 

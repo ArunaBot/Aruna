@@ -1,4 +1,4 @@
-import { Interfaces } from 'arunabase';
+import { Discord } from 'arunabase';
 
 export interface IDiscordProperties {
     fileVersion: number;
@@ -13,4 +13,4 @@ export interface IDiscordProperties {
     emojiList: { [key: string]: string };
 }
 
-export interface IDiscordFullCommandContext extends Interfaces.IDiscordCommandContext, IDiscordProperties { }
+export interface IDiscordFullCommandContext extends Discord.ICommandContext, IDiscordProperties { }

@@ -1,6 +1,6 @@
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 import { ArunaAsyncCommand } from '../structure';
-import { Interfaces } from 'arunabase';
+import { Discord } from 'arunabase';
 
 export default class GuildIconCommand extends ArunaAsyncCommand {
   constructor() {
@@ -17,7 +17,7 @@ export default class GuildIconCommand extends ArunaAsyncCommand {
     });
   }
 
-  protected override async execute(context: Interfaces.IDiscordCommandContext): Promise<void> {
+  protected override async execute(context: Discord.ICommandContext): Promise<void> {
     const guild = context.guild!;
     const icon = guild.iconURL({ size: 4096, forceStatic: false, extension: 'png' });
 

@@ -1,6 +1,6 @@
 import { DefaultEmbed, ErrorEmbed } from '../utils';
-import { Discord, Interfaces } from 'arunabase';
 import { ArunaCommand } from '../structure';
+import { Discord } from 'arunabase';
 
 export default class AvatarCommand extends ArunaCommand {
   constructor() {
@@ -59,7 +59,7 @@ export default class AvatarCommand extends ArunaCommand {
     });
   }
 
-  protected override execute(context: Interfaces.IDiscordCommandContext): void {
+  protected override execute(context: Discord.ICommandContext): void {
     const client = context.client;
 
     if (context.args[0] && ((context.args[0] as string).toLowerCase() === 'global' || (context.args[0] as string).toLowerCase() === 'guild')) {

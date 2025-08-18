@@ -1,23 +1,23 @@
-import { ILoggerOptions, Logger } from '@promisepending/logger.js';
 import { DatabaseConnection, DatabaseManager, MariaDBConnection } from 'promisedb';
+import { IBaseClient, IConfiguration, IDatabaseConfiguration } from '../common';
+import { ILoggerOptions, Logger } from '@promisepending/logger.js';
 import { ArunaCommandBased, BaseEvent } from './structure';
 import { IDiscordProperties } from './interfaces';
-import { Discord, Interfaces } from 'arunabase';
 import { ConfigurationLoader } from '../api';
-import { IBaseClient, IConfiguration, IDatabaseConfiguration } from '../common';
+import { Discord } from 'arunabase';
 import * as path from 'path';
 import * as fs from 'fs';
 
 export class DiscordClient implements IBaseClient {
   private configurationLoader: ConfigurationLoader | undefined;
-  private config: IConfiguration['discord'] & Interfaces.IDiscordConfiguration;
+  private config: IConfiguration['discord'] & Discord.IConfiguration;
   private customProperties: IDiscordProperties;
   private client: Discord.DiscordClient;
   private database: DatabaseConnection;
   private logger: Logger;
 
   constructor(
-    configs: IConfiguration['discord'] & Interfaces.IDiscordConfiguration,
+    configs: IConfiguration['discord'] & Discord.IConfiguration,
     loggerOptions?: ILoggerOptions,
     configurationLoader?: ConfigurationLoader,
     dbConfig?: IDatabaseConfiguration['database'],
@@ -157,7 +157,7 @@ export class DiscordClient implements IBaseClient {
     return this.client.getCommandManager();
   }
 
-  public getConfig(): IConfiguration['discord'] & Interfaces.IDiscordConfiguration {
+  public getConfig(): IConfiguration['discord'] & Discord.IConfiguration {
     return this.config;
   }
 

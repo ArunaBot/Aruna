@@ -1,6 +1,6 @@
 import { ArunaAsyncCommand } from '../structure';
-import { Discord, Interfaces } from 'arunabase';
 import { ErrorEmbed } from '../utils';
+import { Discord } from 'arunabase';
 
 export default class SayCommand extends ArunaAsyncCommand {
   constructor() {
@@ -32,7 +32,7 @@ export default class SayCommand extends ArunaAsyncCommand {
     });
   }
 
-  protected override async execute(context: Interfaces.IDiscordCommandContext): Promise<void> {
+  protected override async execute(context: Discord.ICommandContext): Promise<void> {
     var message: string;
 
     if (context.interaction) {
@@ -54,7 +54,7 @@ export default class SayCommand extends ArunaAsyncCommand {
     await context.reply(message);
   }
 
-  public override checkPermission(context: Interfaces.IDiscordCommandContext, silent = false): boolean {
+  public override checkPermission(context: Discord.ICommandContext, silent = false): boolean {
     if (!context.member!.permissions.has(Discord.PermissionFlagsBits.ManageMessages)) {
       if (!silent) context.discreteReply(new ErrorEmbed().setDescription('You don\'t have the manage messages permission!'));
       return false;

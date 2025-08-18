@@ -1,6 +1,6 @@
 import { ArunaAsyncCommand } from '../structure';
 import { DefaultEmbed } from '../utils';
-import { Interfaces } from 'arunabase';
+import { Discord } from 'arunabase';
 
 export default class FlipCommand extends ArunaAsyncCommand {
   constructor() {
@@ -15,7 +15,7 @@ export default class FlipCommand extends ArunaAsyncCommand {
     });
   }
 
-  protected override async execute(context: Interfaces.IDiscordCommandContext): Promise<void> {
+  protected override async execute(context: Discord.ICommandContext): Promise<void> {
     const embed = new DefaultEmbed()
       .setAuthor({
         name: context.member?.displayName ?? context.author.displayName,

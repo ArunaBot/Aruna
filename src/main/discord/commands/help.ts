@@ -1,6 +1,6 @@
 import { ArunaAsyncCommand, ArunaCommandBased } from '../structure';
 import { DefaultEmbed } from '../utils';
-import { Interfaces } from 'arunabase';
+import { Discord } from 'arunabase';
 
 export default class HelpCommand extends ArunaAsyncCommand {
   constructor() {
@@ -17,7 +17,7 @@ export default class HelpCommand extends ArunaAsyncCommand {
     });
   }
 
-  protected override async execute(context: Interfaces.IDiscordCommandContext): Promise<void> {
+  protected override async execute(context: Discord.ICommandContext): Promise<void> {
     const embed = new DefaultEmbed()
       .setAuthor({ name: context.client.user!.displayName, iconURL: context.client.user!.displayAvatarURL({ forceStatic: false, size: 512 }) })
       .setFooter({

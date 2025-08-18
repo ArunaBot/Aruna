@@ -1,7 +1,6 @@
 import { ArunaAsyncCommand } from '../structure';
-import { Discord, Interfaces } from 'arunabase';
 import { ErrorEmbed } from '../utils';
-// import { DefaultEmbed, ErrorEmbed } from '../utils';
+import { Discord } from 'arunabase';
 
 export default class SayCommand extends ArunaAsyncCommand {
   constructor() {
@@ -33,7 +32,7 @@ export default class SayCommand extends ArunaAsyncCommand {
     });
   }
 
-  protected override async execute(context: Interfaces.IDiscordCommandContext): Promise<void> {
+  protected override async execute(context: Discord.ICommandContext): Promise<void> {
     var message: string;
 
     if (context.interaction) {

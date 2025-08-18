@@ -1,8 +1,7 @@
-import { ApplicationCommandOptionType, PermissionFlagsBits, Role } from 'arunabase/build/discord';
+import { ApplicationCommandOptionType, ICommandContext, PermissionFlagsBits, Role } from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
-import { ArunaAsyncCommand } from '../structure';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
-import { IDiscordCommandContext } from 'arunabase/build/interfaces';
+import { ArunaAsyncCommand } from '../structure';
 
 export default class MassRemoveCommand extends ArunaAsyncCommand {
   constructor() {
@@ -137,7 +136,7 @@ export default class MassRemoveCommand extends ArunaAsyncCommand {
     await context.editReply(embed);
   }
 
-  public override checkPermission(context: IDiscordCommandContext, silent?: boolean): boolean {
+  public override checkPermission(context: ICommandContext, silent?: boolean): boolean {
     if (!context.member!.permissions.has(PermissionFlagsBits.ManageRoles)) {
       if (!silent) context.discreteReply(new ErrorEmbed().setDescription('You don\'t have the manage roles permission!'));
       return false;

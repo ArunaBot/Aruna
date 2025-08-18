@@ -1,4 +1,3 @@
-import { IDiscordCommandContext } from 'arunabase/build/interfaces';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 import { ArunaAsyncCommand } from '../structure';
@@ -83,7 +82,7 @@ export default class ClearCommand extends ArunaAsyncCommand {
     }
   }
 
-  public override checkPermission(context: IDiscordCommandContext, silent = false): boolean {
+  public override checkPermission(context: Discord.ICommandContext, silent = false): boolean {
     if (!context.member!.permissions.has(Discord.PermissionFlagsBits.ManageMessages)) {
       if (!silent) context.discreteReply(new ErrorEmbed().setDescription('You don\'t have the manage messages permission!'));
       return false;

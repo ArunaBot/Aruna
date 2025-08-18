@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType, ButtonStructure, ButtonStyle, GuildMember, MessageStructure, PermissionFlagsBits, User } from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
-import { ArunaAsyncCommand } from '../structure';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
+import { ArunaAsyncCommand } from '../structure';
 
 export default class KickCommand extends ArunaAsyncCommand {
   constructor() {
