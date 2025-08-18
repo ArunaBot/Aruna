@@ -59,6 +59,20 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
             },
           ],
         },
+        {
+          name: 'date_filter',
+          description: 'Filter members by join date (e.g., "2024-01-01")',
+          name_localizations: {
+            'pt-BR': 'filtro_de_data',
+          },
+          description_localizations: {
+            'pt-BR': 'Filtra membros pela data de entrada (ex: "2024-01-01")',
+          },
+          required: false,
+          type: ApplicationCommandOptionType.String,
+          min_length: 10,
+          max_length: 10,
+        },
       ],
     });
   }
@@ -88,7 +102,18 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
       return;
     }
 
-    const group = context.args[1] as string || 'all';
+    let group: string = 'all';
+    let dateFilter: string | null = null;
+
+    if (context.args.length == 2 && (context.args[1] as string).match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
+      dateFilter = context.args[1] as string;
+    } else if (context.args.length == 2) {
+      group = context.args[1] as string;
+    } else if (context.args.length == 3) {
+      group = context.args[1] as string;
+      dateFilter = context.args[2] as string;
+    }
+
     if (!['all', 'bots', 'humans'].includes(group)) {
       await context.editReply(new DefaultEmbed().setDescription('Invalid group specified! Use "all", "bots", or "humans".'));
       return;
@@ -103,7 +128,13 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
     }
 
     const members = await context.guild!.members.list({ limit: 500 });
-    const membersToUpdate = group === 'all' ? members : members.filter(m => (group === 'bots' ? m.user.bot : !m.user.bot) && !(m.roles.cache.has(role.id)));
+    let membersToUpdate = group === 'all' ? members : members.filter(m => (group === 'bots' ? m.user.bot : !m.user.bot) && !(m.roles.cache.has(role.id)));
+    if (dateFilter) {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateFilter)) {
+        const filterDate = new Date(dateFilter);
+        membersToUpdate = membersToUpdate.filter(m => m.joinedAt && m.joinedAt <= filterDate);
+      }
+    }
 
     if (membersToUpdate.size === 0) {
       await context.editReply(new DefaultEmbed().setDescription('No members found to apply the role to!'));
