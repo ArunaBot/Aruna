@@ -18,9 +18,9 @@ export default class ReadyEvent extends BaseEvent {
     await this.client.registerCommands();
     this.updatePresence();
     setInterval(() => this.updatePresence(), 10000);
-    this.client.getLogger().info(`Logged in as ${this.discordClient.user!.tag} on shard ${this.client.getConfig().shardId}!`);
+    this.client.getLogger().info(`Logged in as ${this.discordClient.user!.tag}${this.client.getConfig().shard ? ` on shard ${this.client.getConfig().shardId}` : ''}!`);
 
-    if (this.client.getConfig().topggToken && (!this.client.getConfig().shardCount || this.client.getConfig().shardCount === 1)) {
+    if (this.client.getConfig().topggToken && !this.client.getConfig().shard) {
       const ap = AutoPoster(this.client.getConfig().topggToken!, this.discordClient);
 
       ap.on('posted', () => {
