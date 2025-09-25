@@ -2,7 +2,7 @@ import { DatabaseConnection, DatabaseManager, MariaDBConnection } from 'promiseo
 import { IBaseClient, IConfiguration, IDatabaseConfiguration } from '../common';
 import { ILoggerOptions, Logger } from '@promisepending/logger.js';
 import { ArunaCommandBased, BaseEvent } from './structure';
-import { IDiscordProperties } from './interfaces';
+import { IDiscordFullCommandContext, IDiscordProperties } from './interfaces';
 import { ConfigurationLoader } from '../api';
 import { Discord } from 'arunabase';
 import * as path from 'path';
@@ -26,9 +26,7 @@ export class DiscordClient implements IBaseClient {
     this.customProperties = (this.configurationLoader?.loadJsonResource('discordProperties') ?? {}) as IDiscordProperties;
     configs.additionalCommandContext = { ...configs.additionalCommandContext ?? {}, ...this.customProperties };
     this.logger = new Logger({ prefix: 'DISCORD', ...loggerOptions ?? {} });
-    this.client = new Discord.DiscordClient(configs, this.logger);
-    this.config = configs;
-
+    
     const db = new DatabaseManager().getConnection('global');
     if (!db && dbConfig) {
       // Probably running in a sharding environment. We need to create a new connection
@@ -46,6 +44,10 @@ export class DiscordClient implements IBaseClient {
     } else {
       this.database = db;
     }
+    
+    configs.additionalCommandContext = { ...configs.additionalCommandContext ?? {}, ...this.customProperties, databaseConnection: db } as unknown as IDiscordFullCommandContext;
+    this.client = new Discord.DiscordClient(configs, this.logger);
+    this.config = configs;
   }
 
   public on(event: string, listener: (...args: any[]) => void): void {
