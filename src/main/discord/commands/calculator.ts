@@ -40,7 +40,7 @@ export default class CalculatorCommand extends ArunaAsyncCommand {
   }
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
-    var expression: string;
+    let expression: string;
 
     if (context.interaction) {
       expression = context.args[0] as string;
@@ -60,7 +60,7 @@ export default class CalculatorCommand extends ArunaAsyncCommand {
 
     if (context.interaction) await context.interaction.deferReply();
 
-    var result: any;
+    let result: any;
 
     try {
       result = await this.evaluate(expression);

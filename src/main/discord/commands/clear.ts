@@ -33,7 +33,7 @@ export default class ClearCommand extends ArunaAsyncCommand {
   }
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
-    var amount = context.args[0] as number;
+    const amount = context.args[0] as number;
 
     if (!amount) {
       await context.discreteReply(new ErrorEmbed().setDescription('You must specify the amount of messages to be deleted!'));

@@ -52,8 +52,8 @@ export default class DiceCommand extends ArunaAsyncCommand {
       return;
     }
 
-    var amount = 0;
-    var faces = 0;
+    let amount = 0;
+    let faces = 0;
 
     if (typeof context.args[0] === 'string') {
       const params = (context.args[0]! as string).toLowerCase().split('d');

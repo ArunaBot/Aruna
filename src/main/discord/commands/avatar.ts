@@ -69,7 +69,7 @@ export default class AvatarCommand extends ArunaCommand {
 
     const targetRaw = (context.args[0] as string)?.replace(/[<@!>]/g, '');
 
-    var target;
+    let target;
 
     if (context.args[1] === 'guild') {
       target = context.guild?.members.cache.get(targetRaw || context.author.id)?.user;

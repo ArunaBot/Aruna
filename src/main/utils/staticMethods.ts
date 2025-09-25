@@ -11,7 +11,7 @@ export function getFormattedTime(time: number): string {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = Math.floor(totalSeconds % 60);
 
-  var uptime = `${seconds}s`;
+  let uptime = `${seconds}s`;
 
   if (days >= 1) {
     uptime = `${days}d, ${hours}h, ${minutes}m`;

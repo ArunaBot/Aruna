@@ -33,7 +33,7 @@ export default class SayCommand extends ArunaAsyncCommand {
   }
 
   protected override async execute(context: Discord.ICommandContext): Promise<void> {
-    var message: string;
+    let message: string;
 
     if (context.interaction) {
       message = context.args[0] as string;

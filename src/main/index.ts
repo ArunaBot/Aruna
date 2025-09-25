@@ -33,7 +33,7 @@ async function main(): Promise<void> {
 
   if (configs.discord) {
     logger.info('Starting Discord...');
-    var discordClient;
+    let discordClient;
 
     if (configs.discord.shard) {
       discordClient = new Discord.Sharding(configs.discord.token, { ...configs, logger: globalLoggerConfig });
