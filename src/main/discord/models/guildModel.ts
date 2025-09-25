@@ -1,4 +1,4 @@
-import { BaseModel, EDatabaseTypes } from 'promisedb';
+import { BaseModel, EDatabaseTypes } from 'promiseorm';
 
 export default class GuildModel extends BaseModel {
   constructor() {

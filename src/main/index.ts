@@ -1,4 +1,4 @@
-import { DatabaseManager, MariaDBConnection } from 'promisedb';
+import { DatabaseManager, MariaDBConnection } from 'promiseorm';
 import { Logger } from '@promisepending/logger.js';
 import { ConfigurationLoader } from './api';
 import { IBaseClient } from './common';

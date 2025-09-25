@@ -2,9 +2,10 @@ import { IDiscordFullCommandContext } from '../interfaces';
 import { ArunaAsyncCommand } from '../structure';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 import { Discord } from 'arunabase';
-import { evaluate } from 'mathjs';
 
 export default class CalculatorCommand extends ArunaAsyncCommand {
+  private evaluate!: (expression: any) => Promise<any>;
+
   constructor() {
     super('calculator', {
       name_localizations: {
@@ -32,6 +33,10 @@ export default class CalculatorCommand extends ArunaAsyncCommand {
       ],
       aliases: ['calc', 'math', 'matematica', 'calcular'],
     });
+
+    import('mathjs').then((module) => {
+      this.evaluate = module.evaluate;
+    });
   }
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
@@ -58,9 +63,9 @@ export default class CalculatorCommand extends ArunaAsyncCommand {
     var result: any;
 
     try {
-      result = await evaluate(expression);
+      result = await this.evaluate(expression);
       // The below line is to fix the javascript floating point bug
-      result = await evaluate(`0 + (${result}).toFixed(16)`);
+      result = await this.evaluate(`0 + (${result}).toFixed(16)`);
     } catch (error) {
       context.client.getLogger().error('Error while evaluating expression: ', error);
       await context.editReply(new ErrorEmbed().setDescription('An error occurred while evaluating the expression! Try again or use another expression!'));

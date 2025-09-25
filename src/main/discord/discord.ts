@@ -1,4 +1,4 @@
-import { DatabaseConnection, DatabaseManager, MariaDBConnection } from 'promisedb';
+import { DatabaseConnection, DatabaseManager, MariaDBConnection } from 'promiseorm';
 import { IBaseClient, IConfiguration, IDatabaseConfiguration } from '../common';
 import { ILoggerOptions, Logger } from '@promisepending/logger.js';
 import { ArunaCommandBased, BaseEvent } from './structure';

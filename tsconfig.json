@@ -12,10 +12,10 @@
     "declaration": false,
     "declarationMap": false,
     "sourceMap": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "skipLibCheck": true,
     "target": "ES2020",
-    "module": "CommonJS",
+    "module": "node16",
     "outDir": "build/aruna",
     "types": ["node", "discord.js"],
     "noImplicitAny": true
