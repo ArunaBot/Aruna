@@ -12,12 +12,7 @@
 <a href="https://github.com/ArunaBot/Aruna/blob/stable/LICENSE"><img src="https://img.shields.io/badge/license-AGPL%20v3-lightgray.svg"></a>
 </p>
 <p align="center">
-<a href="README_EN.md"><img src="https://img.shields.io/badge/🌐_Readme_📖-Read_In_English-03ebfc.svg"></a>
 <a href="README.md"><img src="https://img.shields.io/badge/🌐_Readme_📖-Leia_em_Português-03fc41.svg"></a>
-</p>
-<p align="center">
-<a href="https://github.com/ArunaBot/Aruna/tree/Stable"><img src="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Stable"></a>
-<a href="https://github.com/ArunaBot/Aruna/tree/Unstable"><img src="https://github.com/ArunaBot/Aruna/workflows/Node.js%20CI/badge.svg?branch=Unstable"></a>
 </p>
 <p align="center">
 <a href="https://github.com/ArunaBot/Aruna/stargazers"><img src="https://img.shields.io/github/stars/ArunaBot/Aruna.svg?style=social&label=Stars"></a>
@@ -57,7 +52,7 @@ Você também pode hospedar a Aruna você mesmo (afinal, é por isso que se cham
 
 Nós [recomendamos utilizar a versão pública da Aruna](https://discordapp.com/oauth2/authorize?client_id=593303574725787657&scope=bot&permissions=2146954751), mas se você *realmente* quiser hospedar ou ajudar a desenvolver a Aruna, siga os seguintes passos:
 
-1. Tenha o [NODE 12.16.2 (ou superior)](https://nodejs.org/en/) instalado na sua máquina e certifique-se que o node e o npm (incluso no nodejs) estão acessíveis pelo terminal. (Tente executar `node -v` e `npm -v` no terminal, caso não funcionem, procure reinstalar o nodejs ou reiniciar a máquina).
+1. Tenha o [Node 18.17.0 (ou superior)](https://nodejs.org/en/) instalado na sua máquina e certifique-se que o node e o npm (incluso no nodejs) estão acessíveis pelo terminal. (Tente executar `node -v` e `npm -v` no terminal, caso não funcionem, procure reinstalar o nodejs ou reiniciar a máquina).
 2. Tenha o MongoDB instalado na sua máquina. (Ou se prefereir, pode usar o [MongoDB Online](https://mongodb.com/)).
 3. Tenha o `git-shell` ou o `git-cli` instalados. No Windows você pode utilizar o `Git Bash`.
 4. Caso você precise ou fazer modificações no código-fonte, é recomendado utilizar o [Visual Studio Code](https://code.visualstudio.com/).
@@ -86,22 +81,6 @@ Funcionalidades (como comandos) relacionados a coisas NSFW **não serão** adici
 ## Dependências
 
 A Aruna utiliza várias [dependências no código-fonte](https://github.com/ArunaBot/Aruna/blob/stable/package.json), obrigado a todos os mantenedores das dependências! Sem vocês, a Aruna não iria existir (ou teria várias funcionalidades reduzidas ou até inexistentes!).
-
-| Nome  | Mantenedor |
-| ------------- | ------------- |
-| [Node](https://nodejs.org/en/) | OpenJS Foundation  |
-| [discord.js](https://discord.js.org/) | Comunnity  |
-| [Express](https://github.com/expressjs/express) | TJ Holowaychuk, Douglas Christopher Wilson  |
-| [Express Session](https://github.com/expressjs/session) |  dougwilson, Fishrock123, etc |
-| [Mongoose](http://mongoosejs.com/) |  vkarpov15, aheckmann, rauchg, etc  |
-| [Moment](http://momentjs.com) |  ichernev, timrwood, icambron, etc  |
-| [Moment Duration Format](https://github.com/jsmreese/moment-duration-format) |  jsmreese  |
-| [Ytdl Core](https://github.com/fent/node-ytdl-core) |  fent, #3TimeForANinja, etc  |
-| [Node Opus](github.com/Rantanen/node-opus) |  Rantanen, thijstriemstra, nfriedly, etc  |
-| [Jimp](github.com/oliver-moran/jimp) |  hipstersmoothie, oliver-moran, strandedcity, etc  |
-| [SuperAgent](github.com/visionmedia/superagent) |  tj, kornelski, defunctzombie, etc  |
-| [MathJS](https://mathjs.org/) |  josdejong, rjbaucells, FSMaxB  |
-| [Chalk](github.com/chalk/chalk) |  sindresorhus, Qix-, etc  |
 
 ## 📄 Licença
 
