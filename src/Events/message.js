@@ -24,6 +24,7 @@ const { checkInvites, cooldown, utils } = require('../Utils');
 const langI = require(`../../languages/bot/${config.language}/internal.json`);
 
 exports.run = async (aruna, message) => {
+  if (message.author.bot) return;
   if (message.channel.type == 'dm') {
     const dmUser = await database.Users.findOne({ _id: message.author.id });
 
@@ -50,7 +51,6 @@ exports.run = async (aruna, message) => {
 
     const dmLang = require(`../../languages/bot/${dmUser.language || config.defaultLanguage}/events.json`);
 
-    if (message.author.bot) return;
     return message.reply(dmLang.message.errors.dmError);
   }
   
