@@ -1,3 +1,4 @@
+import { DatabaseConnection } from 'promiseorm';
 import { Discord } from 'arunabase';
 
 export interface IDiscordProperties {
@@ -13,4 +14,6 @@ export interface IDiscordProperties {
     emojiList: { [key: string]: string };
 }
 
-export interface IDiscordFullCommandContext extends Discord.ICommandContext, IDiscordProperties { }
+export interface IDiscordFullCommandContext extends Discord.ICommandContext, IDiscordProperties {
+  databaseConnection: DatabaseConnection;
+}

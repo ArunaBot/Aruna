@@ -45,7 +45,7 @@ export class DiscordClient implements IBaseClient {
       this.database = db;
     }
     
-    configs.additionalCommandContext = { ...configs.additionalCommandContext ?? {}, ...this.customProperties, databaseConnection: db } as unknown as IDiscordFullCommandContext;
+    configs.additionalCommandContext = { ...configs.additionalCommandContext ?? {}, ...this.customProperties, databaseConnection: this.database } as IDiscordFullCommandContext;
     this.client = new Discord.DiscordClient(configs, this.logger);
     this.config = configs;
   }
