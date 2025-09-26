@@ -29,7 +29,7 @@
     "del": "^6.1.1",
     "discord.js": "github:ArunaBot/discord.js#v11",
     "fs-extra": "^10.1.0",
-    "jimp": "^0.16.1",
+    "jimp": "^1.6.0",
     "mathjs": "^10.6.4",
     "mongoose": "^6.13.8",
     "superagent": "^7.1.6",
