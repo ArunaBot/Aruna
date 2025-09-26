@@ -1,5 +1,14 @@
 # Changelog
 
+## v4.3.6: Maintenance Update
+
+- Changes:
+  - Updated Dependencies;
+  - Removed broken sections from `serverinfo` command;
+- Fix:
+  - Memory Leaks caused by excessive use of `var` instead `let` and `const`;
+  - Only skipping bots message if it's a dm;
+
 ## v4.3.5: Voice Update
 
 - New:

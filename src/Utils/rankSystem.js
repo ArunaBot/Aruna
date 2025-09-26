@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -31,7 +31,7 @@ exports.run = async (aruna, message, lang, langc, database, cooldown, utils, Dis
 
   if (!cooldown.is(user.id)) {
     cooldown.add(user.id);
-    var add = Math.floor(Math.random() * 15) + 5;
+    let add = Math.floor(Math.random() * 15) + 5;
 
     add = parseInt(add) + parseInt(rank.xp);
     rank.xp = add;

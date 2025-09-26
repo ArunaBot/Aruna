@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -88,9 +88,9 @@ exports.run = async (aruna, message, args) => {
     .setDescription(`The Badge \`${args[1]}\` has been \`${args[0]}ed\` with sucess!`)
     .setTimestamp();
 
-  var vip = guild.isPremium;
-  var partner = guild.isPartner;
-  var partnerPlus = '';
+  const vip = guild.isPremium;
+  const partner = guild.isPartner;
+  let partnerPlus = '';
 
   if (vip == true && partner == true) {
     partnerPlus = true;

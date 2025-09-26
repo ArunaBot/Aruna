@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -16,12 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const config = require('./general.js');
 const chalk = require('chalk');
 const language = require(`../languages/bot/${config.language}/internal.json`);
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 const url = config.mongoose;
 mongoose.connect(
   url,

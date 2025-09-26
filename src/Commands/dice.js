@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -18,7 +18,7 @@
 
 const Discord = require('discord.js');
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (aruna, message, args, langc, prefix, comando) => {
   if (langc) {
@@ -75,7 +75,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
 
   if (!split) return message.channel.send(error5);
 
-  var number = split[0];
+  const number = split[0];
 
   if (!number) return message.channel.send(error5);
 
@@ -91,7 +91,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
   
   if (number == 0) return message.channel.send(error7);
   
-  var diceStr = number == 1 ? language.dice.embed.generic.dice : language.dice.embed.generic.dices;
+  const diceStr = number == 1 ? language.dice.embed.generic.dice : language.dice.embed.generic.dices;
   
   const error8 = new Discord.RichEmbed()
     .setAuthor(language.generic.embed.error.title.replace('[username]', message.member.displayName), message.author.avatarURL)
@@ -101,14 +101,14 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
   
   if (dice == 1) return message.channel.send(error8);
 
-  var result = [];
+  const result = [];
 
-  var loop = number;
-  var embed = new Discord.RichEmbed()
+  let loop = number;
+  const embed = new Discord.RichEmbed()
     .setFooter(language.generic.embed.footer.replace('[usertag]', message.author.tag))
     .setTimestamp();
 
-  var idVar = setInterval(() => {
+  const idVar = setInterval(() => {
     if (loop <= 0) {
       if (number > 1) {
         embed.setAuthor(language.dice.embed.sucess['1'].title.replace('[username]', message.member.displayName).replace('[NUMBER]', number).replace('[DICE]', dice),
@@ -124,7 +124,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
 
     loop = loop - 1;
 
-    var math = Math.floor(Math.random() * dice) + 1;
+    const math = Math.floor(Math.random() * dice) + 1;
 
     if (math >= 500) {
       clearInterval(idVar);

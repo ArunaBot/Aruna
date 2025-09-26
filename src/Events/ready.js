@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -98,8 +98,8 @@ exports.run = async (aruna) => {
     }
   ];
   async function setStatus() {
-    var maintenance = await database.System.findOne({ _id: 1 });
-    var inMaintenance;
+    const maintenance = await database.System.findOne({ _id: 1 });
+    let inMaintenance;
     if (!maintenance) {
       inMaintenance = false;
       await new database.System({ _id: 1 }).save();
@@ -112,7 +112,7 @@ exports.run = async (aruna) => {
       aruna.user.setPresence({ game: { name: langE.ready.maintenance.replace('[date]', maintenance.date).replace('[time]', maintenance.time)}});
     } else {
       aruna.user.setStatus('online');
-      var randomStatus = status[Math.floor(Math.random() * status.length)];
+      let randomStatus = status[Math.floor(Math.random() * status.length)];
       randomStatus = { name: randomStatus.name.replace('[time]', await getUptime()), type: randomStatus.type };
       aruna.user.setPresence({ game: randomStatus });
     }
@@ -126,7 +126,7 @@ exports.run = async (aruna) => {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = Math.floor(totalSeconds % 60);
 
-    var uptime;
+    let uptime;
 
     if (days >= 1) {
       uptime = `${days}d, ${hours}h, ${minutes}m`;

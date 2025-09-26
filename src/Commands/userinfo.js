@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 const { emoji, date } = require('../Utils');
 const Discord = require('discord.js');
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const dateFormat = require('dateformat');
 
 exports.run = (aruna, message, args, langc) => {
@@ -29,7 +29,7 @@ exports.run = (aruna, message, args, langc) => {
     language = langc;
   }
 
-  var mentionedUser = message.guild.member(
+  let mentionedUser = message.guild.member(
     message.mentions.users.first() ||
     aruna.users.get(args[0])
   ) || aruna.users.get(args[0]);
@@ -69,8 +69,8 @@ exports.run = (aruna, message, args, langc) => {
     )
   );
 
-  var userStatus;
-  var userStatusEmoji;
+  let userStatus;
+  let userStatusEmoji;
 
   switch (mentionedUser.presence.status) {
     case 'online':
@@ -106,7 +106,7 @@ exports.run = (aruna, message, args, langc) => {
     userAvatar = mentionedUser.user.displayAvatarURL.replace('.jpg', '.png');
   }
 
-  var stringtime1;
+  let stringtime1;
   switch (userDaysDiscord) {
     case 1:
       stringtime1 = language.generic.strings.day;
@@ -116,7 +116,7 @@ exports.run = (aruna, message, args, langc) => {
       break;
   }
 
-  var stringtime2;
+  let stringtime2;
   switch (userDaysGuild) {
     case 1:
       stringtime2 = language.generic.strings.day;
@@ -126,7 +126,7 @@ exports.run = (aruna, message, args, langc) => {
       break;
   }
 
-  var userBoost = '';
+  let userBoost = '';
 
   const premium = message.guild.member(mentionedUser.user).premiumSinceTimestamp;
   

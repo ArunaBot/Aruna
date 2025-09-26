@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,7 @@
 const Discord = require('discord.js');
 const { database, config } = require('../../Configs');
 const { emojis } = require('../Utils');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (aruna, message, args, langc, prefix, comando) => {
 
@@ -39,7 +39,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
   if (!code) return message.channel.send(embed);
   
   try {
-    var str;
+    let str;
 
     if (code.includes(`${aruna.token}` || `${config.token}` || `${config.mongoose}` || 'aruna.token' || 'process.env.token' || 'config.token' || 'config.mongoose')) {
       str = language.eval.generic.censor;

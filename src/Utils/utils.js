@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -33,7 +33,7 @@ function need(level) {
  * @returns {Promise} resolves once complete, otherwise rejects
  */
 async function downloadFile(fileUrl, destPath) {
-  var genStr = false;
+  let genStr = false;
 
   if (!fileUrl) return Promise.reject(new Error('Invalid fileUrl'));
 
@@ -52,7 +52,7 @@ async function downloadFile(fileUrl, destPath) {
 
   return new Promise(function(resolve, reject) {
     fetch(fileUrl).then(function(res) {
-      var fileStream = fs.createWriteStream(destPath);
+      const fileStream = fs.createWriteStream(destPath);
       res.body.on('error', reject);
       fileStream.on('finish', () => {
         resolve(destPath);
@@ -65,10 +65,10 @@ async function downloadFile(fileUrl, destPath) {
 }
 
 function randomStringGenerator(length = 10) {
-  var result = '';
+  let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
