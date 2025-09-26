@@ -50,6 +50,11 @@ export default class EvalCommand extends ArunaAsyncCommand {
       return;
     }
 
+    if (code.toLowerCase().includes('databaseconnection')) {
+      await context.discreteReply(new ErrorEmbed().setDescription('You can\'t use databaseConnection!'));
+      return;
+    }
+
     let result: any;
     try {
       const evaluate = await eval(code);
@@ -62,6 +67,16 @@ export default class EvalCommand extends ArunaAsyncCommand {
     result = result.length > 1012 ? `${result.slice(0, 1009)}...` : result;
 
     if (result.includes(context.client.token)) result = result.replace(context.client.token, '[REDACTED]');
+    // @ts-expect-error yes, password exists, but is supposed to be private. Thanks JavaScript for not having private class fields
+    if (result.includes(context.databaseConnection.password)) result = result.replace(context.databaseConnection.password, '[REDACTED]');
+    // @ts-expect-error yes, username exists, but is supposed to be private. Thanks JavaScript for not having private class fields
+    if (result.includes(context.databaseConnection.hostname)) result = result.replace(context.databaseConnection.hostname, '[REDACTED]');
+    // @ts-expect-error yes, username exists, but is supposed to be private. Thanks JavaScript for not having private class fields
+    if (result.includes(context.databaseConnection.username)) result = result.replace(context.databaseConnection.username, '[REDACTED]');
+    // @ts-expect-error yes, database exists, but is supposed to be private. Thanks JavaScript for not having private class fields
+    if (result.includes(context.databaseConnection.database)) result = result.replace(context.databaseConnection.database, '[REDACTED]');
+    // @ts-expect-error yes, port exists, but is supposed to be private. Thanks JavaScript for not having private class fields
+    if (result.includes(context.databaseConnection.port)) result = result.replace(context.databaseConnection.port, '[REDACTED]');
 
     const finalCode = code.length > 1012 ? `${code.slice(0, 1009)}...` : code;
 
