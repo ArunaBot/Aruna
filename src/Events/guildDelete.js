@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var { config, database } = require('../../Configs');
+const { config, database } = require('../../Configs');
 
 const lang = require(`../../languages/bot/${config.language}/events.json`);
 

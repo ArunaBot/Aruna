@@ -1,12 +1,11 @@
 {
   "name": "arunabot",
-  "version": "4.3.5",
+  "version": "4.3.6",
   "description": "A nova e melhorada aruna!",
   "main": "src/main.js",
   "scripts": {
     "start": "node src/sharding.js",
-    "eslint": "eslint ./src",
-    "eslint:fix": "eslint ./src --fix"
+    "lint": "eslint ./src --fix"
   },
   "repository": {
     "type": "git",
@@ -14,8 +13,8 @@
   },
   "author": {
     "name": "Lobo Metalurgico",
-    "email": "contato@lobometalurgico.tk",
-    "url": "https://youtube.com/LoboMetalurgico"
+    "email": "lobometalurgico@allonsve.com",
+    "url": "https://github.com/LoboMetalurgico"
   },
   "contributors": [
     {
@@ -27,31 +26,17 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "dateformat": "^4.6.3",
-    "del": "^6.0.0",
+    "del": "^6.1.1",
     "discord.js": "github:ArunaBot/discord.js#v11",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.1.0",
     "jimp": "^0.16.1",
-    "mathjs": "^10.1.1",
-    "mongoose": "^6.2.1",
-    "node-fetch": "^2.6.7",
-    "nodemon": "^2.0.15",
-    "superagent": "^7.1.1",
-    "systeminformation": "^5.11.3",
+    "mathjs": "^10.6.4",
+    "mongoose": "^6.13.8",
+    "superagent": "^7.1.6",
+    "systeminformation": "^5.27.10",
     "topgg-autoposter": "github:ArunaBot/topgg-autoposter#release"
   },
   "devDependencies": {
-    "eslint": "^8.9.0"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      ".Configs/*",
-      "Configs/*",
-      ".git/*",
-      ".gitignore",
-      ".github/",
-      "package.json",
-      "package-lock.json"
-    ],
-    "delay": "5000"
+    "eslint": "^8.57.1"
   }
 }

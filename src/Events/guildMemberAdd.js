@@ -17,7 +17,7 @@
 */
 
 const Discord = require('discord.js');
-var { config, database } = require('../../Configs');
+const { config, database } = require('../../Configs');
 const { links } = require('../../Configs');
 
 const lang = require(`../../languages/bot/${config.language}/events.json`);
@@ -28,7 +28,7 @@ const serverStatsPrincipal = {
 };
 
 
-var noFakeId = config.noFakeId;
+const noFakeId = config.noFakeId;
 
 exports.run = async (aruna, member) => {
   const user = database.Users.findOne({ _id: member.user.id });
@@ -71,7 +71,7 @@ exports.run = async (aruna, member) => {
   }
   
   if (!user) {
-    var saveU = new database.Users({ _id: member.user.id });
+    const saveU = new database.Users({ _id: member.user.id });
     await saveU.save();
     console.log(lang.memberAdd.db);
   }

@@ -16,18 +16,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var { config, database } = require('../../Configs');
+const { config, database } = require('../../Configs');
 
 const lang = require(`../../languages/bot/${config.language}/events.json`);
 
 exports.run = async (aruna, guild) => {
-  var language;
+  let language;
   if (guild.region == 'brazil') {
     language = 'br';
   } else {
     language = config.defaultLanguage;
   }
-  var saveG = new database.Guilds({ _id: guild.id, language: language });
+  const saveG = new database.Guilds({ _id: guild.id, language: language });
   await saveG.save();
   console.log(lang.guild.create.replace('[guildName]', guild.name));
 };

@@ -19,7 +19,7 @@
 const Discord = require('discord.js');
 const { config } = require('../../Configs');
 
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (aruna, message, args, langc, prefix, comando) => {
   if (langc) {
@@ -48,7 +48,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
   if (!message.guild.members.get(aruna.user.id).hasPermission('MANAGE_MESSAGES'))
     return message.channel.send(error2);
 
-  var content = message.content.slice(comando.length + prefix.length).trim();
+  const content = message.content.slice(comando.length + prefix.length).trim();
 
   if (!content) {
     return message.channel.send(error3);

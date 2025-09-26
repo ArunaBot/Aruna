@@ -22,7 +22,7 @@ const pkg = require('../../package.json');
 const Discord = require('discord.js');
 
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (aruna, message, args, langc) => {
   if (langc) {

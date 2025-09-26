@@ -16,12 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const config = require('./general.js');
 const chalk = require('chalk');
 const language = require(`../languages/bot/${config.language}/internal.json`);
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 const url = config.mongoose;
 mongoose.connect(
   url,

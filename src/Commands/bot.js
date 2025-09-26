@@ -20,7 +20,7 @@
 const { emoji, sysdata } = require('../Utils');
 const Discord = require('discord.js');
 const { config, links } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const pkg = require('../../package.json');
 
 exports.run = async (aruna, message, args, langc) => {
@@ -47,7 +47,7 @@ exports.run = async (aruna, message, args, langc) => {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = Math.floor(totalSeconds % 60);
 
-  var uptime;
+  let uptime;
 
   if (days >= 1) {
     uptime = `${days}d, ${hours}h, ${minutes}m`;
@@ -120,15 +120,15 @@ exports.run = async (aruna, message, args, langc) => {
         .replace('%s', links.supportServers[0]), true);
   }
 
-  var os = await sysdata.GetOSData();
+  const os = await sysdata.GetOSData();
 
-  var rambo = await sysdata.GetMemoryAmount();
+  const rambo = await sysdata.GetMemoryAmount();
 
   const ram = Math.round(rambo.used / 1024 / 1024 * 10) / 10;
 
   const ramT = Math.round(rambo.total / 1024 / 1024 * 10) / 10;
 
-  var cpu = await sysdata.GetCPUModel();
+  const cpu = await sysdata.GetCPUModel();
 
   const embed2 = new Discord.RichEmbed()
     .setAuthor(aruna.user.username, `${aruna.user.avatarURL}`)

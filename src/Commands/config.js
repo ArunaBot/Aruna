@@ -18,11 +18,11 @@
 */
 
 const { config, database } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const Discord = require('discord.js');
 
-var options = ['rank', 'autorole', 'prefix', 'language', 'idioma', 'lang', 'antiinvite', 'antinvite','anticonvite', 'antinv'];
-var userOptions = ['language', 'idioma', 'lang'];
+const options = ['rank', 'autorole', 'prefix', 'language', 'idioma', 'lang', 'antiinvite', 'antinvite','anticonvite', 'antinv'];
+const userOptions = ['language', 'idioma', 'lang'];
 
 exports.run = async (aruna, message, args, langc) => {
 
@@ -59,7 +59,7 @@ exports.run = async (aruna, message, args, langc) => {
     return message.channel.send(error1);
   }
 
-  var argument;
+  let argument;
 
   args[1] !== undefined ? argument = args[1].toLowerCase() : null;
 
@@ -235,7 +235,7 @@ exports.run = async (aruna, message, args, langc) => {
 
         message.channel.send(setGuildLanguage);
         break;
-      case 'user':
+      case 'user': {
         if (user.language === args[2]) return message.channel.send(errorUserLanguage);
 
         user.language = args[2];
@@ -249,7 +249,7 @@ exports.run = async (aruna, message, args, langc) => {
           language = require(`../../languages/bot/${guild.language}/commands.json`);
         }
 
-        var setUserLanguage = new Discord.RichEmbed()
+        const setUserLanguage = new Discord.RichEmbed()
           .setAuthor(language.generic.embed.sucess.title.replace('[username]', message.member.displayName), message.author.avatarURL)
           .setFooter(language.generic.embed.sucess.footer2.replace('[username]', message.member.displayName))
           .setDescription(language.config.embed.sucess.language.description2.replace('[LANGUAGE]', args[2] || guild.language))
@@ -257,6 +257,7 @@ exports.run = async (aruna, message, args, langc) => {
         
         message.channel.send(setUserLanguage);
         break;
+      }
       default:
         invalidAction(actionList);
         break;

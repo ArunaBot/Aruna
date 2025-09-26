@@ -88,9 +88,9 @@ exports.run = async (aruna, message, args) => {
     .setDescription(`The Badge \`${args[1]}\` has been \`${args[0]}ed\` with sucess!`)
     .setTimestamp();
 
-  var vip = guild.isPremium;
-  var partner = guild.isPartner;
-  var partnerPlus = '';
+  const vip = guild.isPremium;
+  const partner = guild.isPartner;
+  let partnerPlus = '';
 
   if (vip == true && partner == true) {
     partnerPlus = true;

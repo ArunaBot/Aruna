@@ -17,7 +17,7 @@
 */
 
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (aruna, message, args, langc) => {
 
@@ -25,7 +25,7 @@ exports.run = async (aruna, message, args, langc) => {
     language = langc;
   }
 
-  var add = await Math.round(Math.random());
+  const add = await Math.round(Math.random());
   if (add == 0){
     message.channel.send(language.flip.heads);
   } else if (add == 1){

@@ -19,7 +19,7 @@
 
 const Discord = require('discord.js');
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 // eslint-disable-next-line no-unused-vars
 const { date } = require('../Utils');
 const dateFormat = require('dateformat');
@@ -96,7 +96,7 @@ exports.run = async (aruna, message, args, langc, prefix, command) => {
       return message.channel.send(error6);
   }
   
-  var reason = message.content.slice(command.length + prefix.length).trim();
+  let reason = message.content.slice(command.length + prefix.length).trim();
 
   if (args[0].includes('<@!') && args[0].includes('>')) {
     reason = reason.slice(5 + kuser.id.length).trim();

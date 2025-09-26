@@ -31,7 +31,7 @@ exports.run = async (aruna, message, lang, langc, database, cooldown, utils, Dis
 
   if (!cooldown.is(user.id)) {
     cooldown.add(user.id);
-    var add = Math.floor(Math.random() * 15) + 5;
+    let add = Math.floor(Math.random() * 15) + 5;
 
     add = parseInt(add) + parseInt(rank.xp);
     rank.xp = add;

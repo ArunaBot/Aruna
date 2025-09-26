@@ -25,7 +25,7 @@ async function check (aruna, message, lang, guildDB, database, debug) {
   const member = message.member;
   const channel = message.channel;
 
-  var AIDB = await database.AntiInvite.findOne({ _id: guild.id });
+  let AIDB = await database.AntiInvite.findOne({ _id: guild.id });
 
   if (!AIDB) {
     AIDB = new database.AntiInvite({

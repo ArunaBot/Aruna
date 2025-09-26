@@ -20,7 +20,7 @@ const Discord = require('discord.js');
 const Jimp = require('jimp');
 
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (client, message, args, langc) => {
   if (langc) {
@@ -33,8 +33,8 @@ exports.run = async (client, message, args, langc) => {
     .setDescription(language.ship.embed.error.description)
     .setTimestamp();
 
-  var porcentagem = 0;
-  var aleatorio = Math.round(Math.random() * 100);
+  let porcentagem = 0;
+  const aleatorio = Math.round(Math.random() * 100);
 
   porcentagem = aleatorio;
 
@@ -44,7 +44,7 @@ exports.run = async (client, message, args, langc) => {
     return message.channel.send(error1);
   }
 
-  var user1;
+  let user1;
 
   if (message.mentions.users.first()) {
     user1 = message.mentions.users.first();
@@ -52,7 +52,7 @@ exports.run = async (client, message, args, langc) => {
     user1 = message.guild.members.get(args[0]).user;
   } else user1 = null;
 
-  var user2;
+  let user2;
 
   if (message.mentions.users.array()[1]) {
     user2 = message.mentions.users.array()[1];
@@ -76,7 +76,7 @@ exports.run = async (client, message, args, langc) => {
   baseImage.composite(avatar2, 229, 1);
   baseImage.write(`./tmp/img/${user1.id}-${user2.id}.png`);
 
-  var mensagem =
+  const mensagem =
     porcentagem <= 10
       ? language.ship.shipStatus[0].replace('%s', porcentagem).replace('%s', porcentagem)
       : porcentagem <= 20

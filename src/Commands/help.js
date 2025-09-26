@@ -19,7 +19,7 @@
 
 const Discord = require('discord.js');
 const { config, database } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 const { emoji } = require('../Utils');
 
 exports.run = async (aruna, message, args, langc) => {
@@ -46,9 +46,9 @@ exports.run = async (aruna, message, args, langc) => {
   const guildDB = await database.Guilds.findOne({ _id: message.guild.id });
   const userDB = await database.Users.findOne({ _id: message.author.id });
 
-  var prefix = guildDB.prefix;
+  const prefix = guildDB.prefix;
 
-  var categories;
+  let categories;
 
   if (!userDB.SUPER) {
     categories = aruna.commands

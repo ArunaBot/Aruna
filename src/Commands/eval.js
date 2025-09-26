@@ -20,7 +20,7 @@
 const Discord = require('discord.js');
 const { database, config } = require('../../Configs');
 const { emojis } = require('../Utils');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (aruna, message, args, langc, prefix, comando) => {
 
@@ -39,7 +39,7 @@ exports.run = async (aruna, message, args, langc, prefix, comando) => {
   if (!code) return message.channel.send(embed);
   
   try {
-    var str;
+    let str;
 
     if (code.includes(`${aruna.token}` || `${config.token}` || `${config.mongoose}` || 'aruna.token' || 'process.env.token' || 'config.token' || 'config.mongoose')) {
       str = language.eval.generic.censor;
