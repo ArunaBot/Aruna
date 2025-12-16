@@ -33,7 +33,7 @@
     "mathjs": "^10.6.4",
     "mongoose": "^6.13.8",
     "superagent": "^7.1.6",
-    "systeminformation": "^5.27.10",
+    "systeminformation": "^5.27.14",
     "topgg-autoposter": "github:ArunaBot/topgg-autoposter#release"
   },
   "devDependencies": {
