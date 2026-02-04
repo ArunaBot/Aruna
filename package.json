@@ -1,6 +1,6 @@
 {
   "name": "arunabot",
-  "version": "4.3.6",
+  "version": "4.3.7",
   "description": "A nova e melhorada aruna!",
   "main": "src/main.js",
   "scripts": {
@@ -29,11 +29,11 @@
     "del": "^6.1.1",
     "discord.js": "github:ArunaBot/discord.js#v11",
     "fs-extra": "^10.1.0",
-    "jimp": "^0.16.1",
+    "jimp": "^1.6.0",
     "mathjs": "^10.6.4",
     "mongoose": "^6.13.8",
     "superagent": "^7.1.6",
-    "systeminformation": "^5.27.10",
+    "systeminformation": "^5.30.7",
     "topgg-autoposter": "github:ArunaBot/topgg-autoposter#release"
   },
   "devDependencies": {
