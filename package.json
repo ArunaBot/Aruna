@@ -1,7 +1,7 @@
 {
   "name": "arunabot",
   "version": "5.0.0",
-  "description": "A nova e melhorada aruna!",
+  "description": "Your next-gen multiplatform bot.",
   "main": "build/aruna/index.js",
   "type": "commonjs",
   "scripts": {
@@ -11,6 +11,7 @@
     "start": "node build/aruna/index.js",
     "lint": "eslint ./src --fix"
   },
+  "homepage": "https://arunabot.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/ArunaBot/Aruna.git"
@@ -32,22 +33,22 @@
   },
   "dependencies": {
     "@promisepending/logger.js": "^1.1.1",
-    "arunabase": "^1.0.0-ALPHA.14",
+    "arunabase": "^1.0.0-ALPHA.15",
     "jimp": "^1.6.0",
-    "mathjs": "^14.8.0",
-    "promiseorm": "^1.0.5",
-    "systeminformation": "^5.27.10",
+    "mathjs": "^15.1.0",
+    "promiseorm": "^1.2.2",
+    "systeminformation": "^5.30.7",
     "topgg-autoposter": "^2.0.2"
   },
   "devDependencies": {
-    "@types/node": "^24.5.2",
-    "@typescript-eslint/eslint-plugin": "^8.44.1",
-    "eslint": "^9.36.0",
+    "@types/node": "^25.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^7.2.1",
-    "globals": "^16.4.0",
+    "globals": "^17.3.0",
     "tsc-hooks": "^1.1.2",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   }
 }

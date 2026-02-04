@@ -9,7 +9,7 @@ export default class ReadyEvent extends BaseEvent {
   private readyAt: number;
 
   constructor(client: DiscordClient) {
-    super('ready', client, true);
+    super('clientReady', client, true);
     this.readyAt = Date.now();
     this.discordClient = client.getDiscordClient();
   }

@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "target": "ES2020",
     "module": "node16",
+    "rootDir": "./src/main",
     "outDir": "build/aruna",
     "types": ["node", "discord.js"],
     "noImplicitAny": true

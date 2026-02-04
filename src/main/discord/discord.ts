@@ -31,13 +31,13 @@ export class DiscordClient implements IBaseClient {
     if (!db && dbConfig) {
       // Probably running in a sharding environment. We need to create a new connection
       this.logger.warn('No database connection found, creating a new one');
-      this.database = new MariaDBConnection(
-        dbConfig.host,
-        dbConfig.port ?? 3306,
-        dbConfig.credentials.user,
-        dbConfig.credentials.password,
-        dbConfig.credentials.database,
-      );
+      this.database = new MariaDBConnection({
+        hostname: dbConfig.host,
+        port: dbConfig.port ?? 3306,
+        username: dbConfig.credentials.user,
+        password: dbConfig.credentials.password,
+        database: dbConfig.credentials.database,
+      });
     } else if (!db) {
       this.logger.error('No database connection found and no database configuration provided');
       throw new Error('No database connection found and no database configuration provided');

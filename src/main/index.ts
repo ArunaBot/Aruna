@@ -20,7 +20,13 @@ async function main(): Promise<void> {
   logger.info('Starting Database...');
   const dbConfig = configs.database;
   const dbmgr = new DatabaseManager();
-  const dbConnection = new MariaDBConnection(dbConfig.host, dbConfig.port ?? 3306, dbConfig.credentials.user, dbConfig.credentials.password, dbConfig.credentials.database);
+  const dbConnection = new MariaDBConnection({
+    hostname: dbConfig.host,
+    port: dbConfig.port ?? 3306,
+    username: dbConfig.credentials.user,
+    password: dbConfig.credentials.password,
+    database: dbConfig.credentials.database
+  });
   await dbmgr.registerConnection('global', dbConnection).catch((err => {
     logger.error('Error registering database connection', err);
   })).then(() => {
