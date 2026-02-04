@@ -25,7 +25,7 @@ async function main(): Promise<void> {
     port: dbConfig.port ?? 3306,
     username: dbConfig.credentials.user,
     password: dbConfig.credentials.password,
-    database: dbConfig.credentials.database
+    database: dbConfig.credentials.database,
   });
   await dbmgr.registerConnection('global', dbConnection).catch((err => {
     logger.error('Error registering database connection', err);
