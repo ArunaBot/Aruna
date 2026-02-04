@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2026
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -17,7 +17,8 @@
 */
 
 const Discord = require('discord.js');
-const Jimp = require('jimp');
+const { Jimp } = require('jimp');
+const fs = require('fs');
 
 const { config } = require('../../Configs');
 let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
@@ -65,16 +66,21 @@ exports.run = async (client, message, args, langc) => {
   const avatar1 = await Jimp.read(user1.avatarURL);
   const avatar2 = await Jimp.read(user2.avatarURL);
 
-  avatar1.resize(115, 115);
-  avatar2.resize(115, 115);
+  avatar1.resize({ w: 115, h: 115});
+  avatar2.resize({ w: 115, h: 115});
 
   const baseImage = await Jimp.read(
-    'https://cdn.discordapp.com/attachments/486016051851689994/509883077707694100/ships.png'
+    'https://arunabot.com/images/ships.png'
   );
 
   baseImage.composite(avatar1, 1, 1);
   baseImage.composite(avatar2, 229, 1);
-  baseImage.write(`./tmp/img/${user1.id}-${user2.id}.png`);
+
+  if (!fs.existsSync('./tmp/img/')) {
+    fs.mkdirSync('./tmp/img/', { recursive: true });
+  }
+
+  await baseImage.write(`./tmp/img/${user1.id}-${user2.id}.png`);
 
   const mensagem =
     porcentagem <= 10
@@ -99,7 +105,7 @@ exports.run = async (client, message, args, langc) => {
                         ? language.ship.shipStatus[9].replace('%s', porcentagem)
                         : language.ship.shipStatus[10].replace('%s', porcentagem);
   
-  message.channel.send({
+  await message.channel.send({
     embed: {
       description: `${user1} + ${user2}\n\n**${mensagem}**`,
       color: 111119,
@@ -113,6 +119,10 @@ exports.run = async (client, message, args, langc) => {
         name: 'file.jpg'
       }
     ]
+  });
+
+  fs.unlink(`./tmp/img/${user1.id}-${user2.id}.png`, (err) => {
+    if (err) console.error(err);
   });
 };
 
