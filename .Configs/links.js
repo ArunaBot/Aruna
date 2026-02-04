@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2025
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2026
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -23,5 +23,5 @@ module.exports = {
   supportServers: [''],
   trelloBoard: '',
   twitch: 'https://www.twitch.tv/lobometalurgico', // Required
-  website: ''
+  website: 'https://arunabot.com/'
 };
