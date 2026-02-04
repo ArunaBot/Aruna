@@ -1,5 +1,14 @@
 # Changelog
 
+## v4.3.7: Maintenance Update II
+
+- Changes:
+  - Updated Dependencies;
+- Fix:
+  - Fixed small vulnerability caused by outdated package;
+- Chore:
+  - Added website link as placeholder in configs;
+
 ## v4.3.6: Maintenance Update
 
 - Changes:
