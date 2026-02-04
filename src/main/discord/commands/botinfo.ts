@@ -52,7 +52,9 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
       .addField('Latency', `${Math.round(context.client.ws.ping)}ms`, true)
       .addField('Uptime', getFormattedTime(context.client.uptime!), true);
 
-    if (context.urls.github) {
+    if (context.urls.website) {
+      page1.addField('Website', `[Click here](${context.urls.website})`, true);
+    } else if (context.urls.github) {
       page1.addField('GitHub Repository', `[Click here](${context.urls.github})`, true);
     } else page1.addBlakField(true);
     
@@ -76,14 +78,27 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
         **RAM:** ${await si.mem().then((mem) => (mem.active / 1024 / 1024 / 1024).toFixed(2) + 'GB')} / ${await si.mem().then((mem) => (mem.total / 1024 / 1024 / 1024).toFixed(2) + 'GB')}
         `,
         false,
-      )
-      .addField('Created and Developed By', `
-        Lobo Metalurgico (<@281515925960654848>)
+      );
 
-        Contact: lobometalurgico
+    if (context.urls.website && context.urls.github) {
+      embed2.addField('Usefull Links',
+        `
+        Website: [Click here](${context.urls.website})
+        GitHub Repository: [Click here](${context.urls.github})
+        ${context.urls.discord ? `Support Server: [Click here](${context.urls.discord})` : ''}
+        `,
+        false,
+      );
+    }
+
+    embed2.addField('Created and Developed By', `
+        LoboMetalurgico (<@281515925960654848>)
+
         Email: lobometalurgico@allonsve.com
         Github: https://github.com/LoboMetalurgico
         Youtube: https://youtube.com/LoboMetalurgico
+        Twitch: https://twitch.tv/LoboMetalurgico
+        Kick: https://kick.com/LoboMetalurgico
         `, false)
       .addField('With the help of', `
         SpaceFox (<@430169509165268992>)
