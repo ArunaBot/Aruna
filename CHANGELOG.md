@@ -1,5 +1,16 @@
 # Changelog
 
+## v5.0.0: Aruna v5
+
+- BREAKING CHANGES:
+  - Drop support for Node.js below v22.12.0;
+  - Migrate from Discord.js to ArunaBase;
+  - Migrate from MongoDB to MySQL;
+  - Full rewrite of the code;
+  - The code is now written in TypeScript;
+- Changes:
+  - Update Dependencies;
+
 ## v4.3.7: Maintenance Update II
 
 - Changes:

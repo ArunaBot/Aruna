@@ -1,12 +1,17 @@
 {
   "name": "arunabot",
-  "version": "4.3.7",
-  "description": "A nova e melhorada aruna!",
-  "main": "src/main.js",
+  "version": "5.0.0",
+  "description": "Your next-gen multiplatform bot.",
+  "main": "build/aruna/index.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "node src/sharding.js",
+    "build": "npx tsc -p .",
+    "postbuild": "node src/scripts/updateResources.cjs",
+    "prestart": "npm run build",
+    "start": "node build/aruna/index.js",
     "lint": "eslint ./src --fix"
   },
+  "homepage": "https://arunabot.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/ArunaBot/Aruna.git"
@@ -18,25 +23,32 @@
   },
   "contributors": [
     {
-      "name": "Kira's Art",
-      "url": "https://twitter.com/kiratokioArt/"
+      "name": "SpaceFox1",
+      "url": "https://github.com/SpaceFox1"
     }
   ],
   "license": "AGPL-3.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "dependencies": {
-    "chalk": "^4.1.2",
-    "dateformat": "^4.6.3",
-    "del": "^6.1.1",
-    "discord.js": "github:ArunaBot/discord.js#v11",
-    "fs-extra": "^10.1.0",
+    "@promisepending/logger.js": "^1.1.1",
+    "arunabase": "^1.0.0-ALPHA.16",
     "jimp": "^1.6.0",
-    "mathjs": "^10.6.4",
-    "mongoose": "^6.13.8",
-    "superagent": "^7.1.6",
+    "mathjs": "^15.1.0",
+    "promiseorm": "^1.2.2",
     "systeminformation": "^5.30.7",
-    "topgg-autoposter": "github:ArunaBot/topgg-autoposter#release"
+    "topgg-autoposter": "^2.0.2"
   },
   "devDependencies": {
-    "eslint": "^8.57.1"
+    "@types/node": "^25.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "globals": "^17.3.0",
+    "tsc-hooks": "^1.1.2",
+    "typescript": "^5.9.3"
   }
 }

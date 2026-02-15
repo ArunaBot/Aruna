@@ -1,0 +1,15 @@
+{
+    "fileVersion": 1,
+    "urls": {
+        "twitch": "https://www.twitch.tv/yourchannel",
+        "youtube": "https://www.youtube.com/channel/yourchannel",
+        "github": "https://github.com/ArunaBot/Aruna",
+        "discord": "https://discord.gg/NqbBgEf",
+        "website": "https://arunabot.website"
+    },
+    "botDevelopers": ["<discordID>"],
+    "emojiList": {
+      "discordicon": "[discordiconEmoji]",
+      "stage": "[stageEmoji]"
+    }
+}
