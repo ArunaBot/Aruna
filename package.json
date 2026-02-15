@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@promisepending/logger.js": "^1.1.1",
-    "arunabase": "^1.0.0-ALPHA.15",
+    "arunabase": "^1.0.0-ALPHA.16",
     "jimp": "^1.6.0",
     "mathjs": "^15.1.0",
     "promiseorm": "^1.2.2",

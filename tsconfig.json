@@ -11,7 +11,7 @@
     "removeComments": true,
     "declaration": false,
     "declarationMap": false,
-    "sourceMap": true,
+    "sourceMap": false,
     "moduleResolution": "node16",
     "skipLibCheck": true,
     "target": "ES2020",
