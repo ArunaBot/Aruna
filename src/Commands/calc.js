@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2026
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,7 @@ const { emojis } = require('../Utils');
 const Discord = require('discord.js');
 const math = require('mathjs');
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = (aruna, message, args, langc) => {
 
@@ -41,7 +41,7 @@ exports.run = (aruna, message, args, langc) => {
 
   if (!args[0]) return message.channel.send(error1);
 
-  var response;
+  let response;
 
   try {
     response = math.evaluate(args.join(' '));

@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2026
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@ async function check (aruna, message, lang, guildDB, database, debug) {
   const member = message.member;
   const channel = message.channel;
 
-  var AIDB = await database.AntiInvite.findOne({ _id: guild.id });
+  let AIDB = await database.AntiInvite.findOne({ _id: guild.id });
 
   if (!AIDB) {
     AIDB = new database.AntiInvite({

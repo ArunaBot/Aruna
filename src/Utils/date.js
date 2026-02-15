@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2026
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-var dateFormat = require('dateformat');
+const dateFormat = require('dateformat');
 dateFormat.i18n = {
   dayNames: [
     'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab',

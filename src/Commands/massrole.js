@@ -1,6 +1,6 @@
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2026
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -19,10 +19,10 @@
 const Discord = require('discord.js');
 const { emoji } = require('../Utils');
 const { config } = require('../../Configs');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = (aruna, message, args, langc) => {
-  var role;
+  let role;
   if (!args[0]) {
     role = undefined;
   } else {
@@ -83,7 +83,7 @@ exports.run = (aruna, message, args, langc) => {
     && message.guild.owner.id !== message.author.id
   ) return message.channel.send(error5);
 
-  var applyTO = 0;
+  let applyTO = 0;
 
   if (args[1]) {
     switch (args[1].toLowerCase()) {
@@ -111,7 +111,7 @@ exports.run = (aruna, message, args, langc) => {
   }
     
   const roleGuild = message.guild;
-  var memberArray;
+  let memberArray;
 
   switch (applyTO) {
     case 1:
@@ -144,7 +144,7 @@ exports.run = (aruna, message, args, langc) => {
     .setTimestamp();
 
   message.channel.send(executando).then(async msg => {
-    for (var i = 0; i < memberCount; i++) {
+    for (let i = 0; i < memberCount; i++) {
       const member = memberArray[i];
       // eslint-disable-next-line no-await-in-loop
       await member.addRole(role);

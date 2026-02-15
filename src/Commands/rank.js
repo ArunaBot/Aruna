@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2026
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,7 @@
 const Discord = require('discord.js');
 const { config, database } = require('../../Configs');
 const { utils } = require('../Utils');
-var language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
+let language = require(`../../languages/bot/${config.defaultLanguage}/commands.json`);
 
 exports.run = async (aruna, message, args, langc) => {
   const guild = await database.Guilds.findOne({ _id: message.guild.id });
@@ -37,7 +37,7 @@ exports.run = async (aruna, message, args, langc) => {
 
   if (guild.rankEnable !== true) return message.channel.send(error);
 
-  var userid = message.guild.member(
+  const userid = message.guild.member(
     message.mentions.users.first() ||
       message.guild.members.get(args[0]) ||
       message.author.id

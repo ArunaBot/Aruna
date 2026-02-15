@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /*
     This File is part of ArunaBot
-    Copyright (C) LoboMetalurgico (and contributors) 2019-2021
+    Copyright (C) LoboMetalurgico (and contributors) 2019-2026
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -24,6 +24,7 @@ const { checkInvites, cooldown, utils } = require('../Utils');
 const langI = require(`../../languages/bot/${config.language}/internal.json`);
 
 exports.run = async (aruna, message) => {
+  if (message.author.bot) return;
   if (message.channel.type == 'dm') {
     const dmUser = await database.Users.findOne({ _id: message.author.id });
 
@@ -50,15 +51,14 @@ exports.run = async (aruna, message) => {
 
     const dmLang = require(`../../languages/bot/${dmUser.language || config.defaultLanguage}/events.json`);
 
-    if (message.author.bot) return;
     return message.reply(dmLang.message.errors.dmError);
   }
   
-  var guild = await database.Guilds.findOne({ _id: message.guild.id });
-  var user = await database.Users.findOne({ _id: message.author.id });
+  let guild = await database.Guilds.findOne({ _id: message.guild.id });
+  let user = await database.Users.findOne({ _id: message.author.id });
   
   if (!guild) {
-    var language;
+    let language;
     if (message.guild.region == 'brazil') {
       language = 'pt-BR';
     } else {
@@ -67,7 +67,7 @@ exports.run = async (aruna, message) => {
 
     debug('No Guild!');
 
-    var saveG = new database.Guilds({
+    const saveG = new database.Guilds({
       _id: message.guild.id,
       language: language
     });
@@ -80,20 +80,20 @@ exports.run = async (aruna, message) => {
   if (!user) {
     debug('No User!');
 
-    var isSuper = false;
+    let isSuper = false;
 
     if (config.superUsersId.includes(message.author.id)) {
       isSuper = true;
     }
 
-    var saveU = new database.Users({ _id: message.author.id, SUPER: isSuper });
+    const saveU = new database.Users({ _id: message.author.id, SUPER: isSuper });
 
     await saveU.save();
 
     user = await database.Users.findOne({ _id: message.author.id });
   }
   
-  var prefix = guild.prefix || config.prefix;
+  let prefix = guild.prefix || config.prefix;
 
   if (config.forcePrefix) {
     prefix = config.prefix;
@@ -147,6 +147,7 @@ exports.run = async (aruna, message) => {
 
   // End of Backward Compatibility
   
+  let language;
   if (user.language !== guild.language && user.language !== null) {
     language = user.language;
   } else {
@@ -194,7 +195,7 @@ exports.run = async (aruna, message) => {
     });
 
     if (!rank) {
-      var saveR = new database.Rank({
+      const saveR = new database.Rank({
         _id: `${message.author.id}-${message.guild.id}`,
         user: message.author.id,
         xp: 0,
@@ -205,7 +206,7 @@ exports.run = async (aruna, message) => {
       await saveR.save();
     }
 
-    const xpsystem = require('../utils/rankSystem.js');
+    const xpsystem = require('../Utils/rankSystem.js');
     await xpsystem.run(aruna, message, lang, langc, database, cooldown, utils, Discord);
   }
 
