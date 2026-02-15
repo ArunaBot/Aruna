@@ -83,26 +83,6 @@ Você precisa pensar "será que alguém iria utilizar isto?", se você criar um 
 
 Funcionalidades (como comandos) relacionados a coisas NSFW **não serão** adicionadas na Aruna e seu Pull Request será negado.
 
-## Dependências
-
-A Aruna utiliza várias [dependências no código-fonte](https://github.com/ArunaBot/Aruna/blob/stable/package.json), obrigado a todos os mantenedores das dependências! Sem vocês, a Aruna não iria existir (ou teria várias funcionalidades reduzidas ou até inexistentes!).
-
-| Nome  | Mantenedor |
-| ------------- | ------------- |
-| [Node](https://nodejs.org/en/) | OpenJS Foundation  |
-| [discord.js](https://discord.js.org/) | Comunnity  |
-| [Express](https://github.com/expressjs/express) | TJ Holowaychuk, Douglas Christopher Wilson  |
-| [Express Session](https://github.com/expressjs/session) |  dougwilson, Fishrock123, etc |
-| [Mongoose](http://mongoosejs.com/) |  vkarpov15, aheckmann, rauchg, etc  |
-| [Moment](http://momentjs.com) |  ichernev, timrwood, icambron, etc  |
-| [Moment Duration Format](https://github.com/jsmreese/moment-duration-format) |  jsmreese  |
-| [Ytdl Core](https://github.com/fent/node-ytdl-core) |  fent, #3TimeForANinja, etc  |
-| [Node Opus](github.com/Rantanen/node-opus) |  Rantanen, thijstriemstra, nfriedly, etc  |
-| [Jimp](github.com/oliver-moran/jimp) |  hipstersmoothie, oliver-moran, strandedcity, etc  |
-| [SuperAgent](github.com/visionmedia/superagent) |  tj, kornelski, defunctzombie, etc  |
-| [MathJS](https://mathjs.org/) |  josdejong, rjbaucells, FSMaxB  |
-| [Chalk](github.com/chalk/chalk) |  sindresorhus, Qix-, etc  |
-
 ## 📄 Licença
 
 O código-fonte da Aruna está licenciado sob a [GNU Affero General Public License v3.0](https://github.com/ArunaBot/Aruna/blob/stable/LICENSE)
