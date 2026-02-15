@@ -111,7 +111,7 @@ export default class MassRemoveCommand extends ArunaAsyncCommand {
 
     await context.editReply(new DefaultEmbed()
       .setDescription(`Removing role **${role.name}** from ${membersToUpdate.size} members...\nThis may take a while, please be patient.`)
-      .setColor(role.color));
+      .setColor(role.colors?.primaryColor || '#ff0000'));
 
     let successCount: number = 0;
     let failedCount: number = 0;

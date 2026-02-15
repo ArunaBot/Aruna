@@ -143,7 +143,7 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
 
     await context.editReply(new DefaultEmbed()
       .setDescription(`Applying role **${role.name}** to ${membersToUpdate.size} members...\nThis may take a while, please be patient.`)
-      .setColor(role.color));
+      .setColor(role.colors?.primaryColor || '#00ff00'));
 
     let successCount: number = 0;
     let failedCount: number = 0;
