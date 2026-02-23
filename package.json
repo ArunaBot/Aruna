@@ -29,20 +29,20 @@
   ],
   "license": "AGPL-3.0",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.13.0"
   },
   "dependencies": {
     "@promisepending/logger.js": "^1.1.1",
     "arunabase": "^1.0.0-ALPHA.16",
     "jimp": "^1.6.0",
-    "mathjs": "^15.1.0",
+    "mathjs": "^15.1.1",
     "promiseorm": "^1.2.2",
-    "systeminformation": "^5.30.7",
+    "systeminformation": "^5.31.1",
     "topgg-autoposter": "^2.0.2"
   },
   "devDependencies": {
-    "@types/node": "^25.2.0",
-    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@types/node": "^25.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
     "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-node": "^11.1.0",
