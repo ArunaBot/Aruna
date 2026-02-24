@@ -107,7 +107,7 @@ export class DiscordClient implements IBaseClient {
 
       const commands: ArunaCommandBased[] = [];
 
-      for (const file of files) {
+      for await (const file of files) {
         if (!file.endsWith('.js')) continue;
 
         try {
@@ -119,6 +119,7 @@ export class DiscordClient implements IBaseClient {
           this.logger.error('An error occurred while registering command ' + file, error);
         }
       }
+      
       await this.client.getCommandManager().registerCommand(commands);
       this.logger.debug('All commands (probably) successfully registered!');
     });

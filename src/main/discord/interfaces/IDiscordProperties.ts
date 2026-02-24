@@ -14,6 +14,6 @@ export interface IDiscordProperties {
     emojiList: { [key: string]: string };
 }
 
-export interface IDiscordFullCommandContext extends Discord.ICommandContext, IDiscordProperties {
+export type IDiscordFullCommandContext = Discord.ICommandContext & IDiscordProperties & {
   databaseConnection: DatabaseConnection;
-}
+};
