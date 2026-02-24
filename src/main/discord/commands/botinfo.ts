@@ -1,4 +1,4 @@
-import { ButtonStructure, ButtonStyle, MessageStructure } from 'arunabase/build/discord';
+import { ButtonStructure, ButtonStyle, MessageFlags, MessageStructure } from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { execSync } from 'node:child_process';
 import { ArunaAsyncCommand } from '../structure';
@@ -130,6 +130,10 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
         emoji: '▶️',
         style: ButtonStyle.Primary,
       }, async (ctx) => {
+        if (ctx.user.id !== context.author.id) {
+          await ctx.reply({ content: 'Only the command executor can use these buttons!', flags: MessageFlags.Ephemeral }).catch(() => {});
+          return;
+        }
         await setPage2().catch(() => {});
         ctx.deferUpdate().catch(() => {});
       }),
@@ -141,6 +145,10 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
         emoji: '◀️',
         style: ButtonStyle.Primary,
       }, async (ctx) => {
+        if (ctx.user.id !== context.author.id) {
+          await ctx.reply({ content: 'Only the command executor can use these buttons!', flags: MessageFlags.Ephemeral }).catch(() => {});
+          return;
+        }
         await setPage1().catch(() => {});
         ctx.deferUpdate().catch(() => {});
       }),
