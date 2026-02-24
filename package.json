@@ -1,6 +1,6 @@
 {
   "name": "arunabot",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Your next-gen multiplatform bot.",
   "main": "build/aruna/index.js",
   "type": "commonjs",
