@@ -44,11 +44,8 @@ export default class ShipCommand extends ArunaAsyncCommand {
     const random = Math.round(Math.random() * 100);
     const index = Math.floor(random / 10);
 
-    const user1Raw: string = (context.args[0] as string)?.replace(/[<@!>]/g, '');
-    const user2Raw: string | undefined = (context.args[1] as string)?.replace(/[<@!>]/g, '');
-
-    const user1: User | undefined = context.client.users.cache.get(user1Raw);
-    const user2 = user2Raw ? context.client.users.cache.get(user2Raw) ?? context.author : context.author;
+    const user1: User = context.args[0] as User;
+    const user2 = context.args[1] ? context.args[1] as User : context.author;
 
     if (!user1) {
       await context.reply(new ErrorEmbed().setDescription('First user not found!'));

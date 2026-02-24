@@ -1,5 +1,12 @@
 # Changelog
 
+## v5.0.1: Release Patch I
+
+- Fix:
+  - Help command doesn't work in DMs;
+  - Anyone can use the buttons in botinfo command;
+  - Ship command doesn't work with slash commands;
+
 ## v5.0.0: Aruna v5
 
 - BREAKING CHANGES:
@@ -9,7 +16,7 @@
   - Full rewrite of the code;
   - The code is now written in TypeScript;
 - Changes:
-  - Update Dependencies;
+  - Updated Dependencies;
 
 ## v4.3.7: Maintenance Update II
 
@@ -75,7 +82,7 @@
   - Added `forcePrefix` config:
     - this allow you to force config prefix, ignoring custom;
 - Fix:
-  - Support with stage channels (See [#45]);
+  - Support for stage channels (See [#45]);
   - TopGG doesn't post datas;
 
 [#45]: https://github.com/ArunaBot/Aruna/issues/45
