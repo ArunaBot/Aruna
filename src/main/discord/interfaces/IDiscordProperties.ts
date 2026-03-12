@@ -4,11 +4,13 @@ import { Discord } from 'arunabase';
 export interface IDiscordProperties {
     fileVersion: number;
     urls: {
-        twitch: string;
-        youtube: string;
-        github: string;
-        discord: string;
-        website: string;
+        twitch?: string;
+        youtube?: string;
+        github?: string;
+        discord?: string;
+        website?: string;
+        tos?: string;
+        privacy?: string;
     },
     botDevelopers: string[];
     emojiList: { [key: string]: string };
