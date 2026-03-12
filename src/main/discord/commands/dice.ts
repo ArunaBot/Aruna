@@ -46,27 +46,8 @@ export default class DiceCommand extends ArunaAsyncCommand {
   }
 
   protected override async execute(context: Discord.ICommandContext): Promise<void> {
-    const errorEmbed = new ErrorEmbed('Você precisa especificar a quantidade de dados a serem lançados!');
-    if (context.args && (context.args.length === 0 || !context.args[0])) {
-      await context.reply(errorEmbed);
-      return;
-    }
-
-    let amount = 0;
-    let faces = 0;
-
-    if (typeof context.args[0] === 'string') {
-      const params = (context.args[0]! as string).toLowerCase().split('d');
-
-      amount = parseInt(params[0]);
-      faces = parseInt(params[1]);
-    } else if (typeof context.args[0] === 'number' && typeof context.args[1] === 'number') {
-      amount = context.args[0] as number;
-      faces = context.args[1] as number;
-    } else {
-      await context.reply(errorEmbed);
-      return;
-    }
+    const amount = context.args.get('amount') as number;
+    const faces = context.args.get('faces') as number;
 
     if (isNaN(amount) || isNaN(faces) || amount <= 0 || faces <= 1 || amount > 100 || faces > 500) {
       await context.reply(

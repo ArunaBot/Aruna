@@ -33,13 +33,7 @@ export default class SayCommand extends ArunaAsyncCommand {
   }
 
   protected override async execute(context: Discord.ICommandContext): Promise<void> {
-    let message: string;
-
-    if (context.interaction) {
-      message = context.args[0] as string;
-    } else {
-      message = context.args.join(' ');
-    }
+    const message = context.args.get('message') as string;
 
     if (message.length > 200) {
       await context.discreteReply(new ErrorEmbed().setDescription('This message is too long! (Max length: 200)'));

@@ -80,12 +80,7 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
     await context.deferReply();
 
-    const role: Role | null = context.message?.mentions.roles.first() || context.guild!.roles.cache.get(context.args[0] as string) || null;
-
-    if (!role) {
-      await context.editReply(new DefaultEmbed().setDescription('You must provide a valid role to apply!'));
-      return;
-    }
+    const role: Role = context.args.get('role') as Role;
 
     if (role.managed) {
       await context.editReply(new ErrorEmbed().setDescription('You cannot apply a managed role!'));
@@ -102,17 +97,8 @@ export default class MassRoleCommand extends ArunaAsyncCommand {
       return;
     }
 
-    let group: string = 'all';
-    let dateFilter: string | null = null;
-
-    if (context.args.length == 2 && (context.args[1] as string).match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
-      dateFilter = context.args[1] as string;
-    } else if (context.args.length == 2) {
-      group = context.args[1] as string;
-    } else if (context.args.length == 3) {
-      group = context.args[1] as string;
-      dateFilter = context.args[2] as string;
-    }
+    const group = (context.args.get('group') as string) || 'all';
+    const dateFilter: string | null = context.args.get('date_filter') as string || null;
 
     if (!['all', 'bots', 'humans'].includes(group)) {
       await context.editReply(new DefaultEmbed().setDescription('Invalid group specified! Use "all", "bots", or "humans".'));

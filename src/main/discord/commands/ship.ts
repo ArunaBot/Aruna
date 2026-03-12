@@ -36,7 +36,7 @@ export default class ShipCommand extends ArunaAsyncCommand {
   }
 
   protected override async execute(context: Discord.ICommandContext): Promise<void> {
-    if (context.args.length === 0) {
+    if (context.args.size === 0) {
       await context.reply(new ErrorEmbed().setDescription('You need to specify at least one user to be shipped!'));
       return;
     }
@@ -44,8 +44,8 @@ export default class ShipCommand extends ArunaAsyncCommand {
     const random = Math.round(Math.random() * 100);
     const index = Math.floor(random / 10);
 
-    const user1: User = context.args[0] as User;
-    const user2 = context.args[1] ? context.args[1] as User : context.author;
+    const user1: User = context.args.get('user1') as User;
+    const user2 = context.args.get('user2') as User || context.author;
 
     if (!user1) {
       await context.reply(new ErrorEmbed().setDescription('First user not found!'));

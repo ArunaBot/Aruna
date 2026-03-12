@@ -1,5 +1,5 @@
-import { DefaultEmbed, ErrorEmbed } from '../utils';
 import { ArunaCommand } from '../structure';
+import { DefaultEmbed } from '../utils';
 import { Discord } from 'arunabase';
 
 export default class AvatarCommand extends ArunaCommand {
@@ -60,31 +60,19 @@ export default class AvatarCommand extends ArunaCommand {
   }
 
   protected override execute(context: Discord.ICommandContext): void {
-    const client = context.client;
+    const target = context.args.get('user') as Discord.User || context.author;
+    const local = context.args.get('local') as string || 'global';
 
-    if (context.args[0] && ((context.args[0] as string).toLowerCase() === 'global' || (context.args[0] as string).toLowerCase() === 'guild')) {
-      context.args.push(context.args[0]);
-      context.args[0] = context.author.id;
-    }
+    let avatar = target.displayAvatarURL({ forceStatic: false, size: 4096, extension: 'png' });
 
-    const targetRaw = (context.args[0] as string)?.replace(/[<@!>]/g, '');
-
-    let target;
-
-    if (context.args[1] === 'guild') {
-      target = context.guild?.members.cache.get(targetRaw || context.author.id)?.user;
-    }
-
-    if (!target && (targetRaw || (!context.args[1] || context.args[1] === 'global'))) target = client.users.cache.get(targetRaw || context.author.id);
-
-    if (!target) {
-      context.discreteReply(new ErrorEmbed().setDescription('Target not found!'));
-      return;
+    if (local === 'guild' && context.guild) {
+      const member = context.guild.members.cache.get(target.id);
+      if (member && member.avatar) avatar = member.displayAvatarURL({ forceStatic: false, size: 4096, extension: 'png' });
     }
 
     context.reply(
       new DefaultEmbed()
-        .setImage(target.displayAvatarURL({ forceStatic: false, size: 4096, extension: 'png' }))
+        .setImage(avatar)
         .setColor('#333333')
         .setDescription(`Avatar of ${target.displayName}`),
     );
