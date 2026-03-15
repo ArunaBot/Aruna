@@ -1,6 +1,6 @@
 {
   "name": "arunabot",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Your next-gen multiplatform bot.",
   "main": "build/aruna/index.js",
   "type": "commonjs",
@@ -42,13 +42,13 @@
     "topgg-autoposter": "^2.0.2"
   },
   "devDependencies": {
-    "@types/node": "^25.4.0",
+    "@types/node": "^25.5.0",
     "@typescript-eslint/eslint-plugin": "^8.57.0",
     "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^7.2.1",
-    "globals": "^17.3.0",
+    "globals": "^17.4.0",
     "tsc-hooks": "^1.1.2",
     "typescript": "^5.9.3"
   }
