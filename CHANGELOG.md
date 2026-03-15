@@ -1,5 +1,18 @@
 # Changelog
 
+## v5.0.2: Release Patch II
+
+- New:
+  - Added Terms of Service and Privacy Policy links to botinfo command;
+- Changes:
+  - Updated ArunaBase to alpha 18;
+  - Updated Dependencies;
+- Fix:
+  - Commands migrated to the new Map-based args API introduced in ArunaBase alpha 18;
+  - Unban command now uses "user" parameter instead of "member";
+  - Unban command now accepts user IDs up to 19 characters;
+  - Ban, Kick and Unban now include the moderator's ID in the audit log reason;
+
 ## v5.0.1: Release Patch I
 
 - Fix:
