@@ -47,50 +47,33 @@ export default class BanCommand extends ArunaAsyncCommand {
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
     await context.deferReply(true);
-    if (context.args.length === 0) {
+    if (context.args.size === 0) {
       await context.editReply(new ErrorEmbed().setDescription('You must provide a member to ban!'));
       return;
     }
 
     const guild = context.guild!;
 
-    let member: GuildMember | null = null;
-    let userId: string | null = null;
-    if (context.args[0] instanceof User) {
-      userId = context.args[0].id;
-      member = await guild.members.fetch(userId).catch(() => null);
-    } else if (context.message?.mentions.members?.first()) {
-      member = context.message!.mentions.members.first()!;
-      userId = member.id;
-    } else {
-      member = (await guild.members.fetch((context.args[0] as string)).catch(() => null));
-      userId = context.args[0] as string;
-    }
+    const user = (context.args.get('member') as User);
+    const member = await guild.members.fetch(user.id).catch(() => null) as GuildMember | null;
 
-    if (!member && !userId) {
-      await context.editReply(new ErrorEmbed().setDescription(`Member ${context.args[0]} was not found!`));
-      return;
-    }
-
-    const user = member?.user ?? await context.client.getRawClient().users.fetch(userId).catch(() => null);
-
-    const isBanned = await guild.bans.fetch(userId).then(() => true).catch(() => false);
+    const isBanned = await guild.bans.fetch(user.id).then(() => true).catch(() => false);
     if (isBanned) {
-      await context.editReply(new ErrorEmbed().setDescription(`The user ${user?.username ?? 'unk'} (${userId}) is already banned!`));
+      await context.editReply(new ErrorEmbed().setDescription(`The user ${user?.username ?? 'unk'} (${user.id}) is already banned!`));
       return;
     }
 
-    if (userId === context.author.id) {
+    if (user.id === context.author.id) {
       await context.editReply(new ErrorEmbed().setDescription('You can\'t ban yourself!'));
       return;
     }
 
-    if (userId === guild.members.me!.id) {
+    if (user.id === guild.members.me!.id) {
       await context.editReply(new ErrorEmbed().setDescription('I can\'t ban myself!'));
       return;
     }
 
-    if (userId === guild.ownerId) {
+    if (user.id === guild.ownerId) {
       await context.editReply(new ErrorEmbed().setDescription('You can\'t ban the server owner!'));
       return;
     }
@@ -104,17 +87,16 @@ export default class BanCommand extends ArunaAsyncCommand {
       await context.editReply(new ErrorEmbed().setDescription('I can\'t ban a member with a higher or equal role position than me!'));
       return;
     }
-
-    const reason = context.args.slice(1).join(' ') || 'No reason provided';
+    const reason = (context.args.get('reason') as string || 'No reason provided');
 
     const confirmationEmbed = new DefaultEmbed()
       .setTitle('**WARNING**')
-      .setDescription(`Are you sure you want to ban ${user?.username ?? 'unk'} (${userId})?\nReason: ${reason}`)
+      .setDescription(`Are you sure you want to ban ${user?.username ?? 'unk'} (${user.id})?\nReason: ${reason}`)
       .setColor('#ff0000');
 
     const banMessage = new DefaultEmbed()
       .setTitle('**Member Banned**')
-      .setDescription(`Member: ${user?.username ?? 'unk'} (${userId})\nReason: ${reason}`)
+      .setDescription(`Member: ${user?.username ?? 'unk'} (${user.id})\nReason: ${reason}`)
       .setColor('#00ff00');
 
     const canceledMessage = new DefaultEmbed()
@@ -144,7 +126,7 @@ export default class BanCommand extends ArunaAsyncCommand {
         }, async (ctx) => {
           clearTimeout(timeout);
           if (member) await member.send({ embeds: [youAreBannedMessage] }).catch(() => {});
-          await guild.bans.create(userId, { reason: `Banned By: ${context.author.username} | Reason: ${reason}` }).catch((e) => {
+          await guild.bans.create(user.id, { reason: `Banned By: ${context.author.username} (${context.author.id}) | Reason: ${reason}` }).catch((e) => {
             context.client.getLogger().error('BanCommand: Error while banning user', e);
             context.editReply(new MessageStructure(new ErrorEmbed().setDescription(`An error occurred while trying to ban the user: \`${e.message}\``)))
               .catch((e) => {

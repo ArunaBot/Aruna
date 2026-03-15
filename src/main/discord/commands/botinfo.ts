@@ -52,7 +52,16 @@ export default class BotInfoCommand extends ArunaAsyncCommand {
       .addField('Latency', `${Math.round(context.client.ws.ping)}ms`, true)
       .addField('Uptime', getFormattedTime(context.client.uptime!), true);
 
-    if (context.urls.website) {
+    if (context.urls.tos && context.urls.privacy && context.urls.website) {
+      if (context.urls.github) {
+        page1.addField('GitHub Repository', `[Click here](${context.urls.github})`, true);
+      }
+      page1.addFields(
+        { name: 'Terms of Service', value: `[Click here](${context.urls.tos})`, inline: true },
+        { name: 'Privacy Policy', value: `[Click here](${context.urls.privacy})`, inline: true },
+        { name: 'Website', value: `[Click here](${context.urls.website})`, inline: true },
+      );
+    } else if (context.urls.website) {
       page1.addField('Website', `[Click here](${context.urls.website})`, true);
     } else if (context.urls.github) {
       page1.addField('GitHub Repository', `[Click here](${context.urls.github})`, true);

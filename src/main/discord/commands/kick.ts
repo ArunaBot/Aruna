@@ -48,23 +48,18 @@ export default class KickCommand extends ArunaAsyncCommand {
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
     await context.deferReply(true);
-    if (context.args.length === 0) {
+    if (context.args.size === 0) {
       await context.editReply(new ErrorEmbed().setDescription('You must provide a member to kick!'));
       return;
     }
 
     const guild = context.guild!;
 
-    let member: GuildMember | null = null;
-    if (context.args[0] instanceof User) member = await guild.members.fetch(context.args[0].id).catch(() => null);
-    else if (context.message?.mentions.members?.first()) member = context.message!.mentions.members.first()!;
-    else {
-      member = (await guild.members.fetch((context.args[0] as string)).catch(() => null));
-    }
-      
+    const user = (context.args.get('member') as User);
+    const member = await guild.members.fetch(user.id).catch(() => null) as GuildMember | null;
     
     if (!member) {
-      await context.editReply(new ErrorEmbed().setDescription(`Member ${context.args[0]} was not found!`));
+      await context.editReply(new ErrorEmbed().setDescription(`Member ${context.args.get('member')} was not found!`));
       return;
     }
 
@@ -93,7 +88,7 @@ export default class KickCommand extends ArunaAsyncCommand {
       return;
     }
 
-    const reason = context.args.slice(1).join(' ') || 'No reason provided';
+    const reason = context.args.get('reason') as string || 'No reason provided';
 
     const confirmationEmbed = new DefaultEmbed()
       .setTitle('**WARNING**')
@@ -132,7 +127,7 @@ export default class KickCommand extends ArunaAsyncCommand {
         }, async (ctx) => {
           clearTimeout(timeout);
           await member!.send({ embeds: [youAreKickedMessage] }).catch(() => {});
-          await member!.kick(`Kicked By: ${context.author.username} | Reason: ${reason}`).catch((e) => {
+          await member!.kick(`Kicked By: ${context.author.username} (${context.author.id}) | Reason: ${reason}`).catch((e) => {
             context.client.getLogger().error('KickCommand: Error while kicking member', e);
             context.editReply(new MessageStructure(new ErrorEmbed().setDescription(`An error occurred while trying to kick the member: \`${e.message}\``)))
               .catch((e) => {

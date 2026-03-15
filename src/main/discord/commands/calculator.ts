@@ -40,13 +40,7 @@ export default class CalculatorCommand extends ArunaAsyncCommand {
   }
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
-    let expression: string;
-
-    if (context.interaction) {
-      expression = context.args[0] as string;
-    } else {
-      expression = context.args.join(' ');
-    }
+    const expression = context.args.get('expression') as string;
 
     if (expression.length > 50) {
       await context.discreteReply(new ErrorEmbed().setDescription('This expression is too long! (Valid expressions: `1+1, 1+1*2, 1+1*(2+3), 1+1*(2+3)/4`)'));

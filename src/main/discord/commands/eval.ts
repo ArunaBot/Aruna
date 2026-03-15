@@ -28,12 +28,12 @@ export default class EvalCommand extends ArunaAsyncCommand {
   }
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
-    if (context.args.length === 0) {
+    if (context.args.size === 0) {
       await context.discreteReply(new ErrorEmbed().setDescription('You must provide a code to evaluate!'));
       return;
     }
 
-    const code = context.args.join(' ');
+    const code = context.args.get('code') as string;
 
     if (code.toLowerCase().includes('process') && code.toLowerCase().includes('exit')) {
       await context.discreteReply(new ErrorEmbed().setDescription('You can\'t use process.exit()!'));

@@ -9,24 +9,24 @@ export default class UnBanCommand extends ArunaAsyncCommand {
       name_localizations: {
         'pt-BR': 'desbanir',
       },
-      description: 'Unban a member from the server',
+      description: 'Unban a user from the server',
       description_localizations: {
-        'pt-BR': 'Remover o banimento de um membro do servidor',
+        'pt-BR': 'Remover o banimento de um usuário do servidor',
       },
       parameters: [
         {
-          name: 'member',
-          description: 'The id of the member to unban',
+          name: 'user',
+          description: 'The id of the user to unban',
           name_localizations: {
-            'pt-BR': 'membro',
+            'pt-BR': 'usuário',
           },
           description_localizations: {
-            'pt-BR': 'O membro que terá o banimento removido',
+            'pt-BR': 'O usuário que terá o banimento removido',
           },
           required: true,
           type: ApplicationCommandOptionType.String,
           min_length: 18,
-          max_length: 18,
+          max_length: 19,
         },
         {
           name: 'reason',
@@ -49,15 +49,14 @@ export default class UnBanCommand extends ArunaAsyncCommand {
 
   protected override async execute(context: IDiscordFullCommandContext): Promise<void> {
     await context.deferReply(true);
-    if (context.args.length === 0) {
+    if (context.args.size === 0) {
       await context.editReply(new ErrorEmbed().setDescription('You must provide a user id to unban!'));
       return;
     }
 
     const guild = context.guild!;
 
-    const userId: string = context.args[0] as string;
-
+    const userId: string = context.args.get('user') as string;
     const user = await context.client.getRawClient().users.fetch(userId).catch(() => null);
 
     const isBanned = await guild.bans.fetch(userId).then(() => true).catch(() => false);
@@ -66,7 +65,7 @@ export default class UnBanCommand extends ArunaAsyncCommand {
       return;
     }
 
-    const reason = context.args.slice(1).join(' ') || 'No reason provided';
+    const reason = context.args.get('reason') || 'No reason provided';
 
     const confirmationEmbed = new DefaultEmbed()
       .setTitle('**WARNING**')
@@ -74,8 +73,8 @@ export default class UnBanCommand extends ArunaAsyncCommand {
       .setColor('#ff0000');
 
     const unbanMessage = new DefaultEmbed()
-      .setTitle('**Member Unbanned**')
-      .setDescription(`Member: ${user?.username ?? 'unk'} (${userId})\nReason: ${reason}`)
+      .setTitle('**User Unbanned**')
+      .setDescription(`User: ${user?.username ?? 'unk'} (${userId})\nReason: ${reason}`)
       .setColor('#00ff00');
 
     const canceledMessage = new DefaultEmbed()
@@ -96,7 +95,7 @@ export default class UnBanCommand extends ArunaAsyncCommand {
           style: ButtonStyle.Danger,
         }, async (ctx) => {
           clearTimeout(timeout);
-          await guild.bans.remove(userId, `Unbanned By: ${context.author.username} | Reason: ${reason}`).catch((e) => {
+          await guild.bans.remove(userId, `Unbanned By: ${context.author.username} (${context.author.id}) | Reason: ${reason}`).catch((e) => {
             context.client.getLogger().error('UnBanCommand: Error while unbanning user', e);
             context.editReply(new MessageStructure(new ErrorEmbed().setDescription(`An error occurred while trying to unban the user: \`${e.message}\``)))
               .catch((e) => {
