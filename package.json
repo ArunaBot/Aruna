@@ -36,7 +36,7 @@
     "@promisepending/logger.js": "^1.1.1",
     "arunabase": "^1.0.0-ALPHA.18",
     "jimp": "^1.6.0",
-    "mathjs": "^15.1.1",
+    "mathjs": "^15.2.0",
     "promiseorm": "^1.2.2",
     "systeminformation": "^5.31.4",
     "topgg-autoposter": "^2.0.2"
