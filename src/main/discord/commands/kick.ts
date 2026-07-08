@@ -127,6 +127,7 @@ export default class KickCommand extends ArunaAsyncCommand {
         }, async (ctx) => {
           clearTimeout(timeout);
           await member!.send({ embeds: [youAreKickedMessage] }).catch(() => {});
+
           await member!.kick(`Kicked By: ${context.author.username} (${context.author.id}) | Reason: ${reason}`).catch((e) => {
             context.client.getLogger().error('KickCommand: Error while kicking member', e);
             context.editReply(new MessageStructure(new ErrorEmbed().setDescription(`An error occurred while trying to kick the member: \`${e.message}\``)))
@@ -138,6 +139,7 @@ export default class KickCommand extends ArunaAsyncCommand {
               context.client.getLogger().error('KickCommand: Error while editing message (kick)', e);
             });
           });
+          
           await ctx.deferUpdate().catch(() => {});
         }))
         .addButton(new ButtonStructure({

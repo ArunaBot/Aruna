@@ -126,6 +126,7 @@ export default class BanCommand extends ArunaAsyncCommand {
         }, async (ctx) => {
           clearTimeout(timeout);
           if (member) await member.send({ embeds: [youAreBannedMessage] }).catch(() => {});
+
           await guild.bans.create(user.id, { reason: `Banned By: ${context.author.username} (${context.author.id}) | Reason: ${reason}` }).catch((e) => {
             context.client.getLogger().error('BanCommand: Error while banning user', e);
             context.editReply(new MessageStructure(new ErrorEmbed().setDescription(`An error occurred while trying to ban the user: \`${e.message}\``)))
@@ -137,6 +138,7 @@ export default class BanCommand extends ArunaAsyncCommand {
               context.client.getLogger().error('BanCommand: Error while editing message (ban)', e);
             });
           });
+          
           await ctx.deferUpdate().catch(() => {});
         }))
         .addButton(new ButtonStructure({
