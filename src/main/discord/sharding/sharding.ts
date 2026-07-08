@@ -18,6 +18,7 @@ export class Sharding implements IBaseClient {
   public async start(): Promise<void> {
     return new Promise((_, reject) => {
       this.manager = new Discord.ShardingManager(path.join(__dirname, 'starter.js'), this.options.discord!.shardingOptions!);
+
       this.manager.on('shardCreate', (shard) => {
         this.logger.info(`Launched shard ${shard.id}`);
         shard.once('spawn', () => {
@@ -34,12 +35,14 @@ export class Sharding implements IBaseClient {
           this.logger.error(`Error on shard ${shard.id}`, error);
         });
       });
+
       this.manager.spawn().catch((error) => {
         this.logger.error('Error spawning shards', error);
         reject(error);
       });
 
       if (this.options.discord!.topggToken) {
+        this.logger.info('Top.gg token found, starting autoposter...');
         const ap = AutoPoster(this.options.discord!.topggToken, this.manager);
   
         ap.on('posted', () => {

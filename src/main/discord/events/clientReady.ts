@@ -21,6 +21,7 @@ export default class ReadyEvent extends BaseEvent {
     this.client.getLogger().info(`Logged in as ${this.discordClient.user!.tag}${this.client.getConfig().shard ? ` on shard ${this.client.getConfig().shardId}` : ''}!`);
 
     if (this.client.getConfig().topggToken && !this.client.getConfig().shard) {
+      this.client.getLogger().info('Top.gg token found, starting autoposter...');
       const ap = AutoPoster(this.client.getConfig().topggToken!, this.discordClient);
 
       ap.on('posted', () => {
