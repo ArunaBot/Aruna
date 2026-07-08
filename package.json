@@ -1,6 +1,6 @@
 {
   "name": "arunabot",
-  "version": "5.0.3",
+  "version": "5.1.0",
   "description": "Your next-gen multiplatform bot.",
   "main": "build/aruna/index.js",
   "type": "commonjs",
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@promisepending/logger.js": "^1.1.1",
-    "arunabase": "^1.0.0-ALPHA.20",
+    "arunabase": "^1.0.0-ALPHA.21",
     "jimp": "^1.6.1",
     "mathjs": "^15.2.0",
     "promiseorm": "^1.2.2",

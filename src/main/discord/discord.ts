@@ -120,8 +120,19 @@ export class DiscordClient implements IBaseClient {
         }
       }
       
-      await this.client.getCommandManager().registerCommand(commands);
-      this.logger.debug('All commands (probably) successfully registered!');
+      try {
+        await this.client.getCommandManager().registerCommand(commands);
+        this.logger.debug('All commands (probably) successfully registered!');
+      } catch (error) {
+        this.logger.error('┌───────────────────────────────────────────────────────────────┐');
+        this.logger.error('│                     THIS IS NOT A DRILL!                      │');
+        this.logger.error('│                                                               │');
+        this.logger.error('│ The bot failed to register commands!                          │');
+        this.logger.error('│ This is a critical error and the bot might not work properly. │');
+        this.logger.error('│ Please check the logs for more information.                   │');
+        this.logger.error('└───────────────────────────────────────────────────────────────┘');
+        this.logger.error('An error occurred while registering commands!\n', error);
+      }
     });
   }
 
