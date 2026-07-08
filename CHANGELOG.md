@@ -1,5 +1,15 @@
 # Changelog
 
+## v5.1.0: Moderation Update (W.I.P)
+
+- New:
+  - Added `softban` command;
+- Changes:
+  - Updated ArunaBase to alpha 21;
+  - Updated Dependencies;
+- Fix:
+  - Crash in a case of command registration failure;
+
 ## v5.0.2: Release Patch II
 
 - New:
