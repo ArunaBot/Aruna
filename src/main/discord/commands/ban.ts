@@ -1,4 +1,12 @@
-import { ApplicationCommandOptionType, ButtonStructure, ButtonStyle, GuildMember, MessageStructure, PermissionFlagsBits, User } from 'arunabase/build/discord';
+import {
+  ApplicationCommandOptionType,
+  ButtonStructure,
+  ButtonStyle,
+  GuildMember,
+  MessageStructure,
+  PermissionFlagsBits,
+  User,
+} from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { ArunaAsyncCommand } from '../structure';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
@@ -138,7 +146,7 @@ export default class BanCommand extends ArunaAsyncCommand {
               context.client.getLogger().error('BanCommand: Error while editing message (ban)', e);
             });
           });
-          
+
           await ctx.deferUpdate().catch(() => {});
         }))
         .addButton(new ButtonStructure({

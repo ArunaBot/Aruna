@@ -1,4 +1,12 @@
-import { ApplicationCommandOptionType, ButtonStructure, ButtonStyle, GuildMember, MessageStructure, PermissionFlagsBits, User } from 'arunabase/build/discord';
+import {
+  ApplicationCommandOptionType,
+  ButtonStructure,
+  ButtonStyle,
+  GuildMember,
+  MessageStructure,
+  PermissionFlagsBits,
+  User,
+} from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 import { ArunaAsyncCommand } from '../structure';
@@ -139,7 +147,7 @@ export default class KickCommand extends ArunaAsyncCommand {
               context.client.getLogger().error('KickCommand: Error while editing message (kick)', e);
             });
           });
-          
+
           await ctx.deferUpdate().catch(() => {});
         }))
         .addButton(new ButtonStructure({
