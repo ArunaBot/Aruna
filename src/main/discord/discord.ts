@@ -1,8 +1,9 @@
-import { DatabaseConnection, DatabaseManager, MariaDBConnection } from 'promiseorm';
+import { DatabaseConnection, DatabaseManager, EDatabaseQueryFilterOperator, MariaDBConnection } from 'promiseorm';
 import { IBaseClient, IConfiguration, IDatabaseConfiguration } from '../common';
-import { ILoggerOptions, Logger } from '@promisepending/logger.js';
-import { ArunaCommandBased, BaseEvent } from './structure';
 import { IDiscordFullCommandContext, IDiscordProperties } from './interfaces';
+import { ILoggerOptions, Logger } from '@promisepending/logger.js';
+import { EConditionalPrefixType } from 'arunabase/build/discord';
+import { ArunaCommandBased, BaseEvent } from './structure';
 import { ConfigurationLoader } from '../api';
 import { Discord } from 'arunabase';
 import * as path from 'path';
@@ -24,7 +25,6 @@ export class DiscordClient implements IBaseClient {
   ) {
     this.configurationLoader = configurationLoader;
     this.customProperties = (this.configurationLoader?.loadJsonResource('discordProperties') ?? {}) as IDiscordProperties;
-    configs.additionalCommandContext = { ...configs.additionalCommandContext ?? {}, ...this.customProperties };
     this.logger = new Logger({ prefix: 'DISCORD', ...loggerOptions ?? {} });
     
     const db = new DatabaseManager().getConnection('global');
@@ -91,6 +91,59 @@ export class DiscordClient implements IBaseClient {
         this.logger.error('An error occurred while registering model ' + model, error);
       }
     }
+  }
+
+  public async registerCustomPrefixes(): Promise<void> {
+    if (!this.client.getCommandManager().isLegacyCommandEnabled() || !this.config.defaultPrefix) return;
+    const guilds = await this.database.getModel('guild')!.select({ fields: ['id', 'prefix'], filter: {
+      type: 'AND',
+      filters: [
+        {
+          tableKey: 'prefix',
+          operator: EDatabaseQueryFilterOperator.NOT_EQUALS,
+          value: null,
+        },
+        {
+          tableKey: 'prefix',
+          operator: EDatabaseQueryFilterOperator.NOT_EQUALS,
+          value: this.config.defaultPrefix,
+        },
+      ],
+    },
+    });
+
+    guilds.forEach((guild) => {
+      try {
+        this.client.getCommandManager().registerCustomPrefix(guild.prefix as string, { type: EConditionalPrefixType.GUILD, value: guild.id as string });
+      } catch (error) {
+        this.logger.error(`An error occurred while registering custom prefix for guild ${guild.id}`, error);
+      }
+    });
+
+    const users = await this.database.getModel('user')!.select({ fields: ['id', 'prefix'], filter: {
+      type: 'AND',
+      filters: [
+        {
+          tableKey: 'prefix',
+          operator: EDatabaseQueryFilterOperator.NOT_EQUALS,
+          value: null,
+        },
+        {
+          tableKey: 'prefix',
+          operator: EDatabaseQueryFilterOperator.NOT_EQUALS,
+          value: this.config.defaultPrefix,
+        },
+      ],
+    },
+    });
+
+    users.forEach((user) => {
+      try {
+        this.client.getCommandManager().registerCustomPrefix(user.prefix as string, { type: EConditionalPrefixType.USER, value: user.id as string });
+      } catch (error) {
+        this.logger.error(`An error occurred while registering custom prefix for user ${user.id}`, error);
+      }
+    });
   }
 
   public async registerCommands(): Promise<void> {
