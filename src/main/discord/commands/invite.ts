@@ -1,5 +1,5 @@
 import { IDiscordFullCommandContext } from '../interfaces';
-import { ArunaCommand } from '../structure';
+import { ArunaCommand } from '../structures';
 import { DefaultEmbed } from '../utils';
 
 export default class InviteCommand extends ArunaCommand {

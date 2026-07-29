@@ -1,4 +1,4 @@
-import { ArunaAsyncCommand, ArunaCommandBased } from '../structure';
+import { ArunaAsyncCommand, ArunaCommandBased } from '../structures';
 import { DefaultEmbed } from '../utils';
 import { Discord } from 'arunabase';
 

@@ -3,7 +3,7 @@ import { IBaseClient, IConfiguration, IDatabaseConfiguration } from '../common';
 import { IDiscordFullCommandContext, IDiscordProperties } from './interfaces';
 import { ILoggerOptions, Logger } from '@promisepending/logger.js';
 import { EConditionalPrefixType } from 'arunabase/build/discord';
-import { ArunaCommandBased, BaseEvent } from './structure';
+import { ArunaCommandBased, BaseEvent } from './structures';
 import { ConfigurationLoader } from '../api';
 import { Discord } from 'arunabase';
 import * as path from 'path';

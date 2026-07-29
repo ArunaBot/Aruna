@@ -1,4 +1,4 @@
-import { ArunaCommand } from '../structure';
+import { ArunaCommand } from '../structures';
 import { DefaultEmbed } from '../utils';
 import { Discord } from 'arunabase';
 

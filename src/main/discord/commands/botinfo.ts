@@ -1,7 +1,7 @@
 import { ButtonStructure, ButtonStyle, MessageFlags, MessageStructure } from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { execSync } from 'node:child_process';
-import { ArunaAsyncCommand } from '../structure';
+import { ArunaAsyncCommand } from '../structures';
 import { version } from 'arunabase/package.json';
 import { getFormattedTime } from '../../utils';
 import { DefaultEmbed } from '../utils';

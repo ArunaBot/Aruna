@@ -9,7 +9,7 @@ import {
 } from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
-import { ArunaAsyncCommand } from '../structure';
+import { ArunaAsyncCommand } from '../structures';
 
 export default class KickCommand extends ArunaAsyncCommand {
   constructor() {

@@ -1,5 +1,5 @@
 import { DiscordClient } from '../discord';
-import { BaseEvent } from '../structure';
+import { BaseEvent } from '../structures';
 import { Discord } from 'arunabase';
 
 export default class MessageCreateEvent extends BaseEvent {

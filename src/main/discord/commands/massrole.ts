@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType, PermissionFlagsBits, Role } from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
-import { ArunaAsyncCommand } from '../structure';
+import { ArunaAsyncCommand } from '../structures';
 import { Discord } from 'arunabase';
 
 export default class MassRoleCommand extends ArunaAsyncCommand {

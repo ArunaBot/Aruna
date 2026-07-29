@@ -1,6 +1,6 @@
 import { IDiscordFullCommandContext } from '../interfaces';
 import { ChannelType } from 'arunabase/build/discord';
-import { ArunaAsyncCommand } from '../structure';
+import { ArunaAsyncCommand } from '../structures';
 import { DefaultEmbed } from '../utils';
 
 export default class ServerInfoCommand extends ArunaAsyncCommand {

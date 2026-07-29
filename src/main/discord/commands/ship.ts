@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, AttachmentBuilder, User } from 'arunabase/build/discord';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
-import { ArunaAsyncCommand } from '../structure';
+import { ArunaAsyncCommand } from '../structures';
 import { Discord } from 'arunabase';
 import { Jimp } from 'jimp';
 import path from 'path';

@@ -1,5 +1,5 @@
 import { IDiscordFullCommandContext } from '../interfaces';
-import { ArunaCommand } from '../structure';
+import { ArunaCommand } from '../structures';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 
 export default class GithubCommand extends ArunaCommand {

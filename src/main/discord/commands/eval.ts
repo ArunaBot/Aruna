@@ -1,6 +1,6 @@
 import { IDiscordFullCommandContext } from '../interfaces';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
-import { ArunaAsyncCommand } from '../structure';
+import { ArunaAsyncCommand } from '../structures';
 import { Discord } from 'arunabase';
 import { inspect } from 'util';
 

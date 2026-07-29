@@ -1,7 +1,7 @@
 import { getFormattedTime } from '../../utils';
 import { AutoPoster } from 'topgg-autoposter';
 import { DiscordClient } from '../discord';
-import { BaseEvent } from '../structure';
+import { BaseEvent } from '../structures';
 import { Discord } from 'arunabase';
 
 export default class ReadyEvent extends BaseEvent {

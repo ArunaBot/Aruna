@@ -1,5 +1,5 @@
 import { DefaultEmbed, ErrorEmbed } from '../utils';
-import { ArunaAsyncCommand } from '../structure';
+import { ArunaAsyncCommand } from '../structures';
 import { Discord } from 'arunabase';
 
 export default class GuildIconCommand extends ArunaAsyncCommand {

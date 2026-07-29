@@ -8,7 +8,7 @@ import {
   User,
 } from 'arunabase/build/discord';
 import { IDiscordFullCommandContext } from '../interfaces';
-import { ArunaAsyncCommand } from '../structure';
+import { ArunaAsyncCommand } from '../structures';
 import { DefaultEmbed, ErrorEmbed } from '../utils';
 
 export default class SoftBanCommand extends ArunaAsyncCommand {

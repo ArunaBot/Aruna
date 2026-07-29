@@ -1,5 +1,5 @@
 import { IDiscordFullCommandContext } from '../interfaces';
-import { ArunaAsyncCommand } from '../structure';
+import { ArunaAsyncCommand } from '../structures';
 import { getFormattedTime } from '../../utils';
 import { DefaultEmbed } from '../utils';
 
